@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="da" style="font-size: 100%">
+<head>
+	<title>fcoo.dk - fcoo-observations - Demo</title>
+	<meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv='x-dns-prefetch-control' content='on'>
+
+	<meta name='copyright' content='FCOO'>
+	<meta name='owner' content='FCOO'>
+
+    <link  href="bower_components.css" rel="stylesheet">
+    <link  href="../src/fcoo-observations.css" rel="stylesheet">
+    <link  href="css/all.css" rel="stylesheet">
+</head>
+
+<body>
+<!-- <i class="fas fa-cloud"></i>
+<span class="fa-stack fa-2x">
+    <i class="fas fa-water fa-stack-1x" style="color:gray"></i>
+    <i class="fas fa-thermometer-half fa-stack-1x"></i>
+</span>
+<span class="fa-stack fa-2x">
+    <i class="fas fa-water fa-stack-1x" style="color:gray"></i>
+    <i class="fas fa-percentage fa-stack-1x"></i>
+</span>
+ -->
+ <div id="map" style="width: 800px; height: 600px"></div>
+
+
+
+
+	<script src="bower_components.js"></script>
+	<script src="../src/fcoo-observations-location.js"></script>
+	<script src="../src/fcoo-observations.js"></script>
+	<script>
+        i18next.init();
+        i18next.changeLanguage('da');
+        window.fcoo.LOCAL_DATA = true;
+
+        Promise.defaultErrorHandler = function( error ){
+            console.log('*********************');
+            console.log('DEFAULT error-handler');
+            console.log('status=', error.status);
+            console.log('url=', error.url);
+            console.log('text=', error.text);
+            console.log('*********************');
+        }
+
+/*
+        window.Promise.getJSON( fcoo.dataFilePath('test', 'sealevel_stations_denmark.json'), {}, function( data ){
+            $.each(data.features, function(index, obj){
+                var p = obj.properties, m = p.measPoints[0];
+                var s ='{';
+
+                s += '"id":"'+p.id+'", ';
+                s += '"name":{"da": "'+p.nameDK+'"';
+                if (p.nameENG)
+                    s += ', "en":"'+p.nameENG+'"';
+                s += '},';
+
+                s += '"position":['+ obj.geometry.coordinates[1]+','+ obj.geometry.coordinates[0] + '], ';
+
+                s += '"stationList": [{';
+                    s += '"id":"' + m.id + '", "owner": "' +m.owner+ '", "parameterList":{"id":"sea_surface_height_above_sea_level"}';
+
+                s += '}]';
+
+                console.log(s+'},');
+
+            });
+        });
+
+*/
+        $(function() {
+			var map = L.map('map').setView([56.2, 11.5], 6);
+			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				minZoom: 3, maxZoom: 12,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</a>'
+            }).addTo(map);
+
+			var myFcooObservations = new L.GeoJSON.FCOOObservations( /*options*/ );
+			myFcooObservations.addTo(map);
+
+            setTimeout( function(){return;
+                $.each(myFcooObservations.list, function(i, location){
+                    if (location.options.active)
+                        $.each(location.stationList, function(i, station){
+                        $('body')
+                            .append( $('<h4>'+station.options.id+' '+location.options.name.da+' Active='+(station===location.activeStation)+'</h4>') )
+                            .append(
+                                $('<img/>')
+                                    .attr('src', station._chartUrl())
+                                    .css({width: 600, height: 400})
+                            );
+                        });
+                });
+
+            }, 2000);
+        });
+
+	</script>
+</body>
+</html>

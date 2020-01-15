@@ -1,0 +1,41 @@
+{
+  "name": "fcoo-observations",
+  "version": "0.0.1",
+  "homepage": "https://github.com/FCOO/fcoo-observations",
+  "authors": [
+    "Niels Holt"
+  ],
+  "description": "",
+  "main": [
+    "dist/fcoo-observations.js",
+    "dist/fcoo-observations.css"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/FCOO/fcoo-observations.git"
+  },
+  "dependencies": {
+    "jquery": "latest",
+    "leaflet": "1.4.0",
+    "promise-get": "fcoo/promise-get#^2.0.0",
+    "fcoo-data-files": "fcoo/fcoo-data-files#^1.0.0",
+    "leaflet-bootstrap-marker": "fcoo/leaflet-bootstrap-marker#^2.3.2",
+    "leaflet-bootstrap": "fcoo/leaflet-bootstrap#^2.7.6"
+  },
+  "devDependencies": {
+    "bourbon": "latest",
+    "modernizr-mixin": "latest",
+    "mathsass": "latest"
+  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "moduleType": [
+    "es6"
+  ]
+}
