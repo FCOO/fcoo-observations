@@ -6,7 +6,7 @@
 	https://github.com/FCOO/fcoo-observations
 	https://github.com/FCOO
 
-    Create and internal FCOO packages to read and display observations
+    Create an internal FCOO packages to read and display observations
 
 ****************************************************************************/
 (function ($, L, window/*, document, undefined*/) {

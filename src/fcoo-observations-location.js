@@ -31,10 +31,18 @@
     ns.Location = function(options){
         var _this = this;
         this.options = $.extend({}, defaultOptions, options);
-
         this.latLng = this.options.position ? L.latLng( this.options.position ) : null;
-
         this.stationList = $.isArray(this.options.stationList) ? this.options.stationList : [this.options.stationList];
+
+//HER        if (this.options.hasForecast){
+//HER            this.options.forecastFile = this.options.hasForecast === true ? this.options.id : this.options.hasForecast;
+//HER
+//HERconsole.log(this.options.id, '--', this.options.id.toLowerCase());
+//HER
+//HER$.each( this.stationList, function(i,s){
+//HER    console.log(s.id, '--', _this.options.id.toLowerCase());
+//HER});
+//HER        }
 
         //Check if the location has a active station
         $.each(this.stationList, function(index, stationOptions){
@@ -98,7 +106,7 @@
                         'PARAMID=SeaLvl&' +
                         'WIDTH=' + imgWidth + '&' +
                         'HEIGHT=' + imgHeight + '&' +
-                        'FORECASTMODE=' + (this.location.hasForecast ? '1' : '0') + '&' +
+                        'FORECASTMODE=' + (this.location.options.hasForecast ? '1' : '0') + '&' +
                         'AUTOSCALE=1&'+
                         'HEADER=0&' +
                         'NOLOGO=1&' +

@@ -11,7 +11,7 @@
 
     <link  href="bower_components.css" rel="stylesheet">
     <link  href="../src/fcoo-observations.css" rel="stylesheet">
-    <link  href="css/all.css" rel="stylesheet">
+    <!-- <link  href="css/all.css" rel="stylesheet"> -->
 </head>
 
 <body>
@@ -32,11 +32,12 @@
 
 	<script src="bower_components.js"></script>
 	<script src="../src/fcoo-observations-location.js"></script>
+	<script src="../src/fcoo-pilot-boarding-positions.js"></script>
 	<script src="../src/fcoo-observations.js"></script>
 	<script>
         i18next.init();
         i18next.changeLanguage('da');
-        window.fcoo.LOCAL_DATA = true;
+//        window.fcoo.LOCAL_DATA = true;
 
         Promise.defaultErrorHandler = function( error ){
             console.log('*********************');
@@ -47,57 +48,36 @@
             console.log('*********************');
         }
 
-/*
-        window.Promise.getJSON( fcoo.dataFilePath('test', 'sealevel_stations_denmark.json'), {}, function( data ){
-            $.each(data.features, function(index, obj){
-                var p = obj.properties, m = p.measPoints[0];
-                var s ='{';
+    //latLngFormat.setFormat(window.latLngFormat.LATLNGFORMAT_UTM);
+    //latLngFormat.setFormat(window.latLngFormat.LATLNGFORMAT_MGRS);
+    //latLngFormat.setFormat(window.latLngFormat.LATLNGFORMAT_NAC);
 
-                s += '"id":"'+p.id+'", ';
-                s += '"name":{"da": "'+p.nameDK+'"';
-                if (p.nameENG)
-                    s += ', "en":"'+p.nameENG+'"';
-                s += '},';
 
-                s += '"position":['+ obj.geometry.coordinates[1]+','+ obj.geometry.coordinates[0] + '], ';
+    latLngFormat.setFormat(window.latLngFormat.LATLNGFORMAT_DMSS);
+    //latLngFormat.setFormat(window.latLngFormat.LATLNGFORMAT_DMM);
+    //latLngFormat.setFormat(window.latLngFormat.LATLNGFORMAT_DD);
 
-                s += '"stationList": [{';
-                    s += '"id":"' + m.id + '", "owner": "' +m.owner+ '", "parameterList":{"id":"sea_surface_height_above_sea_level"}';
+    $(function() {
+	    var map = L.map('map').setView([56.2, 11.5], 6);
+		L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			minZoom: 3, maxZoom: 12,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</a>'
+        }).addTo(map);
 
-                s += '}]';
+		(new L.GeoJSON.FCOOObservations( /*options*/ )).addTo(map);
 
-                console.log(s+'},');
-
+        setTimeout( function(){ return;
+            $.each(myFcooObservations.list, function(i, location){
+                if (location.options.active)
+                    $.each(location.stationList, function(i, station){
+                        $('body').append(
+                            $('<h4>'+station.options.id+' '+location.options.name.da+' Active='+(station===location.activeStation)+'</h4>'),
+                            $('<img/>').attr('src', station._chartUrl()).css({width: 600, height: 400})
+                        );
+                    });
             });
-        });
-
-*/
-        $(function() {
-			var map = L.map('map').setView([56.2, 11.5], 6);
-			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-				minZoom: 3, maxZoom: 12,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</a>'
-            }).addTo(map);
-
-			var myFcooObservations = new L.GeoJSON.FCOOObservations( /*options*/ );
-			myFcooObservations.addTo(map);
-
-            setTimeout( function(){return;
-                $.each(myFcooObservations.list, function(i, location){
-                    if (location.options.active)
-                        $.each(location.stationList, function(i, station){
-                        $('body')
-                            .append( $('<h4>'+station.options.id+' '+location.options.name.da+' Active='+(station===location.activeStation)+'</h4>') )
-                            .append(
-                                $('<img/>')
-                                    .attr('src', station._chartUrl())
-                                    .css({width: 600, height: 400})
-                            );
-                        });
-                });
-
-            }, 2000);
-        });
+        }, 2000);
+    });
 
 	</script>
 </body>

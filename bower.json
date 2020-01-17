@@ -1,6 +1,6 @@
 {
   "name": "fcoo-observations",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "homepage": "https://github.com/FCOO/fcoo-observations",
   "authors": [
     "Niels Holt"
@@ -20,7 +20,9 @@
     "promise-get": "fcoo/promise-get#^2.0.0",
     "fcoo-data-files": "fcoo/fcoo-data-files#^1.0.0",
     "leaflet-bootstrap-marker": "fcoo/leaflet-bootstrap-marker#^2.3.2",
-    "leaflet-bootstrap": "fcoo/leaflet-bootstrap#^2.7.6"
+    "leaflet-bootstrap": "fcoo/leaflet-bootstrap#^2.7.6",
+    "fcoo-value-format": "fcoo/fcoo-value-format#^3.0.0",
+    "fcoo-fontawesome": "https://gitlab.com/FCOO/fcoo-fontawesome.git#^5.7.2"
   },
   "devDependencies": {
     "bourbon": "latest",
