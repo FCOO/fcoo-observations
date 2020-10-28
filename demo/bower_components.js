@@ -93918,7 +93918,7 @@ leaflet-bootstrap-control-legend.js
         initialize
         *******************************************/
         initialize: function(options) {
-            this.options = $.extend(true, this.options, options); 
+            this.options = $.extend(true, this.options, options);
             L.Control.BsButtonBox.prototype.initialize.call(this);
 
             this.legends = {};
@@ -93934,26 +93934,16 @@ leaflet-bootstrap-control-legend.js
             this.options.content.width     = this.options.width     || this.options.content.width;
             this.options.content.maxHeight = this.options.maxHeight || this.options.content.maxHeight;
 
-            //Adjust options for buttons
-            var buttons = this.options.buttons || [];
-            buttons = $.isArray(buttons) ? buttons : [buttons];
-            buttons.push(                
-                {icon: $.bsHeaderIcons.extend,   text: {da:'Alle'/*'Udvid alle'*/,     en:'All'/*'Extend all'*/  }, onClick: $.proxy(this.extendAll,   this)},
-                {icon: $.bsHeaderIcons.diminish, text: {da:'Alle'/*'Formindsk alle'*/, en:'All'/*'Diminish all'*/}, onClick: $.proxy(this.diminishAll, this)}
-            );
-            this.options.content.buttons = buttons;
-
             var result = L.Control.BsButtonBox.prototype.onAdd.call(this, map);
             this.$modalBody       = this.$contentContainer.bsModal.$body;
-            this.$buttonContainer = this.$contentContainer.bsModal.$buttonContainer;
 
             //Manually implement extend and diminish functionality
             var $header = this.$contentContainer.bsModal.$header;
             this.extendIcon = $header.find('[data-header-icon-id="extend"]');
-            this.extendIcon.on('click', $.proxy(this.extend, this) );
+            this.extendIcon.on('click', $.proxy(this.extendAll, this) );
+
             this.diminishIcon = $header.find('[data-header-icon-id="diminish"]');
-            this.diminishIcon.on('click', $.proxy(this.diminish, this) );
-            this.diminish();
+            this.diminishIcon.on('click', $.proxy(this.diminishAll, this) );
 
             //Add the 'No layer' text
             this.$noLayer = this.$modalBody.find('.no-layer')
@@ -93963,14 +93953,6 @@ leaflet-bootstrap-control-legend.js
             this.update();
 
             return result;
-        },
-
-        diminish: function(){ this._setDiminish(true); },
-        extend  : function(){ this._setDiminish(false); },
-        _setDiminish: function(diminished){
-            this.extendIcon.toggle(diminished);
-            this.diminishIcon.toggle(!diminished);
-            this.$buttonContainer.children().toggle(!diminished);
         },
 
         diminishAll: function(){
@@ -94081,7 +94063,7 @@ leaflet-bootstrap-control-legend.js
             if ($.isArray(icon))
                 extraIconClass[0] = 'fa-fw';
             else
-                icon = icon + ' fa-fw'; 
+                icon = icon + ' fa-fw';
             this.parent = parent;
             if (!this.$container){
                 //Craete to modal-content
@@ -94117,7 +94099,7 @@ leaflet-bootstrap-control-legend.js
 
 
                 //Find all header icons
-                
+
                 //First find the tree icons before header-text used to set state
                 this.stateIcons = {};
                 var iconList = this.$container.bsModal.$header.children();
@@ -94125,7 +94107,7 @@ leaflet-bootstrap-control-legend.js
                     _this.stateIcons[id] = $(iconList[index]).addClass(extraIconClass[index]);
                 });
 
-                
+
                 this.actionIcons = {};
                 $.each(['warning', 'info', 'help', 'close'], function(index, id){
                     _this.actionIcons[id] = _this.$container.find('[data-header-icon-id="'+id+'"]');
@@ -94153,7 +94135,7 @@ leaflet-bootstrap-control-legend.js
         },
 
         setState: function(id){
-            $.each(this.stateIcons, function(iconId, $icon){ 
+            $.each(this.stateIcons, function(iconId, $icon){
                 $icon.toggle(iconId == id);
             });
             return this;

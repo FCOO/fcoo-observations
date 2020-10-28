@@ -1,6 +1,6 @@
 {
   "name": "fcoo-observations",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/FCOO/fcoo-observations",
   "authors": [
     "Niels Holt"
@@ -39,64 +39,5 @@
   ],
   "moduleType": [
     "es6"
-  ],
-  "overrides": {
-    "bootstrap-select": {
-      "main": [
-        "dist/js/bootstrap-select.js"
-      ]
-    },
-    "jquery.scrollbar": {
-      "main": [
-        "jquery.scrollbar.js"
-      ]
-    },
-    "bootstrap": {
-      "dependencies": {
-        "jquery": "3.4.1"
-      },
-      "main": [
-        "dist/js/bootstrap.bundle.js"
-      ]
-    },
-    "inputmask": {
-      "main": [
-        "dist/jquery.inputmask.bundle.js"
-      ]
-    },
-    "js-url": {
-      "main": [
-        "dist/url.min.js"
-      ]
-    },
-    "perfect-scrollbar": {
-      "main": [
-        "dist/perfect-scrollbar.js",
-        "css/perfect-scrollbar.css"
-      ]
-    },
-    "leaflet": {
-      "main": [
-        "dist/leaflet-src.js",
-        "dist/leaflet.css"
-      ],
-      "dependencies": {
-        "leaflet-global-switches": "latest"
-      }
-    },
-    "moment": {
-      "main": [
-        "moment.js",
-        "locale/da.js",
-        "locale/de.js",
-        "locale/sv.js",
-        "locale/nb.js",
-        "locale/fo.js"
-      ]
-    }
-  },
-  "resolutions": {
-    "bootstrap": "^4.0.0",
-    "jquery": "~3.4.0"
-  }
+  ]
 }
