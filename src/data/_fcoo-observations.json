@@ -76,6 +76,7 @@
         ]
     },
     {"id":"ALSODDE","name":{"da":"Als Odde"},
+        "hasForecast": true,
         "stationList":[
             {"id":"20676","owner":"MariagerfjordKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.705208,10.329216]}
         ]
@@ -298,6 +299,7 @@
         ]
     },
     {"id":"BROENS_SLUSE","name":{"da":"Brøns Sluse","en":"Broens Sluse"},
+        "hasForecast": true,
         "stationList":[
             {"id":"26143","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.186264,8.687454]},
             {"id":"26144","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.186264,8.687454]}
@@ -310,11 +312,13 @@
         ]
     },
     {"id":"BALLUM_SLUSE","name":{"da":"Ballum Sluse"},
+        "hasForecast": true,
         "stationList":[
             {"id":"26346","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.130814,8.685848]}
         ]
     },
     {"id":"VIDAASLUSEN","name":{"da":"Vidåslusen/Højer","en":"Vidaaslusen/Hoejer"},
+        "hasForecast": true,
         "stationList":[
             {"id":"26359","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.962795,8.66186]},
             {"id":"26361","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.962795,8.66186]}
@@ -335,6 +339,7 @@
         ]
     },
     {"id":"SVENDBORG","name":{"da":"Svendborg"},
+        "hasForecast": true,
         "stationList":[
             {"id":"27000","owner":"SvendborgHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.060444,10.621416]}
         ]
@@ -359,8 +364,7 @@
         ]
     },
     {"id":"GABET","name":{"da":"Gabet","en":"Gabet"},
-        "active":false,
-        "hasForecast": true,
+        "hasForecast": false,
         "stationList":[
             {"id":"28068","owner":"OdenseHavn", "parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.516018,10.570106]}
         ]
@@ -424,11 +428,13 @@
         ]
     },
     {"id":"ROERVIG","name":{"da":"Rørvig","en":"Roervig"},
+        "hasForecast": true,
         "stationList":[
             {"id":"29006","owner":"OdsherredHavne","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.94365,11.768465]}
         ]
     },
     {"id":"NYKOEBINGSJAELLAND","name":{"da":"Nykøbing Sjælland","en":"Nykoebing Sjaelland"},
+        "hasForecast": true,
         "stationList":[
             {"id":"29014","owner":"OdsherredHavne","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.913353,11.675221]}
         ]
@@ -453,31 +459,37 @@
         ]
     },
     {"id":"SLETTEN","name":{"da":"Sletten","en":"Sletten"},
+        "hasForecast": true,
         "stationList":[
             {"id":"30042","owner":"FredensborgForsyning","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.953354,12.535283]}
         ]
     },
     {"id":"FREDERIKSVAERK","name":{"da":"Frederiksværk","en":"Frederiksvaerk"},
+        "hasForecast": true,
         "stationList":[
             {"id":"30106","owner":"HalsnaesForsyning","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.965282,12.000512]}
         ]
     },
     {"id":"HUNDESTED","name":{"da":"Hundested","en":"Hundested"},
+        "hasForecast": true,
         "stationList":[
             {"id":"30112","owner":"HalsnaesForsyning","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.965508,11.84479]}
         ]
     },
     {"id":"JAEGERSPRIS_KIGNAES","name":{"da":"Jægerspris Kignæs","en":"Jaegerspris Kignaes"},
+        "hasForecast": true,
         "stationList":[
             {"id":"30119","owner":"FrederikssundKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.85625,12.0090685]}
         ]
     },
     {"id":"KYNDBYVAERKET","name":{"da":"Kyndbyværket","en":"Kyndbyvaerket"},
+        "hasForecast": true,
         "stationList":[
             {"id":"30121","owner":"HalsnaesForsyning","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.811672,11.877276]}
         ]
     },
     {"id":"FREDERIKSSUND_S","name":{"da":"Frederikssund S","en":"Frederikssund S"},
+        "hasForecast": true,
         "stationList":[
             {"id":"30129","owner":"FrederikssundKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.827816,12.062647]}
         ]
@@ -503,6 +515,7 @@
         ]
     },
     {"id":"HUNDIGE","name":{"da":"Hundige"},
+        "hasForecast": true,
         "stationList":[
             {"id":"30396","owner":"KlarForsyning","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.598385,12.356505]}
         ]
@@ -583,6 +596,7 @@
         ]
     },
     {"id":"NAKSKOV","name":{"da":"Nakskov","en":"Nakskov"},
+        "hasForecast": true,
         "stationList":[
             {"id":"31417","owner":"lollandKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.82617,11.134826]},
             {"id":"31418","owner":"lollandKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.82617,11.134826]}
@@ -594,11 +608,13 @@
         ]
     },
     {"id":"GULDBORGSUNDTUNNEL_FALSTER","name":{"da":"Guldborgsundtunnel - Falster","en":"Guldborgsund Tunnel - Falster"},
+        "hasForecast": true,
         "stationList":[
             {"id":"31473","owner":"GuldborgsundKommune","parameterList":"sea_surface_height_above_sea_level","position":[54.835163,11.794364]}
         ]
     },
     {"id":"GULDBORGSUNDTUNNEL_LOLLAND","name":{"da":"Guldborgsundtunnel - Lolland","en":"Guldborgsund Tunnel - Lolland"},
+        "hasForecast": true,
         "stationList":[
             {"id":"31478","owner":"GuldborgsundKommune","parameterList":"sea_surface_height_above_sea_level","position":[54.833374,11.79424]}
         ]

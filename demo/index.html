@@ -10,7 +10,7 @@
 	<meta name='owner' content='FCOO'>
 
     <link  href="bower_components.css" rel="stylesheet">
-    <link  href="../src/fcoo-observations.css" rel="stylesheet">
+    <!-- <link  href="../src/fcoo-observations.css" rel="stylesheet"> -->
     <!-- <link  href="css/all.css" rel="stylesheet"> -->
 </head>
 
@@ -31,13 +31,13 @@
 
 
 	<script src="bower_components.js"></script>
-	<script src="../src/fcoo-observations-location.js"></script>
-	<script src="../src/fcoo-pilot-boarding-positions.js"></script>
 	<script src="../src/fcoo-observations.js"></script>
+	<script src="../src/observation-group_location_station.js"></script>
 	<script>
         i18next.init();
         i18next.changeLanguage('da');
-//        window.fcoo.LOCAL_DATA = true;
+
+        //window.fcoo.LOCAL_DATA = true;
 
         Promise.defaultErrorHandler = function( error ){
             console.log('*********************');
@@ -64,19 +64,16 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</a>'
         }).addTo(map);
 
-		(new L.GeoJSON.FCOOObservations( /*options*/ )).addTo(map);
+        window.fcoo.LOCAL_DATA = true;
+		var obs = new window.fcoo.FCOOObservations({fileName:['observations-sealevel.json', 'observations-wind.json']}).addTo(map);
+        window.fcoo.LOCAL_DATA = false;
 
-        setTimeout( function(){ return;
-            $.each(myFcooObservations.list, function(i, location){
-                if (location.options.active)
-                    $.each(location.stationList, function(i, station){
-                        $('body').append(
-                            $('<h4>'+station.options.id+' '+location.options.name.da+' Active='+(station===location.activeStation)+'</h4>'),
-                            $('<img/>').attr('src', station._chartUrl()).css({width: 600, height: 400})
-                        );
-                    });
-            });
-        }, 2000);
+
+        fcoo.promiseList.options.finally = function(){
+            fcoo.globalSetting.load(/*null, function(){}*/);
+        };
+
+        fcoo.promiseList.promiseAll();
     });
 
 	</script>

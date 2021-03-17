@@ -1,0 +1,154 @@
+//*****************************************
+//Observations: Locations and stations
+//*****************************************
+
+TEXT_LANG: {da:STRING, en:STRING}
+LATLNG   : [FLOAT, FLOAT]
+
+
+NxSTRING = STRING + " " + STRING + ... + STRING (space separated strings)
+
+locations.json:
+[]LOCATION
+
+LOCATION = {
+    id          : STRING
+    name        : TEXT_LANG
+    position    : LATLNG
+}
+
+
+observations.json:
+file content = {
+    stationDefault  : STATION (part of)
+    locationList    : []LOCATION_REF
+}
+
+LOCATION_REF = {
+    id          : STRING
+    owner       : STRING (optional)
+    provider    : STRING (optional)
+    level       : STRING or NUMBER (optional)
+    refLevel    : See belkow (optional)
+    stationList : []STATION OR []STRING or STRING 
+    stationId   : as stationList
+    station     : as stationList
+}
+
+
+STATION = {
+    id         : STRING
+    position   : LATLNG (optional)
+    level      : STRING or NUMBER
+    refLevel   : STRING or {text: STRING, link: STRING} or {id: STRING} (key to list of known ref-levels)
+    parameter  : []PARAMETER or []STANDARD_NAME or STANDARD_NAME
+    
+    owner      : STRING
+    provider   : STRING
+    
+    observation: {STANDARD_NAME: STRING} OR STRING
+    forecast   : {STANDARD_NAME: STRING} OR STRING
+}
+
+
+PARAMETER = {
+    id  : STANDARD_NAME
+    unit: STRING            //=CF_unit in unit.json
+}
+
+
+//File name(s) 
+//Eq. "observations.json" or "observations_sealevel.json observations_current.json observations_wind.json" 
+
+//Demo 1: Sealevel with one instrument and one forecast pro location
+{
+    "station_default" : {
+        "paramList": [{
+            "id"    : "sea_surface_height_above_sea_level",
+            "unit"  : "cm"
+        }],
+        "observations"  : "{id}_SEALEVEL.json",
+        "forecast"      : "{id}_SEALEVEL_FORECAST.json"}
+    },
+    "locationList": [{
+        "id"        : "DROGDEN",
+        "name"      : {"da": "Drogden Fyr", "en": "Drogden Lighthouse"},
+        "position"  : [12,55],
+        "station"   : "30357"
+    },{
+        "id"        : "ESBJERG",
+        "name"      : {"da": "Esbjerg Havn", "en": "Port of Esbjerg"},
+        "position"  : [10,55],
+        "station"   : "25149"
+    }]
+}    
+
+//Demo 2: Sealevel with more than one instrument and min-max forecast
+{
+    "stationDefault" : {
+        "paramList": [{
+            "id"    : "sea_surface_height_above_sea_level",
+            "unit"  : "cm"
+        }],
+        "forecast" : {
+            "max"   : "{id}_SEALEVEL_FORECAST_MAX.json",
+            "median": "{id}_SEALEVEL_FORECAST.json",
+            "min"   : "{id}_SEALEVEL_FORECAST_MIN.json"
+        }
+    },
+    "locationList": [{
+        "id"         : "ESBJERG",
+        "name"       : {"da": "Esbjerg Havn", "en": "Port of Esbjerg"},
+        "position"   : [10,55],
+        "stationList": ["25149", "25149_2"]
+    }]
+}    
+
+//Demo 3: Sealevel with more than one instrument and min-max forecast plus air temperature at 8 meter
+{
+    "locationList": [{
+        "id"         : "DROGDEN",
+        "name"       : {"da": "Drogden Fyr", "en": "Drogden Lighthouse"},
+        "position"   : [12,55],
+        "stationList": [{
+            "id": "25149", 
+            "param": {
+                "id"    : "sea_surface_height_above_sea_level",
+                "unit"  : "cm"
+            },
+            "observations": "25149_SEALEVEL.json",                 
+            "forecast" : {
+                "max"   : "25149_SEALEVEL_FORECAST_MAX.json",
+                "median": "25149_SEALEVEL_FORECAST.json",
+                "min"   : "25149_SEALEVEL_FORECAST_MIN.json"
+            }
+
+        },{
+            "id": "12345", 
+            "level": {"da":"8 meter", en:"8 metre"},
+            "param": [{
+                "id"    : "wind_speed",
+                "unit"  : "m s-1"
+            },{
+                "id"    : "air_temperature",
+                "unit"  : "degC"
+            }],
+            "observations": {
+                "wind_speed"     : "12345_WIND_SPEED.json",
+                "air_temperature": "12345_AIR_TEMPERATURE.json"
+            },
+            "forecast" : {
+                "wind_speed": "12345_WIND_SPEED_FORECAST.json",
+                "air_temperature": {
+                    "max"   : "12345_AIR_TEMPERATURE_FORECAST_MAX.json",
+                    "median": "12345_AIR_TEMPERATURE_FORECAST.json",
+                    "min"   : "12345_AIR_TEMPERATURE_FORECAST_MIN.json"
+                }
+            }
+        }]
+    }]
+}
+
+
+
+

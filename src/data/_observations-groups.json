@@ -1,0 +1,20 @@
+[
+    {
+        "id": "WIND",
+        "name": {"da": "Vind", "en": "Wind"},
+        "parameterId"   : "",
+        "parameterGroup": "WIND"
+    },
+    {
+        "id": "SEALEVEL",
+        "name": {"da": "Vandstand", "en": "Sea Level"},
+        "parameterId"   : "",
+        "parameterGroup": "SEALEVEL"
+    },
+    {
+        "id": "CURRENT",
+        "name": {"da": "Strøm", "en": "Current"},
+        "parameterId"   : "",
+        "parameterGroup": "CURRENT"
+    }
+]

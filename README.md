@@ -3,7 +3,8 @@
 
 
 ## Description
-Package to load and display observations in Leaflet-maps, jquery-bootstrap modal windows, and stand-alone websites
+1. Definitions and descriptions of setup- and meta-files used to display observations in FCOOs web-applications. See [README_SETUPFILES.md](README_SETUPFILES.md) for documentation
+2. JS-package to load and display observations in Leaflet-maps, jquery-bootstrap modal windows, and stand-alone websites
 
 ## Installation
 ### bower
@@ -12,9 +13,9 @@ Package to load and display observations in Leaflet-maps, jquery-bootstrap modal
 ## Demo
 http://FCOO.github.io/fcoo-observations/demo/ 
 
+<!--
 ## Usage
 ```var myFcooObservations = new FcooObservations( options );```
-
 
 ### options
 | Id | Type | Default | Description |
@@ -27,6 +28,7 @@ http://FCOO.github.io/fcoo-observations/demo/
     .methods1( arg1, arg2,...): Do something
     .methods2( arg1, arg2,...): Do something else
 
+-->
 
 
 ## Copyright and License
@@ -37,6 +39,3 @@ Copyright (c) 2020 [FCOO](https://github.com/FCOO)
 ## Contact information
 
 Niels Holt nho@fcoo.dk
-
-
-## Credits and acknowledgements
