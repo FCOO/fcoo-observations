@@ -1,5 +1,5 @@
 /***********************************************
-	fcoo-observations.scss, 
+	fcoo-observations.scss,
 
 	(c) 2020, FCOO
 
@@ -8,3 +8,103 @@
 
 
 ************************************************/
+/*
+obs-grp-marker-N is added to the marker and used to show/hide the marker
+*/
+.leaflet-container .obs-grp-marker {
+  visibility: hidden; }
+
+.leaflet-container.observation-group-0 .obs-grp-marker-0 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-1 .obs-grp-marker-1 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-2 .obs-grp-marker-2 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-3 .obs-grp-marker-3 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-4 .obs-grp-marker-4 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-5 .obs-grp-marker-5 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-6 .obs-grp-marker-6 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-7 .obs-grp-marker-7 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-8 .obs-grp-marker-8 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-9 .obs-grp-marker-9 {
+  visibility: visible; }
+
+/*
+obs-grp-icon used to style the different "lines" inside the marker
+on a map representing the different ObservationGroup that the location
+is belonging to
+Each ObservationGroup has an index N and the "lines" representing the group
+get class="obs-grp-icon obs-grp-icon-N" plus the fa-classes to create the icon
+*/
+.leaflet-container .obs-grp-icon {
+  position: relative;
+  visibility: hidden; }
+
+.leaflet-container.observation-group-0 .obs-grp-icon-0 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-1 .obs-grp-icon-1 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-2 .obs-grp-icon-2 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-3 .obs-grp-icon-3 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-4 .obs-grp-icon-4 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-5 .obs-grp-icon-5 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-6 .obs-grp-icon-6 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-7 .obs-grp-icon-7 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-8 .obs-grp-icon-8 {
+  visibility: visible; }
+
+.leaflet-container.observation-group-9 .obs-grp-icon-9 {
+  visibility: visible; }
+
+.fa-lbm-color-skyblue {
+  color: #00A0DC; }
+
+.fa-lbm-color-seagreen {
+  color: #3B7511; }
+
+.obs-grp-icon-top {
+  top: -0.30em;
+  z-index: 10; }
+
+.obs-grp-icon-over {
+  top: -0.20em; }
+
+.obs-grp-icon-center {
+  top: 0;
+  z-index: 1; }
+
+.obs-grp-icon-below {
+  top: 0.25em; }
+
+.obs-grp-icon-bottom {
+  top: 0.30em;
+  z-index: 10; }
