@@ -18,9 +18,7 @@
         nsObservations = ns.observations = ns.observations || {};
 
     //nsObservations.getMapId(map) return the unique id for the map
-    nsObservations.getMapId = function(map){ return map._leaflet_id; };
-
-
+    nsObservations.getMapId = function(map){ return ''+map._leaflet_id; };
 
     /***************************************************************
     FCOOObservations
@@ -33,9 +31,10 @@
                 observations: 'observations',
                 forecasts   : 'forecasts'
             },
-            groupFileName   : 'observations-groups.json',
-            locationFileName: 'locations.json',
-            fileName        : 'fcoo-observations.json',
+            groupFileName           : 'observations-groups.json', //Not used at the moment
+            locationFileName        : 'locations.json',
+            fileName                : 'fcoo-observations.json',
+            lastMeasurementFileName : 'LastObservations.json',
         }, options || {});
 
         this.maps = {};
@@ -87,6 +86,18 @@
                 resolve : $.proxy(_this._resolve, _this)
             });
         });
+
+
+        //Read last measuremnt every 3 min
+        ns.promiseList.append({
+            fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: _this.options.lastMeasurementFileName},
+            resolve : $.proxy(_this._resolve_last_measurment, _this),
+            reload  : 3
+        });
+
+
+
+
     };
 
     ns.FCOOObservations.prototype = {
@@ -111,12 +122,21 @@
                     if (observationGroup.checkAndAdd(nextLocation)){
                         nextLocation.observationGroups[id] = observationGroup;
                         nextLocation.observationGroupList.push(observationGroup);
+
+                        nextLocation.$niels[id] = {};
+
                     }
                 });
+                nextLocation.observationGroupList.sort(function(ob1, ob2){ return ob1.options.index - ob2.options.index; });
             });
 
             this.filesResolved++;
             if (this.filesResolved == this.fileNameList.length){
+                //Update all Locations regarding active station etc.
+                $.each(this.locations, function(locationId, location){
+                    location._finally();
+                });
+
 
                 //All data are loaded => update the geoJSON-data and update any layer added before the data was ready
                 this.ready = true;
@@ -128,65 +148,59 @@
                 });
             }
         },
-/*
-        addTo: function(map){
-            this.maps[this._mapId(map)] = map;
-            if (this.ready)
-                this._addTo(map);
-            else
-                map._fcoo_observations_not_added = true;
-        },
 
-        _addTo: function(map){
-            map._fcoo_observations_not_added = false;
-
-            //Convert all active locations into a geoJSON feature-group
-            var _this = this,
-                geoJSON = { type: "FeatureCollection", features: []};
-
-            //Create all locations and add them to the geoJSON-data if they are active and included in a observation-group
-            $.each(this.locations, function(locationId, location){
-                if (location.active && location.observationGroupList.length)
-                    geoJSON.features.push({
-                        geometry: {
-                            type       : "Point",
-                            coordinates: [location.latLng.lng, location.latLng.lat]
-                        },
-                        type      : "Feature",
-                        properties: {
-                            location: location,
-                            mapId   : _this._mapId(map)
-                        }
+        _resolve_last_measurment: function(data){
+            var _this = this;
+            $.each(data.features, function(index, feature){
+                var prop = feature.properties;
+                $.each(_this.locations, function(locationId, location){
+                    $.each(location.stations, function(stationId, station){
+                        //If station exists and the station has the parameter => update
+                        if (station.id == prop.id)
+                            station.addLastObservation(prop);
                     });
+                });
             });
 
-            var geoJSONLayer = new L.GeoJSON(geoJSON, geoJSONOptions);
-            geoJSONLayer.addTo(map);
-
-            return this;
+            $.each(_this.locations, function(locationId, location){
+                location.update();
+            });
         },
-*/
 
         /**********************************************************
         geoJSON return a L.geoJSON layer
         **********************************************************/
         geoJSON: function(){
-            var result = L.geoJSON(null);//, geoJSONOptions);
+            this.geoJSONOptions = this.geoJSONOptions || {
+                pointToLayer : function(geoJSONPoint/*, latlng*/) {
+                    return geoJSONPoint.properties.createMarker();
+                }
+            };
+
+            var result = L.geoJSON(null, this.geoJSONOptions);
+
+            result.options.onEachFeature = $.proxy(this._geoJSON_onEachFeature, result);
 
             result.on({
-                add   : $.proxy(this.geoJSON_onAdd,    this),
-                remove: $.proxy(this.geoJSON_onRemove, this)
+                add   : $.proxy(this._geoJSON_onAdd,    this),
+                remove: $.proxy(this._geoJSON_onRemove, this)
             });
             return result;
         },
 
-        geoJSON_onAdd: function(event){
+        //_geoJSON_onEachFeature: called with this = geoJSONLayer
+        _geoJSON_onEachFeature: function(feature, marker) {
+            feature.properties.addPopup( nsObservations.getMapId(this._map), marker );
+        },
+
+        _geoJSON_onAdd: function(event){
             var geoJSONLayer = event.target,
                 map          = geoJSONLayer._map,
                 mapId        = nsObservations.getMapId(map);
 
             this.maps[mapId] = {
                 map         : map,
+                $container  : $(map.getContainer()),
                 geoJSONLayer: geoJSONLayer,
                 dataAdded   : this.ready
             };
@@ -195,7 +209,7 @@
                 geoJSONLayer.addData( this._getGeoJSONData() );
         },
 
-        geoJSON_onRemove: function(event){
+        _geoJSON_onRemove: function(event){
             var map   = event.target._map,
                 mapId = nsObservations.getMapId(map);
             delete this.maps[mapId];
@@ -213,44 +227,15 @@
                 $.each(this.locations, function(locationId, location){
                     if (location.active && location.observationGroupList.length)
                         _this.geoJSONData.features.push({
-                            geometry: {
-                                type       : "Point",
-                                coordinates: [location.latLng.lng, location.latLng.lat]
-                            },
                             type      : "Feature",
-                            properties: {
-                                location: location,
-//HER TODO                                mapId   : _this._mapId(map)
-                            }
+                            geometry  : {type: "Point", coordinates: [location.latLng.lng, location.latLng.lat]},
+                            properties: location
                         });
                 });
             }
             return this.geoJSONData;
         }
     };
-
-    var geoJSONOptions = {
-            pointToLayer: function (feature) {
-                return findLocationByFeature( feature, 'createMarker');
-            },
-
-            //onEachFeature
-            onEachFeature: function (feature, layer) {
-                return findLocationByFeature( feature, 'addPopup', layer );
-            },
-
-        };
-
-    function findLocationByFeature( feature, methodName, arg ){
-        var argumentList = [feature.properties.mapId];
-        if (arg)
-            argumentList.push(arg);
-
-        var location = feature.properties.location;
-        return location[methodName].apply(location, argumentList);
-    }
-
-
 
 }(jQuery, L, this, document));
 

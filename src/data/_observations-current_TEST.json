@@ -1,0 +1,21 @@
+{
+    "default_station": {
+        "owner"      : "FCOO",
+        "provider"   : "FCOO",
+        "parameter"  : "sea_water_velocity",
+        "level"      : "",
+        "refLevel"   : "SEASURFACE",
+        "observation": {
+            "sea_water_velocity": "frv_getmc_timeseries_vengeance_current_010.json"
+        },
+        "forecast"   : false,
+        "active"     :  true
+
+
+    },
+
+    "locationList": [
+        {"id":"DROGDEN",    "station": "current30357"}
+    ]
+}
+

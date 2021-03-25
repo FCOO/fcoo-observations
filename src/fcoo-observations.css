@@ -8,41 +8,203 @@
 
 
 ************************************************/
+/***********************************************
+JQUERY-BOOTSTRAP: Set and adjust bootstrap default values
+************************************************/
+/************************************************************
+BOOTSTRAP-VARIABLES
+************************************************************/
+/***********************************************
+ADJUST BOOTSTRAP DEFAULT VALUES
+************************************************/
+/*Not used. No lg-buttons
+$input-btn-padding-y-lg: .75rem;
+$input-btn-padding-x-lg: $input-btn-padding-y-lg;
+*/
+/************************************************************
+Including "size" xs as in Bootstrap 3
+************************************************************/
+/************************************************************
+Border-colors
+************************************************************/
+/************************************************************
+Make all font-size and margin for header (<h1>, <h2>,...<h6>)
+releative to container (rem -> em)
+************************************************************/
+/* Defalut not changed:
+$font-size-base         : 1rem !default;
+$spacer                 : 1rem !default;
+*/
+/************************************************************
+Adjust dropdown-menu
+************************************************************/
+/************************************************************
+Adjust modal
+************************************************************/
+/***********************************************
+BOOTSTRAP: scss variables
+************************************************/
+/***********************************************
+JQUERY-BOOTSTRAP: Background-color and text color and Variables
+************************************************/
+/************************************************************
+COLOR
+
+background-color and text-color for
+headers modal, popover, tables, buttons, list-items etc.
+
+"$header-" is used for header to modal-windows and popover
+"$title-" is used for headers on content - table, accordion etc.
+"$control-" is used for buttons, list-items etc.
+************************************************************/
+/************************************************************
+VARIABLES
+************************************************************/
+/***********************************************
+DEFINE BOOTSTRAP BUTTON STYLE
+$btn-style-name MUST correspond with ns.bsButtonClass
+in src/jquery-bootstrap-button.js
+************************************************/
+/************************************************************
+Variables bassed on bootstrop variables
+************************************************************/
+/************************************************************
+HEADER
+Font-sizes for headers are one 'size' smaller than normal font
+$font-size-lg  : 1.25rem    20px
+$font-size-base: 1rem       16px
+$font-size-sm  : .8125rem   13px
+$font-size-xs  : .75rem     12px
+************************************************************/
+/************************************************************
+BUTTON AND MODAL
+Opacity for semi-transparent and transparent content
+************************************************************/
+/************************************************************
+SQUARE BUTTONS
+Dimentions for square buttons with only icons
+************************************************************/
+/************************************************************
+LABEL
+Font-sizes for labels are same siae as header but incl a xxs-size
+************************************************************/
+/************************************************************
+CONTENT
+Unifies padding and font-size for content of modal, accordion, popup etc.
+Using same font-size and vertical/horizontal padding as buttons
+************************************************************/
+/************************************************************
+MARGIN-BOTTOM
+All elements in modal-windows get same margin-bottom
+************************************************************/
+/************************************************************
+MIXIN
+************************************************************/
+/************************************************************
+RIGHT-SIDE-ICON
+Add style to <i> to place it to the right and vertical center
+NOTE: Parent element MUST have @include vertical-align-center();
+************************************************************/
+/************************************************************
+FOCUS
+All elements get same outline when they have focus:
+No outline
+border-color = light blue
+************************************************************/
+/************************************************************
+CONTENT
+Unifies padding for modal, accordion, popup etc.
+************************************************************/
+/************************************************************
+CONTROL-CONTAINER
+Style for div with controls inside modal.
+Must have tabindex:"-1" to work with focus
+************************************************************/
+/************************************************************
+CONTROL BORDER-COLOR
+All control elements get same border-color when normal, hover, active and error
+************************************************************/
+/************************************************************
+CONTROL-COLORS
+Sets all color for text, background, border for normal, :hover, :focus,  :active and .active
+************************************************************/
+/************************************************************
+TYPE-COLOR
+Bg-color and color for different 'type' (warning, alert, info, error, success)
+Used in Noty and Modal
+************************************************************/
+/************************************************************
+HEADER AND TITLE BACKGROUND-COLOR AND COLOR
+Headers for modal, popover, popup etc.
+************************************************************/
+/************************************************************
+color-hover - Background-color and text-color for 'normal' and hover
+************************************************************/
+/************************************************************
+header-colors - Colors for headers
+************************************************************/
+/************************************************************
+title-color - create colors for headers for table and accordion etc.
+************************************************************/
+/************************************************************
+HEADER, TITLE, AND FOOTER PADDING AND FONT-SIZE
+Padding are set to button y-padding (moving text to the left)
+************************************************************/
+/************************************************************
+header-variant
+************************************************************/
+/************************************************************
+title-variant - as header but with same font-size as siblings
+************************************************************/
+/************************************************************
+footer-variant
+************************************************************/
+/************************************************************
+MARGIN-BOTTOM FOR ELEMENTS IN MODAL
+All elements in modal-windows get same margin-bottom
+************************************************************/
 /*
 obs-grp-marker-N is added to the marker and used to show/hide the marker
 */
 .leaflet-container .obs-grp-marker {
-  visibility: hidden; }
-
+  display: none;
+}
 .leaflet-container.observation-group-0 .obs-grp-marker-0 {
-  visibility: visible; }
-
+  display: block;
+}
 .leaflet-container.observation-group-1 .obs-grp-marker-1 {
-  visibility: visible; }
-
+  display: block;
+}
 .leaflet-container.observation-group-2 .obs-grp-marker-2 {
-  visibility: visible; }
-
+  display: block;
+}
 .leaflet-container.observation-group-3 .obs-grp-marker-3 {
-  visibility: visible; }
-
+  display: block;
+}
 .leaflet-container.observation-group-4 .obs-grp-marker-4 {
-  visibility: visible; }
-
+  display: block;
+}
 .leaflet-container.observation-group-5 .obs-grp-marker-5 {
-  visibility: visible; }
-
+  display: block;
+}
 .leaflet-container.observation-group-6 .obs-grp-marker-6 {
-  visibility: visible; }
-
+  display: block;
+}
 .leaflet-container.observation-group-7 .obs-grp-marker-7 {
-  visibility: visible; }
-
+  display: block;
+}
 .leaflet-container.observation-group-8 .obs-grp-marker-8 {
-  visibility: visible; }
-
+  display: block;
+}
 .leaflet-container.observation-group-9 .obs-grp-marker-9 {
-  visibility: visible; }
+  display: block;
+}
+.leaflet-container .obs-group-header {
+  display: none;
+}
+.leaflet-container.observation-group-multi .obs-group-header {
+  display: block;
+}
 
 /*
 obs-grp-icon used to style the different "lines" inside the marker
@@ -53,58 +215,76 @@ get class="obs-grp-icon obs-grp-icon-N" plus the fa-classes to create the icon
 */
 .leaflet-container .obs-grp-icon {
   position: relative;
-  visibility: hidden; }
+  visibility: hidden;
+}
 
 .leaflet-container.observation-group-0 .obs-grp-icon-0 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.observation-group-1 .obs-grp-icon-1 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.observation-group-2 .obs-grp-icon-2 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.observation-group-3 .obs-grp-icon-3 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.observation-group-4 .obs-grp-icon-4 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.observation-group-5 .obs-grp-icon-5 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.observation-group-6 .obs-grp-icon-6 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.observation-group-7 .obs-grp-icon-7 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.observation-group-8 .obs-grp-icon-8 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.observation-group-9 .obs-grp-icon-9 {
-  visibility: visible; }
+  visibility: visible;
+}
 
 .fa-lbm-color-skyblue {
-  color: #00A0DC; }
+  color: #00A0DC;
+}
 
 .fa-lbm-color-seagreen {
-  color: #3B7511; }
+  color: #3B7511;
+}
 
 .obs-grp-icon-top {
-  top: -0.30em;
-  z-index: 10; }
+  top: -0.3em;
+  z-index: 10;
+}
 
 .obs-grp-icon-over {
-  top: -0.20em; }
+  top: -0.2em;
+}
 
 .obs-grp-icon-center {
   top: 0;
-  z-index: 1; }
+  z-index: 1;
+}
 
 .obs-grp-icon-below {
-  top: 0.25em; }
+  top: 0.25em;
+}
 
 .obs-grp-icon-bottom {
-  top: 0.30em;
-  z-index: 10; }
+  top: 0.3em;
+  z-index: 10;
+}
+
+/*
+Inner box with latest observation in popup
+*/
+.latest-measurement {
+  border-bottom: 1px solid #868e96;
+}
+
+/*# sourceMappingURL=fcoo-observations.css.map */
