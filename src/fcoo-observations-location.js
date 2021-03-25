@@ -99,7 +99,6 @@
 
     ns.Station.prototype = {
         _chartUrl: function(){
-console.log(this);
             return  (window.location.protocol == 'https:' ? 'https:' : 'http:') +
                     '//chart.fcoo.dk/station_timeseries.asp?' +
                         'LANG=' + (window.i18next.language.toUpperCase() == 'DA' ? 'DA' : 'ENG') + '&' +
