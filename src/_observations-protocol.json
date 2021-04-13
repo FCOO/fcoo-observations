@@ -41,19 +41,14 @@ STATION = {
     position   : LATLNG (optional)
     level      : STRING or NUMBER
     refLevel   : STRING or {text: STRING, link: STRING} or {id: STRING} (key to list of known ref-levels)
-    parameter  : []PARAMETER or []STANDARD_NAME or STANDARD_NAME
-    
+    parameter  : []STANDARD_NAME or STANDARD_NAME(S)
+    unit       : []UNIT_NAME or UNIT_NAME(S) 
+
     owner      : STRING
     provider   : STRING
     
     observation: {STANDARD_NAME: STRING} OR STRING
     forecast   : {STANDARD_NAME: STRING} OR STRING
-}
-
-
-PARAMETER = {
-    id  : STANDARD_NAME
-    unit: STRING            //=CF_unit in unit.json
 }
 
 

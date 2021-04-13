@@ -9,7 +9,7 @@
     Create an internal FCOO packages to read and display observations
 
 ****************************************************************************/
-(function ($, L, window/*, document, undefined*/) {
+(function ($, L, i18next, moment, window/*, document, undefined*/) {
 	"use strict";
 
 	window.fcoo = window.fcoo || {};
@@ -19,6 +19,9 @@
 
     //nsObservations.getMapId(map) return the unique id for the map
     nsObservations.getMapId = function(map){ return ''+map._leaflet_id; };
+
+    nsObservations.observationPeriods = [6, 12, 24]; //= The different hour-periods to display previous observation stat (min, mean, max) over. Must have length = 3
+    nsObservations.forecastPeriods    = [6, 12, 24]; //= The different hour-periods to display forecast stat (min, mean, max) over. Must have length = 3
 
     /***************************************************************
     FCOOObservations
@@ -34,7 +37,7 @@
             groupFileName           : 'observations-groups.json', //Not used at the moment
             locationFileName        : 'locations.json',
             fileName                : 'fcoo-observations.json',
-            lastMeasurementFileName : 'LastObservations.json',
+            lastObservationFileName : 'LastObservations.json',
         }, options || {});
 
         this.maps = {};
@@ -90,7 +93,7 @@
 
         //Read last measuremnt every 3 min
         ns.promiseList.append({
-            fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: _this.options.lastMeasurementFileName},
+            fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: _this.options.lastObservationFileName},
             resolve : $.proxy(_this._resolve_last_measurment, _this),
             reload  : 3
         });
@@ -123,7 +126,7 @@
                         nextLocation.observationGroups[id] = observationGroup;
                         nextLocation.observationGroupList.push(observationGroup);
 
-                        nextLocation.$niels[id] = {};
+                        nextLocation.modalElements[id] = {};
 
                     }
                 });
@@ -137,9 +140,9 @@
                     location._finally();
                 });
 
-
-                //All data are loaded => update the geoJSON-data and update any layer added before the data was ready
+                //All data are loaded => initialize all maps and update the geoJSON-data and update any layer added before the data was ready
                 this.ready = true;
+                this._initializeMaps();
                 $.each(this.maps, function(id, options){
                     if (!options.dataAdded){
                         options.geoJSONLayer.addData( _this._getGeoJSONData() );
@@ -149,21 +152,46 @@
             }
         },
 
-        _resolve_last_measurment: function(data){
-            var _this = this;
-            $.each(data.features, function(index, feature){
-                var prop = feature.properties;
+        /*****************************************************
+        _resolve_last_measurment
+        Split geoJSON into a {features:[]} for each station
+        *****************************************************/
+        _resolve_last_measurment: function(geoJSON){
+            var _this = this,
+                stationGeoJSONs = {};
+
+            $.each(geoJSON.features, function(index, feature){
+                var stationId = feature.properties.id,
+                    stationGeoJSON = stationGeoJSONs[stationId] = stationGeoJSONs[stationId] || {features:[]};
+                stationGeoJSON.features.push(feature);
+            });
+
+            //Load each geoJSON "file" into station
+            $.each(stationGeoJSONs, function(findStationId, geoJSON){
                 $.each(_this.locations, function(locationId, location){
                     $.each(location.stations, function(stationId, station){
-                        //If station exists and the station has the parameter => update
-                        if (station.id == prop.id)
-                            station.addLastObservation(prop);
+                        if (stationId == findStationId){
+                            station._resolveGeoJSON(geoJSON, false);
+                            location.callUpdateObservation = true;
+                        }
                     });
                 });
             });
-
             $.each(_this.locations, function(locationId, location){
-                location.update();
+                if (location.callUpdateObservation){
+                    location.updateObservation();
+                    location.callUpdateObservation = false;
+                }
+            });
+        },
+
+        _initializeMaps: function(map){
+            var _this = this,
+                maps = map ? [{map:map}] : this.maps;
+            $.each(maps, function(index, mapObj){
+                $.each(_this.observationGroups, function(id, observationGroup){
+                    observationGroup.hide(mapObj.map);
+                });
             });
         },
 
@@ -205,8 +233,10 @@
                 dataAdded   : this.ready
             };
 
-            if (this.ready)
+            if (this.ready){
+                this._initializeMaps(map);
                 geoJSONLayer.addData( this._getGeoJSONData() );
+            }
         },
 
         _geoJSON_onRemove: function(event){
@@ -237,7 +267,7 @@
         }
     };
 
-}(jQuery, L, this, document));
+}(jQuery, L, this.i18next, this.moment, this, document));
 
 
 

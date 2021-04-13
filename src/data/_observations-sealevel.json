@@ -11,7 +11,7 @@
 
     "locationList": [
         {"id": "DROGDEN",             "stationId"  : "30357"},
-        {"id": "SKAGEN",              "stationId"  : "20003XX",          "owner": "SkagenHavn"},
+        {"id": "SKAGEN",              "stationId"  : "20003",          "owner": "SkagenHavn"},
         {"id": "HIRTSHALS",           "stationList": ["20047","20043",{"id": "20049","position":[57.594215,9.962162], "owner": "HirtshalsHavn"}] },
         {"id": "FR-HAVN",             "stationList": "20101 20102"},
         {"id": "HALS-BARRE",          "stationList": "20253 20252",    "owner": "AalborgHavn", "active": false },
@@ -118,6 +118,12 @@
         {"id": "SAKSKOEBING",        "stationList": "31463",           "owner": "GuldborgsundKommune", "forecast": false },
 
         {"id": "GULDBORGSUNDTUNNEL_FALSTER", "stationId"  : "31473",   "owner": "GuldborgsundKommune"},
-        {"id": "GULDBORGSUNDTUNNEL_LOLLAND", "stationId"  : "31478",   "owner": "GuldborgsundKommune"}
+        {"id": "GULDBORGSUNDTUNNEL_LOLLAND", "stationId"  : "31478",   "owner": "GuldborgsundKommune"},
+
+        {"id": "KASTRUP",            "stationId"  : "MANGL"},
+        {"id": "VORDINGBORG",        "stationId"  : "31232",            "owner": "VordingborgHavn"},
+        {"id": "PRAESTOE",           "stationId"  : "31212",            "owner": "VordingborgKommune"},
+        {"id": "STEGE",              "stationId"  : "31272",            "owner": "VordingborgKommune"},
+        {"id": "KLINTHOLM",          "stationId"  : "31282",            "owner": "VordingborgKommune"}
     ]
 }

@@ -17,9 +17,7 @@
         html, body {
             padding: 0; margin: 0; width:100%; height:100%;
         }
-        tr {height: 600px}
-            
-        td {vertical-align:top;}
+
         #map0, #map1 {
             padding: 0; margin: 0; width:98%; height:100%;
         }
@@ -39,12 +37,12 @@
     <i class="fas fa-percentage fa-stack-1x"></i>
 </span>
  -->
- <table style="height:100%; width:100%">
- <tr>
+ <table class="map-table" style="height:100%; width:100%">
+ <tr style="height: 600px; vertical-align:top">
     <td><div id="map0" ></div></td>
     <td><div id="map1" ></div></td>
  </tr>
- <tr>
+ <tr style="vertical-align:top">
     <td>
         <button id="map0_sealevel" onClick="toggle(0, 'SEALEVEL')">Toggle Sea Level</button>
         <button id="map0_wind" onClick="toggle(0, 'WIND')">Toggle Wind</button>
@@ -71,7 +69,12 @@
         i18next.init();
         i18next.changeLanguage('en');
 
-        //window.fcoo.LOCAL_DATA = true;
+        //ONLY WHEN PUSH TO GITHUB        
+        window.fcoo.DEMO_VERSION = true;
+
+
+//HER        window.fcoo.LOCAL_DATA = !window.fcoo.DEMO_VERSION;
+
 
         Promise.defaultErrorHandler = function( error ){
             console.log('*********************');
@@ -79,6 +82,7 @@
             console.log('status=', error.status);
             console.log('url=', error.url);
             console.log('text=', error.text);
+            console.log(error);
             console.log('*********************');
         }
 
@@ -98,7 +102,7 @@
     }
 
 
-    $(function() {
+    $(function() { 
 	    maps.push( L.map('map0').setView([56.2, 11.5], 6) );
 		L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			minZoom: 3, maxZoom: 12,
@@ -113,26 +117,23 @@
 
        
         
-        window.fcoo.LOCAL_DATA = true;
-		fcooObservation = new window.fcoo.FCOOObservations({fileName:['observations-sealevel.json', 'observations-wind.json', 'observations-current_TEST.json']});
-        window.fcoo.LOCAL_DATA = false;
+//HER        window.fcoo.LOCAL_DATA = window.fcoo.DEMO_VERSION;
+		fcooObservation = new window.fcoo.FCOOObservations({
+            fileName:['observations-sealevel.json', 'observations-wind_TEST.json', 'observations-current_TEST.json'],
+            lastObservationFileName : 'LastObservations_test.json',
+        });
+//HER        window.fcoo.LOCAL_DATA = false;
 
         var geoJSON = fcooObservation.geoJSON().addTo(maps[0]);
 
         fcooObservation.geoJSON().addTo(maps[1]);
 
-//HER            geoJSON.removeFrom(maps[1]);
-
-//HER        fcooObservation.addTo(maps[0]);
-//HER        fcooObservation.addTo(maps[1]);
-
-
-
-
 
 
         fcoo.promiseList.options.finally = function(){
-            fcoo.globalSetting.load(/*null, function(){}*/);
+            fcoo.globalSetting.load(null, function(){
+                //i18next.changeLanguage('en');
+            });
         };
 
         fcoo.promiseList.promiseAll();

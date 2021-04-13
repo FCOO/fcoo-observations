@@ -20,7 +20,7 @@
     },
 
     "locationList": [
-        {"id":"DROGDEN",    "station": "wind30357"},
+        {"id":"DROGDEN",    "station": "wind30357", "forecast": false},
         {"id":"SKAGEN",     "station": "wind20002", "owner": "SkagenHavn"},
         {"id":"HIRTSHALS",  "station": "wind20047", "owner": "HirtshalsHavn" }
     ]
