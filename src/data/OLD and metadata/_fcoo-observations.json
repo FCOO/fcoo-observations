@@ -1,0 +1,622 @@
+[
+    {"id":"DROGDEN","name":{"da":"Drogden Fyr","en":"Drogden Lt"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30357","position":[55.536377,12.711318],"owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"}}
+        ]
+    },
+    {"id":"SKAGEN","name":{"da":"Skagen","en":"Skagen"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"20002","position":[57.716534,10.595056],"owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"}},
+            {"id":"20003","position":[57.71652,10.595089], "owner":"SkagenHavn","parameterList":{"id":"sea_surface_height_above_sea_level"}}
+        ]
+    },
+    {"id":"HIRTSHALS","name":{"da":"Hirtshals","en":"Hirtshals"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"20047","position":[57.595093,9.96252], "owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"}},
+            {"id":"20043","position":[57.595093,9.96252], "owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"}},
+            {"id":"20049","position":[57.594215,9.962162],"owner":"HirtshalsHavn","parameterList":{"id":"sea_surface_height_above_sea_level"}}
+        ]
+    },
+    {"id":"FR-HAVN","name":{"da":"Frederikshavn","en":"Frederikshavn"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"20101","position":[57.435734,10.547851],"owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"}},
+            {"id":"20102","position":[57.435734,10.547851],"owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"}}
+        ]
+    },
+    {"id":"HALS-BARRE","name":{"da":"Hals Barre Fyr","en":"Hals Barre Lt"}, "active": false,
+        "hasForecast": true,
+        "stationList":[
+            {"id":"20253","position":[56.954746,10.425465],"owner":"AalborgHavn","parameterList":{"id":"sea_surface_height_above_sea_level"}},
+            {"id":"20252","position":[56.954746,10.425465],"owner":"AalborgHavn","parameterList":{"id":"sea_surface_height_above_sea_level"}}
+        ]
+    },
+    {"id":"HALS","name":{"da":"Hals","en":"Hals"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"20262","owner":"AalborgHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.99014,10.308379]}
+        ]
+    },
+    {"id":"GROENLANDSHAVNEN","name":{"da":"Grønlandshavnen","en":"Grønlandshavnen"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"20299","owner":"AalborgHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[57.048607,10.052042]},
+            {"id":"20301","owner":"AalborgHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[57.048607,10.052042]}
+        ]
+    },
+    {"id":"AALBORG","name":{"da":"Aalborg","en":"Aalborg"},
+        "stationList":[
+            {"id":"20302","owner":"AalborgHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[57.05252,9.957607]},
+            {"id":"20303","owner":"AalborgHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"prioritised":true,"position":[57.05252,9.957607]}
+        ]
+    },
+    {"id":"HAVERSLEV","name":{"da":"Haverslev"},
+        "stationList":[
+            {"id":"20333","owner":"SkiveKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[57.02841,9.4017]}
+        ]
+    },
+    {"id":"ROENBJERG","name":{"da":"Rønbjerg Huse","en":"Roenbjerg Huse"},
+        "stationList":[
+            {"id":"20412","owner":"LoegstoerKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.892353,9.166815]}
+        ]
+    },
+    {"id":"LOEGSTOER","name":{"da":"Løgstør","en":"Loegstoer"},
+        "stationList":[
+            {"id":"20423","owner":"LoegstoerKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.967762,9.245901]}
+        ]
+    },
+    {"id":"HOBRO","name":{"da":"Hobro","en":"Hobro"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"20566","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.638783,9.803786]},
+            {"id":"20567","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.638783,9.803786]}
+        ]
+    },
+    {"id":"ALSODDE","name":{"da":"Als Odde"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"20676","owner":"MariagerfjordKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.705208,10.329216]}
+        ]
+    },
+    {"id":"HANSTHOLM","name":{"da":"Hanstholm","en":"Hanstholm"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"21009","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[57.120033,8.595489]},
+            {"id":"21011","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[57.120033,8.595489]}
+        ]
+    },
+    {"id":"THISTED","name":{"da":"Thisted","en":"Thisted"},
+        "stationList":[
+            {"id":"21058","owner":"ThistedHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.95377,8.69413]}
+        ]
+    },
+    {"id":"NYKOEBING_MORS","name":{"da":"Nykøbing Mors","en":"Nykoebing Mors"},
+        "stationList":[
+            {"id":"21138","owner":"NykoebingMorsHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.794834,8.863544]}
+        ]
+    },
+    {"id":"SKIVE","name":{"da":"Skive"},
+        "stationList":[
+            {"id":"21191","owner":"SkiveKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.570057,9.0519]}
+        ]
+    },
+    {"id":"UDBYHOEJ","name":{"da":"Udbyhøj","en":"Udbyhoej"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"22009","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.60698,10.301555]}
+        ]
+    },
+    {"id":"RANDERS","name":{"da":"Randers","en":"Randers"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"22058","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.456882,10.039624]},
+            {"id":"22059","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.456882,10.039624]}
+        ]
+    },
+    {"id":"GRENAA","name":{"da":"Grenå","en":"Grenaa"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"22121","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.412075,10.921962]},
+            {"id":"22122","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.412075,10.921962]}
+        ]
+    },
+    {"id":"AARHUS","name":{"da":"Århus","en":"Aarhus"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"22331","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.14661,10.222648]},
+            {"id":"22333","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.14661,10.222648]}
+        ]
+    },
+    {"id":"HOV","name":{"da":"Hov","en":"Hov"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"22598","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.912098,10.258935]},
+            {"id":"22599","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.912098,10.258935]}
+        ]
+    },
+    {"id":"HORSENS","name":{"da":"Horsens N","en":"Horsens N"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"23128","owner":"HorsensHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.856064,9.867304]}
+        ]
+    },
+    {"id":"HORSENS_S","name":{"da":"Horsens S","en":"Horsens S"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"23126","owner":"HorsensVand","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.85491,9.857597]}
+        ]
+    },
+    {"id":"JUELSMINDE","name":{"da":"Juelsminde","en":"Juelsminde"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"23132","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.71559,10.016333]}
+        ]
+    },
+    {"id":"VEJLE","name":{"da":"Vejle","en":"Vejle"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"23259","owner":"VejleHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.70715,9.543127]}
+        ]
+    },
+    {"id":"FREDERICIA","name":{"da":"Fredericia","en":"Fredericia"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"23293","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.559494,9.753045]},
+            {"id":"23289","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.559494,9.753045]}
+        ]
+    },
+    {"id":"KOLDING","name":{"da":"Kolding"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"23322","owner":"KoldingHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.489933,9.482401]}
+        ]
+    },
+    {"id":"THYBOROEN_KYST","name":{"da":"Thyborøn Kyst","en":"Thyboroen Coast"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"24006","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.707733,8.208776]}
+        ]
+    },
+    {"id":"THYBOROEN_HAVN","name":{"da":"Thyborøn Havn","en":"Thyboroen Harbor"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"24007","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.70533,8.222547]}
+        ]
+    },
+    {"id":"FERRING_KYST","name":{"da":"Ferring Kyst","en":"Ferring Coast"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"24018","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.524593,8.115164]}
+        ]
+    },
+    {"id":"LEMVIG","name":{"da":"Lemvig"},
+        "stationList":[
+            {"id":"24032","owner":"LemvigKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.55067,8.30676]}
+        ]
+    },
+    {"id":"STRUER","name":{"da":"Struer"},
+        "stationList":[
+            {"id":"24053","owner":"StruerKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.49455,8.585427]}
+        ]
+    },
+    {"id":"THORSMINDE_KYST","name":{"da":"Thorsminde Kyst","en":"Thorsminde Coast"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"24122","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.372643,8.113573]},
+            {"id":"24125","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.372643,8.113573]}
+        ]
+    },
+    {"id":"THORSMINDE_HAVN","name":{"da":"Thorsminde Havn","en":"Thorsminde Harbour"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"24123","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.3704,8.120052]}
+        ]
+    },
+    {"id":"THORSMINDE_FJORD","name":{"da":"Thorsminde Fjord","en":"Thorsminde Fjord"},
+        "stationList":[
+            {"id":"24124","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.37161,8.125902]}
+        ]
+    },
+    {"id":"FELSTEDKOG","name":{"da":"Felsted Kog/Klosterhul"},
+        "stationList":[
+            {"id":"24132","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.295902,8.276754]}
+        ]
+    },
+    {"id":"RINGKOEBING","name":{"da":"Ringkøbing","en":"Ringkøbing"},
+        "stationList":[
+            {"id":"24328","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.08749,8.239589]}
+        ]
+    },
+    {"id":"HVIDESANDE_KYST","name":{"da":"Hvide Sande Kyst","en":"Hvide Sande Coast"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"24342","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.996735,8.109773]}
+        ]
+    },
+    {"id":"HVIDESANDE_HAVN","name":{"da":"Hvide Sande Havn","en":"Hvide Sande Harbor"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"24343","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.000458,8.128977]}
+        ]
+    },
+    {"id":"HVIDESANDE_FJORD","name":{"da":"Hvide Sande Fjord"},
+        "stationList":[
+            {"id":"24344","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.999924,8.12955]}
+        ]
+    },
+    {"id":"BORK","name":{"da":"Bork"},
+        "stationList":[
+            {"id":"24353","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.850426,8.278119]}
+        ]
+    },
+    {"id":"GRAADYB_BARRE","name":{"da":"Grådyb Barre","en":"Graadyb Barre"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"25137","owner":"EsbjergHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.440075,8.260181]}
+        ]
+    },
+    {"id":"ESBJERG","name":{"da":"Esbjerg","en":"Esbjerg"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"25149","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.46017,8.439694]},
+            {"id":"25147","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.47164,8.423713]}
+        ]
+    },
+    {"id":"RIBE_KAMMERSLUSE","name":{"da":"Ribe Kammersluse"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"25343","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.34002,8.67598]}
+        ]
+    },
+    {"id":"RIBE_KYST","name":{"da":"Ribe Kyst","en":"Ribe Coast"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"25344","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.33896,8.672504]}
+        ]
+    },
+    {"id":"MANDOE","name":{"da":"Mandø","en":"Mandoe"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"25346","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.276436,8.573914]},
+            {"id":"25347","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.276436,8.573914]}
+        ]
+    },
+    {"id":"HADERSLEV","name":{"da":"Haderslev"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"26088","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.251904,9.509185]},
+            {"id":"26089","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.251904,9.509185]}
+        ]
+    },
+    {"id":"HAVNEBY","name":{"da":"Havneby"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"26136","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.087067,8.565402]},
+            {"id":"26137","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.087067,8.565402]}
+        ]
+    },
+    {"id":"BROENS_SLUSE","name":{"da":"Brøns Sluse","en":"Broens Sluse"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"26143","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.186264,8.687454]},
+            {"id":"26144","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.186264,8.687454]}
+        ]
+    },
+    {"id":"AABENRAA","name":{"da":"Åbenrå","en":"Aabenraa"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"26239","owner":"AabenraaKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.044834,9.427022]}
+        ]
+    },
+    {"id":"BALLUM_SLUSE","name":{"da":"Ballum Sluse"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"26346","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.130814,8.685848]}
+        ]
+    },
+    {"id":"VIDAASLUSEN","name":{"da":"Vidåslusen/Højer","en":"Vidaaslusen/Hoejer"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"26359","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.962795,8.66186]},
+            {"id":"26361","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.962795,8.66186]}
+        ]
+    },
+    {"id":"FYNSHAV","name":{"da":"Fynshav","en":"Fynshav"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"26457","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.994396,9.985632]},
+            {"id":"26459","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.994396,9.985632]}
+        ]
+    },
+    {"id":"SOENDERBORG","name":{"da":"Sønderborg","en":"Soenderborg"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"26473","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.91074,9.785282]},
+            {"id":"26474","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.91074,9.785282]}
+        ]
+    },
+    {"id":"SVENDBORG","name":{"da":"Svendborg"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"27000","owner":"SvendborgHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.060444,10.621416]}
+        ]
+    },
+    {"id":"VESTEROE","name":{"da":"Vesterø","en":"Vesteroe"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"27014","owner":"VesteroeHavn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[57.29608,10.92405]}
+        ]
+    },
+    {"id":"BALLEN","name":{"da":"Ballen","en":"Ballen"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"27084","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.815475,10.639885]}
+        ]
+    },
+    {"id":"BOGENSE","name":{"da":"Bogense"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"28003","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.566322,10.079967]},
+            {"id":"28004","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.566322,10.079967]}
+        ]
+    },
+    {"id":"GABET","name":{"da":"Gabet","en":"Gabet"},
+        "hasForecast": false,
+        "stationList":[
+            {"id":"28068","owner":"OdenseHavn", "parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.516018,10.570106]}
+        ]
+    },
+    {"id":"ODENSE_KANAL","name":{"da":"Odense Kanal Stige Ø","en":"Odense Kanal"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"28086","owner":"BeredskabFyn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.437634,10.422579]}
+        ]
+    },
+    {"id":"ODENSE_FJORD","name":{"da":"Odense Fjord Stige Ø","en":"Odense Fjord"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"28087","owner":"BeredskabFyn","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.438633,10.424543]}
+        ]
+    },
+    {"id":"KERTEMINDE","name":{"da":"Kerteminde","en":"Kerteminde"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"28198","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.450794,10.665125]},
+            {"id":"28199","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.450794,10.665125]}
+        ]
+    },
+    {"id":"SLIPSHAVN","name":{"da":"Slipshavn","en":"Slipshavn"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"28234","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.287823,10.826421]}
+        ]
+    },
+    {"id":"ASSENS","name":{"da":"Assens"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"28366","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.270554,9.889665]},
+            {"id":"28367","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.270554,9.889665]}
+        ]
+    },
+    {"id":"FAABORG","name":{"da":"Fåborg","en":"Faaborg"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"28397","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.09339,10.241246]},
+            {"id":"28398","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.09339,10.241246]}
+        ]
+    },
+    {"id":"BAGENKOP","name":{"da":"Bagenkop","en":"Bagenkop"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"28548","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.751656,10.6723585]}
+        ]
+    },
+    {"id":"ODDENHAVN","name":{"da":"Odden Havn","en":"Odden Havn"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"29002","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.97275,11.369397]}
+        ]
+    },
+    {"id":"HOLBAEK","name":{"da":"Holbæk","en":"Holbæk"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"29038","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.721413,11.708867]},
+            {"id":"29039","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.721413,11.708867]}
+        ]
+    },
+    {"id":"ROERVIG","name":{"da":"Rørvig","en":"Roervig"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"29006","owner":"OdsherredHavne","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.94365,11.768465]}
+        ]
+    },
+    {"id":"NYKOEBINGSJAELLAND","name":{"da":"Nykøbing Sjælland","en":"Nykoebing Sjaelland"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"29014","owner":"OdsherredHavne","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.913353,11.675221]}
+        ]
+    },
+    {"id":"KALUNDBORG","name":{"da":"Kalundborg"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"29141","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.67358,11.097282]}
+        ]
+    },
+    {"id":"KORSOER","name":{"da":"Korsør","en":"Korsoer"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"29393","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.33065,11.142241]},
+            {"id":"29394","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.33065,11.142241]}
+        ]
+    },
+    {"id":"HORNBAEK","name":{"da":"Hornbæk","en":"Hornbaek"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30017","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[56.09339,12.457139]}
+        ]
+    },
+    {"id":"SLETTEN","name":{"da":"Sletten","en":"Sletten"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30042","owner":"FredensborgForsyning","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.953354,12.535283]}
+        ]
+    },
+    {"id":"FREDERIKSVAERK","name":{"da":"Frederiksværk","en":"Frederiksvaerk"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30106","owner":"HalsnaesForsyning","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.965282,12.000512]}
+        ]
+    },
+    {"id":"HUNDESTED","name":{"da":"Hundested","en":"Hundested"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30112","owner":"HalsnaesForsyning","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.965508,11.84479]}
+        ]
+    },
+    {"id":"JAEGERSPRIS_KIGNAES","name":{"da":"Jægerspris Kignæs","en":"Jaegerspris Kignaes"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30119","owner":"FrederikssundKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.85625,12.0090685]}
+        ]
+    },
+    {"id":"KYNDBYVAERKET","name":{"da":"Kyndbyværket","en":"Kyndbyvaerket"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30121","owner":"HalsnaesForsyning","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.811672,11.877276]}
+        ]
+    },
+    {"id":"FREDERIKSSUND_S","name":{"da":"Frederikssund S","en":"Frederikssund S"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30129","owner":"FrederikssundKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.827816,12.062647]}
+        ]
+    },
+    {"id":"VEDBAEK","name":{"da":"Vedbæk","en":"Vedbæk"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30202","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.849075,12.57148]},
+            {"id":"30203","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.849075,12.57148]}
+        ]
+    },
+    {"id":"KOEBENHAVN","name":{"da":"København","en":"Copenhagen"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30336","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.704292,12.598921]}
+        ]
+    },
+    {"id":"DRAGOER","name":{"da":"Dragør","en":"Dragør"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30361","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.59349,12.678502]},
+            {"id":"30363","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.59349,12.678502]}
+        ]
+    },
+    {"id":"HUNDIGE","name":{"da":"Hundige"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30396","owner":"KlarForsyning","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.598385,12.356505]}
+        ]
+    },
+    {"id":"ROSKILDE","name":{"da":"Roskilde","en":"Roskilde"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30407","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.650875,12.077079]},
+            {"id":"30409","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.650875,12.077079]}
+        ]
+    },
+    {"id":"KOEGE","name":{"da":"Køge","en":"Køge"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"30478","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.455463,12.196472]},
+            {"id":"30479","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.455463,12.196472]}
+        ]
+    },
+    {"id":"ROEDVIG","name":{"da":"Rødvig","en":"Roedvig"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"31063","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.25428,12.374374]}
+        ]
+    },
+    {"id":"KARREBAEKSMINDE","name":{"da":"Karrebæksminde","en":"Karrebaeksminde"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"31171","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.17659,11.647142]},
+            {"id":"31172","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.17659,11.647142]}
+        ]
+    },
+    {"id":"KALVEHAVE","name":{"da":"Kalvehave"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"31243","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.99498,12.166615]},
+            {"id":"31244","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.99498,12.166615]}
+        ]
+    },
+    {"id":"BANDHOLM","name":{"da":"Bandholm","en":"Bandholm"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"31342","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.83684,11.487916]},
+            {"id":"31343","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.83684,11.487916]}
+        ]
+    },
+    {"id":"HESNAES","name":{"da":"Hesnæs","en":"Hesnaes"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"31493","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.823082,12.137347]},
+            {"id":"31494","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.823082,12.137347]}
+        ]
+    },
+    {"id":"ROEDBYHAVN","name":{"da":"Rødbyhavn","en":"Roedbyhavn"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"31573","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.656116,11.347485]},
+            {"id":"31574","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.656116,11.347485]}
+        ]
+    },
+    {"id":"GEDSER","name":{"da":"Gedser","en":"Gedser"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"31616","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.57212,11.924483]},
+            {"id":"31623","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"prioritised":true,"position":[54.57212,11.924483]}
+        ]
+    },
+    {"id":"TEJN","name":{"da":"Tejn","en":"Tejn"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"32048","owner":"DMI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.248997,14.836752]}
+        ]
+    },
+    {"id":"ROENNE","name":{"da":"Rønne","en":"Roenne"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"32096","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.093204,14.689613]},
+            {"id":"32098","owner":"KDI","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[55.093204,14.689613]}
+        ]
+    },
+    {"id":"NAKSKOV","name":{"da":"Nakskov","en":"Nakskov"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"31417","owner":"lollandKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.82617,11.134826]},
+            {"id":"31418","owner":"lollandKommune","parameterList":{"id":"sea_surface_height_above_sea_level"},"position":[54.82617,11.134826]}
+        ]
+    },
+    {"id":"SAKSKOEBING","name":{"da":"Sakskøbing","en":"Sakskoebing"},
+        "stationList":[
+            {"id":"31463","owner":"GuldborgsundKommune","parameterList":"sea_surface_height_above_sea_level","position":[54.802284,11.63529]}
+        ]
+    },
+    {"id":"GULDBORGSUNDTUNNEL_FALSTER","name":{"da":"Guldborgsundtunnel - Falster","en":"Guldborgsund Tunnel - Falster"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"31473","owner":"GuldborgsundKommune","parameterList":"sea_surface_height_above_sea_level","position":[54.835163,11.794364]}
+        ]
+    },
+    {"id":"GULDBORGSUNDTUNNEL_LOLLAND","name":{"da":"Guldborgsundtunnel - Lolland","en":"Guldborgsund Tunnel - Lolland"},
+        "hasForecast": true,
+        "stationList":[
+            {"id":"31478","owner":"GuldborgsundKommune","parameterList":"sea_surface_height_above_sea_level","position":[54.833374,11.79424]}
+        ]
+    }
+]

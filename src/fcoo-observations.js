@@ -9,84 +9,265 @@
     Create an internal FCOO packages to read and display observations
 
 ****************************************************************************/
-(function ($, L, window/*, document, undefined*/) {
+(function ($, L, i18next, moment, window/*, document, undefined*/) {
 	"use strict";
 
 	window.fcoo = window.fcoo || {};
-    var ns = window.fcoo.observations = window.fcoo.observations || {};
+    var ns = window.fcoo = window.fcoo || {},
+        //nsParameter = ns.parameter = ns.parameter || {},
+        nsObservations = ns.observations = ns.observations || {};
 
-	//Extend base leaflet class
-    L.GeoJSON.FCOOObservations = L.GeoJSON.extend({
+    //nsObservations.getMapId(map) return the unique id for the map
+    nsObservations.getMapId = function(map){ return ''+map._leaflet_id; };
 
-        //Default options
-		options: {
-            fileName: 'fcoo-observations.json',
-            subDir  : 'observations',
-			VERSION : "{VERSION}"
-		},
+    nsObservations.observationPeriods = [6, 12, 24]; //= The different hour-periods to display previous observation stat (min, mean, max) over. Must have length = 3
+    nsObservations.forecastPeriods    = [6, 12, 24]; //= The different hour-periods to display forecast stat (min, mean, max) over. Must have length = 3
 
-        //initialize
-        initialize: function(initialize){
-            return function (/*options*/) {
+    /***************************************************************
+    FCOOObservations
+    ****************************************************************/
+    ns.FCOOObservations = function(options){
+        var _this = this;
+        this.options = $.extend(true, {}, {
+			VERSION         : "{VERSION}",
+            subDir          : {
+                observations: 'observations',
+                forecasts   : 'forecasts'
+            },
+            groupFileName           : 'observations-groups.json', //Not used at the moment
+            locationFileName        : 'locations.json',
+            fileName                : 'fcoo-observations.json',
+            lastObservationFileName : 'LastObservations.json',
+        }, options || {});
 
-                var result = initialize.apply(this, arguments);
+        this.maps = {};
 
-                this.options.pointToLayer = $.proxy(this.pointToLayer, this);
-                this.options.onEachFeature = $.proxy(this.onEachFeature, this);
+        this.ready = false;
 
-                this.list = [];
+        //Read observations-groups
+        this.observationGroupList = [];
+        this.observationGroups = {};
+        ns.promiseList.append({
+            //fileName: ns.dataFilePath({subDir: this.options.subDir.observations, fileName: this.options.groupFileName}),
+            data    : nsObservations.observationGroupData,
+            resolve : function(data){
+                $.each(data, function(index, options){
+                    options.index = _this.observationGroupList.length;
+                    var newObservationGroup = new nsObservations.ObservationGroup(options, _this);
+                    _this.observationGroupList.push(newObservationGroup);
+                    _this.observationGroups[newObservationGroup.id] = newObservationGroup;
+                });
+            }
+        });
 
-                //Read the meta-data
-                window.Promise.getJSON( window.fcoo.dataFilePath(this.options.subDir, this.options.fileName), {}, $.proxy(this._resolve, this) );
+        //Read locations
+        this.locations = {};
+        this.locationList = [];
+        ns.promiseList.append({
+            fileName: ns.dataFilePath({subDir: this.options.subDir.observations, fileName: this.options.locationFileName}),
+            resolve : function(data){
+                $.each(data, function(index, options){
+                    var newLocation = new nsObservations.Location(options);
+                    newLocation.observations = _this;
+                    _this.locationList.push(newLocation);
+                    _this.locations[newLocation.id] = newLocation;
+                });
+            }
+        });
 
-                return result;
-            };
-        } (L.GeoJSON.prototype.initialize),
+        this.fileNameList = this.options.fileName;
+        if (typeof this.fileNameList == 'string')
+            this.fileNameList = this.fileNameList.split(' ');
+        else
+            this.fileNameList = $.isArray(this.options.fileName) ? this.options.fileName : [this.options.fileName];
+
+        this.filesResolved = 0;
+
+        $.each(this.fileNameList, function(index, fileName){
+            ns.promiseList.append({
+                fileName: ns.dataFilePath({subDir: _this.options.subDir.observations, fileName: fileName}),
+                resolve : $.proxy(_this._resolve, _this)
+            });
+        });
 
 
-       //_resolve
-       _resolve: function( data ){
-            var geoJSON = {
-                    type    : "FeatureCollection",
-                    features: []
-                },
-                _this = this;
+        //Read last measuremnt every 3 min
+        ns.promiseList.append({
+            fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: _this.options.lastObservationFileName},
+            resolve : $.proxy(_this._resolve_last_measurment, _this),
+            reload  : 3
+        });
 
-            //Create all locations and add them to the geoJSON-data
-            $.each(data, function(index, locationOptions ){
-                var loc = new ns.Location( locationOptions );
-                _this.list.push( loc );
 
-                if (loc.options.active)
-                    geoJSON.features.push({
-                        geometry: {
-                            type       : "Point",
-                            coordinates: [loc.latLng.lat, loc.latLng.lng]
-                        },
-                        type      : "Feature",
-                        properties: { index: _this.list.length-1 }
-                    });
-                locationOptions.index = _this.list.length-1;
+
+
+    };
+
+    ns.FCOOObservations.prototype = {
+        _mapId: function(map){
+            return nsObservations.getMapId(map);
+        },
+        _resolve : function(data){
+            var _this = this;
+            data = $.extend(true, {default_station:{}}, data);
+            $.each(data.locationList || data.list, function(index, locationOptions){
+                var nextLocation = _this.locations[locationOptions.id];
+
+                //Check if the location is set to be inactive
+                if (locationOptions.active === false)
+                    nextLocation.active = false;
+
+                //Append stations to location
+                nextLocation.appendStations(locationOptions, data.default_station);
+
+                //Assign the location to the observationsGroups it belong to
+                $.each(_this.observationGroups, function(id, observationGroup){
+                    if (observationGroup.checkAndAdd(nextLocation)){
+                        nextLocation.observationGroups[id] = observationGroup;
+                        nextLocation.observationGroupList.push(observationGroup);
+
+                        nextLocation.modalElements[id] = {};
+
+                    }
+                });
+                nextLocation.observationGroupList.sort(function(ob1, ob2){ return ob1.options.index - ob2.options.index; });
             });
 
-            this.addData( geoJSON );
-       },
+            this.filesResolved++;
+            if (this.filesResolved == this.fileNameList.length){
+                //Update all Locations regarding active station etc.
+                $.each(this.locations, function(locationId, location){
+                    location._finally();
+                });
 
-        _findLocationByFeature: function( feature, methodName, arg ){
-            var loc = this.list[ feature.properties.index ];
-            return loc[methodName].apply(loc, arg);
+                //All data are loaded => initialize all maps and update the geoJSON-data and update any layer added before the data was ready
+                this.ready = true;
+                this._initializeMaps();
+                $.each(this.maps, function(id, options){
+                    if (!options.dataAdded){
+                        options.geoJSONLayer.addData( _this._getGeoJSONData() );
+                        options.dataAdded = true;
+                    }
+                });
+            }
         },
 
-        pointToLayer: function (feature/*, latlng*/) {
-            return this._findLocationByFeature( feature, 'createMarker'/*, arg*/ );
+        /*****************************************************
+        _resolve_last_measurment
+        Split geoJSON into a {features:[]} for each station
+        *****************************************************/
+        _resolve_last_measurment: function(geoJSON){
+            var _this = this,
+                stationGeoJSONs = {};
+
+            $.each(geoJSON.features, function(index, feature){
+                var stationId = feature.properties.id,
+                    stationGeoJSON = stationGeoJSONs[stationId] = stationGeoJSONs[stationId] || {features:[]};
+                stationGeoJSON.features.push(feature);
+            });
+
+            //Load each geoJSON "file" into station
+            $.each(stationGeoJSONs, function(findStationId, geoJSON){
+                $.each(_this.locations, function(locationId, location){
+                    $.each(location.stations, function(stationId, station){
+                        if (stationId == findStationId){
+                            station._resolveGeoJSON(geoJSON, false);
+                            location.callUpdateObservation = true;
+                        }
+                    });
+                });
+            });
+            $.each(_this.locations, function(locationId, location){
+                if (location.callUpdateObservation){
+                    location.updateObservation();
+                    location.callUpdateObservation = false;
+                }
+            });
         },
 
-        //onEachFeature
-        onEachFeature: function (feature, layer) {
-            return this._findLocationByFeature( feature, 'addPopup', [layer] );
+        _initializeMaps: function(map){
+            var _this = this,
+                maps = map ? [{map:map}] : this.maps;
+            $.each(maps, function(index, mapObj){
+                $.each(_this.observationGroups, function(id, observationGroup){
+                    observationGroup.hide(mapObj.map);
+                });
+            });
         },
-	});
-}(jQuery, L, this, document));
+
+        /**********************************************************
+        geoJSON return a L.geoJSON layer
+        **********************************************************/
+        geoJSON: function(){
+            this.geoJSONOptions = this.geoJSONOptions || {
+                pointToLayer : function(geoJSONPoint/*, latlng*/) {
+                    return geoJSONPoint.properties.createMarker();
+                }
+            };
+
+            var result = L.geoJSON(null, this.geoJSONOptions);
+
+            result.options.onEachFeature = $.proxy(this._geoJSON_onEachFeature, result);
+
+            result.on({
+                add   : $.proxy(this._geoJSON_onAdd,    this),
+                remove: $.proxy(this._geoJSON_onRemove, this)
+            });
+            return result;
+        },
+
+        //_geoJSON_onEachFeature: called with this = geoJSONLayer
+        _geoJSON_onEachFeature: function(feature, marker) {
+            feature.properties.addPopup( nsObservations.getMapId(this._map), marker );
+        },
+
+        _geoJSON_onAdd: function(event){
+            var geoJSONLayer = event.target,
+                map          = geoJSONLayer._map,
+                mapId        = nsObservations.getMapId(map);
+
+            this.maps[mapId] = {
+                map         : map,
+                $container  : $(map.getContainer()),
+                geoJSONLayer: geoJSONLayer,
+                dataAdded   : this.ready
+            };
+
+            if (this.ready){
+                this._initializeMaps(map);
+                geoJSONLayer.addData( this._getGeoJSONData() );
+            }
+        },
+
+        _geoJSON_onRemove: function(event){
+            var map   = event.target._map,
+                mapId = nsObservations.getMapId(map);
+            delete this.maps[mapId];
+        },
+
+        _getGeoJSONData: function(){
+            var _this = this;
+            if (!this.ready)
+                return null;
+
+            if (!this.geoJSONData){
+                this.geoJSONData = { type: "FeatureCollection", features: []};
+
+                //Create all locations and add them to the geoJSON-data if they are active and included in a observation-group
+                $.each(this.locations, function(locationId, location){
+                    if (location.active && location.observationGroupList.length)
+                        _this.geoJSONData.features.push({
+                            type      : "Feature",
+                            geometry  : {type: "Point", coordinates: [location.latLng.lng, location.latLng.lat]},
+                            properties: location
+                        });
+                });
+            }
+            return this.geoJSONData;
+        }
+    };
+
+}(jQuery, L, this.i18next, this.moment, this, document));
 
 
 

@@ -1,0 +1,22 @@
+{
+    "default_station": {
+        "owner"      : "FCOO",
+        "provider"   : "FCOO",
+        "parameter"  : "sea_water_velocity",
+        "level"      : "",
+        "refLevel"   : "SEASURFACE",
+        "observation": {
+            "sea_water_velocity": "CURRENT_{id}.json"
+        },
+        "forecast"   : false,
+        "active"     : true
+
+
+    },
+
+    "locationList": [
+        {"id":"DROGDEN", "station": {"id":"002", "forecast": {"sea_water_velocity":"frv_getmc_timeseries_drogden_current_010.json"}}},
+        {"id":"SKAGEN",  "station": {"id":"001", "forecast": {"sea_water_velocity":"frv_getmc_timeseries_drogden_UV_010.json"}}}
+    ]
+}
+

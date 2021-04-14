@@ -1,0 +1,27 @@
+{
+    "default_station": {
+        "owner"        : "DMI",
+        "provider"     : "DMI",
+        "parameter"    : "wind wind_speed_of_gust",
+        "level"        : "10m",
+        "refLevel"     : "DVR90",
+        "refLevel"     : "DVR90",
+        "observation"  : {
+            "wind"     : "WIND_{id}.json",
+            "wind_gust": "WIND_GUST_{id}.json"
+        },
+        "forecast"     : {
+            "wind"     : "harmony_timeseries_{id}_wind.json",
+            "wind_gust": "harmony_timeseries_{id}_wind_gust.json"
+        },
+        "active"        :  true
+
+
+    },
+
+    "locationList": [
+        {"id":"DROGDEN",    "station": "wind30357", "forecast": false},
+        {"id":"SKAGEN",     "station": "wind20002", "owner": "SkagenHavn"},
+        {"id":"HIRTSHALS",  "station": "wind20047", "owner": "HirtshalsHavn" }
+    ]
+}
