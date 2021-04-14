@@ -68,6 +68,7 @@ table.obs-statistics {
     tr:nth-of-type(2n+1) {
         font-size : 0.6875rem; //Hard-coded: fontsize=11px
         border-bottom: 1px solid $modal-content-border-color;
+        &.no-border-border-when-last-visible:last-child,
         .no-multi-obs-group & {
             border-bottom: none;
         }
@@ -111,9 +112,11 @@ class="obs-group-marker-1 obs-group-marker-3" will be visible if group 1 OR grou
 /*
 Inner box with latest observation in popup
 */
-.latest-observation {
+.latest-observation:not(:last-child) {
     border-bottom: 1px solid $modal-content-border-color;
 }
+
+
 /*
 show-for-obs-group-N is added to show an element when observation group no N is visible
 */
@@ -122,15 +125,17 @@ show-for-obs-group-N is added to show an element when observation group no N is 
         display: none !important;
     }
 
-    //Special cast: In list with last observation the last visible group do not have bottom-border
-    .last-visible-obs-group-#{$index} .show-for-obs-group-#{$index}.latest-observation {
+    //Special cast: In list with (last) observation or forecast the last visible group do not have bottom-border
+    .last-visible-obs-group-#{$index} .show-for-obs-group-#{$index}.no-border-border-when-last-visible {
         border-bottom: none;
     }
 }
 
+
 /*
 obs-group-header used for the name of the observation-group. Is hidden when only one group is displasyed on a map to save space
 */
+
 .obs-group-header {
     margin : 0 !important;
     .multi-obs-group    &.show-for-single-obs-group,
@@ -138,7 +143,6 @@ obs-group-header used for the name of the observation-group. Is hidden when only
         display: none !important;
     }
 }
-
 
 /*
 obs-group-icon used to style the different "lines" inside the marker

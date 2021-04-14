@@ -493,7 +493,7 @@ Location = group of Stations with the same or different paramtre
             $.each(this.observationGroupList, function(index, observationGroup){
                 _this.modalElements[observationGroup.id] = _this.modalElements[observationGroup.id] || {};
 
-                //Add the group-name as a header but only visible when there is only oine group visible
+                //Add the group-name as a header but only visible when there is only one group visible
                 content.content.unshift({type: 'textbox', text: observationGroup.header, center: true, class:'obs-group-header show-for-single-obs-group show-for-obs-group-'+observationGroup.options.index});
 
                 //Check if any stations have forecast
@@ -511,7 +511,7 @@ Location = group of Stations with the same or different paramtre
                 //Content for minimized mode
                 var $div =
                     $('<div/>')
-                        .addClass('latest-observation text-center show-for-obs-group-'+observationGroup.options.index)
+                        .addClass('latest-observation text-center no-border-border-when-last-visible show-for-obs-group-'+observationGroup.options.index)
                         ._bsAddHtml({text: observationGroup.shortName, textClass:'obs-group-header show-for-multi-obs-group fa-no-margin'})
                         ._bsAddHtml({text: ' ', textStyle: 'bold', textClass:'d-block'});
 
@@ -565,7 +565,7 @@ Location = group of Stations with the same or different paramtre
 
                 //Create table with stat for previous observations and stat for forecast
                 var $tr_prevObservation = $('<tr/>')
-                        .addClass('font-weight-bold show-for-obs-group-'+observationGroup.options.index)
+                        .addClass('font-weight-bold no-border-border-when-last-visible show-for-obs-group-'+observationGroup.options.index)
                         .appendTo($table_prevObservation),
                     $tr_forecast = $tr_prevObservation.clone().appendTo($table_forecast),
                     i;
@@ -592,8 +592,6 @@ Location = group of Stations with the same or different paramtre
             this.loadForecast();
 
             popup.changeContent(content);
-
-//hasObservation = true, //TODO - What need to be checked?
 
             //Insert $table_XX instead of span or remove it
             $.each([
