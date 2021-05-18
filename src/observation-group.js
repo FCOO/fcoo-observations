@@ -23,13 +23,34 @@ ObservationGroup = group of Locations with the same parameter(-group)
     "Wind" using wind-speed, wind-direction ad gust-speed to form something a la "12 (14) m/s NNW"
     "SEALEVEL" forms sea-level as "1.3 m"
     *****************************************************/
-    nsObservations.observationGroupData = [/*{
+    nsObservations.observationGroupData = [
+        {
+            "id"                    : "SEALEVEL",
+            "name"                  : {"da": "Vandstand", "en": "Sea Level"},
+            "icon"                  : "fas fa-horizontal-rule _fa-lbm-color-white    obs-group-icon  obs-group-icon-center fa-rotate-90",
+            "parameterId"           : "sea_surface_height_above_mean_sea_level",
+            "formatterMethod"       : "formatterSeaLevel",
+            "allNeeded"             : true,
+
+//TODO            "maxDelay"            : "PT40M",//<----- NB! //DESCRIPTION MANGLER
+
+            "maxGap"                : 30, //Minutes. Max gap between points before no line is drawn.
+
+            "formatUnit"            : "cm",
+            "minRange"              : 80, //Min range on y-axis. Same as formatUnit or parameter default unit
+
+        },
+/*
+        {
             "id"                    : "METEOGRAM",
             "name"                  : {"da": "Meteogram", "en": "Meteogram"},
             "icon"                  : "fas fa-horizontal-rule fa-lbm-color-skyblue  obs-group-icon obs-group-icon-top",
             "parameterId"           : "",
             "allNeeded"             : false
-        },*/{
+        },
+*/
+/*
+        {
             "id"                    : "WIND",
             "name"                  : {"da": "Vind", "en": "Wind"},
             "icon"                  : "fas fa-horizontal-rule fa-lbm-color-gray      obs-group-icon obs-group-icon-over",
@@ -38,23 +59,20 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "formatterMethod"       : "formatterVectorWind",
             "formatterStatMethod"   : "formatterStatVectorWind",
             "allNeeded"             : false
-        },/*{
+        },
+*/
+/*
+        {
             "id"                    : "WAVE",
             "name"                  : {"da": "Bølger", "en": "Waves"},
             "icon"                  : "fas fa-horizontal-rule fa-lbm-color-gray      obs-group-icon",
             "parameterId"           : "",
             "formatterMethod"       : "formatterWave",
             "allNeeded"             : false
-        },*/{
-            "id"                    : "SEALEVEL",
-            "name"                  : {"da": "Vandstand", "en": "Sea Level"},
-            "icon"                  : "fas fa-horizontal-rule _fa-lbm-color-white    obs-group-icon  obs-group-icon-center fa-rotate-90",
-            "parameterId"           : "sea_surface_height_above_mean_sea_level",
-            "formatterMethod"       : "formatterSeaLevel",
-            "allNeeded"             : true,
-//TODO            "maxDelay"            : "PT40M",//<----- NB!
-            "formatUnit"            : "cm"
-        },{
+        },
+*/
+/*
+        {
             "id"                    : "CURRENT",
             "name"                  : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
             "shortName"             : {"da": "Strøm", "en": "Current"},
@@ -62,26 +80,39 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "parameterId"           : "sea_water_velocity",
             "formatterMethod"       : "formatterVectorDefault",
             "formatterStatMethod"   : "formatterStatVectorDefault",
-//HER            "formatUnit"            : "knots",
             "allNeeded"             : true,
+
 "maxDelay"      : "PT6H",//<----- NB! TEST
+            "maxGap"                : 30, //Minutes. Max gap between points before no line is drawn.
+
+//HER            "formatUnit"            : "knots",
+            "minRange"              : 1, //Min range on y-axis. Same as formatUnit or parameter default unit
 
 
-        }/*,{
+
+        },
+*/
+/*
+        {
             "id"                    : "HYDRO",
             "name"                  : {"da": "MANGLER - Temp og salt mv.", "en": "TODO"},
             "icon"                  : "fas fa-horizontal-rule fa-lbm-color-seagreen obs-group-icon obs-group-icon-bottom",
             "parameterId"           : "",
             "formatterMethod"       : "TODO",
             "allNeeded"             : false
-        }*/];
+        }
+*/
+    ];
 
     nsObservations.ObservationGroup = function(options, observations){
         var _this = this;
         this.options = $.extend(true, {}, {
                 directionFrom : false,
                 allNeeded     : true,
-                maxDelay      : "PT1H"
+                maxDelay      : "PT1H",
+
+                maxGap        : 60,
+
             }, options);
         this.id = options.id;
         this.name = options.name;
@@ -141,6 +172,12 @@ ObservationGroup = group of Locations with the same parameter(-group)
             return this.observations.maps[mapId];
         },
 
+        /*********************************************
+        isVisible(mapOrMapId) - return true if this is visible on the Map mapId
+        *********************************************/
+        isVisible: function(mapOrMapId){
+            return this._getMapOptions(mapOrMapId).$container.hasClass('obs-group-'+this.options.index);
+        },
 
         /*********************************************
         show(mapOrMapId) Show the locations in the group on the map
@@ -195,13 +232,53 @@ ObservationGroup = group of Locations with the same parameter(-group)
             return this;
         },
 
+
+
         /*********************************************
-        isVisible(mapOrMapId) - return true if this is visible on the Map mapId
+        openVisiblePopup(mapOrMapId)
+        Open popup for all locations visible at the map
         *********************************************/
-        isVisible: function(mapOrMapId){
-            return this._getMapOptions(mapOrMapId).$container.hasClass('obs-group-'+this.options.index);
+        openVisiblePopup: function(mapOrMapId){
+            var mapId = nsObservations.getMapId(mapOrMapId),
+                mapBounds = this._getMapOptions(mapId).map.getBounds();
+
+            if (!this.isVisible(mapId))
+                this.show(mapId);
+//HER var start = moment().valueOf();
+//HER console.log('START');
+            //Open all not-open location within the maps current bounds
+            $.each(this.locations, function(id, location){
+                if (mapBounds.contains(location.latLng) && location.markers[mapId]){
+                    location.openPopupAsNormal = false;
+                    location.markers[mapId].openPopup();
+                    location.popups[mapId]._setPinned(true);
+                    location.openPopupAsNormal = true;
+                }
+            });
+
+//HER console.log('END ', moment().valueOf() - start );
         },
 
+        /*********************************************
+        closeVisiblePopup(mapOrMapId)
+        Close popup for all locations visible at the map
+        *********************************************/
+        closeVisiblePopup: function(mapOrMapId){
+            var mapId = nsObservations.getMapId(mapOrMapId),
+                mapBounds = this._getMapOptions(mapId).map.getBounds();
+
+            //Close all open location within the maps current bounds
+            $.each(this.locations, function(id, location){
+                if (mapBounds.contains(location.latLng) && location.markers[mapId] && location.popups[mapId]){
+                    location.popups[mapId]._setPinned(false);
+                    location.markers[mapId].closePopup();
+                }
+            });
+
+
+
+//HER            return this._getMapOptions(mapOrMapId).$container.hasClass('obs-group-'+this.options.index);
+        },
     };
 
 }(jQuery, L, this.i18next, this.moment, this, document));

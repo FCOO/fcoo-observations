@@ -48,7 +48,6 @@ table.obs-statistics: rows = [time-periods, obs-group headser, tree intervals, o
 */
 table.last-observation, table.obs-statistics {
     width : 100%;
-    margin: $content-padding-y-sm;
 }
 table.last-observation {
     td:first-child {
@@ -64,6 +63,7 @@ table.last-observation {
 }
 table.obs-statistics {
     table-layout: fixed;
+
     //Time-intervals and tree value-intervals
     tr:nth-of-type(2n+1) {
         font-size : 0.6875rem; //Hard-coded: fontsize=11px
@@ -72,22 +72,17 @@ table.obs-statistics {
         .no-multi-obs-group & {
             border-bottom: none;
         }
-        td {
-            padding-bottom: $content-padding-x;
-        }
-    }
-    //Obs-group header
-    tr:nth-of-type(2n) {
-        td {
-            padding-top: $content-padding-x;
-        }
     }
     td {
         width: 33%;
+
+        padding-bottom: $content-padding-x / 2.5;
+        padding-top   : $content-padding-x / 2.5;
+
         //Span with values
         span.value {
             display   : inline-block;
-            text-align: right;
+            text-align: center;
             font-size : 0.6875rem; //Hard-coded: fontsize=11px
         }
     }

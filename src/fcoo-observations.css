@@ -168,8 +168,7 @@ table.last-observation = two coloums: group-name, last value
 table.obs-statistics: rows = [time-periods, obs-group headser, tree intervals, obs-group headser, tree intervals,...]
 */
 table.last-observation, table.obs-statistics {
-  width: 100%;
-  margin: 0.25rem; }
+  width: 100%; }
 
 table.last-observation td:first-child {
   text-align: right;
@@ -188,15 +187,13 @@ table.obs-statistics {
     table.obs-statistics tr:nth-of-type(2n+1).no-border-border-when-last-visible:last-child,
     .no-multi-obs-group table.obs-statistics tr:nth-of-type(2n+1) {
       border-bottom: none; }
-    table.obs-statistics tr:nth-of-type(2n+1) td {
-      padding-bottom: 0.3125rem; }
-  table.obs-statistics tr:nth-of-type(2n) td {
-    padding-top: 0.3125rem; }
   table.obs-statistics td {
-    width: 33%; }
+    width: 33%;
+    padding-bottom: 0.125rem;
+    padding-top: 0.125rem; }
     table.obs-statistics td span.value {
       display: inline-block;
-      text-align: right;
+      text-align: center;
       font-size: 0.6875rem; }
 
 /*

@@ -95,7 +95,8 @@
         ns.promiseList.append({
             fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: _this.options.lastObservationFileName},
             resolve : $.proxy(_this._resolve_last_measurment, _this),
-            reload  : 3
+            reload  : 3,
+            promiseOptions: {noCache: true}
         });
 
 
@@ -125,9 +126,6 @@
                     if (observationGroup.checkAndAdd(nextLocation)){
                         nextLocation.observationGroups[id] = observationGroup;
                         nextLocation.observationGroupList.push(observationGroup);
-
-                        nextLocation.modalElements[id] = {};
-
                     }
                 });
                 nextLocation.observationGroupList.sort(function(ob1, ob2){ return ob1.options.index - ob2.options.index; });
@@ -207,6 +205,7 @@
 
             var result = L.geoJSON(null, this.geoJSONOptions);
 
+            result.fcooObservation = this;
             result.options.onEachFeature = $.proxy(this._geoJSON_onEachFeature, result);
 
             result.on({
@@ -218,7 +217,11 @@
 
         //_geoJSON_onEachFeature: called with this = geoJSONLayer
         _geoJSON_onEachFeature: function(feature, marker) {
-            feature.properties.addPopup( nsObservations.getMapId(this._map), marker );
+            var mapId = nsObservations.getMapId(this._map),
+                location = this.fcooObservation.locations[marker.options.locationId];
+
+            location.markers[mapId] = marker;
+            feature.properties.addPopup( mapId, marker );
         },
 
         _geoJSON_onAdd: function(event){

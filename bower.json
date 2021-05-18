@@ -1,6 +1,6 @@
 {
   "name": "fcoo-observations",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "homepage": "https://github.com/FCOO/fcoo-observations",
   "authors": [
     "Niels Holt"
@@ -18,7 +18,7 @@
     "jquery": "latest",
     "leaflet": "latest",
     "fcoo-parameter-unit": "https://gitlab.com/FCOO/fcoo-parameter-unit.git#^1.0.0",
-    "fcoo-jquery-bootstrap-highcharts": "fcoo/fcoo-jquery-bootstrap-highcharts#1.0.0",
+    "fcoo-jquery-bootstrap-highcharts": "fcoo/fcoo-jquery-bootstrap-highcharts#^2.0.0",
     "leaflet-bootstrap-marker": "fcoo/leaflet-bootstrap-marker#^2.3.2",
     "leaflet-bootstrap": "fcoo/leaflet-bootstrap#^2.7.6",
     "fcoo-promise-list": "fcoo/fcoo-promise-list#^1.1.0",

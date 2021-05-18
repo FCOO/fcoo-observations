@@ -37,21 +37,37 @@
     <i class="fas fa-percentage fa-stack-1x"></i>
 </span>
  -->
- <table class="map-table" style="height:100%; width:100%">
+ <table class="map-table" style="height:600px; width:100%">
  <tr style="height: 600px; vertical-align:top">
     <td><div id="map0" ></div></td>
     <td><div id="map1" ></div></td>
  </tr>
  <tr style="vertical-align:top">
     <td>
-        <button id="map0_sealevel" onClick="toggle(0, 'SEALEVEL')">Toggle Sea Level</button>
-        <button id="map0_wind" onClick="toggle(0, 'WIND')">Toggle Wind</button>
-        <button id="map0_current" onClick="toggle(0, 'CURRENT')">Toggle Current</button>
+        <button id="map0_sealevel"  onClick="toggle(0, 'SEALEVEL')">Toggle Sea Level</button>
+        <!-- <button id="map0_wind"      onClick="toggle(0, 'WIND')">Toggle Wind</button> -->
+        <!-- <button id="map0_current"   onClick="toggle(0, 'CURRENT')">Toggle Current</button> -->
+        <br>
+        <button id="map0_sealevel_popup" onClick="openPopup(0, 'SEALEVEL')">Open Sea Level</button>
+        <!-- <button id="map0_wind_popup"     onClick="openPopup(0, 'WIND')">Open Wind</button> -->
+        <!-- <button id="map0_current_popup"  onClick="openPopup(0, 'CURRENT')">Open Current</button> -->
+        <br>
+        <button id="map0_sealevel_popup" onClick="closePopup(0, 'SEALEVEL')">Close Sea Level</button>
+        <!-- <button id="map0_wind_popup"     onClick="closePopup(0, 'WIND')">Close Wind</button> -->
+        <!-- <button id="map0_current_popup"  onClick="closePopup(0, 'CURRENT')">Close Current</button> -->
     </td>
     <td>
-        <button id="map1_sealevel" onClick="toggle(1, 'SEALEVEL')">Toggle Sea Level</button>
-        <button id="map1_wind" onClick="toggle(1, 'WIND')">Toggle Wind</button>
-        <button id="map1_current" onClick="toggle(1, 'CURRENT')">Toggle Current</button>
+        <button id="map1_sealevel"  onClick="toggle(1, 'SEALEVEL')">Toggle Sea Level</button>
+        <!-- <button id="map1_wind"      onClick="toggle(1, 'WIND')">Toggle Wind</button> -->
+        <!-- <button id="map1_current"   onClick="toggle(1, 'CURRENT')">Toggle Current</button> -->
+        <br>
+        <button id="map0_sealevel_popup" onClick="openPopup(1, 'SEALEVEL')">Open Sea Level</button>
+        <!-- <button id="map0_wind_popup"     onClick="openPopup(1, 'WIND')">Open Wind</button> -->
+        <!-- <button id="map0_current_popup"  onClick="openPopup(1, 'CURRENT')">Open Current</button> -->
+        <br>
+        <button id="map0_sealevel_popup" onClick="closePopup(1, 'SEALEVEL')">Close Sea Level</button>
+        <!-- <button id="map0_wind_popup"     onClick="closePopup(1, 'WIND')">Close Wind</button> -->
+        <!-- <button id="map0_current_popup"  onClick="closePopup(1, 'CURRENT')">Close Current</button> -->
     </td>
  </tr>
  
@@ -60,11 +76,17 @@
 
 
 
+
 	<script src="bower_components.js"></script>
 	<script src="../src/fcoo-observations.js"></script>
-	<script src="../src/location.js"></script>
+	<script src="../src/location-1.js"></script>
+	<script src="../src/location-2-highcharts.js"></script>
 	<script src="../src/observation-group.js"></script>
-	<script src="../src/station.js"></script>
+	<script src="../src/station-1.js"></script>
+	<script src="../src/station-2-highcharts.js"></script>
+
+    
+    <!-- <script src="../src/leaflet-danskehavnelods.js"></script> -->
 	<script>
         i18next.init();
         i18next.changeLanguage('en');
@@ -101,6 +123,14 @@
         fcooObservation.observationGroups[groupId].toggle(maps[mapIndex]);
     }
 
+    function openPopup(mapIndex, groupId){
+        fcooObservation.observationGroups[groupId].openVisiblePopup(maps[mapIndex]);
+    }
+
+    function closePopup(mapIndex, groupId){
+        fcooObservation.observationGroups[groupId].closeVisiblePopup(maps[mapIndex]);
+    }
+
 
     $(function() { 
 	    maps.push( L.map('map0').setView([56.2, 11.5], 6) );
@@ -132,7 +162,7 @@
 
         fcoo.promiseList.options.finally = function(){
             fcoo.globalSetting.load(null, function(){
-                i18next.changeLanguage('en');
+                i18next.changeLanguage('da');
             });
         };
 

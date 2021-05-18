@@ -29,7 +29,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "2.0.3",
+			VERSION         : "2.0.4",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -95,7 +95,8 @@
         ns.promiseList.append({
             fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: _this.options.lastObservationFileName},
             resolve : $.proxy(_this._resolve_last_measurment, _this),
-            reload  : 3
+            reload  : 3,
+            promiseOptions: {noCache: true}
         });
 
 
@@ -125,9 +126,6 @@
                     if (observationGroup.checkAndAdd(nextLocation)){
                         nextLocation.observationGroups[id] = observationGroup;
                         nextLocation.observationGroupList.push(observationGroup);
-
-                        nextLocation.modalElements[id] = {};
-
                     }
                 });
                 nextLocation.observationGroupList.sort(function(ob1, ob2){ return ob1.options.index - ob2.options.index; });
@@ -207,6 +205,7 @@
 
             var result = L.geoJSON(null, this.geoJSONOptions);
 
+            result.fcooObservation = this;
             result.options.onEachFeature = $.proxy(this._geoJSON_onEachFeature, result);
 
             result.on({
@@ -218,7 +217,11 @@
 
         //_geoJSON_onEachFeature: called with this = geoJSONLayer
         _geoJSON_onEachFeature: function(feature, marker) {
-            feature.properties.addPopup( nsObservations.getMapId(this._map), marker );
+            var mapId = nsObservations.getMapId(this._map),
+                location = this.fcooObservation.locations[marker.options.locationId];
+
+            location.markers[mapId] = marker;
+            feature.properties.addPopup( mapId, marker );
         },
 
         _geoJSON_onAdd: function(event){
@@ -287,7 +290,7 @@ Location = group of Stations with the same or different paramtre
         //nsParameter = ns.parameter = ns.parameter || {},
         nsObservations = ns.observations = ns.observations || {};
 
-    nsObservations.toChar = '&#9656;'; //Same as in fcoo-jquery-bootstrap-highcharts/src/time-series.js
+    nsObservations.toChar = '&nbsp;/&nbsp;'; //'&#9656;'; //Same as in fcoo-jquery-bootstrap-highcharts/src/time-series.js
 
 
     function getMapIdFromPopupEvent( popupEventOrMapId ){
@@ -310,10 +313,20 @@ Location = group of Stations with the same or different paramtre
             transparent: true,
 
             hover      : true,
+            tooltipPermanent: false,
+
+            /* Do not work:
+            direction: 'top',
+            position: 'top',
+            tooltipDirection: 'top',
+            tooltipPosition: 'top',
+            */
             tooltipHideWhenPopupOpen: true
         };
-//HER        imgWidth  = 600,
-//HER        imgHeight = 340; //Original = 400;
+
+
+    nsObservations.imgWidth  = 500; //250; //600;
+    nsObservations.imgHeight = 340; //Original = 400;
 
     nsObservations.Location = function(options){
         options = this.options = $.extend(true, {}, {active: true}, options);
@@ -321,6 +334,8 @@ Location = group of Stations with the same or different paramtre
         this.id = options.id;
         this.active = options.active;
         this.latLng = options.position ? L.latLng( options.position ) : null;
+
+        this.name = ns.ajdustLangName(options.name);
 
         this.stationList = [];
         this.stations = {};
@@ -335,8 +350,8 @@ Location = group of Stations with the same or different paramtre
 
         /*
         modalElements = {
-            observationGroup-id: {
-                map-id: {
+            map-id: {
+                observationGroup-id: {
                     $lastObservation      : []$-element   //Set of $-elements containing the last measured value
                     $observationStatistics: []$-element   //Set of $-elements containing the statistics for previous observations for eg. 6h, 12h, and 24h = nsObservations.observationPeriods
                     $forecastStatistics   : []$-element   //Set of $-elements containing the forecast statistics for eg. 6h, 12h, and 24h = nsObservations.forecastPeriods
@@ -345,12 +360,26 @@ Location = group of Stations with the same or different paramtre
         }
         There is a {$lastObservation, $observationStatistics, $forecastStatistics} with $-elements for each map and each observation-group
         */
+
+        this.markers = {};
         this.modalElements = {};
 
         this.popups = {};
+
+        this.openPopupAsNormal = true;
     };
 
     nsObservations.Location.prototype = {
+        /*********************************************
+        getHeader
+        *********************************************/
+        getHeader: function(){
+            return {
+                icon: L.bsMarkerAsIcon(bsMarkerOptions.colorName, null, {faClassName:'fa-square'}),
+                text: this.name
+            };
+        },
+
         /*********************************************
         appendStations
         *********************************************/
@@ -461,8 +490,8 @@ Location = group of Stations with the same or different paramtre
         isShownInModal: function(){
             var result = false;
 
-            $.each(this.modalElements, function(observationGroupId, maps){
-                $.each(maps, function(mapId, elementGroups){
+            $.each(this.modalElements, function(mapId, obsGroups){
+                $.each(obsGroups, function(obsGroupId, elementGroups){
                     $.each(elementGroups, function($elementGroupId, elementList){
                         if (elementList && elementList.length)
                             result = true;
@@ -476,9 +505,9 @@ Location = group of Stations with the same or different paramtre
         /*********************************************
         createMarker
         *********************************************/
-        createMarker: function(/*mapId*/){
+        createMarker: function(){
             var markerOptions = $.extend(true, {}, bsMarkerOptions);
-
+            markerOptions.locationId = this.id;
             markerOptions.innerIconClass = [];
             $.each(this.observationGroupList, function(index, observationGroup){
                 var ogIndex = observationGroup.options.index;
@@ -486,8 +515,9 @@ Location = group of Stations with the same or different paramtre
                 markerOptions.markerClassName += ' obs-group-marker-'+ogIndex;
             });
 
-            return L.bsMarkerCircle( this.latLng, markerOptions)
-                       .bindTooltip(this.options.name);
+            markerOptions.tooltip = {text: this.name};
+
+            return L.bsMarkerCircle( this.latLng, markerOptions);
         },
 
 
@@ -597,27 +627,28 @@ Location = group of Stations with the same or different paramtre
         _updateAny$elemetList: function(listId, valueFunc /*function(station)*/){
             var _this = this;
             $.each(this.observationGroupStations, function(observationGroupId, station){
-                $.each(_this.modalElements[observationGroupId], function(mapId, elements){
-                    $.each(elements[listId] || [], function(index, $element){
-                        $element.html(valueFunc(station, index));
-                    });
+                $.each(_this.modalElements, function(mapId, obsGroups){
+                    var elements = obsGroups[observationGroupId];
+                    if (elements)
+                        $.each(elements[listId] || [], function(index, $element){
+                            $element.html(valueFunc(station, index));
+                        });
                 });
             });
             return this;
         },
 
         /*********************************************
-        updateObservation
-        Update all $-elements in with latest value and stat (min, mean, max) for observations
-        modalElements[observationGroupId][mapId].$lastObservation: []$-element set of $-elements
+        updateLastObservation
+        Update all $-elements in with latest value for observations
+        modalElements[mapId][observationGroupId].$lastObservation: []$-element set of $-elements
         containing the last measured value. There is a []$-element for each map and each observation-group
         *********************************************/
-        updateObservation: function(){
+        updateLastObservation: function(){
             //If not shown in modal => exit
             if (!this.isShownInModal())
                 return;
 
-            //Update last observation
             this._updateAny$elemetList('$lastObservation',
                 function(station){ // = function(station, index)
                     var dataSet = station.getDataSet(true, false); //Last observation
@@ -629,6 +660,21 @@ Location = group of Stations with the same or different paramtre
                     return station.formatDataSet(dataSet, false);
                 }
             );
+        },
+
+        /*********************************************
+        updateObservation
+        Update all $-elements in with latest value and stat (min, mean, max) for observations
+        modalElements[mapId][observationGroupId].$lastObservation: []$-element set of $-elements
+        containing the last measured value. There is a []$-element for each map and each observation-group
+        *********************************************/
+        updateObservation: function(){
+            //If not shown in modal => exit
+            if (!this.isShownInModal())
+                return;
+
+            //Update last observation
+            this.updateLastObservation();
 
             //Update stat for previous observations
             this._updateAny$elemetList('$observationStatistics',
@@ -642,10 +688,14 @@ Location = group of Stations with the same or different paramtre
         /*********************************************
         updateForecast
         Update all $-elements in with stat (min, mean, max) for forecast
-        modalElements[observationGroupId][mapId].$forecastStatistics: []$-element.
+        modalElements[mapId][observationGroupId].$forecastStatistics: []$-element.
             One $-element for each interval defined by nsObservations.forecastPeriods
         *********************************************/
         updateForecast: function(){
+            //If not shown in modal => exit
+            if (!this.isShownInModal())
+                return;
+
             this._updateAny$elemetList('$forecastStatistics',
                 function(station, index){
                     return station.formatStat(station.getStat(0, nsObservations.forecastPeriods[index]-1, true) || {}, true);
@@ -653,37 +703,73 @@ Location = group of Stations with the same or different paramtre
             );
         },
 
-
-
-
         /*********************************************
         addPopup
         *********************************************/
         addPopup: function(mapId, marker){
+            var _this = this;
             marker.bindPopup({
-                width  : 240,
-                //flexWidth: true,
+                width  : 250,
+
                 fixable: true,
-                scroll : 'horizontal',
+                //scroll : 'horizontal',
 
                 noVerticalPadding:  true,
                 //noHorizontalPadding: true,
 
-                header : {
-                    icon: L.bsMarkerAsIcon(bsMarkerOptions.colorName, null, {faClassName:'fa-square'}),
-                    text: this.options.name
-                },
+                header : this.getHeader(),
 
                 isMinimized: true,
-                minimized  : {content: ' '},
+                minimized  : {
+                    width    : 70,
+                    className: 'text-center',
 
-                extended: {
-                    width  : 300,
-                    height : 200,
-                    content: 'Chart - TODO',
-                    footer: false,
+                    //showHeaderOnClick: true,
+                    content       : this.createMinimizedPopupContent,
+                    contentContext: this,
+                    dynamic       : true,
                 },
+
+                content       : this.createNormalPopupContent,
+                contentContext: this,
+                dynamic       : true,
+                buttons: [{
+                    id      : 'extend',
+                    //icon    : ['fa-chart-line', 'fa-table'],
+                    //text    : {da:'Graf og tabel', en:'Chart and Table'},
+                    icon    : 'fa-chart-line',
+                    text    : {da:'Vis graf', en:'Show Chart'},
+
+                    onClick : function(){
+                        $.bsModal({
+                            header: _this.getHeader(),
+                            flexWidth: true,
+                            megaWidth: true,
+                            content: function( $body ){
+                                _this.createCharts($body, true, mapId);
+                            },
+                            show: true
+                        });
+//                        marker._popup.setSizeExtended();
+                    }
+                }],
                 footer: {da:'Format: Min'+nsObservations.toChar+'Maks (Middel)', en:'Format: Min'+nsObservations.toChar+'Max (Mean)'},
+
+                //isExtended: true,
+                NOT_NOW_extended: {
+                    noVerticalPadding  :  true,
+                    noHorizontalPadding: true,
+
+                    width  :      nsObservations.imgWidth,
+                    //height : 30 + 2*nsObservations.imgHeight,
+
+                    content       : this.createExtendedPopupContent,
+                    contentContext: this,
+                    dynamic       : true,
+
+                    _buttons: false,
+                    _footer : false,
+                },
 
             });
             marker.on('popupopen',  this.popupOpen,  this );
@@ -695,60 +781,84 @@ Location = group of Stations with the same or different paramtre
         *********************************************/
         popupOpen: function( popupEvent ){
             var mapId = nsObservations.getMapId(popupEvent.target._map);
+
             this.popups[mapId] = popupEvent.popup;
 
-            this.createPopupContent(mapId);
+            if (this.openPopupAsNormal)
+                popupEvent.popup.setSizeNormal();
         },
 
         /*********************************************
         popupClose
         *********************************************/
         popupClose: function( popupEventOrMapId ){
-            var _this = this,
-                mapId = getMapIdFromPopupEvent(popupEventOrMapId);
-            $.each(this.observationGroupStations, function(observationGroupId/*, station*/){
-               _this.modalElements[observationGroupId][mapId] = null;
-            });
-            this.popups[mapId] = null;
+            var mapId = getMapIdFromPopupEvent(popupEventOrMapId);
+            delete this.modalElements[mapId];
+            delete this.popups[mapId];
         },
 
 
         /*********************************************
-        createPopupContent
+        _getModalElements
         *********************************************/
-        createPopupContent: function( popupEventOrMapId ){
-            var _this = this,
-                tempClassName = ['TEMP_CLASS_NAME_0', 'TEMP_CLASS_NAME_1', 'TEMP_CLASS_NAME_2'],
-                mapId = getMapIdFromPopupEvent(popupEventOrMapId),
-                popup = this.popups[mapId],
-                hasAnyForecast = false,
-                content = {
-                    minimized: {
-                        width              : 70,
-                        //noVerticalPadding  : true,
-                        //noHorizontalPadding: true,
-                        center             : true,
-                        showHeaderOnClick  : true,
-                        content            : []
-                    },
-                    content: [
-                        {type: 'textbox', label: {da:'Forrige målinger ', en:'Previous Measurements'}, textClass: tempClassName[0], center: true, text: {da:' '}},
-                        {type: 'textbox', label: {da:'Seneste måling',    en:'Latest Measurement'},    textClass: tempClassName[1], center: true, text: {da:' '}},
-                        {type: 'textbox', label: {da:'Prognoser',         en:'Forecasts'},             textClass: tempClassName[2], center: true, text: {da:' '}}
-                    ],
-
+        _getModalElements: function(mapId){
+            var mapElements = this.modalElements[mapId] = this.modalElements[mapId] || {};
+            $.each(this.observationGroupStations, function(observationGroupId){
+                mapElements[observationGroupId] = mapElements[observationGroupId] || {
+                    $lastObservation      : [],
+                    $observationStatistics: [],
+                    $forecastStatistics   : []
                 };
+            });
+            return mapElements;
+        },
 
+        /*********************************************
+        createMinimizedPopupContent
+        = list of parameter-name, last value
+        *********************************************/
+        createMinimizedPopupContent: function( $body, popup, map ){
+            var mapElements = this._getModalElements( nsObservations.getMapId(map) );
 
-            /*Create content:
-                minimized = list of parameter-name, last value
-                normal    = table with previous measurments, list of last observation(s)  and table with forecast statistics
-                extended  = table with all observations + forecast and chart
+            $.each(this.observationGroups, function(id, observationGroup){
+                var $lastObservation = mapElements[id].$lastObservation;
+
+                //Content for minimized mode
+                var $div =
+                    $('<div/>')
+                        .addClass('latest-observation text-center no-border-border-when-last-visible show-for-obs-group-'+observationGroup.options.index)
+                        ._bsAddHtml({text: observationGroup.shortName, textClass:'obs-group-header show-for-multi-obs-group fa-no-margin d-block'})
+                        ._bsAddHtml({text: ' ', textStyle: 'bold', textClass:'d-block'}),
+                    $elem = $div.find('span:last-child');
+
+                $elem._bsAddHtml({icon: ns.icons.working}),
+
+                $lastObservation.push($elem);
+
+                $body.append($div);
+            });
+
+            this.updateLastObservation();
+        },
+
+        /*********************************************
+        createNormalPopupContent
+        = table with previous measurments, list of last observation(s)  and table with forecast statistics
+        *********************************************/
+        createNormalPopupContent: function( $body, popup, map ){
+            var _this          = this,
+                mapElements    = this._getModalElements( nsObservations.getMapId(map) ),
+                tempClassName  = ['TEMP_CLASS_NAME_0', 'TEMP_CLASS_NAME_1', 'TEMP_CLASS_NAME_2'],
+                hasAnyForecast = false;
+
+            /*Create content in tree tables:
+                1: $table_prevObservation = Stat for previous measurements
+                2: $table_lastObservation = Latest measurement(s)
+                3: $table_forecast        = Stat for forecasts
             */
-            var minimizedContent = content.minimized.content,
-                $table_prevObservation = $('<table/>').addClass('obs-statistics'),
+            var $table_prevObservation = $('<table/>').addClass('obs-statistics'),
                 $table_lastObservation = $('<table/>').addClass('last-observation'),
-                $table_forecast = $table_prevObservation.clone();
+                $table_forecast        = $table_prevObservation.clone();
 
                 //Add header to previous observation and forecast
                 var $tr = $('<tr/>').appendTo($table_prevObservation);
@@ -766,36 +876,23 @@ Location = group of Stations with the same or different paramtre
                 });
 
             $.each(this.observationGroupList, function(index, observationGroup){
-                _this.modalElements[observationGroup.id] = _this.modalElements[observationGroup.id] || {};
+                var groupElements = mapElements[observationGroup.id];
 
                 //Add the group-name as a header but only visible when there is only one group visible
-                content.content.unshift({type: 'textbox', text: observationGroup.header, center: true, class:'obs-group-header show-for-single-obs-group show-for-obs-group-'+observationGroup.options.index});
+                $body._bsAppendContent({
+                    type  : 'textbox',
+                    text  : observationGroup.header,
+                    center: true,
+                    class : 'obs-group-header show-for-single-obs-group show-for-obs-group-'+observationGroup.options.index
+                });
 
                 //Check if any stations have forecast
                 var hasForecast = _this.observationGroupStations[observationGroup.id].forecast;
                 if (hasForecast)
                     hasAnyForecast = true;
 
-                var newElements =
-                        _this.modalElements[observationGroup.id][mapId] = {
-                            $lastObservation      : [],
-                            $observationStatistics: [],
-                            $forecastStatistics   : []
-                        };
-
-                //Content for minimized mode
-                var $div =
-                    $('<div/>')
-                        .addClass('latest-observation text-center no-border-border-when-last-visible show-for-obs-group-'+observationGroup.options.index)
-                        ._bsAddHtml({text: observationGroup.shortName, textClass:'obs-group-header show-for-multi-obs-group fa-no-margin'})
-                        ._bsAddHtml({text: ' ', textStyle: 'bold', textClass:'d-block'});
-
-                newElements.$lastObservation.push($div.find('span:last-child'));
-
-                minimizedContent.push($div);
-
                 /******************************************
-                Content for normal mode - last observation
+                Last observation
                 *******************************************/
                 var $tr = $('<tr/>')
                             .addClass('show-for-obs-group-'+observationGroup.options.index)
@@ -810,11 +907,11 @@ Location = group of Stations with the same or different paramtre
                     .addClass('font-weight-bold')
                     .appendTo($tr);
 
-                newElements.$lastObservation.push($td);
+                groupElements.$lastObservation.push($td);
 
 
                 /******************************************
-                Content for normal mode - previous observations and forecast statistics
+                Statistics for previous observations and forecast
                 ******************************************/
                 //Row with observation group name
                 $tr = $('<tr/>')
@@ -846,18 +943,15 @@ Location = group of Stations with the same or different paramtre
                     i;
 
                 for (i=0; i<nsObservations.observationPeriods.length; i++)
-                    newElements.$observationStatistics.push( appendValueTd($tr_prevObservation, i==1));
+                    groupElements.$observationStatistics.push( appendValueTd($tr_prevObservation, i==1));
 
-                if (hasForecast){
+                if (hasForecast)
                     for (i=0; i<nsObservations.forecastPeriods.length; i++)
-                        newElements.$forecastStatistics.push( appendValueTd($tr_forecast, i==1));
-                }
-                else {
+                        groupElements.$forecastStatistics.push( appendValueTd($tr_forecast, i==1));
+                else
                     $('<td colspan="'+nsObservations.forecastPeriods.length+'"/>')
                         ._bsAddHtml({text:{da:'Ingen prognoser', en:'No forecast'}})
                         .appendTo($tr_forecast);
-                }
-
             });
 
             //Load observation
@@ -866,7 +960,13 @@ Location = group of Stations with the same or different paramtre
             //Load forecast (if any)
             this.loadForecast();
 
-            popup.changeContent(content);
+
+            //Append tree texboxes with the tree tables
+            $body._bsAppendContent([
+                {type: 'textbox', label: {da:'Forrige målinger ', en:'Previous Measurements'}, icon: ns.icons.working, iconClass: tempClassName[0], center: true, smallBottomPadding: true},
+                {type: 'textbox', label: {da:'Seneste måling',    en:'Latest Measurement'},    icon: ns.icons.working, iconClass: tempClassName[1], center: true, smallBottomPadding: true, darkBorderlabel: true},
+                {type: 'textbox', label: {da:'Prognoser',         en:'Forecasts'},             icon: ns.icons.working, iconClass: tempClassName[2], center: true, smallBottomPadding: true}
+            ]);
 
             //Insert $table_XX instead of span or remove it
             $.each([
@@ -874,22 +974,97 @@ Location = group of Stations with the same or different paramtre
                 $table_lastObservation,
                 hasAnyForecast ? $table_forecast : $('<span/>')._bsAddHtml({text:{da:'Ingen prognoser', en:'No forecast'}})
             ], function(index, $element){
-                var $span = popup.bsModal.$body.find('.'+tempClassName[index]),
+                var $span = $body.find('.'+tempClassName[index]),
                     $container = $span.parent();
 
-                $span.remove();
+                $container.empty();
                 $container.append($element);
             });
 
-//HER'HER KOMMER DER EN GRAF OG NOGET ANDET...');
-            //this.activeStation.createPopupContent(popupEvent);
+        },
 
+        /*********************************************
+        createExtendedPopupContent
+        = table with all observations + forecast and chart
+        *********************************************/
+        createExtendedPopupContent: function( $body ){
 
-        } //End of createPopupContent
+            this.createCharts($body, false );
+
+        }
     };
 
 }(jQuery, L, this.i18next, this.moment, this, document));
 
+
+
+
+;
+/****************************************************************************
+location-2-highcharts.js
+Methods for creating Highcharts for a Location
+
+****************************************************************************/
+(function ($, i18next, moment, window/*, document, undefined*/) {
+    "use strict";
+
+
+    window.fcoo = window.fcoo || {};
+    var ns = window.fcoo = window.fcoo || {},
+        //nsParameter    = ns.parameter = ns.parameter || {},
+        nsObservations = ns.observations = ns.observations || {},
+        nsHC           = ns.hc = ns.highcharts = ns.highcharts || {};
+
+
+
+    /****************************************************************************
+    Extend Location with methods for creating and displaying a chart
+    ****************************************************************************/
+    $.extend(nsObservations.Location.prototype, {
+
+        createCharts: function($container, inModal, mapOrMapId){
+            var timeSeriesOptions = {
+                    container: $container,
+                    location : this.name,
+                    parameter: [],
+                    unit     : [],
+                    series   : [],
+                    yAxis    : []
+                };
+
+            $.each(this.observationGroupStationList, function(index, station){
+                var stationChartsOptions = station.getChartsOptions(mapOrMapId);
+                $.each(['parameter', 'unit', 'series', 'yAxis'], function(index, id){
+                    timeSeriesOptions[id].push( stationChartsOptions[id] );
+                });
+           });
+
+
+            if (!inModal)
+                timeSeriesOptions.chartOptions = $.extend(true, timeSeriesOptions.chartOptions, {
+                    chart: {
+                        scrollablePlotArea: {
+                            minWidth       : 2 * nsObservations.imgWidth,
+                            scrollPositionX: 1
+                        },
+
+                        container: {
+                            css: {
+                                width : nsObservations.imgWidth +'px',
+                                //height: nsObservations.imgHeight+'px',
+                            }
+                        }
+                    }
+                });
+
+            nsHC.timeSeries(timeSeriesOptions);
+        }
+
+    });
+
+
+
+}(jQuery, this.i18next, this.moment, this, document));
 
 
 
@@ -919,13 +1094,34 @@ ObservationGroup = group of Locations with the same parameter(-group)
     "Wind" using wind-speed, wind-direction ad gust-speed to form something a la "12 (14) m/s NNW"
     "SEALEVEL" forms sea-level as "1.3 m"
     *****************************************************/
-    nsObservations.observationGroupData = [/*{
+    nsObservations.observationGroupData = [
+        {
+            "id"                    : "SEALEVEL",
+            "name"                  : {"da": "Vandstand", "en": "Sea Level"},
+            "icon"                  : "fas fa-horizontal-rule _fa-lbm-color-white    obs-group-icon  obs-group-icon-center fa-rotate-90",
+            "parameterId"           : "sea_surface_height_above_mean_sea_level",
+            "formatterMethod"       : "formatterSeaLevel",
+            "allNeeded"             : true,
+
+//TODO            "maxDelay"            : "PT40M",//<----- NB! //DESCRIPTION MANGLER
+
+            "maxGap"                : 30, //Minutes. Max gap between points before no line is drawn.
+
+            "formatUnit"            : "cm",
+            "minRange"              : 80, //Min range on y-axis. Same as formatUnit or parameter default unit
+
+        },
+/*
+        {
             "id"                    : "METEOGRAM",
             "name"                  : {"da": "Meteogram", "en": "Meteogram"},
             "icon"                  : "fas fa-horizontal-rule fa-lbm-color-skyblue  obs-group-icon obs-group-icon-top",
             "parameterId"           : "",
             "allNeeded"             : false
-        },*/{
+        },
+*/
+/*
+        {
             "id"                    : "WIND",
             "name"                  : {"da": "Vind", "en": "Wind"},
             "icon"                  : "fas fa-horizontal-rule fa-lbm-color-gray      obs-group-icon obs-group-icon-over",
@@ -934,23 +1130,20 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "formatterMethod"       : "formatterVectorWind",
             "formatterStatMethod"   : "formatterStatVectorWind",
             "allNeeded"             : false
-        },/*{
+        },
+*/
+/*
+        {
             "id"                    : "WAVE",
             "name"                  : {"da": "Bølger", "en": "Waves"},
             "icon"                  : "fas fa-horizontal-rule fa-lbm-color-gray      obs-group-icon",
             "parameterId"           : "",
             "formatterMethod"       : "formatterWave",
             "allNeeded"             : false
-        },*/{
-            "id"                    : "SEALEVEL",
-            "name"                  : {"da": "Vandstand", "en": "Sea Level"},
-            "icon"                  : "fas fa-horizontal-rule _fa-lbm-color-white    obs-group-icon  obs-group-icon-center fa-rotate-90",
-            "parameterId"           : "sea_surface_height_above_mean_sea_level",
-            "formatterMethod"       : "formatterSeaLevel",
-            "allNeeded"             : true,
-//TODO            "maxDelay"            : "PT40M",//<----- NB!
-            "formatUnit"            : "cm"
-        },{
+        },
+*/
+/*
+        {
             "id"                    : "CURRENT",
             "name"                  : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
             "shortName"             : {"da": "Strøm", "en": "Current"},
@@ -958,26 +1151,39 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "parameterId"           : "sea_water_velocity",
             "formatterMethod"       : "formatterVectorDefault",
             "formatterStatMethod"   : "formatterStatVectorDefault",
-//HER            "formatUnit"            : "knots",
             "allNeeded"             : true,
+
 "maxDelay"      : "PT6H",//<----- NB! TEST
+            "maxGap"                : 30, //Minutes. Max gap between points before no line is drawn.
+
+//HER            "formatUnit"            : "knots",
+            "minRange"              : 1, //Min range on y-axis. Same as formatUnit or parameter default unit
 
 
-        }/*,{
+
+        },
+*/
+/*
+        {
             "id"                    : "HYDRO",
             "name"                  : {"da": "MANGLER - Temp og salt mv.", "en": "TODO"},
             "icon"                  : "fas fa-horizontal-rule fa-lbm-color-seagreen obs-group-icon obs-group-icon-bottom",
             "parameterId"           : "",
             "formatterMethod"       : "TODO",
             "allNeeded"             : false
-        }*/];
+        }
+*/
+    ];
 
     nsObservations.ObservationGroup = function(options, observations){
         var _this = this;
         this.options = $.extend(true, {}, {
                 directionFrom : false,
                 allNeeded     : true,
-                maxDelay      : "PT1H"
+                maxDelay      : "PT1H",
+
+                maxGap        : 60,
+
             }, options);
         this.id = options.id;
         this.name = options.name;
@@ -1037,6 +1243,12 @@ ObservationGroup = group of Locations with the same parameter(-group)
             return this.observations.maps[mapId];
         },
 
+        /*********************************************
+        isVisible(mapOrMapId) - return true if this is visible on the Map mapId
+        *********************************************/
+        isVisible: function(mapOrMapId){
+            return this._getMapOptions(mapOrMapId).$container.hasClass('obs-group-'+this.options.index);
+        },
 
         /*********************************************
         show(mapOrMapId) Show the locations in the group on the map
@@ -1091,13 +1303,53 @@ ObservationGroup = group of Locations with the same parameter(-group)
             return this;
         },
 
+
+
         /*********************************************
-        isVisible(mapOrMapId) - return true if this is visible on the Map mapId
+        openVisiblePopup(mapOrMapId)
+        Open popup for all locations visible at the map
         *********************************************/
-        isVisible: function(mapOrMapId){
-            return this._getMapOptions(mapOrMapId).$container.hasClass('obs-group-'+this.options.index);
+        openVisiblePopup: function(mapOrMapId){
+            var mapId = nsObservations.getMapId(mapOrMapId),
+                mapBounds = this._getMapOptions(mapId).map.getBounds();
+
+            if (!this.isVisible(mapId))
+                this.show(mapId);
+//HER var start = moment().valueOf();
+//HER console.log('START');
+            //Open all not-open location within the maps current bounds
+            $.each(this.locations, function(id, location){
+                if (mapBounds.contains(location.latLng) && location.markers[mapId]){
+                    location.openPopupAsNormal = false;
+                    location.markers[mapId].openPopup();
+                    location.popups[mapId]._setPinned(true);
+                    location.openPopupAsNormal = true;
+                }
+            });
+
+//HER console.log('END ', moment().valueOf() - start );
         },
 
+        /*********************************************
+        closeVisiblePopup(mapOrMapId)
+        Close popup for all locations visible at the map
+        *********************************************/
+        closeVisiblePopup: function(mapOrMapId){
+            var mapId = nsObservations.getMapId(mapOrMapId),
+                mapBounds = this._getMapOptions(mapId).map.getBounds();
+
+            //Close all open location within the maps current bounds
+            $.each(this.locations, function(id, location){
+                if (mapBounds.contains(location.latLng) && location.markers[mapId] && location.popups[mapId]){
+                    location.popups[mapId]._setPinned(false);
+                    location.markers[mapId].closePopup();
+                }
+            });
+
+
+
+//HER            return this._getMapOptions(mapOrMapId).$container.hasClass('obs-group-'+this.options.index);
+        },
     };
 
 }(jQuery, L, this.i18next, this.moment, this, document));
@@ -1694,6 +1946,117 @@ Only one station pro Location is active within the same ObservationGroup
 
 
     };
+
+
+}(jQuery, this.i18next, this.moment, this, document));
+
+
+
+;
+/****************************************************************************
+station.js
+
+Station  = Single observation-station with one or more parametre.
+Only one station pro Location is active within the same ObservationGroup
+
+****************************************************************************/
+(function ($, i18next, moment, window/*, document, undefined*/) {
+    "use strict";
+
+    window.fcoo = window.fcoo || {};
+    var ns = window.fcoo = window.fcoo || {},
+        nsParameter    = ns.parameter = ns.parameter || {},
+        nsObservations = ns.observations = ns.observations || {};
+
+
+    /****************************************************************************
+    Extend Station with methods for creating and displaying a chart
+    ****************************************************************************/
+    $.extend(nsObservations.Station.prototype, {
+
+
+
+        /*****************************************************
+        getChartsOptions
+        *****************************************************/
+        getChartsOptions: function(mapOrMapId){
+            var parameter   = this.parameterList[0].parameter,
+                obsDataList = this.getChartDataList(parameter),
+                firstObsTimestampValue = obsDataList.length ? obsDataList[0][0] : 0,
+                lastObsTimestampValue  = obsDataList.length ? obsDataList[obsDataList.length-1][0] : 0,
+
+                result = {
+                    parameter: parameter,
+                    unit     : this.getDisplayUnit(parameter),
+                    series   : [],
+                    yAxis    : {minRange: this.observationGroup.options.minRange}
+                },
+                maxGap = this.observationGroup.options.maxGap;
+
+            //Style and data for observations
+            result.series.push({
+                color     : this.observationGroup.options.index,
+                marker    : true,
+                markerSize: 2,
+                maxGap    : maxGap,
+                visible   : this.observationGroup.isVisible(mapOrMapId),
+                data      : obsDataList
+            });
+
+            if (this.forecast){
+                //Style and data for forecast before AND after first and last observation
+                result.series.push({
+                    deltaColor: +2,
+    //tooltipPrefix: {da:' (DA 1) ', en:' (EN 1) '},
+                    tooltipPrefix: {da:'Prognose: ', en:'Forecast: '},
+                    noTooltip : false,
+                    marker    : false,
+                    maxGap    : maxGap,
+                    data      : this.getChartDataList(parameter, true, firstObsTimestampValue, lastObsTimestampValue, true)
+                });
+
+                //Style and data for forecast when there are observations
+                result.series.push({
+                    deltaColor: +2,
+                    noTooltip : true,
+                    marker    : false,
+                    dashStyle : 'Dash',
+                    maxGap    : maxGap,
+                    data      : this.getChartDataList(parameter, true, firstObsTimestampValue, lastObsTimestampValue)
+                });
+            }
+
+            return result;
+        },
+
+        /*****************************************************
+        getChartDataList
+        *****************************************************/
+        getChartDataList: function(parameter, forecast, minTimestepValue = 0, maxTimestepValue = Infinity, outside = false){
+            var result = [],
+                parameterId = parameter.id,
+                unit        = parameter.unit,
+                toUnit      = this.getDisplayUnit(parameter),
+                dataList    = forecast ? this.forecastDataList : this.observationDataList; //[]{timestamp:STRING, NxPARAMETER_ID: FLOAT}
+
+            $.each(dataList, function(index, dataSet){
+                var timestepValue = moment(dataSet.timestamp).valueOf(),
+                    value         = dataSet[parameterId];
+
+                if (
+                        ( outside &&  ((timestepValue < minTimestepValue)  || (timestepValue >= maxTimestepValue)) ) ||
+                        (!outside &&   (timestepValue >= minTimestepValue) && (timestepValue < maxTimestepValue )  )
+                    )
+                        result.push([timestepValue, nsParameter.convert(value, unit, toUnit)]);
+            });
+
+            result.sort(function(timestampValue1, timestampValue2){ return timestampValue1[0] - timestampValue2[0];});
+
+            return result;
+        }
+
+    });
+
 
 
 }(jQuery, this.i18next, this.moment, this, document));
