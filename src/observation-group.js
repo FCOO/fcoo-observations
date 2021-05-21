@@ -32,12 +32,12 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "formatterMethod"       : "formatterSeaLevel",
             "allNeeded"             : true,
 
-//TODO            "maxDelay"            : "PT40M",//<----- NB! //DESCRIPTION MANGLER
-
-            "maxGap"                : 30, //Minutes. Max gap between points before no line is drawn.
+            "maxDelay"              : "PT1H",   //Max delay of latest measurement before it is not shown as "Last Measurement"
+            "maxGap"                : 60,       //Minutes. Max gap between points before no line is drawn.
+            "historyPeriod"         : "PT30H",  //Length of historical period
 
             "formatUnit"            : "cm",
-            "minRange"              : 80, //Min range on y-axis. Same as formatUnit or parameter default unit
+            "minRange"              : 80,   //Min range on y-axis. Same as formatUnit or parameter default unit
 
         },
 /*
@@ -82,7 +82,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "formatterStatMethod"   : "formatterStatVectorDefault",
             "allNeeded"             : true,
 
-"maxDelay"      : "PT6H",//<----- NB! TEST
+            "maxDelay"              : "PT6H",//<----- NB! TEST
             "maxGap"                : 30, //Minutes. Max gap between points before no line is drawn.
 
 //HER            "formatUnit"            : "knots",
@@ -110,8 +110,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
                 directionFrom : false,
                 allNeeded     : true,
                 maxDelay      : "PT1H",
-
                 maxGap        : 60,
+                historyPeriod : "PT30H"
 
             }, options);
         this.id = options.id;

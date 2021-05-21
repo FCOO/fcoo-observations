@@ -97,7 +97,8 @@ Location = group of Stations with the same or different paramtre
         *********************************************/
         getHeader: function(){
             return {
-                icon: L.bsMarkerAsIcon(bsMarkerOptions.colorName, null, {faClassName:'fa-square'}),
+//HBER TEST                 icon: L.bsMarkerAsIcon(bsMarkerOptions.colorName, null, {faClassName:'fa-square'}),
+                icon: L.bsMarkerAsIcon(bsMarkerOptions),
                 text: this.name
             };
         },

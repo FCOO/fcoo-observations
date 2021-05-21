@@ -29,7 +29,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "2.0.4",
+			VERSION         : "2.0.5",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -375,7 +375,8 @@ Location = group of Stations with the same or different paramtre
         *********************************************/
         getHeader: function(){
             return {
-                icon: L.bsMarkerAsIcon(bsMarkerOptions.colorName, null, {faClassName:'fa-square'}),
+//HBER TEST                 icon: L.bsMarkerAsIcon(bsMarkerOptions.colorName, null, {faClassName:'fa-square'}),
+                icon: L.bsMarkerAsIcon(bsMarkerOptions),
                 text: this.name
             };
         },
@@ -1103,12 +1104,12 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "formatterMethod"       : "formatterSeaLevel",
             "allNeeded"             : true,
 
-//TODO            "maxDelay"            : "PT40M",//<----- NB! //DESCRIPTION MANGLER
-
-            "maxGap"                : 30, //Minutes. Max gap between points before no line is drawn.
+            "maxDelay"              : "PT1H",   //Max delay of latest measurement before it is not shown as "Last Measurement"
+            "maxGap"                : 60,       //Minutes. Max gap between points before no line is drawn.
+            "historyPeriod"         : "PT30H",  //Length of historical period
 
             "formatUnit"            : "cm",
-            "minRange"              : 80, //Min range on y-axis. Same as formatUnit or parameter default unit
+            "minRange"              : 80,   //Min range on y-axis. Same as formatUnit or parameter default unit
 
         },
 /*
@@ -1153,7 +1154,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "formatterStatMethod"   : "formatterStatVectorDefault",
             "allNeeded"             : true,
 
-"maxDelay"      : "PT6H",//<----- NB! TEST
+            "maxDelay"              : "PT6H",//<----- NB! TEST
             "maxGap"                : 30, //Minutes. Max gap between points before no line is drawn.
 
 //HER            "formatUnit"            : "knots",
@@ -1181,8 +1182,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
                 directionFrom : false,
                 allNeeded     : true,
                 maxDelay      : "PT1H",
-
                 maxGap        : 60,
+                historyPeriod : "PT30H"
 
             }, options);
         this.id = options.id;
@@ -1974,28 +1975,29 @@ Only one station pro Location is active within the same ObservationGroup
     ****************************************************************************/
     $.extend(nsObservations.Station.prototype, {
 
-
-
         /*****************************************************
         getChartsOptions
         *****************************************************/
         getChartsOptions: function(mapOrMapId){
-            var parameter   = this.parameterList[0].parameter,
-                obsDataList = this.getChartDataList(parameter),
-                firstObsTimestampValue = obsDataList.length ? obsDataList[0][0] : 0,
-                lastObsTimestampValue  = obsDataList.length ? obsDataList[obsDataList.length-1][0] : 0,
+            var obsGroupOptions = this.observationGroup.options,
+                startTimestampValue = moment().valueOf() - moment.duration(obsGroupOptions.historyPeriod).valueOf(),
+                parameter           = this.parameterList[0].parameter,
+                obsDataList         = this.getChartDataList(parameter, false, startTimestampValue),
 
                 result = {
                     parameter: parameter,
                     unit     : this.getDisplayUnit(parameter),
                     series   : [],
-                    yAxis    : {minRange: this.observationGroup.options.minRange}
+                    yAxis    : {
+                        minRange: obsGroupOptions.minRange
+                    }
                 },
-                maxGap = this.observationGroup.options.maxGap;
+
+                maxGap = obsGroupOptions.maxGap;
 
             //Style and data for observations
             result.series.push({
-                color     : this.observationGroup.options.index,
+                color     : obsGroupOptions.index,
                 marker    : true,
                 markerSize: 2,
                 maxGap    : maxGap,
@@ -2003,16 +2005,33 @@ Only one station pro Location is active within the same ObservationGroup
                 data      : obsDataList
             });
 
+
             if (this.forecast){
+                var forecastDataList = this.getChartDataList(parameter, true),
+
+                    firstObsTimestampValue = obsDataList.length ? obsDataList[0][0] : startTimestampValue,
+                    lastObsTimestampValue  = obsDataList.length ? obsDataList[obsDataList.length-1][0] : startTimestampValue,
+
+                    lastTimestampValueBeforeObs = 0,
+                    firstTimestampValueAfterObs = Infinity;
+
+                $.each( forecastDataList, function(index, data){
+                    var timestampValue = data[0];
+                    if (timestampValue < firstObsTimestampValue)
+                        lastTimestampValueBeforeObs = Math.max(timestampValue, lastTimestampValueBeforeObs);
+                    if (timestampValue > lastObsTimestampValue)
+                        firstTimestampValueAfterObs = Math.min(timestampValue, firstTimestampValueAfterObs);
+                });
+
+
                 //Style and data for forecast before AND after first and last observation
                 result.series.push({
                     deltaColor: +2,
-    //tooltipPrefix: {da:' (DA 1) ', en:' (EN 1) '},
                     tooltipPrefix: {da:'Prognose: ', en:'Forecast: '},
                     noTooltip : false,
                     marker    : false,
                     maxGap    : maxGap,
-                    data      : this.getChartDataList(parameter, true, firstObsTimestampValue, lastObsTimestampValue, true)
+                    data      : this.getChartDataList(parameter, true, startTimestampValue, Infinity, [lastTimestampValueBeforeObs, firstTimestampValueAfterObs])
                 });
 
                 //Style and data for forecast when there are observations
@@ -2022,7 +2041,7 @@ Only one station pro Location is active within the same ObservationGroup
                     marker    : false,
                     dashStyle : 'Dash',
                     maxGap    : maxGap,
-                    data      : this.getChartDataList(parameter, true, firstObsTimestampValue, lastObsTimestampValue)
+                    data      : this.getChartDataList(parameter, true, lastTimestampValueBeforeObs, firstTimestampValueAfterObs)
                 });
             }
 
@@ -2032,7 +2051,7 @@ Only one station pro Location is active within the same ObservationGroup
         /*****************************************************
         getChartDataList
         *****************************************************/
-        getChartDataList: function(parameter, forecast, minTimestepValue = 0, maxTimestepValue = Infinity, outside = false){
+        getChartDataList: function(parameter, forecast, minTimestepValue = 0, maxTimestepValue = Infinity, clip){
             var result = [],
                 parameterId = parameter.id,
                 unit        = parameter.unit,
@@ -2043,11 +2062,17 @@ Only one station pro Location is active within the same ObservationGroup
                 var timestepValue = moment(dataSet.timestamp).valueOf(),
                     value         = dataSet[parameterId];
 
-                if (
-                        ( outside &&  ((timestepValue < minTimestepValue)  || (timestepValue >= maxTimestepValue)) ) ||
-                        (!outside &&   (timestepValue >= minTimestepValue) && (timestepValue < maxTimestepValue )  )
-                    )
+                if ((timestepValue >= minTimestepValue) && (timestepValue <= maxTimestepValue )){
+                    //timestepValue inside min-max-range
+                    var add = true;
+                    if (clip){
+                        //Check if timestepValue is OUTSIDE clip[0] - clip[1]
+                        add = (timestepValue <= clip[0]) || (timestepValue >= clip[1]);
+                    }
+                    if (add)
                         result.push([timestepValue, nsParameter.convert(value, unit, toUnit)]);
+
+                }
             });
 
             result.sort(function(timestampValue1, timestampValue2){ return timestampValue1[0] - timestampValue2[0];});
