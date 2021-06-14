@@ -26,7 +26,7 @@ Location = group of Stations with the same or different paramtre
     *****************************************************/
     var bsMarkerOptions = {
             size     : 'small',
-            colorName: 'orange',
+            colorName: 'observations',
             round    : false,
 
             scaleInner      : 150,

@@ -46,28 +46,28 @@
     <td>
         <button id="map0_sealevel"  onClick="toggle(0, 'SEALEVEL')">Toggle Sea Level</button>
         <!-- <button id="map0_wind"      onClick="toggle(0, 'WIND')">Toggle Wind</button> -->
-        <!-- <button id="map0_current"   onClick="toggle(0, 'CURRENT')">Toggle Current</button> -->
+        <button id="map0_current"   onClick="toggle(0, 'CURRENT')">Toggle Current</button>
         <br>
         <button id="map0_sealevel_popup" onClick="openPopup(0, 'SEALEVEL')">Open Sea Level</button>
         <!-- <button id="map0_wind_popup"     onClick="openPopup(0, 'WIND')">Open Wind</button> -->
-        <!-- <button id="map0_current_popup"  onClick="openPopup(0, 'CURRENT')">Open Current</button> -->
+        <button id="map0_current_popup"  onClick="openPopup(0, 'CURRENT')">Open Current</button>
         <br>
         <button id="map0_sealevel_popup" onClick="closePopup(0, 'SEALEVEL')">Close Sea Level</button>
         <!-- <button id="map0_wind_popup"     onClick="closePopup(0, 'WIND')">Close Wind</button> -->
-        <!-- <button id="map0_current_popup"  onClick="closePopup(0, 'CURRENT')">Close Current</button> -->
+        <button id="map0_current_popup"  onClick="closePopup(0, 'CURRENT')">Close Current</button>
     </td>
     <td>
         <button id="map1_sealevel"  onClick="toggle(1, 'SEALEVEL')">Toggle Sea Level</button>
         <!-- <button id="map1_wind"      onClick="toggle(1, 'WIND')">Toggle Wind</button> -->
-        <!-- <button id="map1_current"   onClick="toggle(1, 'CURRENT')">Toggle Current</button> -->
+        <button id="map1_current"   onClick="toggle(1, 'CURRENT')">Toggle Current</button>
         <br>
         <button id="map0_sealevel_popup" onClick="openPopup(1, 'SEALEVEL')">Open Sea Level</button>
         <!-- <button id="map0_wind_popup"     onClick="openPopup(1, 'WIND')">Open Wind</button> -->
-        <!-- <button id="map0_current_popup"  onClick="openPopup(1, 'CURRENT')">Open Current</button> -->
+        <button id="map0_current_popup"  onClick="openPopup(1, 'CURRENT')">Open Current</button>
         <br>
         <button id="map0_sealevel_popup" onClick="closePopup(1, 'SEALEVEL')">Close Sea Level</button>
         <!-- <button id="map0_wind_popup"     onClick="closePopup(1, 'WIND')">Close Wind</button> -->
-        <!-- <button id="map0_current_popup"  onClick="closePopup(1, 'CURRENT')">Close Current</button> -->
+        <button id="map0_current_popup"  onClick="closePopup(1, 'CURRENT')">Close Current</button>
     </td>
  </tr>
  
@@ -149,7 +149,7 @@
         
 //HER        window.fcoo.LOCAL_DATA = window.fcoo.DEMO_VERSION;
 		fcooObservation = new window.fcoo.FCOOObservations({
-            fileName:['observations-sealevel.json', 'observations-wind_TEST.json', 'observations-current_TEST.json'],
+            fileName:['observations-sealevel.json',/* 'observations-wind_TEST.json', */'observations-current_TEST.json'],
             lastObservationFileName : 'LastObservations_test.json',
         });
 //HER        window.fcoo.LOCAL_DATA = false;

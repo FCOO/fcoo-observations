@@ -27,19 +27,21 @@ Methods for creating Highcharts for a Location
                     parameter: [],
                     unit     : [],
                     series   : [],
-                    yAxis    : []
+                    yAxis    : [],
+                    zeroLine : true
                 };
 
             $.each(this.observationGroupStationList, function(index, station){
-                var stationChartsOptions = station.getChartsOptions(mapOrMapId);
+                var stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
                 $.each(['parameter', 'unit', 'series', 'yAxis'], function(index, id){
                     timeSeriesOptions[id].push( stationChartsOptions[id] );
                 });
            });
 
+           timeSeriesOptions.chartOptions = $.extend(true, timeSeriesOptions.chartOptions,
+                inModal ? {
 
-            if (!inModal)
-                timeSeriesOptions.chartOptions = $.extend(true, timeSeriesOptions.chartOptions, {
+                } : {
                     chart: {
                         scrollablePlotArea: {
                             minWidth       : 2 * nsObservations.imgWidth,
@@ -55,9 +57,10 @@ Methods for creating Highcharts for a Location
                     }
                 });
 
+
+
             nsHC.timeSeries(timeSeriesOptions);
         }
-
     });
 
 

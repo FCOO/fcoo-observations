@@ -22,31 +22,37 @@ Only one station pro Location is active within the same ObservationGroup
         /*****************************************************
         getChartsOptions
         *****************************************************/
-        getChartsOptions: function(mapOrMapId){
+        getChartsOptions: function(mapOrMapId/*, inModal*/){
             var obsGroupOptions = this.observationGroup.options,
                 startTimestampValue = moment().valueOf() - moment.duration(obsGroupOptions.historyPeriod).valueOf(),
-                parameter           = this.parameterList[0].parameter,
+                parameter           = this.primaryParameter, //this.parameterList[0].parameter,
+                isVector            = parameter.type == 'vector',
+                scaleParameter      = isVector ? parameter.speed_direction[0] : parameter,
                 obsDataList         = this.getChartDataList(parameter, false, startTimestampValue),
 
+                defaultSeriesOptions = {
+                    maxGap        : obsGroupOptions.maxGap,
+                    directionArrow: isVector ? this.observationGroup.directionArrow : false
+                },
                 result = {
-                    parameter: parameter,
-                    unit     : this.getDisplayUnit(parameter),
+                    //parameter: parameter,
+                    parameter: this.observationGroup.primaryParameter,
+                    unit     : this.getDisplayUnit(scaleParameter),
                     series   : [],
                     yAxis    : {
-                        minRange: obsGroupOptions.minRange
+                        minRange: obsGroupOptions.minRange,
+                        min     : scaleParameter.negative ? null : 0,
                     }
-                },
-
-                maxGap = obsGroupOptions.maxGap;
+                };
 
             //Style and data for observations
             result.series.push({
                 color     : obsGroupOptions.index,
                 marker    : true,
                 markerSize: 2,
-                maxGap    : maxGap,
                 visible   : this.observationGroup.isVisible(mapOrMapId),
-                data      : obsDataList
+                data      : obsDataList,
+//HERdirectionArrow: true
             });
 
 
@@ -74,7 +80,6 @@ Only one station pro Location is active within the same ObservationGroup
                     tooltipPrefix: {da:'Prognose: ', en:'Forecast: '},
                     noTooltip : false,
                     marker    : false,
-                    maxGap    : maxGap,
                     data      : this.getChartDataList(parameter, true, startTimestampValue, Infinity, [lastTimestampValueBeforeObs, firstTimestampValueAfterObs])
                 });
 
@@ -84,10 +89,14 @@ Only one station pro Location is active within the same ObservationGroup
                     noTooltip : true,
                     marker    : false,
                     dashStyle : 'Dash',
-                    maxGap    : maxGap,
-                    data      : this.getChartDataList(parameter, true, lastTimestampValueBeforeObs, firstTimestampValueAfterObs)
+                    data      : this.getChartDataList(parameter, true, lastTimestampValueBeforeObs, firstTimestampValueAfterObs),
+                    directionArrow: false
                 });
             }
+
+            $.each(result.series, function(index, options){
+                result.series[index] = $.extend(true, {}, defaultSeriesOptions, options);
+            });
 
             return result;
         },
@@ -96,15 +105,21 @@ Only one station pro Location is active within the same ObservationGroup
         getChartDataList
         *****************************************************/
         getChartDataList: function(parameter, forecast, minTimestepValue = 0, maxTimestepValue = Infinity, clip){
-            var result = [],
-                parameterId = parameter.id,
-                unit        = parameter.unit,
-                toUnit      = this.getDisplayUnit(parameter),
-                dataList    = forecast ? this.forecastDataList : this.observationDataList; //[]{timestamp:STRING, NxPARAMETER_ID: FLOAT}
+            var isVector         = parameter.type == 'vector',
+                scaleParameter   = isVector ? parameter.speed_direction[0] : parameter,
+                scaleParameterId = scaleParameter.id,
+                dirParameterId   = isVector ? parameter.speed_direction[1].id : null,
+
+                unit     = scaleParameter.unit,
+                toUnit   = this.getDisplayUnit(scaleParameter),
+
+                result   = [],
+                dataList = forecast ? this.forecastDataList : this.observationDataList; //[]{timestamp:STRING, NxPARAMETER_ID: FLOAT}
 
             $.each(dataList, function(index, dataSet){
                 var timestepValue = moment(dataSet.timestamp).valueOf(),
-                    value         = dataSet[parameterId];
+                    value         = dataSet[scaleParameterId];
+
 
                 if ((timestepValue >= minTimestepValue) && (timestepValue <= maxTimestepValue )){
                     //timestepValue inside min-max-range
@@ -113,14 +128,16 @@ Only one station pro Location is active within the same ObservationGroup
                         //Check if timestepValue is OUTSIDE clip[0] - clip[1]
                         add = (timestepValue <= clip[0]) || (timestepValue >= clip[1]);
                     }
-                    if (add)
-                        result.push([timestepValue, nsParameter.convert(value, unit, toUnit)]);
-
+                    if (add){
+                        value = nsParameter.convert(value, unit, toUnit);
+                        result.push([
+                            timestepValue,
+                            isVector ? [value, dataSet[dirParameterId]] : value
+                        ]);
+                    }
                 }
             });
-
             result.sort(function(timestampValue1, timestampValue2){ return timestampValue1[0] - timestampValue2[0];});
-
             return result;
         }
 

@@ -71,7 +71,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "allNeeded"             : false
         },
 */
-/*
+//*
         {
             "id"                    : "CURRENT",
             "name"                  : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
@@ -83,15 +83,16 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "allNeeded"             : true,
 
             "maxDelay"              : "PT6H",//<----- NB! TEST
-            "maxGap"                : 30, //Minutes. Max gap between points before no line is drawn.
+            "maxGap"                : 60, //Minutes. Max gap between points before no line is drawn.
 
-//HER            "formatUnit"            : "knots",
             "minRange"              : 1, //Min range on y-axis. Same as formatUnit or parameter default unit
 
-
+            "arrow"                 : "fas-long-arrow-alt-up.svg", //"fal-long-arrow-alt-up.svg",
+            "arrowHeight"           : 16,
+            "arrowWidth"            :  8
 
         },
-*/
+//*/
 /*
         {
             "id"                    : "HYDRO",
@@ -101,7 +102,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "formatterMethod"       : "TODO",
             "allNeeded"             : false
         }
-*/
+//*/
     ];
 
     nsObservations.ObservationGroup = function(options, observations){
@@ -125,6 +126,13 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
         this.parameterList = $.isArray(options.parameterId) ? options.parameterId : options.parameterId.split(' ');
         this.primaryParameter = nsParameter.getParameter(this.parameterList[0]);
+
+        this.directionArrow = {
+            dir   : 'images/',
+            src   : options.arrow || 'fas-arrow-up.svg',
+            width : options.arrowWidth || 16,
+            height: options.arrowHeight || 16,
+        };
 
         //Find header = name [unit] used by primary-parameter
         var primaryUnit = nsParameter.getUnit(this.options.formatUnit || this.primaryParameter.unit);

@@ -163,6 +163,49 @@ footer-variant
 MARGIN-BOTTOM FOR ELEMENTS IN MODAL
 All elements in modal-windows get same margin-bottom
 ************************************************************/
+/***********************************************************************
+
+leaflet-bootstrap-marker-mixin.scss
+
+*************************************************************************/
+/***********************************************************************
+marker-circle-color
+Create style for bsMarkerCircle in different colors
+*************************************************************************/
+/***********************************************************************
+lbm-circle-and-icon-classes
+Create class for bsMarkerCircle named $name with color and color-border
+*************************************************************************/
+/***********************************************************************
+lbm-marker-and-icon-classes
+Create class for bsMarkerCircle named $name with color and color-border
+*************************************************************************/
+/***********************************************************************
+fa-lbm-color
+Create class for color and border-color used by L.bsMarkerAsIcon (and $.bsMarkerAsIcon)
+to create fa-icon looking like the marker
+*************************************************************************/
+.lbm-type-circle.lbm-color-observations {
+  background-color: #EFB920;
+  color: #000; }
+  .lbm-type-circle.lbm-color-observations.lbm-transparent {
+    background-color: rgba(239, 185, 32, 0.7); }
+    .lbm-type-circle.lbm-color-observations.lbm-transparent.lbm-hover:hover {
+      background-color: rgba(239, 185, 32, 0.9); }
+  .lbm-type-circle.lbm-color-observations.lbm-shadow, .lbm-type-circle.lbm-color-observations.leaflet-drag-target, .lbm-type-circle.lbm-color-observations.lbm-hover:hover {
+    box-shadow: 0px 0px 0px 5px rgba(239, 185, 32, 0.28); }
+  .lbm-type-circle.lbm-color-observations:before {
+    box-shadow: 0 0 6px 2px #EFB920; }
+
+.lbm-type-circle.lbm-border-color-observations {
+  border-color: #EFB920; }
+
+.fa-lbm-color-observations {
+  color: #EFB920; }
+
+.fa-lbm-border-color-observations {
+  color: #EFB920; }
+
 /*
 table.last-observation = two coloums: group-name, last value
 table.obs-statistics: rows = [time-periods, obs-group headser, tree intervals, obs-group headser, tree intervals,...]

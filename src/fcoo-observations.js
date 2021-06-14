@@ -23,6 +23,15 @@
     nsObservations.observationPeriods = [6, 12, 24]; //= The different hour-periods to display previous observation stat (min, mean, max) over. Must have length = 3
     nsObservations.forecastPeriods    = [6, 12, 24]; //= The different hour-periods to display forecast stat (min, mean, max) over. Must have length = 3
 
+    /*
+    To display stat for previous X (=observationPeriods[i]) hours of observations or Y (=forecastPeriods[i]) hours of forecast
+    a minimum percent of hourly values are required. This percent is given in observation/forecast_minimumPercentValues
+    */
+    nsObservations.observation_minimumPercentValues = 2/3;
+    nsObservations.forecast_minimumPercentValues    = 1;    //All forecast needed!
+
+
+
     /***************************************************************
     FCOOObservations
     ****************************************************************/

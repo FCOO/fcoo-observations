@@ -23,13 +23,22 @@
     nsObservations.observationPeriods = [6, 12, 24]; //= The different hour-periods to display previous observation stat (min, mean, max) over. Must have length = 3
     nsObservations.forecastPeriods    = [6, 12, 24]; //= The different hour-periods to display forecast stat (min, mean, max) over. Must have length = 3
 
+    /*
+    To display stat for previous X (=observationPeriods[i]) hours of observations or Y (=forecastPeriods[i]) hours of forecast
+    a minimum percent of hourly values are required. This percent is given in observation/forecast_minimumPercentValues
+    */
+    nsObservations.observation_minimumPercentValues = 2/3;
+    nsObservations.forecast_minimumPercentValues    = 1;    //All forecast needed!
+
+
+
     /***************************************************************
     FCOOObservations
     ****************************************************************/
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "2.0.5",
+			VERSION         : "2.1.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -304,7 +313,7 @@ Location = group of Stations with the same or different paramtre
     *****************************************************/
     var bsMarkerOptions = {
             size     : 'small',
-            colorName: 'orange',
+            colorName: 'observations',
             round    : false,
 
             scaleInner      : 150,
@@ -1030,19 +1039,21 @@ Methods for creating Highcharts for a Location
                     parameter: [],
                     unit     : [],
                     series   : [],
-                    yAxis    : []
+                    yAxis    : [],
+                    zeroLine : true
                 };
 
             $.each(this.observationGroupStationList, function(index, station){
-                var stationChartsOptions = station.getChartsOptions(mapOrMapId);
+                var stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
                 $.each(['parameter', 'unit', 'series', 'yAxis'], function(index, id){
                     timeSeriesOptions[id].push( stationChartsOptions[id] );
                 });
            });
 
+           timeSeriesOptions.chartOptions = $.extend(true, timeSeriesOptions.chartOptions,
+                inModal ? {
 
-            if (!inModal)
-                timeSeriesOptions.chartOptions = $.extend(true, timeSeriesOptions.chartOptions, {
+                } : {
                     chart: {
                         scrollablePlotArea: {
                             minWidth       : 2 * nsObservations.imgWidth,
@@ -1058,9 +1069,10 @@ Methods for creating Highcharts for a Location
                     }
                 });
 
+
+
             nsHC.timeSeries(timeSeriesOptions);
         }
-
     });
 
 
@@ -1143,7 +1155,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "allNeeded"             : false
         },
 */
-/*
+//*
         {
             "id"                    : "CURRENT",
             "name"                  : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
@@ -1155,15 +1167,16 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "allNeeded"             : true,
 
             "maxDelay"              : "PT6H",//<----- NB! TEST
-            "maxGap"                : 30, //Minutes. Max gap between points before no line is drawn.
+            "maxGap"                : 60, //Minutes. Max gap between points before no line is drawn.
 
-//HER            "formatUnit"            : "knots",
             "minRange"              : 1, //Min range on y-axis. Same as formatUnit or parameter default unit
 
-
+            "arrow"                 : "fas-long-arrow-alt-up.svg", //"fal-long-arrow-alt-up.svg",
+            "arrowHeight"           : 16,
+            "arrowWidth"            :  8
 
         },
-*/
+//*/
 /*
         {
             "id"                    : "HYDRO",
@@ -1173,7 +1186,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "formatterMethod"       : "TODO",
             "allNeeded"             : false
         }
-*/
+//*/
     ];
 
     nsObservations.ObservationGroup = function(options, observations){
@@ -1197,6 +1210,13 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
         this.parameterList = $.isArray(options.parameterId) ? options.parameterId : options.parameterId.split(' ');
         this.primaryParameter = nsParameter.getParameter(this.parameterList[0]);
+
+        this.directionArrow = {
+            dir   : 'images/',
+            src   : options.arrow || 'fas-arrow-up.svg',
+            width : options.arrowWidth || 16,
+            height: options.arrowHeight || 16,
+        };
 
         //Find header = name [unit] used by primary-parameter
         var primaryUnit = nsParameter.getUnit(this.options.formatUnit || this.primaryParameter.unit);
@@ -1414,6 +1434,8 @@ Only one station pro Location is active within the same ObservationGroup
                     unit     : unit
                 };
 
+            _this.primaryParameter = _this.primaryParameter || parameter;
+
             //If it is a vector => add speed- direction-, eastward-, and northward-parameter
             if (parameter.type == 'vector'){
                 _this.vectorParameterList.push(parameter);
@@ -1601,7 +1623,12 @@ Only one station pro Location is active within the same ObservationGroup
             function checkIfStatsExists(parameterList){
                 $.each(parameterList, function(index, parameter){
                     var parameterStat = stat[parameter.id];
-                    if (!parameterStat || (parameterStat.count < parameterStat.hours) || (parameterStat.min == undefined) || (parameterStat.max == undefined))
+                    if (
+                          !parameterStat ||
+                          (parameterStat.count < parameterStat.hours * (forecast ? nsObservations.forecast_minimumPercentValues : nsObservations.observation_minimumPercentValues)) ||
+                          (parameterStat.min == undefined) ||
+                          (parameterStat.max == undefined)
+                        )
                         statOk = false;
                 });
             }
@@ -1687,27 +1714,19 @@ Only one station pro Location is active within the same ObservationGroup
             var _this = this,
                 result = [];
             $.each(this.vectorParameterList, function(index, vectorParameter){
-                var speedId = vectorParameter.speed_direction[0].id,
-
-                    //Direction as N, NNE, NE, ENE,...
-                    directionAsTxt = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW","N"],
-                    sectionDeg     = 360 / 16,
-                    directionId    = vectorParameter.speed_direction[1].id,
-                    direction      = (direction = dataSet[directionId] + 360 + (_this.observationGroup.options.directionFrom ? 180 : 0)) % 360,
-
+                var speedId            = vectorParameter.speed_direction[0].id,
+                    directionParameter = vectorParameter.speed_direction[1],
                     oneVectorResult = {
                         vectorParameterId: vectorParameter.id,
                         speedStr         : _this.formatParameter(dataSet, speedId, forecast, true),
                         unitStr          : _this.getDisplayUnit(speedId).translate('', '', true),
                         speedAndUnitStr  : _this.formatParameter(dataSet, speedId, forecast, false),
-                        directionStr     : directionAsTxt[Math.round(direction / sectionDeg)],
+                        directionStr     : directionParameter.asText( dataSet[directionParameter.id] ),
                         defaultStr       : ''
                     };
-                    oneVectorResult.defaultStr = oneVectorResult.directionStr + ' ' + oneVectorResult.speedAndUnitStr;
-
+                oneVectorResult.defaultStr = oneVectorResult.directionStr + ' ' + oneVectorResult.speedAndUnitStr;
                 result.push(oneVectorResult);
             });
-
             return result;
         },
 
@@ -1978,31 +1997,37 @@ Only one station pro Location is active within the same ObservationGroup
         /*****************************************************
         getChartsOptions
         *****************************************************/
-        getChartsOptions: function(mapOrMapId){
+        getChartsOptions: function(mapOrMapId/*, inModal*/){
             var obsGroupOptions = this.observationGroup.options,
                 startTimestampValue = moment().valueOf() - moment.duration(obsGroupOptions.historyPeriod).valueOf(),
-                parameter           = this.parameterList[0].parameter,
+                parameter           = this.primaryParameter, //this.parameterList[0].parameter,
+                isVector            = parameter.type == 'vector',
+                scaleParameter      = isVector ? parameter.speed_direction[0] : parameter,
                 obsDataList         = this.getChartDataList(parameter, false, startTimestampValue),
 
+                defaultSeriesOptions = {
+                    maxGap        : obsGroupOptions.maxGap,
+                    directionArrow: isVector ? this.observationGroup.directionArrow : false
+                },
                 result = {
-                    parameter: parameter,
-                    unit     : this.getDisplayUnit(parameter),
+                    //parameter: parameter,
+                    parameter: this.observationGroup.primaryParameter,
+                    unit     : this.getDisplayUnit(scaleParameter),
                     series   : [],
                     yAxis    : {
-                        minRange: obsGroupOptions.minRange
+                        minRange: obsGroupOptions.minRange,
+                        min     : scaleParameter.negative ? null : 0,
                     }
-                },
-
-                maxGap = obsGroupOptions.maxGap;
+                };
 
             //Style and data for observations
             result.series.push({
                 color     : obsGroupOptions.index,
                 marker    : true,
                 markerSize: 2,
-                maxGap    : maxGap,
                 visible   : this.observationGroup.isVisible(mapOrMapId),
-                data      : obsDataList
+                data      : obsDataList,
+//HERdirectionArrow: true
             });
 
 
@@ -2030,7 +2055,6 @@ Only one station pro Location is active within the same ObservationGroup
                     tooltipPrefix: {da:'Prognose: ', en:'Forecast: '},
                     noTooltip : false,
                     marker    : false,
-                    maxGap    : maxGap,
                     data      : this.getChartDataList(parameter, true, startTimestampValue, Infinity, [lastTimestampValueBeforeObs, firstTimestampValueAfterObs])
                 });
 
@@ -2040,10 +2064,14 @@ Only one station pro Location is active within the same ObservationGroup
                     noTooltip : true,
                     marker    : false,
                     dashStyle : 'Dash',
-                    maxGap    : maxGap,
-                    data      : this.getChartDataList(parameter, true, lastTimestampValueBeforeObs, firstTimestampValueAfterObs)
+                    data      : this.getChartDataList(parameter, true, lastTimestampValueBeforeObs, firstTimestampValueAfterObs),
+                    directionArrow: false
                 });
             }
+
+            $.each(result.series, function(index, options){
+                result.series[index] = $.extend(true, {}, defaultSeriesOptions, options);
+            });
 
             return result;
         },
@@ -2052,15 +2080,21 @@ Only one station pro Location is active within the same ObservationGroup
         getChartDataList
         *****************************************************/
         getChartDataList: function(parameter, forecast, minTimestepValue = 0, maxTimestepValue = Infinity, clip){
-            var result = [],
-                parameterId = parameter.id,
-                unit        = parameter.unit,
-                toUnit      = this.getDisplayUnit(parameter),
-                dataList    = forecast ? this.forecastDataList : this.observationDataList; //[]{timestamp:STRING, NxPARAMETER_ID: FLOAT}
+            var isVector         = parameter.type == 'vector',
+                scaleParameter   = isVector ? parameter.speed_direction[0] : parameter,
+                scaleParameterId = scaleParameter.id,
+                dirParameterId   = isVector ? parameter.speed_direction[1].id : null,
+
+                unit     = scaleParameter.unit,
+                toUnit   = this.getDisplayUnit(scaleParameter),
+
+                result   = [],
+                dataList = forecast ? this.forecastDataList : this.observationDataList; //[]{timestamp:STRING, NxPARAMETER_ID: FLOAT}
 
             $.each(dataList, function(index, dataSet){
                 var timestepValue = moment(dataSet.timestamp).valueOf(),
-                    value         = dataSet[parameterId];
+                    value         = dataSet[scaleParameterId];
+
 
                 if ((timestepValue >= minTimestepValue) && (timestepValue <= maxTimestepValue )){
                     //timestepValue inside min-max-range
@@ -2069,14 +2103,16 @@ Only one station pro Location is active within the same ObservationGroup
                         //Check if timestepValue is OUTSIDE clip[0] - clip[1]
                         add = (timestepValue <= clip[0]) || (timestepValue >= clip[1]);
                     }
-                    if (add)
-                        result.push([timestepValue, nsParameter.convert(value, unit, toUnit)]);
-
+                    if (add){
+                        value = nsParameter.convert(value, unit, toUnit);
+                        result.push([
+                            timestepValue,
+                            isVector ? [value, dataSet[dirParameterId]] : value
+                        ]);
+                    }
                 }
             });
-
             result.sort(function(timestampValue1, timestampValue2){ return timestampValue1[0] - timestampValue2[0];});
-
             return result;
         }
 

@@ -57,6 +57,8 @@ Only one station pro Location is active within the same ObservationGroup
                     unit     : unit
                 };
 
+            _this.primaryParameter = _this.primaryParameter || parameter;
+
             //If it is a vector => add speed- direction-, eastward-, and northward-parameter
             if (parameter.type == 'vector'){
                 _this.vectorParameterList.push(parameter);
@@ -244,7 +246,12 @@ Only one station pro Location is active within the same ObservationGroup
             function checkIfStatsExists(parameterList){
                 $.each(parameterList, function(index, parameter){
                     var parameterStat = stat[parameter.id];
-                    if (!parameterStat || (parameterStat.count < parameterStat.hours) || (parameterStat.min == undefined) || (parameterStat.max == undefined))
+                    if (
+                          !parameterStat ||
+                          (parameterStat.count < parameterStat.hours * (forecast ? nsObservations.forecast_minimumPercentValues : nsObservations.observation_minimumPercentValues)) ||
+                          (parameterStat.min == undefined) ||
+                          (parameterStat.max == undefined)
+                        )
                         statOk = false;
                 });
             }
@@ -330,27 +337,19 @@ Only one station pro Location is active within the same ObservationGroup
             var _this = this,
                 result = [];
             $.each(this.vectorParameterList, function(index, vectorParameter){
-                var speedId = vectorParameter.speed_direction[0].id,
-
-                    //Direction as N, NNE, NE, ENE,...
-                    directionAsTxt = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW","N"],
-                    sectionDeg     = 360 / 16,
-                    directionId    = vectorParameter.speed_direction[1].id,
-                    direction      = (direction = dataSet[directionId] + 360 + (_this.observationGroup.options.directionFrom ? 180 : 0)) % 360,
-
+                var speedId            = vectorParameter.speed_direction[0].id,
+                    directionParameter = vectorParameter.speed_direction[1],
                     oneVectorResult = {
                         vectorParameterId: vectorParameter.id,
                         speedStr         : _this.formatParameter(dataSet, speedId, forecast, true),
                         unitStr          : _this.getDisplayUnit(speedId).translate('', '', true),
                         speedAndUnitStr  : _this.formatParameter(dataSet, speedId, forecast, false),
-                        directionStr     : directionAsTxt[Math.round(direction / sectionDeg)],
+                        directionStr     : directionParameter.asText( dataSet[directionParameter.id] ),
                         defaultStr       : ''
                     };
-                    oneVectorResult.defaultStr = oneVectorResult.directionStr + ' ' + oneVectorResult.speedAndUnitStr;
-
+                oneVectorResult.defaultStr = oneVectorResult.directionStr + ' ' + oneVectorResult.speedAndUnitStr;
                 result.push(oneVectorResult);
             });
-
             return result;
         },
 
