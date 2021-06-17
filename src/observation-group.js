@@ -183,7 +183,10 @@ ObservationGroup = group of Locations with the same parameter(-group)
         isVisible(mapOrMapId) - return true if this is visible on the Map mapId
         *********************************************/
         isVisible: function(mapOrMapId){
-            return this._getMapOptions(mapOrMapId).$container.hasClass('obs-group-'+this.options.index);
+            var mapOptions = this._getMapOptions(mapOrMapId),
+                $container = mapOptions ? mapOptions.$container : null;
+
+            return $container ? this._getMapOptions(mapOrMapId).$container.hasClass('obs-group-'+this.options.index) : false;
         },
 
         /*********************************************
@@ -207,27 +210,27 @@ ObservationGroup = group of Locations with the same parameter(-group)
             var className  = 'obs-group-'+this.options.index,
                 mapId      = typeof mapOrMapId == 'string' ? mapOrMapId : nsObservations.getMapId(mapOrMapId),
                 mapOptions = this._getMapOptions(mapOrMapId),
-                $container = mapOptions.$container;
+                $container = mapOptions ? mapOptions.$container : null;
 
             if ($container){
                 if (show == undefined)
                     show = !this.isVisible(mapOrMapId);
                 $container.modernizrToggle(className, !!show);
-            }
 
-            //Toggle class multi-obs-group to mark multi groups visible on the map
-            //Toggle class last-visible-obs-group-N to mark last/maximum group visible on the map
-            var visibleGroups = 0,
-                maxVisibleGroupIndex = 0;
-            for (var i=0; i<10; i++){
-                if ($container.hasClass('obs-group-'+i)){
-                    visibleGroups++;
-                    maxVisibleGroupIndex = i;
+                //Toggle class multi-obs-group to mark multi groups visible on the map
+                //Toggle class last-visible-obs-group-N to mark last/maximum group visible on the map
+                var visibleGroups = 0,
+                    maxVisibleGroupIndex = 0;
+                for (var i=0; i<10; i++){
+                    if ($container.hasClass('obs-group-'+i)){
+                        visibleGroups++;
+                        maxVisibleGroupIndex = i;
+                    }
+                    $container.modernizrOff('last-visible-obs-group-'+i);
                 }
-                $container.modernizrOff('last-visible-obs-group-'+i);
+                $container.modernizrToggle('multi-obs-group', visibleGroups > 1);
+                $container.modernizrOn('last-visible-obs-group-'+maxVisibleGroupIndex);
             }
-            $container.modernizrToggle('multi-obs-group', visibleGroups > 1);
-            $container.modernizrOn('last-visible-obs-group-'+maxVisibleGroupIndex);
 
             //Close all open popups with no visible observationGroup
             $.each(this.locations, function(id, location){

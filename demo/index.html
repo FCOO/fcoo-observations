@@ -155,10 +155,21 @@
 //HER        window.fcoo.LOCAL_DATA = false;
 
         var geoJSON0 = fcooObservation.geoJSON().addTo(maps[0]);
+
         var geoJSON1 = fcooObservation.geoJSON().addTo(maps[1]);
+        fcooObservation.show('CURRENT', maps[1]);
 
-        fcooObservation.show('SEALEVEL', maps[1]);
 
+        setTimeout(function(){
+            geoJSON1.remove();
+        }, 10000);
+
+        setTimeout(function(){
+            geoJSON1.addTo(maps[1]);
+        }, 12000);
+        
+        
+        
         fcoo.promiseList.options.finally = function(){
             fcoo.globalSetting.load(null, function(){
                 i18next.changeLanguage('da');

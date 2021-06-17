@@ -19,7 +19,10 @@
 
     //nsObservations.getMapId(mapOrMapIdap) return the unique id for the map
     nsObservations.getMapId = function(mapOrMapId){
-        return typeof mapOrMapId == 'string' ? mapOrMapId : ''+mapOrMapId._leaflet_id;
+        if (mapOrMapId)
+            return typeof mapOrMapId == 'string' ? mapOrMapId : ''+mapOrMapId._leaflet_id;
+        else
+            return null;
     };
 
     nsObservations.observationPeriods = [6, 12, 24]; //= The different hour-periods to display previous observation stat (min, mean, max) over. Must have length = 3
@@ -312,9 +315,15 @@
         },
 
         _geoJSON_onRemove: function(event){
-            var map   = event.target._map,
-                mapId = nsObservations.getMapId(map);
+            //Save selected groups (this.state) and call hide for all observationGroups to close popups and clean up.
+            var state = this.state;
+            this.state = {};
+            var mapId = nsObservations.getMapId(event.target._map);
             delete this.maps[mapId];
+            $.each(this.observationGroups, function(id, observationGroup){
+                observationGroup.hide(mapId);
+            });
+            this.state = state;
         },
 
         _getGeoJSONData: function(){
