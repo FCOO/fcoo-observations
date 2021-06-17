@@ -176,8 +176,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
         {map, $container, geoJSONLayer, dataAdded}
         *********************************************/
         _getMapOptions: function(mapOrMapId){
-            var mapId = typeof mapOrMapId == 'string' ? mapOrMapId : nsObservations.getMapId(mapOrMapId);
-            return this.observations.maps[mapId];
+            return this.observations.maps[ nsObservations.getMapId(mapOrMapId) ];
         },
 
         /*********************************************
@@ -237,6 +236,12 @@ ObservationGroup = group of Locations with the same parameter(-group)
                     location.popups[mapId]._close();
                 }
             });
+
+            //Update this.observations.state
+            var stateId = this.id+'_'+mapId;
+            this.observations.state = this.observations.state || {};
+            this.observations.state[stateId] = !!show;
+
             return this;
         },
 

@@ -124,11 +124,11 @@
     }
 
     function openPopup(mapIndex, groupId){
-        fcooObservation.observationGroups[groupId].openVisiblePopup(maps[mapIndex]);
+        fcooObservation.openVisiblePopup(groupId, maps[mapIndex]);
     }
 
     function closePopup(mapIndex, groupId){
-        fcooObservation.observationGroups[groupId].closeVisiblePopup(maps[mapIndex]);
+        fcooObservation.closeVisiblePopup(groupId, maps[mapIndex]);
     }
 
 
@@ -154,11 +154,10 @@
         });
 //HER        window.fcoo.LOCAL_DATA = false;
 
-        var geoJSON = fcooObservation.geoJSON().addTo(maps[0]);
+        var geoJSON0 = fcooObservation.geoJSON().addTo(maps[0]);
+        var geoJSON1 = fcooObservation.geoJSON().addTo(maps[1]);
 
-        fcooObservation.geoJSON().addTo(maps[1]);
-
-
+        fcooObservation.show('SEALEVEL', maps[1]);
 
         fcoo.promiseList.options.finally = function(){
             fcoo.globalSetting.load(null, function(){

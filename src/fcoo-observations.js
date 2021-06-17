@@ -17,8 +17,10 @@
         //nsParameter = ns.parameter = ns.parameter || {},
         nsObservations = ns.observations = ns.observations || {};
 
-    //nsObservations.getMapId(map) return the unique id for the map
-    nsObservations.getMapId = function(map){ return ''+map._leaflet_id; };
+    //nsObservations.getMapId(mapOrMapIdap) return the unique id for the map
+    nsObservations.getMapId = function(mapOrMapId){
+        return typeof mapOrMapId == 'string' ? mapOrMapId : ''+mapOrMapId._leaflet_id;
+    };
 
     nsObservations.observationPeriods = [6, 12, 24]; //= The different hour-periods to display previous observation stat (min, mean, max) over. Must have length = 3
     nsObservations.forecastPeriods    = [6, 12, 24]; //= The different hour-periods to display forecast stat (min, mean, max) over. Must have length = 3
@@ -130,7 +132,7 @@
                 //Append stations to location
                 nextLocation.appendStations(locationOptions, data.default_station);
 
-                //Assign the location to the observationsGroups it belong to
+                //Assign the location to the observationGroups it belong to
                 $.each(_this.observationGroups, function(id, observationGroup){
                     if (observationGroup.checkAndAdd(nextLocation)){
                         nextLocation.observationGroups[id] = observationGroup;
@@ -196,10 +198,68 @@
             var _this = this,
                 maps = map ? [{map:map}] : this.maps;
             $.each(maps, function(index, mapObj){
-                $.each(_this.observationGroups, function(id, observationGroup){
-                    observationGroup.hide(mapObj.map);
+                var mapId = nsObservations.getMapId(mapObj.map);
+                $.each(_this.observationGroups, function(groupId, observationGroup){
+                    var stateId = groupId+'_'+mapId,
+                        show = _this.state && _this.state[stateId];
+                    observationGroup.toggle(mapObj.map, !!show);
                 });
             });
+        },
+
+        /**********************************************************
+        show(groupId, mapOrMapId)
+        Show ObservationGroup with id on mapOrMapId
+        **********************************************************/
+        show: function(groupId, mapOrMapId){
+            return this.toggle(groupId, mapOrMapId, true);
+        },
+
+        /**********************************************************
+        hide(groupId, mapOrMapId)
+        Hide ObservationGroup with id on mapOrMapId
+        **********************************************************/
+        hide: function(groupId, mapOrMapId){
+            return this.toggle(groupId, mapOrMapId, false);
+        },
+
+        /**********************************************************
+        toggle(groupId, mapOrMapId, show)
+        Toggle ObservationGroup with id on mapOrMapId
+        Save new state if ObservationGroup is not jet loaded/created
+        **********************************************************/
+        toggle: function(groupId, mapOrMapId, show){
+            var mapId = nsObservations.getMapId(mapOrMapId),
+                stateId = groupId+'_'+mapId;
+
+            this.state = this.state || {};
+            this.state[stateId] = !!show;
+
+            if (this.observationGroups[groupId])
+                this.observationGroups[groupId].toggle(mapOrMapId, show);
+
+            return this;
+        },
+
+
+        /**********************************************************
+        openVisiblePopup(groupId, mapOrMapId)
+        Open popup for all locations visible at the map
+        **********************************************************/
+        openVisiblePopup: function(groupId, mapOrMapId){
+            if (this.observationGroups[groupId])
+                this.observationGroups[groupId].openVisiblePopup(mapOrMapId);
+            return this;
+        },
+
+        /**********************************************************
+        closeVisiblePopup(groupId, mapOrMapId)
+        Close popup for all locations visible at the map
+        **********************************************************/
+        closeVisiblePopup: function(groupId, mapOrMapId){
+            if (this.observationGroups[groupId])
+                this.observationGroups[groupId].closeVisiblePopup(mapOrMapId);
+            return this;
         },
 
         /**********************************************************
