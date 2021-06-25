@@ -375,6 +375,7 @@ Location = group of Stations with the same or different paramtre
             this._updateAny$elemetList('$lastObservation',
                 function(station){ // = function(station, index)
                     var dataSet = station.getDataSet(true, false); //Last observation
+
                     //If the timestamp is to old => return '?'
                     if ( !dataSet ||
                          (moment().valueOf() > (moment(dataSet.timestamp).valueOf() + station.observationGroup.maxDelayValueOf))
@@ -444,6 +445,7 @@ Location = group of Stations with the same or different paramtre
 
                 isMinimized: true,
                 minimized  : {
+                    showTooltip: true,
                     width    : 70,
                     className: 'text-center',
 

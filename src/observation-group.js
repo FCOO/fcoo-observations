@@ -61,6 +61,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "allNeeded"             : false
         },
 */
+
 /*
         {
             "id"                    : "WAVE",
@@ -71,7 +72,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "allNeeded"             : false
         },
 */
-//*
+
+/*
         {
             "id"                    : "CURRENT",
             "name"                  : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
@@ -82,7 +84,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "formatterStatMethod"   : "formatterStatVectorDefault",
             "allNeeded"             : true,
 
-            "maxDelay"              : "PT6H",//<----- NB! TEST
+            "maxDelay"              : "PT1H",
             "maxGap"                : 60, //Minutes. Max gap between points before no line is drawn.
 
             "minRange"              : 1, //Min range on y-axis. Same as formatUnit or parameter default unit

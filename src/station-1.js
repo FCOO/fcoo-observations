@@ -503,10 +503,13 @@ Only one station pro Location is active within the same ObservationGroup
                         dataList.push(newDataSet);
 
                 });
+
             });
 
             //Sort by timestamp
-            dataList.sort(function(dataSet1, dataSet2){ return dataSet1.timestamp - dataSet2.timestep; });
+            dataList.sort(function(dataSet1, dataSet2){
+                return dataSet1.timestamp.localeCompare(dataSet2.timestamp);
+            });
 
             //If the station contains vector-parameter => calc speed, direction, eastware and northware for all dataSet
             if (this.vectorParameterList)
@@ -520,7 +523,7 @@ Only one station pro Location is active within the same ObservationGroup
                     metaData[speedId]     = metaData[speedId]     || metaData[eastwardId]  || metaData[northwardId] || {};
                     metaData[northwardId] = metaData[northwardId] || metaData[eastwardId]  || metaData[speedId]     || {};
                     metaData[eastwardId]  = metaData[eastwardId]  || metaData[northwardId] || metaData[speedId]     || {};
-                    metaData[directionId] = metaData[directionId]  || {unit: "degree"}; //Hard-coded to degree
+                    metaData[directionId] = metaData[directionId] || {unit: "degree"}; //Hard-coded to degree
 
 
                     $.each(dataList, function(index2, dataSet){
@@ -575,14 +578,14 @@ Only one station pro Location is active within the same ObservationGroup
         *****************************************************/
         _resolveForecast: function(geoJSON){
             this.forecastDataList = [];
-            this._resolveGeoJSON(geoJSON, true);
+            this._resolveGeoJSON(geoJSON, true, 2);
         },
 
         /*****************************************************
         _resolveObservations
         *****************************************************/
         _resolveObservations: function(geoJSON){
-            this._resolveGeoJSON(geoJSON, false);
+            this._resolveGeoJSON(geoJSON, false, 3);
         },
 
 

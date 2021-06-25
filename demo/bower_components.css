@@ -19885,179 +19885,985 @@ Using
   font-family: 'FCOO IcoMoon';
   font-weight: 400; }
 
-.fa-slipway:before {
+.fai-slipway:before {
   content: ""; }
 
-.fa-barbecue:before {
+.fai-barbecue:before {
   content: ""; }
 
-.fa-barbecue2:before {
+.fai-barbecue2:before {
   content: ""; }
 
-.fa-barbecue3:before {
+.fai-barbecue3:before {
   content: ""; }
 
-.fa-child:before {
+.fai-child:before {
   content: ""; }
 
-.fa-gas-cylinder:before {
+.fai-gas-cylinder:before {
   content: ""; }
 
-.fa-ferry:before {
+.fai-ferry:before {
   content: ""; }
 
-.fa-ferry2:before {
+.fai-ferry2:before {
   content: ""; }
 
-.fa-gas-cylinder2:before {
+.fai-gas-cylinder2:before {
   content: ""; }
 
-.fa-gas-cylinder3:before {
+.fai-gas-cylinder3:before {
   content: ""; }
 
-.fa-gas-cylinder4:before {
+.fai-gas-cylinder4:before {
   content: ""; }
 
-.fa-hook:before {
+.fai-hook:before {
   content: ""; }
 
-.fa-hook2:before {
+.fai-hook2:before {
   content: ""; }
 
-.fa-liquified-natural:before {
+.fai-liquified-natural:before {
   content: ""; }
 
-.fa-playground:before {
+.fai-playground:before {
   content: ""; }
 
-.fa-wind-surfing:before {
+.fai-wind-surfing:before {
   content: ""; }
 
-.fa-surfing-board:before {
+.fai-surfing-board:before {
   content: ""; }
 
-.fa-playground2:before {
+.fai-playground2:before {
   content: ""; }
 
-.fa-surfing-board2:before {
+.fai-surfing-board2:before {
   content: ""; }
 
-.fa-sailboat4:before {
+.fai-sailboat4:before {
   content: ""; }
 
-.fa-sailboat5:before {
+.fai-sailboat5:before {
   content: ""; }
 
-.fa-sailboat6:before {
+.fai-sailboat6:before {
   content: ""; }
 
-.fa-kayak:before {
+.fai-kayak:before {
   content: ""; }
 
-.fa-motorboat:before {
+.fai-motorboat:before {
   content: ""; }
 
-.fa-sailboat2-black:before {
+.fai-sailboat2-black:before {
   content: ""; }
 
-.fa-sailboat-black:before {
+.fai-sailboat-black:before {
   content: ""; }
 
-.fa-sailboat:before {
+.fai-sailboat:before {
   content: ""; }
 
-.fa-boat:before {
+.fai-boat:before {
   content: ""; }
 
-.fa-sailboat3-black:before {
+.fai-sailboat3-black:before {
   content: ""; }
 
-.fa-boat2-black:before {
+.fai-boat2-black:before {
   content: ""; }
 
-.fa-bridge:before {
+.fai-bridge:before {
   content: ""; }
 
-.fa-bridge2:before {
+.fai-bridge2:before {
   content: ""; }
 
-.fa-bridge6:before {
+.fai-bridge6:before {
   content: ""; }
 
-.fa-bridge3:before {
+.fai-bridge3:before {
   content: ""; }
 
-.fa-bridge4:before {
+.fai-bridge4:before {
   content: ""; }
 
-.fa-bridge5:before {
+.fai-bridge5:before {
   content: ""; }
 
-.fa-route:before {
+.fai-route:before {
   content: ""; }
 
-.fa-ship3-black:before {
+.fai-ship3-black:before {
   content: ""; }
 
-.fa-sailboat4-black:before {
+.fai-sailboat4-black:before {
   content: ""; }
 
-.fa-ship-black:before {
+.fai-ship-black:before {
   content: ""; }
 
-.fa-ship:before {
+.fai-ship:before {
   content: ""; }
 
-.fa-ship2:before {
+.fai-ship2:before {
   content: ""; }
 
-.fa-mouse-left:before {
+.fai-mouse-left:before {
   content: ""; }
 
-.fa-mouse-right:before {
+.fai-mouse-right:before {
   content: ""; }
 
-.fa-rotate:before {
+.fai-rotate:before {
   content: ""; }
 
-.fa-label-center-black:before {
+.fai-label-center-black:before {
   content: ""; }
 
-.fa-label-center:before {
+.fai-label-center:before {
   content: ""; }
 
-.fa-tab:before {
+.fai-tab:before {
   content: ""; }
 
-.fa-digital-0:before {
+.fai-digital-0:before {
   content: ""; }
 
-.fa-digital-1:before {
+.fai-digital-1:before {
   content: ""; }
 
-.fa-digital-2:before {
+.fai-digital-2:before {
   content: ""; }
 
-.fa-digital-3:before {
+.fai-digital-3:before {
   content: ""; }
 
-.fa-digital-4:before {
+.fai-digital-4:before {
   content: ""; }
 
-.fa-digital-5:before {
+.fai-digital-5:before {
   content: ""; }
 
-.fa-digital-6:before {
+.fai-digital-6:before {
   content: ""; }
 
-.fa-digital-7:before {
+.fai-digital-7:before {
   content: ""; }
 
-.fa-digital-8:before {
+.fai-digital-8:before {
   content: ""; }
 
-.fa-digital-9:before {
+.fai-digital-9:before {
   content: ""; }
+
+/******************************************
+*******************************************
+WEATHER ICONS
+https://erikflowers.github.io/weather-icons/
+*******************************************
+******************************************/
+@font-face {
+  font-family: "weathericons";
+  src: url("fonts/weathericons-regular-webfont.eot");
+  src: url("fonts/weathericons-regular-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/weathericons-regular-webfont.woff2") format("woff2"), url("fonts/weathericons-regular-webfont.woff") format("woff"), url("fonts/weathericons-regular-webfont.ttf") format("truetype"), url("fonts/weathericons-regular-webfont.svg#weather_iconsregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+.wi {
+  display: inline-block;
+  font-family: "weathericons";
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.wi-fw {
+  width: 1.4em;
+  text-align: center; }
+
+.wi-rotate-90 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg); }
+
+.wi-rotate-180 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg); }
+
+.wi-rotate-270 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  -webkit-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg); }
+
+.wi-flip-horizontal {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+  -webkit-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1); }
+
+.wi-flip-vertical {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
+  transform: scale(1, -1); }
+
+.wi-day-sunny:before {
+  content: ""; }
+
+.wi-day-cloudy:before {
+  content: ""; }
+
+.wi-day-cloudy-gusts:before {
+  content: ""; }
+
+.wi-day-cloudy-windy:before {
+  content: ""; }
+
+.wi-day-fog:before {
+  content: ""; }
+
+.wi-day-hail:before {
+  content: ""; }
+
+.wi-day-haze:before {
+  content: ""; }
+
+.wi-day-lightning:before {
+  content: ""; }
+
+.wi-day-rain:before {
+  content: ""; }
+
+.wi-day-rain-mix:before {
+  content: ""; }
+
+.wi-day-rain-wind:before {
+  content: ""; }
+
+.wi-day-showers:before {
+  content: ""; }
+
+.wi-day-sleet:before {
+  content: ""; }
+
+.wi-day-sleet-storm:before {
+  content: ""; }
+
+.wi-day-snow:before {
+  content: ""; }
+
+.wi-day-snow-thunderstorm:before {
+  content: ""; }
+
+.wi-day-snow-wind:before {
+  content: ""; }
+
+.wi-day-sprinkle:before {
+  content: ""; }
+
+.wi-day-storm-showers:before {
+  content: ""; }
+
+.wi-day-sunny-overcast:before {
+  content: ""; }
+
+.wi-day-thunderstorm:before {
+  content: ""; }
+
+.wi-day-windy:before {
+  content: ""; }
+
+.wi-solar-eclipse:before {
+  content: ""; }
+
+.wi-hot:before {
+  content: ""; }
+
+.wi-day-cloudy-high:before {
+  content: ""; }
+
+.wi-day-light-wind:before {
+  content: ""; }
+
+.wi-night-clear:before {
+  content: ""; }
+
+.wi-night-alt-cloudy:before {
+  content: ""; }
+
+.wi-night-alt-cloudy-gusts:before {
+  content: ""; }
+
+.wi-night-alt-cloudy-windy:before {
+  content: ""; }
+
+.wi-night-alt-hail:before {
+  content: ""; }
+
+.wi-night-alt-lightning:before {
+  content: ""; }
+
+.wi-night-alt-rain:before {
+  content: ""; }
+
+.wi-night-alt-rain-mix:before {
+  content: ""; }
+
+.wi-night-alt-rain-wind:before {
+  content: ""; }
+
+.wi-night-alt-showers:before {
+  content: ""; }
+
+.wi-night-alt-sleet:before {
+  content: ""; }
+
+.wi-night-alt-sleet-storm:before {
+  content: ""; }
+
+.wi-night-alt-snow:before {
+  content: ""; }
+
+.wi-night-alt-snow-thunderstorm:before {
+  content: ""; }
+
+.wi-night-alt-snow-wind:before {
+  content: ""; }
+
+.wi-night-alt-sprinkle:before {
+  content: ""; }
+
+.wi-night-alt-storm-showers:before {
+  content: ""; }
+
+.wi-night-alt-thunderstorm:before {
+  content: ""; }
+
+.wi-night-cloudy:before {
+  content: ""; }
+
+.wi-night-cloudy-gusts:before {
+  content: ""; }
+
+.wi-night-cloudy-windy:before {
+  content: ""; }
+
+.wi-night-fog:before {
+  content: ""; }
+
+.wi-night-hail:before {
+  content: ""; }
+
+.wi-night-lightning:before {
+  content: ""; }
+
+.wi-night-partly-cloudy:before {
+  content: ""; }
+
+.wi-night-rain:before {
+  content: ""; }
+
+.wi-night-rain-mix:before {
+  content: ""; }
+
+.wi-night-rain-wind:before {
+  content: ""; }
+
+.wi-night-showers:before {
+  content: ""; }
+
+.wi-night-sleet:before {
+  content: ""; }
+
+.wi-night-sleet-storm:before {
+  content: ""; }
+
+.wi-night-snow:before {
+  content: ""; }
+
+.wi-night-snow-thunderstorm:before {
+  content: ""; }
+
+.wi-night-snow-wind:before {
+  content: ""; }
+
+.wi-night-sprinkle:before {
+  content: ""; }
+
+.wi-night-storm-showers:before {
+  content: ""; }
+
+.wi-night-thunderstorm:before {
+  content: ""; }
+
+.wi-lunar-eclipse:before {
+  content: ""; }
+
+.wi-stars:before {
+  content: ""; }
+
+.wi-storm-showers:before {
+  content: ""; }
+
+.wi-thunderstorm:before {
+  content: ""; }
+
+.wi-night-alt-cloudy-high:before {
+  content: ""; }
+
+.wi-night-cloudy-high:before {
+  content: ""; }
+
+.wi-night-alt-partly-cloudy:before {
+  content: ""; }
+
+.wi-cloud:before {
+  content: ""; }
+
+.wi-cloudy:before {
+  content: ""; }
+
+.wi-cloudy-gusts:before {
+  content: ""; }
+
+.wi-cloudy-windy:before {
+  content: ""; }
+
+.wi-fog:before {
+  content: ""; }
+
+.wi-hail:before {
+  content: ""; }
+
+.wi-rain:before {
+  content: ""; }
+
+.wi-rain-mix:before {
+  content: ""; }
+
+.wi-rain-wind:before {
+  content: ""; }
+
+.wi-showers:before {
+  content: ""; }
+
+.wi-sleet:before {
+  content: ""; }
+
+.wi-snow:before {
+  content: ""; }
+
+.wi-sprinkle:before {
+  content: ""; }
+
+.wi-storm-showers:before {
+  content: ""; }
+
+.wi-thunderstorm:before {
+  content: ""; }
+
+.wi-snow-wind:before {
+  content: ""; }
+
+.wi-snow:before {
+  content: ""; }
+
+.wi-smog:before {
+  content: ""; }
+
+.wi-smoke:before {
+  content: ""; }
+
+.wi-lightning:before {
+  content: ""; }
+
+.wi-raindrops:before {
+  content: ""; }
+
+.wi-raindrop:before {
+  content: ""; }
+
+.wi-dust:before {
+  content: ""; }
+
+.wi-snowflake-cold:before {
+  content: ""; }
+
+.wi-windy:before {
+  content: ""; }
+
+.wi-strong-wind:before {
+  content: ""; }
+
+.wi-sandstorm:before {
+  content: ""; }
+
+.wi-earthquake:before {
+  content: ""; }
+
+.wi-fire:before {
+  content: ""; }
+
+.wi-flood:before {
+  content: ""; }
+
+.wi-meteor:before {
+  content: ""; }
+
+.wi-tsunami:before {
+  content: ""; }
+
+.wi-volcano:before {
+  content: ""; }
+
+.wi-hurricane:before {
+  content: ""; }
+
+.wi-tornado:before {
+  content: ""; }
+
+.wi-small-craft-advisory:before {
+  content: ""; }
+
+.wi-gale-warning:before {
+  content: ""; }
+
+.wi-storm-warning:before {
+  content: ""; }
+
+.wi-hurricane-warning:before {
+  content: ""; }
+
+.wi-wind-direction:before {
+  content: ""; }
+
+.wi-alien:before {
+  content: ""; }
+
+.wi-celsius:before {
+  content: ""; }
+
+.wi-fahrenheit:before {
+  content: ""; }
+
+.wi-degrees:before {
+  content: ""; }
+
+.wi-thermometer:before {
+  content: ""; }
+
+.wi-thermometer-exterior:before {
+  content: ""; }
+
+.wi-thermometer-internal:before {
+  content: ""; }
+
+.wi-cloud-down:before {
+  content: ""; }
+
+.wi-cloud-up:before {
+  content: ""; }
+
+.wi-cloud-refresh:before {
+  content: ""; }
+
+.wi-horizon:before {
+  content: ""; }
+
+.wi-horizon-alt:before {
+  content: ""; }
+
+.wi-sunrise:before {
+  content: ""; }
+
+.wi-sunset:before {
+  content: ""; }
+
+.wi-moonrise:before {
+  content: ""; }
+
+.wi-moonset:before {
+  content: ""; }
+
+.wi-refresh:before {
+  content: ""; }
+
+.wi-refresh-alt:before {
+  content: ""; }
+
+.wi-umbrella:before {
+  content: ""; }
+
+.wi-barometer:before {
+  content: ""; }
+
+.wi-humidity:before {
+  content: ""; }
+
+.wi-na:before {
+  content: ""; }
+
+.wi-train:before {
+  content: ""; }
+
+.wi-moon-new:before {
+  content: ""; }
+
+.wi-moon-waxing-crescent-1:before {
+  content: ""; }
+
+.wi-moon-waxing-crescent-2:before {
+  content: ""; }
+
+.wi-moon-waxing-crescent-3:before {
+  content: ""; }
+
+.wi-moon-waxing-crescent-4:before {
+  content: ""; }
+
+.wi-moon-waxing-crescent-5:before {
+  content: ""; }
+
+.wi-moon-waxing-crescent-6:before {
+  content: ""; }
+
+.wi-moon-first-quarter:before {
+  content: ""; }
+
+.wi-moon-waxing-gibbous-1:before {
+  content: ""; }
+
+.wi-moon-waxing-gibbous-2:before {
+  content: ""; }
+
+.wi-moon-waxing-gibbous-3:before {
+  content: ""; }
+
+.wi-moon-waxing-gibbous-4:before {
+  content: ""; }
+
+.wi-moon-waxing-gibbous-5:before {
+  content: ""; }
+
+.wi-moon-waxing-gibbous-6:before {
+  content: ""; }
+
+.wi-moon-full:before {
+  content: ""; }
+
+.wi-moon-waning-gibbous-1:before {
+  content: ""; }
+
+.wi-moon-waning-gibbous-2:before {
+  content: ""; }
+
+.wi-moon-waning-gibbous-3:before {
+  content: ""; }
+
+.wi-moon-waning-gibbous-4:before {
+  content: ""; }
+
+.wi-moon-waning-gibbous-5:before {
+  content: ""; }
+
+.wi-moon-waning-gibbous-6:before {
+  content: ""; }
+
+.wi-moon-third-quarter:before {
+  content: ""; }
+
+.wi-moon-waning-crescent-1:before {
+  content: ""; }
+
+.wi-moon-waning-crescent-2:before {
+  content: ""; }
+
+.wi-moon-waning-crescent-3:before {
+  content: ""; }
+
+.wi-moon-waning-crescent-4:before {
+  content: ""; }
+
+.wi-moon-waning-crescent-5:before {
+  content: ""; }
+
+.wi-moon-waning-crescent-6:before {
+  content: ""; }
+
+.wi-moon-alt-new:before {
+  content: ""; }
+
+.wi-moon-alt-waxing-crescent-1:before {
+  content: ""; }
+
+.wi-moon-alt-waxing-crescent-2:before {
+  content: ""; }
+
+.wi-moon-alt-waxing-crescent-3:before {
+  content: ""; }
+
+.wi-moon-alt-waxing-crescent-4:before {
+  content: ""; }
+
+.wi-moon-alt-waxing-crescent-5:before {
+  content: ""; }
+
+.wi-moon-alt-waxing-crescent-6:before {
+  content: ""; }
+
+.wi-moon-alt-first-quarter:before {
+  content: ""; }
+
+.wi-moon-alt-waxing-gibbous-1:before {
+  content: ""; }
+
+.wi-moon-alt-waxing-gibbous-2:before {
+  content: ""; }
+
+.wi-moon-alt-waxing-gibbous-3:before {
+  content: ""; }
+
+.wi-moon-alt-waxing-gibbous-4:before {
+  content: ""; }
+
+.wi-moon-alt-waxing-gibbous-5:before {
+  content: ""; }
+
+.wi-moon-alt-waxing-gibbous-6:before {
+  content: ""; }
+
+.wi-moon-alt-full:before {
+  content: ""; }
+
+.wi-moon-alt-waning-gibbous-1:before {
+  content: ""; }
+
+.wi-moon-alt-waning-gibbous-2:before {
+  content: ""; }
+
+.wi-moon-alt-waning-gibbous-3:before {
+  content: ""; }
+
+.wi-moon-alt-waning-gibbous-4:before {
+  content: ""; }
+
+.wi-moon-alt-waning-gibbous-5:before {
+  content: ""; }
+
+.wi-moon-alt-waning-gibbous-6:before {
+  content: ""; }
+
+.wi-moon-alt-third-quarter:before {
+  content: ""; }
+
+.wi-moon-alt-waning-crescent-1:before {
+  content: ""; }
+
+.wi-moon-alt-waning-crescent-2:before {
+  content: ""; }
+
+.wi-moon-alt-waning-crescent-3:before {
+  content: ""; }
+
+.wi-moon-alt-waning-crescent-4:before {
+  content: ""; }
+
+.wi-moon-alt-waning-crescent-5:before {
+  content: ""; }
+
+.wi-moon-alt-waning-crescent-6:before {
+  content: ""; }
+
+.wi-moon-0:before {
+  content: ""; }
+
+.wi-moon-1:before {
+  content: ""; }
+
+.wi-moon-2:before {
+  content: ""; }
+
+.wi-moon-3:before {
+  content: ""; }
+
+.wi-moon-4:before {
+  content: ""; }
+
+.wi-moon-5:before {
+  content: ""; }
+
+.wi-moon-6:before {
+  content: ""; }
+
+.wi-moon-7:before {
+  content: ""; }
+
+.wi-moon-8:before {
+  content: ""; }
+
+.wi-moon-9:before {
+  content: ""; }
+
+.wi-moon-10:before {
+  content: ""; }
+
+.wi-moon-11:before {
+  content: ""; }
+
+.wi-moon-12:before {
+  content: ""; }
+
+.wi-moon-13:before {
+  content: ""; }
+
+.wi-moon-14:before {
+  content: ""; }
+
+.wi-moon-15:before {
+  content: ""; }
+
+.wi-moon-16:before {
+  content: ""; }
+
+.wi-moon-17:before {
+  content: ""; }
+
+.wi-moon-18:before {
+  content: ""; }
+
+.wi-moon-19:before {
+  content: ""; }
+
+.wi-moon-20:before {
+  content: ""; }
+
+.wi-moon-21:before {
+  content: ""; }
+
+.wi-moon-22:before {
+  content: ""; }
+
+.wi-moon-23:before {
+  content: ""; }
+
+.wi-moon-24:before {
+  content: ""; }
+
+.wi-moon-25:before {
+  content: ""; }
+
+.wi-moon-26:before {
+  content: ""; }
+
+.wi-moon-27:before {
+  content: ""; }
+
+.wi-time-1:before {
+  content: ""; }
+
+.wi-time-2:before {
+  content: ""; }
+
+.wi-time-3:before {
+  content: ""; }
+
+.wi-time-4:before {
+  content: ""; }
+
+.wi-time-5:before {
+  content: ""; }
+
+.wi-time-6:before {
+  content: ""; }
+
+.wi-time-7:before {
+  content: ""; }
+
+.wi-time-8:before {
+  content: ""; }
+
+.wi-time-9:before {
+  content: ""; }
+
+.wi-time-10:before {
+  content: ""; }
+
+.wi-time-11:before {
+  content: ""; }
+
+.wi-time-12:before {
+  content: ""; }
+
+.wi-direction-up:before {
+  content: ""; }
+
+.wi-direction-up-right:before {
+  content: ""; }
+
+.wi-direction-right:before {
+  content: ""; }
+
+.wi-direction-down-right:before {
+  content: ""; }
+
+.wi-direction-down:before {
+  content: ""; }
+
+.wi-direction-down-left:before {
+  content: ""; }
+
+.wi-direction-left:before {
+  content: ""; }
+
+.wi-direction-up-left:before {
+  content: ""; }
+
+.wi-wind-beaufort-0:before {
+  content: ""; }
+
+.wi-wind-beaufort-1:before {
+  content: ""; }
+
+.wi-wind-beaufort-2:before {
+  content: ""; }
+
+.wi-wind-beaufort-3:before {
+  content: ""; }
+
+.wi-wind-beaufort-4:before {
+  content: ""; }
+
+.wi-wind-beaufort-5:before {
+  content: ""; }
+
+.wi-wind-beaufort-6:before {
+  content: ""; }
+
+.wi-wind-beaufort-7:before {
+  content: ""; }
+
+.wi-wind-beaufort-8:before {
+  content: ""; }
+
+.wi-wind-beaufort-9:before {
+  content: ""; }
+
+.wi-wind-beaufort-10:before {
+  content: ""; }
+
+.wi-wind-beaufort-11:before {
+  content: ""; }
+
+.wi-wind-beaufort-12:before {
+  content: ""; }
 
 /******************************************
 *******************************************

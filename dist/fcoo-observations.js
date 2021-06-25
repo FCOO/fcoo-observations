@@ -43,7 +43,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "2.2.1",
+			VERSION         : "2.3.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -183,7 +183,7 @@
                 $.each(_this.locations, function(locationId, location){
                     $.each(location.stations, function(stationId, station){
                         if (stationId == findStationId){
-                            station._resolveGeoJSON(geoJSON, false);
+                            station._resolveGeoJSON(geoJSON, false, 1);
                             location.callUpdateObservation = true;
                         }
                     });
@@ -349,7 +349,6 @@
     };
 
 }(jQuery, L, this.i18next, this.moment, this, document));
-
 
 
 
@@ -731,6 +730,7 @@ Location = group of Stations with the same or different paramtre
             this._updateAny$elemetList('$lastObservation',
                 function(station){ // = function(station, index)
                     var dataSet = station.getDataSet(true, false); //Last observation
+
                     //If the timestamp is to old => return '?'
                     if ( !dataSet ||
                          (moment().valueOf() > (moment(dataSet.timestamp).valueOf() + station.observationGroup.maxDelayValueOf))
@@ -800,6 +800,7 @@ Location = group of Stations with the same or different paramtre
 
                 isMinimized: true,
                 minimized  : {
+                    showTooltip: true,
                     width    : 70,
                     className: 'text-center',
 
@@ -1214,6 +1215,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "allNeeded"             : false
         },
 */
+
 /*
         {
             "id"                    : "WAVE",
@@ -1224,7 +1226,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "allNeeded"             : false
         },
 */
-//*
+
+/*
         {
             "id"                    : "CURRENT",
             "name"                  : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
@@ -1235,7 +1238,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "formatterStatMethod"   : "formatterStatVectorDefault",
             "allNeeded"             : true,
 
-            "maxDelay"              : "PT6H",//<----- NB! TEST
+            "maxDelay"              : "PT1H",
             "maxGap"                : 60, //Minutes. Max gap between points before no line is drawn.
 
             "minRange"              : 1, //Min range on y-axis. Same as formatUnit or parameter default unit
@@ -1957,10 +1960,13 @@ Only one station pro Location is active within the same ObservationGroup
                         dataList.push(newDataSet);
 
                 });
+
             });
 
             //Sort by timestamp
-            dataList.sort(function(dataSet1, dataSet2){ return dataSet1.timestamp - dataSet2.timestep; });
+            dataList.sort(function(dataSet1, dataSet2){
+                return dataSet1.timestamp.localeCompare(dataSet2.timestamp);
+            });
 
             //If the station contains vector-parameter => calc speed, direction, eastware and northware for all dataSet
             if (this.vectorParameterList)
@@ -1974,7 +1980,7 @@ Only one station pro Location is active within the same ObservationGroup
                     metaData[speedId]     = metaData[speedId]     || metaData[eastwardId]  || metaData[northwardId] || {};
                     metaData[northwardId] = metaData[northwardId] || metaData[eastwardId]  || metaData[speedId]     || {};
                     metaData[eastwardId]  = metaData[eastwardId]  || metaData[northwardId] || metaData[speedId]     || {};
-                    metaData[directionId] = metaData[directionId]  || {unit: "degree"}; //Hard-coded to degree
+                    metaData[directionId] = metaData[directionId] || {unit: "degree"}; //Hard-coded to degree
 
 
                     $.each(dataList, function(index2, dataSet){
@@ -2029,14 +2035,14 @@ Only one station pro Location is active within the same ObservationGroup
         *****************************************************/
         _resolveForecast: function(geoJSON){
             this.forecastDataList = [];
-            this._resolveGeoJSON(geoJSON, true);
+            this._resolveGeoJSON(geoJSON, true, 2);
         },
 
         /*****************************************************
         _resolveObservations
         *****************************************************/
         _resolveObservations: function(geoJSON){
-            this._resolveGeoJSON(geoJSON, false);
+            this._resolveGeoJSON(geoJSON, false, 3);
         },
 
 

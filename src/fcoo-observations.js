@@ -183,7 +183,7 @@
                 $.each(_this.locations, function(locationId, location){
                     $.each(location.stations, function(stationId, station){
                         if (stationId == findStationId){
-                            station._resolveGeoJSON(geoJSON, false);
+                            station._resolveGeoJSON(geoJSON, false, 1);
                             location.callUpdateObservation = true;
                         }
                     });
@@ -349,6 +349,5 @@
     };
 
 }(jQuery, L, this.i18next, this.moment, this, document));
-
 
 
