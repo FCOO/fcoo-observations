@@ -106,11 +106,14 @@
 
 
         //Read last measuremnt every 3 min
-        ns.promiseList.append({
-            fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: _this.options.lastObservationFileName},
-            resolve : $.proxy(_this._resolve_last_measurment, _this),
-            reload  : 3,
-            promiseOptions: {noCache: true}
+        var fileNameList = $.isArray(this.options.lastObservationFileName) ? this.options.lastObservationFileName : this.options.lastObservationFileName.split(' ');
+        $.each(fileNameList, function(index, fileName){
+            ns.promiseList.append({
+                fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: fileName}, //_this.options.lastObservationFileName},
+                resolve : $.proxy(_this._resolve_last_measurment, _this),
+                reload  : 3,
+                promiseOptions: {noCache: true}
+            });
         });
 
 
