@@ -79,7 +79,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "name"                  : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
             "shortName"             : {"da": "Strøm", "en": "Current"},
             "icon"                  : "fas fa-horizontal-rule fa-lbm-color-gray      obs-group-icon obs-group-icon-below",
-            "parameterId"           : "sea_water_velocity",
+            "parameterId"           : "surface_sea_water_velocity",
             "formatterMethod"       : "formatterVectorDefault",
             "formatterStatMethod"   : "formatterStatVectorDefault",
             "allNeeded"             : true,
@@ -89,9 +89,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
             "minRange"              : 1, //Min range on y-axis. Same as formatUnit or parameter default unit
 
-            "arrow"                 : "fas-long-arrow-alt-up.svg", //"fal-long-arrow-alt-up.svg",
-            "arrowHeight"           : 16,
-            "arrowWidth"            :  8
+            "arrow"                 : "fal-long-arrow-alt-up", //"fal-long-arrow-alt-up.svg",
+            "arrowDim"              : 16
 
         },
 //*/
@@ -129,12 +128,19 @@ ObservationGroup = group of Locations with the same parameter(-group)
         this.parameterList = $.isArray(options.parameterId) ? options.parameterId : options.parameterId.split(' ');
         this.primaryParameter = nsParameter.getParameter(this.parameterList[0]);
 
+/*
         this.directionArrow = {
             dir   : 'images/',
             src   : options.arrow || 'fas-arrow-up.svg',
             width : options.arrowWidth || 16,
             height: options.arrowHeight || 16,
         };
+*/
+        if (options.arrow)
+            this.directionArrow = {
+                id  : options.arrow,
+                dim : options.arrowDim || 16
+            };
 
         //Find header = name [unit] used by primary-parameter
         var primaryUnit = nsParameter.getUnit(this.options.formatUnit || this.primaryParameter.unit);

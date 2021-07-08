@@ -10102,15 +10102,15 @@ div.checkbox, div.radio {
       font-size: 0.8rem;
       width: 0.8rem;
       height: 0.8rem;
-      margin-top: 0.35rem;
-      margin-left: 0.2rem; }
+      margin-top: 0.35rem !important;
+      margin-left: 0.2rem !important; }
 
 div.checkbox input label::before {
   border-radius: 0.25rem; }
 
 div.radio input + label i {
   font-size: 0.4rem;
-  margin-top: 0.55rem; }
+  margin-top: 0.55rem !important; }
 
 div.checkbox-sm, div.radio-sm {
   height: 1.46875rem;
@@ -10128,15 +10128,15 @@ div.checkbox-sm, div.radio-sm {
       font-size: 0.65rem;
       width: 0.65rem;
       height: 0.65rem;
-      margin-top: 0.284375rem;
-      margin-left: 0.1625rem; }
+      margin-top: 0.284375rem !important;
+      margin-left: 0.1625rem !important; }
 
 div.checkbox-sm input label::before {
   border-radius: 0.1875rem; }
 
 div.radio-sm input + label i {
   font-size: 0.325rem;
-  margin-top: 0.446875rem; }
+  margin-top: 0.446875rem !important; }
 
 /***************************************************************************
 checkbox-inline, radio-inline,

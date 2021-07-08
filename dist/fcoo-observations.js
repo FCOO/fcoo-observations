@@ -43,15 +43,15 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "2.3.0",
+			VERSION         : "2.4.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
             },
             groupFileName           : 'observations-groups.json', //Not used at the moment
             locationFileName        : 'locations.json',
-            fileName                : 'fcoo-observations.json',
-            lastObservationFileName : 'LastObservations.json',
+            fileName                : ['observations-sealevel.json','observations-current.json'/*, 'observations-wind.json'*/],
+            lastObservationFileName : 'LastObservations_SEALVL.json LastObservations_CURRENT.json',
         }, options || {});
 
         this.maps = {};
@@ -106,11 +106,14 @@
 
 
         //Read last measuremnt every 3 min
-        ns.promiseList.append({
-            fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: _this.options.lastObservationFileName},
-            resolve : $.proxy(_this._resolve_last_measurment, _this),
-            reload  : 3,
-            promiseOptions: {noCache: true}
+        var fileNameList = $.isArray(this.options.lastObservationFileName) ? this.options.lastObservationFileName : this.options.lastObservationFileName.split(' ');
+        $.each(fileNameList, function(index, fileName){
+            ns.promiseList.append({
+                fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: fileName}, //_this.options.lastObservationFileName},
+                resolve : $.proxy(_this._resolve_last_measurment, _this),
+                reload  : 3,
+                promiseOptions: {noCache: true}
+            });
         });
 
 
@@ -1227,25 +1230,24 @@ ObservationGroup = group of Locations with the same parameter(-group)
         },
 */
 
-/*
+//*
         {
             "id"                    : "CURRENT",
             "name"                  : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
             "shortName"             : {"da": "Strøm", "en": "Current"},
             "icon"                  : "fas fa-horizontal-rule fa-lbm-color-gray      obs-group-icon obs-group-icon-below",
-            "parameterId"           : "sea_water_velocity",
+            "parameterId"           : "surface_sea_water_velocity",
             "formatterMethod"       : "formatterVectorDefault",
             "formatterStatMethod"   : "formatterStatVectorDefault",
             "allNeeded"             : true,
 
-            "maxDelay"              : "PT1H",
-            "maxGap"                : 60, //Minutes. Max gap between points before no line is drawn.
+            "maxDelay"              : "PT1H",   //Max delay of latest measurement before it is not shown as "Last Measurement"
+            "maxGap"                : 60,       //Minutes. Max gap between points before no line is drawn.
 
             "minRange"              : 1, //Min range on y-axis. Same as formatUnit or parameter default unit
 
-            "arrow"                 : "fas-long-arrow-alt-up.svg", //"fal-long-arrow-alt-up.svg",
-            "arrowHeight"           : 16,
-            "arrowWidth"            :  8
+            "arrow"                 : "fal-long-arrow-alt-up", //"fal-long-arrow-alt-up.svg",
+            "arrowDim"              : 16
 
         },
 //*/
@@ -1283,12 +1285,19 @@ ObservationGroup = group of Locations with the same parameter(-group)
         this.parameterList = $.isArray(options.parameterId) ? options.parameterId : options.parameterId.split(' ');
         this.primaryParameter = nsParameter.getParameter(this.parameterList[0]);
 
+/*
         this.directionArrow = {
             dir   : 'images/',
             src   : options.arrow || 'fas-arrow-up.svg',
             width : options.arrowWidth || 16,
             height: options.arrowHeight || 16,
         };
+*/
+        if (options.arrow)
+            this.directionArrow = {
+                id  : options.arrow,
+                dim : options.arrowDim || 16
+            };
 
         //Find header = name [unit] used by primary-parameter
         var primaryUnit = nsParameter.getUnit(this.options.formatUnit || this.primaryParameter.unit);

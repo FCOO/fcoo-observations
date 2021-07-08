@@ -152,9 +152,9 @@
             fileName:[
                 'observations-sealevel.json',
                 // 'observations-wind_TEST.json', 
-                'observations-current_TEST.json'
+                'observations-current.json'
             ],
-            lastObservationFileName : ['LastObservations_test.json', 'LastObservations.json'],
+            lastObservationFileName : ['LastObservations_SEALVL.json', 'LastObservations_CURRENT.json'],
         });
 //HER        window.fcoo.LOCAL_DATA = false;
 
@@ -162,7 +162,7 @@
         fcooObservation.show('SEALEVEL', maps[0]);
 
         var geoJSON1 = fcooObservation.geoJSON().addTo(maps[1]);
-        //fcooObservation.show('CURRENT', maps[1]);
+        fcooObservation.show('CURRENT', maps[1]);
 
 
         /*

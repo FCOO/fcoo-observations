@@ -50,8 +50,8 @@
             },
             groupFileName           : 'observations-groups.json', //Not used at the moment
             locationFileName        : 'locations.json',
-            fileName                : 'fcoo-observations.json',
-            lastObservationFileName : 'LastObservations.json',
+            fileName                : ['observations-sealevel.json','observations-current.json'/*, 'observations-wind.json'*/],
+            lastObservationFileName : 'LastObservations_SEALVL.json LastObservations_CURRENT.json',
         }, options || {});
 
         this.maps = {};
