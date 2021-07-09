@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /***********************************************
 	fcoo-observations.scss,
 
@@ -15,11 +16,27 @@ JQUERY-BOOTSTRAP: Set and adjust bootstrap default values
 BOOTSTRAP-VARIABLES
 ************************************************************/
 /***********************************************
+FUNCTIONS TO CONVETRT FROM PX TO REM
+To make it easier to design and calculate dimensions
+the function rem defined
+************************************************/
+/***********************************************
 ADJUST BOOTSTRAP DEFAULT VALUES
+************************************************/
+/***********************************************
+Adjust bootstrap-variables to only have dimensions
+in integer px from rem
 ************************************************/
 /*Not used. No lg-buttons
 $input-btn-padding-y-lg: .75rem;
 $input-btn-padding-x-lg: $input-btn-padding-y-lg;
+*/
+/* VERSION 1.x
+//$font-size-sm = .875rem; // = 14px
+$font-size-sm: rem(13px); //<= TODO MANGLER. Skal muligvis sættes til 14px og så skal padding for buttons rettes tilsvarrende
+
+$input-btn-padding-y-sm: rem(4px);
+$input-btn-padding-x-sm: $input-btn-padding-y-sm;
 */
 /************************************************************
 Including "size" xs as in Bootstrap 3
@@ -73,7 +90,7 @@ HEADER
 Font-sizes for headers are one 'size' smaller than normal font
 $font-size-lg  : 1.25rem    20px
 $font-size-base: 1rem       16px
-$font-size-sm  : .8125rem   13px
+$font-size-sm  : .875rem;   14px
 $font-size-xs  : .75rem     12px
 ************************************************************/
 /************************************************************
