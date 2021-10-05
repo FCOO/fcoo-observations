@@ -9,6 +9,11 @@
 
 
 ************************************************/
+/************************************************************
+INCLUDE-JQUERY-BOOTSTRAP-VARIABLES
+USED IN FOR OTHER PACKAGES TO INCLUDE ALL SCSS-FILES NEEDED
+TO HAVE ACCESS TO ALL BOOTSTRAP AND FCOO/JQUERY-BOOTSTRAP SCSS-VARIABLES
+************************************************************/
 /***********************************************
 JQUERY-BOOTSTRAP: Set and adjust bootstrap default values
 ************************************************/

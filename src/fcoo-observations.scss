@@ -21,25 +21,8 @@
 @import "../bower_components/modernizr-scss/dist/modernizr-scss";
 
 
-/***********************************************
-JQUERY-BOOTSTRAP: Set and adjust bootstrap default values
-************************************************/
-@import "../bower_components/jquery-bootstrap/src/bootstrap-variables";
-
-/***********************************************
-BOOTSTRAP: scss variables
-************************************************/
-@import "../bower_components/bootstrap/scss/functions";
-@import "../bower_components/bootstrap/scss/variables";
-@import "../bower_components/bootstrap/scss/mixins";
-
-
-/***********************************************
-JQUERY-BOOTSTRAP: Background-color and text color and Variables
-************************************************/
-@import "../bower_components/jquery-bootstrap/src/color";
-@import "../bower_components/jquery-bootstrap/src/variables";
-@import "../bower_components/jquery-bootstrap/src/mixins";
+//JQUERY-BOOTSTRAP VARIABLES AND MIXINS
+@import "../bower_components/jquery-bootstrap/src/include-jquery-bootstrap-variables";
 
 
 //LEAFLET-BOOTSTRAP_MARKER - mixin to create colors for bsMarker
