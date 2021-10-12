@@ -43,7 +43,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.0.1",
+			VERSION         : "3.1.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -1237,6 +1237,9 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "shortName"             : {"da": "Strøm", "en": "Current"},
             "icon"                  : "fas fa-horizontal-rule fa-lbm-color-gray      obs-group-icon obs-group-icon-below",
             "parameterId"           : "surface_sea_water_velocity",
+
+"formatUnit": "nm h-1",
+
             "formatterMethod"       : "formatterVectorDefault",
             "formatterStatMethod"   : "formatterStatVectorDefault",
             "allNeeded"             : true,
@@ -1301,6 +1304,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
         //Find header = name [unit] used by primary-parameter
         var primaryUnit = nsParameter.getUnit(this.options.formatUnit || this.primaryParameter.unit);
+
         this.header = {};
         $.each(i18next.options.languages || i18next.languages, function(index, lang){
             _this.header[lang] = (_this.name[lang] || _this.name['en']) + ' [' + (primaryUnit.name[lang] ||  primaryUnit.name['en']) + ']';

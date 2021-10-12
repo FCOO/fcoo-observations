@@ -10152,15 +10152,15 @@ div.checkbox, div.radio {
       div.checkbox input:disabled + label::before, div.radio input:disabled + label::before {
         background-color: #fff !important;
         cursor: not-allowed !important; }
-    div.checkbox input + label i, div.radio input + label i {
+    div.checkbox input + label i.checkbox-icon, div.radio input + label i.checkbox-icon {
       line-height: 1;
       text-align: center;
       color: transparent;
       position: absolute;
       left: 0px; }
-    div.checkbox input:not(:checked):not(:disabled):hover + label i, div.radio input:not(:checked):not(:disabled):hover + label i {
+    div.checkbox input:not(:checked):not(:disabled):hover + label i.checkbox-icon, div.radio input:not(:checked):not(:disabled):hover + label i.checkbox-icon {
       color: #cccccc; }
-    div.checkbox input:checked + label i, div.radio input:checked + label i {
+    div.checkbox input:checked + label i.checkbox-icon, div.radio input:checked + label i.checkbox-icon {
       color: #fff; }
 
 div.radio input + label::before {
@@ -10170,8 +10170,9 @@ div.radio input + label::before {
 @mixin checkbox-radio-size-variant
 ***************************************************************************/
 div.checkbox, div.radio {
-  height: 2.125rem;
   font-size: 1rem; }
+  div.checkbox:not(.multi-lines), div.radio:not(.multi-lines) {
+    height: 2.125rem; }
   div.checkbox input + label, div.radio input + label {
     padding-left: 1.375rem;
     padding-top: 0.3125rem;
@@ -10181,7 +10182,7 @@ div.checkbox, div.radio {
       margin-top: 0.1875rem;
       width: 1.125rem;
       height: 1.125rem; }
-    div.checkbox input + label i, div.radio input + label i {
+    div.checkbox input + label i.checkbox-icon, div.radio input + label i.checkbox-icon {
       font-size: 0.875rem;
       width: 0.875rem;
       height: 0.875rem;
@@ -10191,7 +10192,7 @@ div.checkbox, div.radio {
 div.checkbox input label::before {
   border-radius: 0.25rem; }
 
-div.radio input + label i {
+div.radio input + label i.checkbox-icon {
   font-size: 0.375rem;
   width: 0.375rem;
   height: 0.375rem;
@@ -10199,8 +10200,9 @@ div.radio input + label i {
   margin-left: 0.375rem !important; }
 
 div.checkbox-sm, div.radio-sm {
-  height: 1.6875rem;
   font-size: 0.875rem; }
+  div.checkbox-sm:not(.multi-lines), div.radio-sm:not(.multi-lines) {
+    height: 1.6875rem; }
   div.checkbox-sm input + label, div.radio-sm input + label {
     padding-left: 1.1875rem;
     padding-top: 0.1875rem;
@@ -10210,7 +10212,7 @@ div.checkbox-sm, div.radio-sm {
       margin-top: 0.15625rem;
       width: 1rem;
       height: 1rem; }
-    div.checkbox-sm input + label i, div.radio-sm input + label i {
+    div.checkbox-sm input + label i.checkbox-icon, div.radio-sm input + label i.checkbox-icon {
       font-size: 0.75rem;
       width: 0.75rem;
       height: 0.75rem;
@@ -10220,7 +10222,7 @@ div.checkbox-sm, div.radio-sm {
 div.checkbox-sm input label::before {
   border-radius: 0.1875rem; }
 
-div.radio-sm input + label i {
+div.radio-sm input + label i.checkbox-icon {
   font-size: 0.375rem;
   width: 0.375rem;
   height: 0.375rem;
@@ -22366,19 +22368,23 @@ class="hide-for-global-setting-timezone-utc show-for-global-setting-showutc"
 
 @charset "UTF-8";
 /***********************************************
-    fcoo-application.scss,
+    jquery-bootstrap-mmenu.scss,
 
-    (c) 2016, FCOO
+    (c) 2021, FCOO
 
-    https://gitlab.com/fcoo/fcoo-application
-    https://gitlab.com/fcoo
+    https://github.com/FCOO/jquery-bootstrap-mmenu
+    https://github.com/FCOO
 
 
 ************************************************/
-/***************************************************
-Import Bootstrap variables and variables and the
-adjustments to Bootstrap from fcoo/jquery-bootstrap
-***************************************************/
+/************************************************************
+INCLUDE-JQUERY-BOOTSTRAP-VARIABLES
+USED IN FOR OTHER PACKAGES TO INCLUDE ALL SCSS-FILES NEEDED
+TO HAVE ACCESS TO ALL BOOTSTRAP AND FCOO/JQUERY-BOOTSTRAP SCSS-VARIABLES
+************************************************************/
+/***********************************************
+JQUERY-BOOTSTRAP: Set and adjust bootstrap default values
+************************************************/
 /************************************************************
 BOOTSTRAP-VARIABLES
 ************************************************************/
@@ -22425,6 +22431,1410 @@ Adjust dropdown-menu
 /************************************************************
 Adjust modal
 ************************************************************/
+/***********************************************
+BOOTSTRAP: scss variables
+************************************************/
+/***********************************************
+JQUERY-BOOTSTRAP: Background-color and text color and Variables
+************************************************/
+/************************************************************
+COLOR
+
+background-color and text-color for
+headers modal, popover, tables, buttons, list-items etc.
+
+"$header-" is used for header to modal-windows and popover
+"$title-" is used for headers on content - table, accordion etc.
+"$control-" is used for buttons, list-items etc.
+************************************************************/
+/************************************************************
+VARIABLES
+************************************************************/
+/***********************************************
+DEFINE BOOTSTRAP BUTTON STYLE
+$btn-style-name MUST correspond with ns.bsButtonClass
+in src/jquery-bootstrap-button.js
+************************************************/
+/************************************************************
+Variables bassed on bootstrop variables
+************************************************************/
+/************************************************************
+HEADER
+Font-sizes for headers are one 'size' smaller than normal font
+$font-size-lg  : 1.25rem    20px
+$font-size-base: 1rem       16px
+$font-size-sm  : .875rem;   14px
+$font-size-xs  : .75rem     12px
+************************************************************/
+/************************************************************
+BUTTON AND MODAL
+Opacity for semi-transparent and transparent content
+************************************************************/
+/************************************************************
+SQUARE BUTTONS
+Dimentions for square buttons with only icons
+************************************************************/
+/************************************************************
+LABEL
+Font-sizes for labels are same siae as header but incl a xxs-size
+************************************************************/
+/************************************************************
+CONTENT
+Unifies padding and font-size for content of modal, accordion, popup etc.
+Using same font-size and vertical/horizontal padding as buttons
+************************************************************/
+/************************************************************
+MARGIN-BOTTOM
+All elements in modal-windows get same margin-bottom
+************************************************************/
+/************************************************************
+MIXIN
+************************************************************/
+/************************************************************
+RIGHT-SIDE-ICON
+Add style to <i> to place it to the right and vertical center
+NOTE: Parent element MUST have @include vertical-align-center();
+************************************************************/
+/************************************************************
+FOCUS
+All elements get same outline when they have focus:
+No outline
+border-color = light blue
+************************************************************/
+/************************************************************
+CONTENT
+Unifies padding for modal, accordion, popup etc.
+************************************************************/
+/************************************************************
+CONTROL-CONTAINER
+Style for div with controls inside modal.
+Must have tabindex:"-1" to work with focus
+************************************************************/
+/************************************************************
+CONTROL BORDER-COLOR
+All control elements get same border-color when normal, hover, active and error
+************************************************************/
+/************************************************************
+CONTROL-COLORS
+Sets all color for text, background, border for normal, :hover, :focus,  :active and .active
+************************************************************/
+/************************************************************
+TYPE-COLOR
+Bg-color and color for different 'type' (warning, alert, info, error, success)
+Used in Noty and Modal
+************************************************************/
+/************************************************************
+HEADER AND TITLE BACKGROUND-COLOR AND COLOR
+Headers for modal, popover, popup etc.
+************************************************************/
+/************************************************************
+color-hover - Background-color and text-color for 'normal' and hover
+************************************************************/
+/************************************************************
+header-colors - Colors for headers
+************************************************************/
+/************************************************************
+title-color - create colors for headers for table and accordion etc.
+************************************************************/
+/************************************************************
+HEADER, TITLE, AND FOOTER PADDING AND FONT-SIZE
+Padding are set to button y-padding (moving text to the left)
+************************************************************/
+/************************************************************
+header-variant
+************************************************************/
+/************************************************************
+title-variant - as header but with same font-size as siblings
+************************************************************/
+/************************************************************
+footer-variant
+************************************************************/
+/************************************************************
+MARGIN-BOTTOM FOR ELEMENTS IN MODAL
+All elements in modal-windows get same margin-bottom
+************************************************************/
+/***********************************************
+Setting different _include_-variables to include
+or exclude parts of the css
+***********************************************/
+/***********************************************
+COLORS AND STYLE
+***********************************************/
+/***********************************************
+IMPORT MMENU SCSS
+***********************************************/
+/*!
+ * mmenu.js
+ * mmenujs.com
+ *
+ * Copyright (c) Fred Heusschen
+ * frebsite.nl
+ *
+ * License: CC-BY-NC-4.0
+ * http://creativecommons.org/licenses/by-nc/4.0/
+ */
+:root {
+  --mm-line-height: 2.25rem;
+  --mm-listitem-size: 2.25rem;
+  --mm-navbar-size: 2.25rem;
+  --mm-offset-top: 0;
+  --mm-offset-right: 0;
+  --mm-offset-bottom: 0;
+  --mm-offset-left: 0;
+  --mm-color-border: #ced4da;
+  --mm-color-button: rgba(0, 0, 0, 0.3);
+  --mm-color-text: #515961;
+  --mm-color-text-dimmed: rgba(0, 0, 0, 0.3);
+  --mm-color-background: #f8f9fa;
+  --mm-color-background-highlight: rgba(0, 0, 0, 0.05);
+  --mm-color-background-emphasis: #e9ecef;
+  --mm-shadow: 0 0 10px rgba(0, 0, 0, 0.3); }
+
+.mm-hidden {
+  display: none !important; }
+
+.mm-wrapper {
+  overflow-x: hidden;
+  position: relative; }
+
+.mm-menu {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #f8f9fa;
+  border-color: #ced4da;
+  color: #515961;
+  line-height: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  position: absolute;
+  top: var(--mm-offset-top);
+  right: var(--mm-offset-right);
+  bottom: var(--mm-offset-bottom);
+  left: var(--mm-offset-left);
+  z-index: 0;
+  overscroll-behavior: auto;
+  background: var(--mm-color-background);
+  border-color: var(--mm-color-border);
+  color: var(--mm-color-text);
+  line-height: var(--mm-line-height);
+  -webkit-tap-highlight-color: var(--mm-color-background-emphasis);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+  .mm-menu a,
+  .mm-menu a:link,
+  .mm-menu a:active,
+  .mm-menu a:visited,
+  .mm-menu a:hover {
+    text-decoration: none;
+    color: inherit; }
+
+.mm-panel {
+  background: #f8f9fa;
+  border-color: #ced4da;
+  color: #515961;
+  z-index: 0;
+  box-sizing: border-box;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+  overflow-y: auto;
+  color: var(--mm-color-text);
+  border-color: var(--mm-color-border);
+  background: var(--mm-color-background);
+  transform: translate3d(100%, 0, 0);
+  transition: transform 0.4s ease; }
+  .mm-panel:after {
+    height: 2.25rem; }
+  .mm-panel:not(.mm-hidden) {
+    display: block; }
+  .mm-panel:after {
+    content: '';
+    display: block;
+    height: var(--mm-listitem-size); }
+  .mm-panel_opened {
+    z-index: 1;
+    transform: translate3d(0%, 0, 0); }
+  .mm-panel_opened-parent {
+    transform: translate3d(-30%, 0, 0); }
+  .mm-panel_highest {
+    z-index: 2; }
+  .mm-panel_noanimation {
+    transition: none !important; }
+    .mm-panel_noanimation.mm-panel_opened-parent {
+      transform: translate3d(0, 0, 0); }
+  .mm-panels > .mm-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0; }
+
+.mm-panel__content {
+  padding: 0.625rem 0.625rem 0; }
+
+.mm-panels {
+  background: #f8f9fa;
+  border-color: #ced4da;
+  color: #515961;
+  position: relative;
+  height: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+  background: var(--mm-color-background);
+  border-color: var(--mm-color-border);
+  color: var(--mm-color-text); }
+
+.mm-listitem_vertical > .mm-panel {
+  display: none;
+  width: 100%;
+  padding: 0.3125rem 0 0.3125rem 0.3125rem;
+  transform: none !important; }
+  .mm-listitem_vertical > .mm-panel:before, .mm-listitem_vertical > .mm-panel:after {
+    content: none;
+    display: none; }
+
+.mm-listitem_opened > .mm-panel {
+  display: block; }
+
+.mm-listitem_vertical > .mm-listitem__btn {
+  height: 2.25rem;
+  height: var(--mm-listitem-size);
+  bottom: auto; }
+
+.mm-listitem_vertical .mm-listitem:last-child:after {
+  border-color: transparent; }
+
+.mm-listitem_opened > .mm-listitem__btn:after {
+  transform: rotate(225deg);
+  right: 9px; }
+
+.mm-btn {
+  flex-grow: 0;
+  flex-shrink: 0;
+  position: relative;
+  box-sizing: border-box;
+  width: 2.25rem;
+  padding: 0; }
+  .mm-btn:before, .mm-btn:after {
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--mm-color-button); }
+
+.mm-btn_prev:before, .mm-btn_next:after {
+  content: '';
+  border-bottom: none;
+  border-right: none;
+  box-sizing: content-box;
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0; }
+
+.mm-btn_prev:before {
+  transform: rotate(-45deg);
+  left: 13px;
+  right: auto; }
+
+.mm-btn_next:after {
+  transform: rotate(135deg);
+  right: 13px;
+  left: auto; }
+
+.mm-btn_close:before, .mm-btn_close:after {
+  content: '';
+  box-sizing: content-box;
+  display: block;
+  width: 5px;
+  height: 5px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  transform: rotate(-45deg); }
+
+.mm-btn_close:before {
+  border-right: none;
+  border-bottom: none;
+  right: 8px; }
+
+.mm-btn_close:after {
+  border-left: none;
+  border-top: none;
+  right: 15px; }
+
+.mm-navbar {
+  min-height: 2.25rem;
+  border-bottom: 1px solid #ced4da;
+  background: #f8f9fa;
+  color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  min-height: var(--mm-navbar-size);
+  border-bottom: 1px solid var(--mm-color-border);
+  background: var(--mm-color-background);
+  color: var(--mm-color-text-dimmed);
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.4s ease; }
+  .mm-navbar > * {
+    min-height: 2.25rem; }
+  @supports (position: sticky) {
+    .mm-navbar_sticky {
+      position: sticky;
+      top: 0;
+      z-index: 1; } }
+  .mm-navbar > * {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box; }
+
+.mm-navbar__btn {
+  flex-grow: 0; }
+
+.mm-navbar__title {
+  flex: 1 1 50%;
+  display: flex;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  overflow: hidden; }
+  .mm-navbar__title:not(:last-child) {
+    padding-right: 0; }
+  .mm-navbar__title > span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; }
+  .mm-navbar__btn:not(.mm-hidden) + .mm-navbar__title {
+    padding-left: 0; }
+    .mm-navbar__btn:not(.mm-hidden) + .mm-navbar__title:last-child {
+      padding-right: 2.25rem; }
+
+.mm-listview {
+  list-style: none;
+  display: block;
+  padding: 0;
+  margin: 0; }
+
+.mm-listitem {
+  color: #515961;
+  border-color: #ced4da;
+  color: var(--mm-color-text);
+  border-color: var(--mm-color-border);
+  list-style: none;
+  display: block;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap; }
+  .mm-listitem:after {
+    content: '';
+    border-color: inherit;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    display: block;
+    position: absolute;
+    left: 10px;
+    right: 0;
+    bottom: 0; }
+  .mm-listitem a,
+  .mm-listitem a:hover {
+    text-decoration: none; }
+
+.mm-listitem__text, .mm-listitem__btn {
+  padding: 0rem;
+  display: block;
+  padding: calc((var(--mm-listitem-size) - var(--mm-line-height)) / 2);
+  padding-left: 0;
+  padding-right: 0;
+  color: inherit; }
+
+.mm-listitem__text {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 10px;
+  padding-right: 0.3125rem;
+  flex-grow: 1;
+  flex-basis: 10%; }
+
+.mm-listitem__btn {
+  background: rgba(3, 2, 1, 0);
+  border-color: inherit;
+  width: auto;
+  padding-right: 2.25rem;
+  position: relative; }
+  .mm-listitem__btn:not(.mm-listitem__text) {
+    border-left-width: 1px;
+    border-left-style: solid; }
+
+.mm-listitem_selected > .mm-listitem__text {
+  background: #e9ecef;
+  background: var(--mm-color-background-emphasis); }
+
+.mm-listitem_opened > .mm-listitem__btn,
+.mm-listitem_opened > .mm-panel {
+  background: rgba(0, 0, 0, 0.05);
+  background: var(--mm-color-background-highlight); }
+
+.mm-page {
+  box-sizing: border-box;
+  position: relative; }
+
+.mm-slideout {
+  transition: transform 0.4s ease;
+  z-index: 1; }
+
+.mm-wrapper_opened {
+  overflow-x: hidden;
+  position: relative; }
+  .mm-wrapper_opened .mm-page {
+    min-height: 100vh; }
+
+.mm-wrapper_background .mm-page {
+  background: inherit; }
+
+.mm-menu_offcanvas {
+  position: fixed;
+  right: auto;
+  z-index: 0; }
+  .mm-menu_offcanvas:not(.mm-menu_opened) {
+    display: none; }
+
+.mm-menu_offcanvas {
+  width: 80%;
+  min-width: 240px;
+  max-width: 440px; }
+
+.mm-wrapper_opening .mm-menu_offcanvas.mm-menu_opened ~ .mm-slideout {
+  transform: translate3d(80vw, 0, 0); }
+
+@media all and (max-width: 300px) {
+  .mm-wrapper_opening .mm-menu_offcanvas.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(240px, 0, 0); } }
+
+@media all and (min-width: 550px) {
+  .mm-wrapper_opening .mm-menu_offcanvas.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(440px, 0, 0); } }
+
+.mm-wrapper__blocker {
+  background: rgba(3, 2, 1, 0);
+  overflow: hidden;
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2; }
+
+.mm-wrapper_blocking {
+  overflow: hidden; }
+  .mm-wrapper_blocking body {
+    overflow: hidden; }
+  .mm-wrapper_blocking .mm-wrapper__blocker {
+    display: block; }
+
+.mm-sronly {
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  width: 1px !important;
+  min-width: 1px !important;
+  height: 1px !important;
+  min-height: 1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important; }
+
+.mm-menu_autoheight:not(.mm-menu_offcanvas) {
+  position: relative; }
+
+.mm-menu_autoheight.mm-menu_position-top, .mm-menu_autoheight.mm-menu_position-bottom {
+  max-height: 80%; }
+
+.mm-menu_autoheight-measuring .mm-panel {
+  display: block !important; }
+
+.mm-menu_autoheight-measuring .mm-panels > .mm-panel {
+  bottom: auto !important;
+  height: auto !important; }
+
+.mm-menu_autoheight-measuring .mm-listitem_vertical:not(.mm-listitem_opened) .mm-panel {
+  display: none !important; }
+
+[class*='mm-menu_columns-'] {
+  transition-property: width; }
+  [class*='mm-menu_columns-'] .mm-panels > .mm-panel {
+    right: auto;
+    transition-property: width, transform; }
+    [class*='mm-menu_columns-'] .mm-panels > .mm-panel_opened, [class*='mm-menu_columns-'] .mm-panels > .mm-panel_opened-parent {
+      display: block !important; }
+
+[class*='mm-panel_columns-'] {
+  border-right: 1px solid;
+  border-color: inherit; }
+
+.mm-menu_columns-1 .mm-panel_columns-0,
+.mm-menu_columns-2 .mm-panel_columns-1,
+.mm-menu_columns-3 .mm-panel_columns-2,
+.mm-menu_columns-4 .mm-panel_columns-3 {
+  border-right: none; }
+
+[class*='mm-menu_columns-'] .mm-panels > .mm-panel_columns-0 {
+  transform: translate3d(0%, 0, 0); }
+
+.mm-menu_columns-0 .mm-panels > .mm-panel {
+  z-index: 0; }
+  .mm-menu_columns-0 .mm-panels > .mm-panel else {
+    width: 100%; }
+  .mm-menu_columns-0 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
+    transform: translate3d(100%, 0, 0); }
+
+.mm-menu_columns-0 {
+  width: 80%;
+  min-width: 240px;
+  max-width: 0px; }
+
+.mm-wrapper_opening .mm-menu_columns-0.mm-menu_opened ~ .mm-slideout {
+  transform: translate3d(80vw, 0, 0); }
+
+@media all and (max-width: 300px) {
+  .mm-wrapper_opening .mm-menu_columns-0.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(240px, 0, 0); } }
+
+@media all and (min-width: 0px) {
+  .mm-wrapper_opening .mm-menu_columns-0.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(0px, 0, 0); } }
+
+.mm-wrapper_opening .mm-menu_columns-0.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+  transform: translate3d(-80vw, 0, 0); }
+
+@media all and (max-width: 300px) {
+  .mm-wrapper_opening .mm-menu_columns-0.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(-240px, 0, 0); } }
+
+@media all and (min-width: 0px) {
+  .mm-wrapper_opening .mm-menu_columns-0.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(0px, 0, 0); } }
+
+[class*='mm-menu_columns-'] .mm-panels > .mm-panel_columns-1 {
+  transform: translate3d(100%, 0, 0); }
+
+.mm-menu_columns-1 .mm-panels > .mm-panel {
+  z-index: 1;
+  width: 100%; }
+  .mm-menu_columns-1 .mm-panels > .mm-panel else {
+    width: 100%; }
+  .mm-menu_columns-1 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
+    transform: translate3d(200%, 0, 0); }
+
+.mm-menu_columns-1 {
+  width: 80%;
+  min-width: 240px;
+  max-width: 440px; }
+
+.mm-wrapper_opening .mm-menu_columns-1.mm-menu_opened ~ .mm-slideout {
+  transform: translate3d(80vw, 0, 0); }
+
+@media all and (max-width: 300px) {
+  .mm-wrapper_opening .mm-menu_columns-1.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(240px, 0, 0); } }
+
+@media all and (min-width: 550px) {
+  .mm-wrapper_opening .mm-menu_columns-1.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(440px, 0, 0); } }
+
+.mm-wrapper_opening .mm-menu_columns-1.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+  transform: translate3d(-80vw, 0, 0); }
+
+@media all and (max-width: 300px) {
+  .mm-wrapper_opening .mm-menu_columns-1.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(-240px, 0, 0); } }
+
+@media all and (min-width: 550px) {
+  .mm-wrapper_opening .mm-menu_columns-1.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(-440px, 0, 0); } }
+
+[class*='mm-menu_columns-'] .mm-panels > .mm-panel_columns-2 {
+  transform: translate3d(200%, 0, 0); }
+
+.mm-menu_columns-2 .mm-panels > .mm-panel {
+  z-index: 2;
+  width: 50%; }
+  .mm-menu_columns-2 .mm-panels > .mm-panel else {
+    width: 100%; }
+  .mm-menu_columns-2 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
+    transform: translate3d(300%, 0, 0); }
+
+.mm-menu_columns-2 {
+  width: 80%;
+  min-width: 240px;
+  max-width: 880px; }
+
+.mm-wrapper_opening .mm-menu_columns-2.mm-menu_opened ~ .mm-slideout {
+  transform: translate3d(80vw, 0, 0); }
+
+@media all and (max-width: 300px) {
+  .mm-wrapper_opening .mm-menu_columns-2.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(240px, 0, 0); } }
+
+@media all and (min-width: 1100px) {
+  .mm-wrapper_opening .mm-menu_columns-2.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(880px, 0, 0); } }
+
+.mm-wrapper_opening .mm-menu_columns-2.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+  transform: translate3d(-80vw, 0, 0); }
+
+@media all and (max-width: 300px) {
+  .mm-wrapper_opening .mm-menu_columns-2.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(-240px, 0, 0); } }
+
+@media all and (min-width: 1100px) {
+  .mm-wrapper_opening .mm-menu_columns-2.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(-880px, 0, 0); } }
+
+[class*='mm-menu_columns-'] .mm-panels > .mm-panel_columns-3 {
+  transform: translate3d(300%, 0, 0); }
+
+.mm-menu_columns-3 .mm-panels > .mm-panel {
+  z-index: 3;
+  width: 33.34%; }
+  .mm-menu_columns-3 .mm-panels > .mm-panel else {
+    width: 100%; }
+  .mm-menu_columns-3 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
+    transform: translate3d(400%, 0, 0); }
+
+.mm-menu_columns-3 {
+  width: 80%;
+  min-width: 240px;
+  max-width: 1320px; }
+
+.mm-wrapper_opening .mm-menu_columns-3.mm-menu_opened ~ .mm-slideout {
+  transform: translate3d(80vw, 0, 0); }
+
+@media all and (max-width: 300px) {
+  .mm-wrapper_opening .mm-menu_columns-3.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(240px, 0, 0); } }
+
+@media all and (min-width: 1650px) {
+  .mm-wrapper_opening .mm-menu_columns-3.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(1320px, 0, 0); } }
+
+.mm-wrapper_opening .mm-menu_columns-3.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+  transform: translate3d(-80vw, 0, 0); }
+
+@media all and (max-width: 300px) {
+  .mm-wrapper_opening .mm-menu_columns-3.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(-240px, 0, 0); } }
+
+@media all and (min-width: 1650px) {
+  .mm-wrapper_opening .mm-menu_columns-3.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(-1320px, 0, 0); } }
+
+[class*='mm-menu_columns-'] .mm-panels > .mm-panel_columns-4 {
+  transform: translate3d(400%, 0, 0); }
+
+.mm-menu_columns-4 .mm-panels > .mm-panel {
+  z-index: 4;
+  width: 25%; }
+  .mm-menu_columns-4 .mm-panels > .mm-panel else {
+    width: 100%; }
+  .mm-menu_columns-4 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
+    transform: translate3d(500%, 0, 0); }
+
+.mm-menu_columns-4 {
+  width: 80%;
+  min-width: 240px;
+  max-width: 1760px; }
+
+.mm-wrapper_opening .mm-menu_columns-4.mm-menu_opened ~ .mm-slideout {
+  transform: translate3d(80vw, 0, 0); }
+
+@media all and (max-width: 300px) {
+  .mm-wrapper_opening .mm-menu_columns-4.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(240px, 0, 0); } }
+
+@media all and (min-width: 2200px) {
+  .mm-wrapper_opening .mm-menu_columns-4.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(1760px, 0, 0); } }
+
+.mm-wrapper_opening .mm-menu_columns-4.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+  transform: translate3d(-80vw, 0, 0); }
+
+@media all and (max-width: 300px) {
+  .mm-wrapper_opening .mm-menu_columns-4.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(-240px, 0, 0); } }
+
+@media all and (min-width: 2200px) {
+  .mm-wrapper_opening .mm-menu_columns-4.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(-1760px, 0, 0); } }
+
+[class*='mm-menu_columns-'].mm-menu_position-bottom, [class*='mm-menu_columns-'].mm-menu_position-top {
+  width: 100%;
+  max-width: 100%;
+  min-width: 100%; }
+
+.mm-wrapper_opening [class*='mm-menu_columns-'].mm-menu_position-front {
+  transition-property: width, min-width, max-width, transform; }
+
+.mm-counter {
+  color: rgba(0, 0, 0, 0.3);
+  display: block;
+  padding-left: 0.625rem;
+  float: right;
+  text-align: right;
+  color: var(--mm-color-text-dimmed); }
+
+.mm-listitem_nosubitems > .mm-counter {
+  display: none; }
+
+.mm-divider {
+  position: relative;
+  min-height: 2.25rem;
+  padding: -0.39375rem;
+  background: #f8f9fa;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  min-height: var(--mm-line-height);
+  padding: calc( ((var(--mm-listitem-size) * 0.65) - var(--mm-line-height)) * 0.5);
+  padding-right: 0.3125rem;
+  padding-left: 10px;
+  font-size: 75%;
+  text-transform: uppercase;
+  background: var(--mm-color-background);
+  opacity: 1;
+  transition: opacity 0.4s ease; }
+  .mm-divider:before {
+    background: rgba(0, 0, 0, 0.05); }
+  @supports (position: sticky) {
+    .mm-divider {
+      position: sticky;
+      z-index: 2;
+      top: 0; }
+      .mm-navbar_sticky:not(.mm-hidden) ~ .mm-listview .mm-divider {
+        top: var(--mm-navbar-size); } }
+  .mm-divider:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    background: var(--mm-color-background-highlight); }
+
+.mm-wrapper_dragging .mm-menu,
+.mm-wrapper_dragging .mm-slideout {
+  transition-duration: 0s !important;
+  user-select: none !important; }
+
+.mm-wrapper_dragging .mm-menu {
+  pointer-events: none !important; }
+
+.mm-wrapper_dragging .mm-wrapper__blocker {
+  display: none !important; }
+
+:root {
+  --mm-iconbar-size: 2.875rem; }
+
+.mm-menu_iconbar-left .mm-panels,
+.mm-menu_iconbar-left .mm-navbars_top,
+.mm-menu_iconbar-left .mm-navbars_bottom {
+  margin-left: 2.875rem;
+  margin-left: var(--mm-iconbar-size); }
+
+.mm-menu_iconbar-right .mm-panels,
+.mm-menu_iconbar-right .mm-navbars_top,
+.mm-menu_iconbar-right .mm-navbars_bottom {
+  margin-right: 2.875rem;
+  margin-right: var(--mm-iconbar-size); }
+
+.mm-iconbar {
+  width: 2.875rem;
+  border-color: #ced4da;
+  background: #f8f9fa;
+  color: rgba(0, 0, 0, 0.3);
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: var(--mm-iconbar-size);
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 0 solid;
+  border-color: var(--mm-color-border);
+  background: var(--mm-color-background);
+  color: var(--mm-color-text-dimmed);
+  text-align: center; }
+  .mm-menu_iconbar-left .mm-iconbar,
+  .mm-menu_iconbar-right .mm-iconbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; }
+  .mm-menu_iconbar-left .mm-iconbar {
+    border-right-width: 1px;
+    left: 0; }
+  .mm-menu_iconbar-right .mm-iconbar {
+    border-left-width: 1px;
+    right: 0; }
+
+.mm-iconbar__top,
+.mm-iconbar__bottom {
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain; }
+  .mm-iconbar__top > *,
+  .mm-iconbar__bottom > * {
+    box-sizing: border-box;
+    display: block;
+    padding: 0.5625rem 0; }
+  .mm-iconbar__top a,
+  .mm-iconbar__top a:hover,
+  .mm-iconbar__bottom a,
+  .mm-iconbar__bottom a:hover {
+    text-decoration: none; }
+
+.mm-iconbar__tab_selected {
+  background: #e9ecef;
+  background: var(--mm-color-background-emphasis); }
+
+:root {
+  --mm-iconpanel-size: 2.25rem; }
+
+.mm-panel_iconpanel-1 {
+  width: calc(100% - 2.25rem);
+  width: calc(100% - (var(--mm-iconpanel-size) * 1)); }
+
+.mm-panel_iconpanel-2 {
+  width: calc(100% - 4.5rem);
+  width: calc(100% - (var(--mm-iconpanel-size) * 2)); }
+
+.mm-panel_iconpanel-3 {
+  width: calc(100% - 6.75rem);
+  width: calc(100% - (var(--mm-iconpanel-size) * 3)); }
+
+.mm-panel_iconpanel-first ~ .mm-panel {
+  width: calc(100% - 2.25rem);
+  width: calc(100% - var(--mm-iconpanel-size)); }
+
+.mm-menu_iconpanel .mm-panels > .mm-panel {
+  left: auto;
+  transition-property: transform, width; }
+  .mm-menu_iconpanel .mm-panels > .mm-panel_opened, .mm-menu_iconpanel .mm-panels > .mm-panel_opened-parent {
+    display: block !important; }
+  .mm-menu_iconpanel .mm-panels > .mm-panel_opened-parent {
+    overflow-y: hidden;
+    transform: unset; }
+  .mm-menu_iconpanel .mm-panels > .mm-panel:not(.mm-panel_iconpanel-first):not(.mm-panel_iconpanel-0) {
+    border-left-width: 1px;
+    border-left-style: solid; }
+
+.mm-menu_hidenavbar .mm-panel_opened-parent .mm-navbar,
+.mm-menu_hidedivider .mm-panel_opened-parent .mm-divider {
+  opacity: 0; }
+
+.mm-menu_keyboardfocus a:focus,
+.mm-menu_keyboardfocus.mm-menu_opened ~ .mm-wrapper__blocker a:focus {
+  background: #e9ecef;
+  background: var(--mm-color-background-emphasis);
+  outline: none; }
+
+.mm-wrapper__blocker .mm-tabstart {
+  cursor: default;
+  display: block;
+  width: 100%;
+  height: 100%; }
+
+.mm-wrapper__blocker .mm-tabend {
+  opacity: 0;
+  position: absolute;
+  bottom: 0; }
+
+.mm-navbars_top {
+  flex-shrink: 0; }
+  .mm-navbars_top .mm-navbar:not(:last-child) {
+    border-bottom: none; }
+
+.mm-navbars_bottom {
+  flex-shrink: 0; }
+  .mm-navbars_bottom .mm-navbar {
+    border-bottom: none; }
+    .mm-navbars_bottom .mm-navbar:first-child {
+      border-top: 1px solid #ced4da;
+      border-top: 1px solid var(--mm-color-border); }
+
+.mm-btn:not(.mm-hidden) + .mm-navbar__searchfield .mm-searchfield__input {
+  padding-left: 0; }
+
+.mm-navbar__searchfield:not(:last-child) .mm-searchfield__input {
+  padding-right: 0; }
+
+.mm-navbar__breadcrumbs {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  flex: 1 1 50%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 0.625rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; }
+  .mm-navbar__breadcrumbs > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 6px; }
+  .mm-navbar__breadcrumbs > a {
+    text-decoration: underline; }
+  .mm-navbar__breadcrumbs:not(:last-child) {
+    padding-right: 0; }
+  .mm-btn:not(.mm-hidden) + .mm-navbar__breadcrumbs {
+    padding-left: 0; }
+
+.mm-navbar_tabs > * {
+  padding: 0 0.3125rem;
+  border: 1px solid transparent; }
+
+.mm-navbar__tab_selected {
+  background: #f8f9fa;
+  color: #515961;
+  background: var(--mm-color-background);
+  color: var(--mm-color-text); }
+  .mm-navbar__tab_selected:not(:first-child) {
+    border-left-color: #ced4da; }
+  .mm-navbar__tab_selected:not(:last-child) {
+    border-right-color: #ced4da; }
+  .mm-navbar__tab_selected:not(:first-child) {
+    border-left-color: var(--mm-color-border); }
+  .mm-navbar__tab_selected:not(:last-child) {
+    border-right-color: var(--mm-color-border); }
+
+.mm-navbars_top .mm-navbar_tabs {
+  border-bottom: none; }
+
+.mm-navbars_top .mm-navbar_tabs > * {
+  border-bottom-color: #ced4da;
+  border-bottom-color: var(--mm-color-border); }
+
+.mm-navbars_top .mm-navbar__tab_selected {
+  border-top-color: #ced4da;
+  border-top-color: var(--mm-color-border);
+  border-bottom-color: transparent; }
+
+.mm-navbars_top.mm-navbars_has-tabs .mm-navbar {
+  background: #e9ecef;
+  background: var(--mm-color-background-emphasis); }
+
+.mm-navbars_top.mm-navbars_has-tabs .mm-navbar_tabs ~ .mm-navbar {
+  background: #f8f9fa;
+  background: var(--mm-color-background); }
+
+.mm-navbars_bottom .mm-navbar_tabs:first-child {
+  border-top: none; }
+
+.mm-navbars_bottom .mm-navbar_tabs > * {
+  border-top-color: #ced4da;
+  border-top-color: var(--mm-color-border); }
+
+.mm-navbars_bottom .mm-navbar__tab_selected {
+  border-bottom-color: #ced4da;
+  border-bottom-color: var(--mm-color-border);
+  border-top-color: transparent; }
+
+.mm-navbars_bottom.mm-navbars_has-tabs .mm-navbar {
+  background: #f8f9fa;
+  background: var(--mm-color-background); }
+
+.mm-navbars_bottom.mm-navbars_has-tabs .mm-navbar_tabs,
+.mm-navbars_bottom.mm-navbars_has-tabs .mm-navbar_tabs ~ .mm-navbar {
+  background: #e9ecef;
+  background: var(--mm-color-background-emphasis); }
+
+.mm-searchfield {
+  height: 2.25rem;
+  display: flex;
+  flex-grow: 1;
+  height: var(--mm-navbar-size);
+  padding: 0;
+  overflow: hidden; }
+  .mm-searchfield input {
+    height: 1.575rem;
+    line-height: 1.575rem; }
+    .mm-searchfield input, .mm-searchfield input:hover, .mm-searchfield input:focus {
+      background: rgba(0, 0, 0, 0.05);
+      color: #515961; }
+  .mm-searchfield input {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: calc(var(--mm-navbar-size) * 0.7);
+    min-height: unset;
+    max-height: unset;
+    margin: 0;
+    padding: 0 0.3125rem;
+    box-sizing: border-box;
+    border: none !important;
+    border-radius: 4px;
+    line-height: calc(var(--mm-navbar-size) * 0.7);
+    box-shadow: none !important;
+    outline: none !important;
+    font: inherit;
+    font-size: inherit; }
+    .mm-searchfield input, .mm-searchfield input:hover, .mm-searchfield input:focus {
+      background: var(--mm-color-background-highlight);
+      color: var(--mm-color-text); }
+  .mm-searchfield input::-ms-clear {
+    display: none; }
+
+.mm-searchfield__input {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 0.3125rem;
+  box-sizing: border-box; }
+
+.mm-panel__noresultsmsg {
+  color: rgba(0, 0, 0, 0.3);
+  padding: 2.25rem 0;
+  color: var(--mm-color-text-dimmed);
+  text-align: center;
+  font-size: 150%; }
+
+.mm-searchfield__btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0; }
+
+.mm-panel_search {
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  border-left: none !important; }
+
+.mm-searchfield__cancel {
+  line-height: 2.25rem;
+  display: block;
+  padding-right: 0.3125rem;
+  margin-right: -100px;
+  line-height: var(--mm-navbar-size);
+  text-decoration: none;
+  transition: margin 0.4s ease; }
+
+.mm-searchfield__cancel-active {
+  margin-right: 0; }
+
+.mm-listitem_nosubitems > .mm-listitem__btn {
+  display: none; }
+
+.mm-listitem_nosubitems > .mm-listitem__text {
+  padding-right: 0.3125rem; }
+
+.mm-listitem_onlysubitems > .mm-listitem__text:not(.mm-listitem__btn) {
+  z-index: -1;
+  pointer-events: none; }
+
+.mm-sectionindexer {
+  background: inherit;
+  text-align: center;
+  font-size: 12px;
+  box-sizing: border-box;
+  width: 20px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -20px;
+  z-index: 5;
+  transition: right 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly; }
+  .mm-sectionindexer a {
+    color: rgba(0, 0, 0, 0.3);
+    color: var(--mm-color-text-dimmed);
+    line-height: 1;
+    text-decoration: none;
+    display: block; }
+  .mm-sectionindexer ~ .mm-panel {
+    padding-right: 0; }
+  .mm-sectionindexer_active {
+    right: 0; }
+    .mm-sectionindexer_active ~ .mm-panel {
+      padding-right: 20px; }
+
+.mm-menu_selected-hover .mm-listitem__text,
+.mm-menu_selected-hover .mm-listitem__btn, .mm-menu_selected-parent .mm-listitem__text,
+.mm-menu_selected-parent .mm-listitem__btn {
+  transition: background-color 0.4s ease; }
+
+.mm-menu_selected-hover .mm-listview:hover > .mm-listitem_selected:not(:hover) > .mm-listitem__text {
+  background: none; }
+
+.mm-menu_selected-hover .mm-listitem__text:hover,
+.mm-menu_selected-hover .mm-listitem__btn:hover {
+  background: #e9ecef;
+  background: var(--mm-color-background-emphasis); }
+
+.mm-menu_selected-parent .mm-panel_opened-parent .mm-listitem:not(.mm-listitem_selected-parent) > .mm-listitem__text {
+  background: none; }
+
+.mm-menu_selected-parent .mm-listitem_selected-parent > .mm-listitem__text,
+.mm-menu_selected-parent .mm-listitem_selected-parent > .mm-listitem__btn {
+  background: #e9ecef;
+  background: var(--mm-color-background-emphasis); }
+
+.mm-menu_border-none .mm-listitem:after {
+  content: none; }
+
+.mm-menu_border-full .mm-listitem:after {
+  left: 0 !important; }
+
+.mm-menu_fx-menu-slide {
+  transition: transform 0.4s ease; }
+
+.mm-wrapper_opened .mm-menu_fx-menu-slide {
+  transform: translate3d(-30%, 0, 0); }
+
+.mm-wrapper_opening .mm-menu_fx-menu-slide {
+  transform: translate3d(0%, 0, 0); }
+
+.mm-wrapper_opened .mm-menu_fx-menu-slide.mm-menu_position-right {
+  transform: translate3d(30%, 0, 0); }
+
+.mm-wrapper_opening .mm-menu_fx-menu-slide.mm-menu_position-right {
+  transform: translate3d(0%, 0, 0); }
+
+.mm-menu_fx-panels-none .mm-panel,
+.mm-panel_fx-none {
+  transition-property: none; }
+  .mm-menu_fx-panels-none .mm-panel.mm-panel_opened-parent,
+  .mm-panel_fx-none.mm-panel_opened-parent {
+    transform: translate3d(0, 0, 0); }
+
+.mm-menu_fx-panels-slide-0 .mm-panel_opened-parent {
+  transform: translate3d(0, 0, 0); }
+
+.mm-menu_fx-panels-slide-100 .mm-panel_opened-parent {
+  transform: translate3d(-100%, 0, 0); }
+
+.mm-menu_multiline .mm-listitem__text {
+  text-overflow: clip;
+  white-space: normal; }
+
+.mm-menu_popup {
+  transition: opacity 0.4s ease;
+  opacity: 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  height: 80%;
+  min-height: 140px;
+  max-height: 880px;
+  top: 50%;
+  left: 50%;
+  bottom: auto;
+  right: auto;
+  z-index: 2;
+  transform: translate3d(-50%, -50%, 0); }
+  .mm-menu_popup.mm-menu_opened ~ .mm-slideout {
+    transform: none !important;
+    z-index: 0; }
+  .mm-menu_popup.mm-menu_opened ~ .mm-wrapper__blocker {
+    transition-delay: 0s !important;
+    z-index: 1; }
+  .mm-wrapper_opening .mm-menu_popup {
+    opacity: 1; }
+
+.mm-menu_position-right {
+  left: auto;
+  right: 0; }
+
+.mm-wrapper_opening .mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+  transform: translate3d(-80vw, 0, 0); }
+
+@media all and (max-width: 300px) {
+  .mm-wrapper_opening .mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(-240px, 0, 0); } }
+
+@media all and (min-width: 550px) {
+  .mm-wrapper_opening .mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
+    transform: translate3d(-440px, 0, 0); } }
+
+.mm-menu_position-front, .mm-menu_position-top, .mm-menu_position-bottom {
+  transition: transform 0.4s ease; }
+  .mm-menu_position-front.mm-menu_opened, .mm-menu_position-top.mm-menu_opened, .mm-menu_position-bottom.mm-menu_opened {
+    z-index: 2; }
+    .mm-menu_position-front.mm-menu_opened ~ .mm-slideout, .mm-menu_position-top.mm-menu_opened ~ .mm-slideout, .mm-menu_position-bottom.mm-menu_opened ~ .mm-slideout {
+      transform: none !important;
+      z-index: 0; }
+    .mm-menu_position-front.mm-menu_opened ~ .mm-wrapper__blocker, .mm-menu_position-top.mm-menu_opened ~ .mm-wrapper__blocker, .mm-menu_position-bottom.mm-menu_opened ~ .mm-wrapper__blocker {
+      z-index: 1; }
+
+.mm-menu_position-front {
+  transform: translate3d(-100%, 0, 0); }
+  .mm-menu_position-front.mm-menu_position-right {
+    transform: translate3d(100%, 0, 0); }
+
+.mm-menu_position-top, .mm-menu_position-bottom {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%; }
+
+.mm-menu_position-top {
+  transform: translate3d(0, -100%, 0); }
+
+.mm-menu_position-top {
+  height: 80vh;
+  min-height: 140px;
+  max-height: 880px; }
+
+.mm-menu_position-bottom {
+  transform: translate3d(0, 100%, 0);
+  top: auto; }
+
+.mm-menu_position-bottom {
+  height: 80vh;
+  min-height: 140px;
+  max-height: 880px; }
+
+.mm-wrapper_opening .mm-menu_position-front, .mm-wrapper_opening .mm-menu_position-top, .mm-wrapper_opening .mm-menu_position-bottom {
+  transform: translate3d(0, 0, 0); }
+
+body.modal-open .mm-slideout {
+  z-index: unset; }
+
+/***********************************************
+ADJUST MMENU AND JQUERY-BOOTSTRAP ELEMENTS
+***********************************************/
+.mm-listitem_vertical > .mm-panel {
+  padding: 0 0 0 5px !important; }
+
+.mm-listitem {
+  font-size: 1rem;
+  min-height: 2.25rem; }
+  .mm-listitem .mm-listitem-content {
+    line-height: 1.5 !important; }
+  .mm-menu-sm .mm-listitem {
+    font-size: 0.875rem;
+    min-height: 1.8125rem; }
+
+.mm-menu-sm {
+  --mm-line-height: 1.8125rem;
+  --mm-listitem-size: 1.8125rem;
+  --mm-navbar-size: 1.8125rem;
+  --mm-iconbar-size: 2.3125rem
+; }
+
+.mm-btn_prev:before, .mm-btn_next:after {
+  --chevrolet-dim: 0.625rem;
+  width: var(--chevrolet-dim) !important;
+  height: var(--chevrolet-dim) !important;
+  right: var(--chevrolet-dim) !important; }
+  .mm-listitem.mm-listitem_vertical .mm-btn_prev:before, .mm-listitem.mm-listitem_vertical .mm-btn_next:after {
+    --chevrolet-dim: 0.3125rem; }
+
+.mm-menu-sm .mm-navbar__btn {
+  width: 1.8125rem; }
+
+.mm-iconbar .btn.btn-standard.square {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.125rem; }
+  .mm-iconbar .btn.btn-standard.square.btn-sm {
+    margin-bottom: 0.90625rem; }
+
+.mm-listitem__text {
+  display: flex; }
+  .mm-listitem__text > *:first-child {
+    flex: 1; }
+  .mm-listitem__text.padding-right-none {
+    padding-right: 0 !important; }
+
+@charset "UTF-8";
+/***********************************************
+    fcoo-application.scss,
+
+    (c) 2016, FCOO
+
+    https://gitlab.com/fcoo/fcoo-application
+    https://gitlab.com/fcoo
+
+
+************************************************/
+/************************************************************
+INCLUDE-JQUERY-BOOTSTRAP-VARIABLES
+USED IN FOR OTHER PACKAGES TO INCLUDE ALL SCSS-FILES NEEDED
+TO HAVE ACCESS TO ALL BOOTSTRAP AND FCOO/JQUERY-BOOTSTRAP SCSS-VARIABLES
+************************************************************/
+/***********************************************
+JQUERY-BOOTSTRAP: Set and adjust bootstrap default values
+************************************************/
+/************************************************************
+BOOTSTRAP-VARIABLES
+************************************************************/
+/***********************************************
+FUNCTIONS TO CONVETRT FROM PX TO REM
+To make it easier to design and calculate dimensions
+the function rem defined
+************************************************/
+/***********************************************
+ADJUST BOOTSTRAP DEFAULT VALUES
+************************************************/
+/***********************************************
+Adjust bootstrap-variables to only have dimensions
+in integer px from rem
+************************************************/
+/*Not used. No lg-buttons
+$input-btn-padding-y-lg: .75rem;
+$input-btn-padding-x-lg: $input-btn-padding-y-lg;
+*/
+/* VERSION 1.x
+//$font-size-sm = .875rem; // = 14px
+$font-size-sm: rem(13px); //<= TODO MANGLER. Skal muligvis sættes til 14px og så skal padding for buttons rettes tilsvarrende
+
+$input-btn-padding-y-sm: rem(4px);
+$input-btn-padding-x-sm: $input-btn-padding-y-sm;
+*/
+/************************************************************
+Including "size" xs as in Bootstrap 3
+************************************************************/
+/************************************************************
+Border-colors
+************************************************************/
+/************************************************************
+Make all font-size and margin for header (<h1>, <h2>,...<h6>)
+releative to container (rem -> em)
+************************************************************/
+/* Defalut not changed:
+$font-size-base         : 1rem !default;
+$spacer                 : 1rem !default;
+*/
+/************************************************************
+Adjust dropdown-menu
+************************************************************/
+/************************************************************
+Adjust modal
+************************************************************/
+/***********************************************
+BOOTSTRAP: scss variables
+************************************************/
+/***********************************************
+JQUERY-BOOTSTRAP: Background-color and text color and Variables
+************************************************/
 /************************************************************
 COLOR
 
@@ -23108,6 +24518,10 @@ Two modes:
     position: relative; }
   .touch-menu-container .touch-pre-menu .button-group:not(:first-child) {
     margin-left: .5em; }
+  .touch-menu-container.vertical-auto-width {
+    width: auto !important; }
+  .touch-menu-container.vertical-auto-height {
+    height: auto !important; }
 
 .touch-menu-handle {
   position: absolute; }
@@ -23136,7 +24550,7 @@ Two modes:
   .touch-menu-mask.visible {
     z-index: 1043; }
 
-.top-bar {
+.horizontal-bar {
   font-size: 2rem;
   text-align: center;
   line-height: 0.7;
@@ -25965,6 +27379,14 @@ Adjust font-size and top for .inner to fit inside a fa-map-marker icon
 
 ************************************************/
 /************************************************************
+INCLUDE-JQUERY-BOOTSTRAP-VARIABLES
+USED IN FOR OTHER PACKAGES TO INCLUDE ALL SCSS-FILES NEEDED
+TO HAVE ACCESS TO ALL BOOTSTRAP AND FCOO/JQUERY-BOOTSTRAP SCSS-VARIABLES
+************************************************************/
+/***********************************************
+JQUERY-BOOTSTRAP: Set and adjust bootstrap default values
+************************************************/
+/************************************************************
 BOOTSTRAP-VARIABLES
 ************************************************************/
 /***********************************************
@@ -26010,6 +27432,12 @@ Adjust dropdown-menu
 /************************************************************
 Adjust modal
 ************************************************************/
+/***********************************************
+BOOTSTRAP: scss variables
+************************************************/
+/***********************************************
+JQUERY-BOOTSTRAP: Background-color and text color and Variables
+************************************************/
 /************************************************************
 COLOR
 
@@ -26514,7 +27942,7 @@ leaflet-bootstrap-control-position.scss
     align-items: center;
     text-align: center;
     line-height: 1;
-    padding: 0 0.25rem;
+    padding: 0 0.1875rem;
     padding-top: 1px;
     font-size: 13px; }
     .leaflet-control-container .input-group .bsPosition-content:active, .leaflet-control-container .input-group .bsPosition-content.active {
