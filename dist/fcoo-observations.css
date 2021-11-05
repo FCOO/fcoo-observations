@@ -228,6 +228,11 @@ to create fa-icon looking like the marker
 .fa-lbm-border-color-observations {
   color: #EFB920; }
 
+/***********************************************
+
+fcoo-observations-mixin.scss
+
+************************************************/
 /*
 table.last-observation = two coloums: group-name, last value
 table.obs-statistics: rows = [time-periods, obs-group headser, tree intervals, obs-group headser, tree intervals,...]

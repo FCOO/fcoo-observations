@@ -1,0 +1,137 @@
+/***********************************************
+
+fcoo-observations-mixin.scss
+
+************************************************/
+
+/*
+table.last-observation = two coloums: group-name, last value
+table.obs-statistics: rows = [time-periods, obs-group headser, tree intervals, obs-group headser, tree intervals,...]
+*/
+table.last-observation, table.obs-statistics {
+    width : 100%;
+}
+table.last-observation {
+    td:first-child {
+        text-align   : right;
+        padding-right: $content-padding-x;
+    }
+    td:last-child {
+        text-align   : left;
+        .no-multi-obs-group & {
+            text-align: center;
+        }
+    }
+}
+table.obs-statistics {
+    table-layout: fixed;
+
+    //Time-intervals and tree value-intervals
+    tr:nth-of-type(2n+1) {
+        font-size : 0.6875rem; //Hard-coded: fontsize=11px
+        border-bottom: 1px solid $modal-content-border-color;
+        &.no-border-border-when-last-visible:last-child,
+        .no-multi-obs-group & {
+            border-bottom: none;
+        }
+    }
+    td {
+        width: 33%;
+
+        padding-bottom: $content-padding-x / 2.5;
+        padding-top   : $content-padding-x / 2.5;
+
+        //Span with values
+        span.value {
+            display   : inline-block;
+            text-align: center;
+            font-size : 0.6875rem; //Hard-coded: fontsize=11px
+        }
+    }
+}
+
+/*
+obs-group-marker-N used to display a marker on the map if observation group N is visible.
+class="obs-group-marker-1 obs-group-marker-3" will be visible if group 1 OR group 3 is visible
+*/
+.leaflet-container {
+    [class*="obs-group-marker-"] {
+        display: none;
+    }
+    @for $index from 0 to 10 {
+        &.obs-group-#{$index} {
+            .obs-group-marker-#{$index} { display: block; }
+        }
+    }
+}
+
+
+/*
+Inner box with latest observation in popup
+*/
+.latest-observation:not(:last-child) {
+    border-bottom: 1px solid $modal-content-border-color;
+}
+
+
+/*
+show-for-obs-group-N is added to show an element when observation group no N is visible
+*/
+@for $index from 0 to 10 {
+    .no-obs-group-#{$index} .show-for-obs-group-#{$index} {
+        display: none !important;
+    }
+
+    //Special cast: In list with (last) observation or forecast the last visible group do not have bottom-border
+    .last-visible-obs-group-#{$index} .show-for-obs-group-#{$index}.no-border-border-when-last-visible {
+        border-bottom: none;
+    }
+}
+
+
+/*
+obs-group-header used for the name of the observation-group. Is hidden when only one group is displasyed on a map to save space
+*/
+
+.obs-group-header {
+    margin : 0 !important;
+    .multi-obs-group    &.show-for-single-obs-group,
+    .no-multi-obs-group &.show-for-multi-obs-group {
+        display: none !important;
+    }
+}
+
+/*
+obs-group-icon used to style the different "lines" inside the marker
+on a map representing the different ObservationGroup that the location
+is belonging to
+Each ObservationGroup has an index N and the "lines" representing the group
+get class="obs-group-icon obs-group-icon-N" plus the fa-classes to create the icon
+*/
+.leaflet-container .obs-group-icon {
+    position  : relative;
+    visibility: hidden;
+}
+
+.leaflet-container {
+    @for $index from 0 to 10 {
+        &.obs-group-#{$index} .obs-group-icon-#{$index} {
+            visibility: visible;
+        }
+    }
+}
+
+//Hard coded color. TODO: Include all LinkedIn-colors as lbm-colors
+.fa-lbm-color-skyblue   { color: #00A0DC; }
+.fa-lbm-color-seagreen  { color: #3B7511; }
+
+
+.obs-group-icon-top    { top: -0.30em; z-index: 10; }
+.obs-group-icon-over   { top: -0.20em; }
+
+.obs-group-icon-center { top:  0;      z-index:  1; }
+
+.obs-group-icon-below  { top:  0.25em; }
+.obs-group-icon-bottom { top:  0.30em; z-index: 10; }
+
+
