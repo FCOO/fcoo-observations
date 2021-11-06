@@ -228,6 +228,11 @@ to create fa-icon looking like the marker
 .fa-lbm-border-color-observations {
   color: #EFB920; }
 
+/*
+//Hard coded color. TODO: Include all LinkedIn-colors as lbm-colors
+.fa-lbm-color-skyblue   { color: #00A0DC; }
+.fa-lbm-color-seagreen  { color: #3B7511; }
+*/
 /***********************************************
 
 fcoo-observations-mixin.scss
@@ -388,45 +393,42 @@ is belonging to
 Each ObservationGroup has an index N and the "lines" representing the group
 get class="obs-group-icon obs-group-icon-N" plus the fa-classes to create the icon
 */
-.leaflet-container .obs-group-icon {
-  position: relative;
+.leaflet-container .obs-group-icon.in-marker {
   visibility: hidden; }
 
-.leaflet-container.obs-group-0 .obs-group-icon-0 {
+.leaflet-container.obs-group-0 .obs-group-icon.in-marker.obs-group-0 {
   visibility: visible; }
 
-.leaflet-container.obs-group-1 .obs-group-icon-1 {
+.leaflet-container.obs-group-1 .obs-group-icon.in-marker.obs-group-1 {
   visibility: visible; }
 
-.leaflet-container.obs-group-2 .obs-group-icon-2 {
+.leaflet-container.obs-group-2 .obs-group-icon.in-marker.obs-group-2 {
   visibility: visible; }
 
-.leaflet-container.obs-group-3 .obs-group-icon-3 {
+.leaflet-container.obs-group-3 .obs-group-icon.in-marker.obs-group-3 {
   visibility: visible; }
 
-.leaflet-container.obs-group-4 .obs-group-icon-4 {
+.leaflet-container.obs-group-4 .obs-group-icon.in-marker.obs-group-4 {
   visibility: visible; }
 
-.leaflet-container.obs-group-5 .obs-group-icon-5 {
+.leaflet-container.obs-group-5 .obs-group-icon.in-marker.obs-group-5 {
   visibility: visible; }
 
-.leaflet-container.obs-group-6 .obs-group-icon-6 {
+.leaflet-container.obs-group-6 .obs-group-icon.in-marker.obs-group-6 {
   visibility: visible; }
 
-.leaflet-container.obs-group-7 .obs-group-icon-7 {
+.leaflet-container.obs-group-7 .obs-group-icon.in-marker.obs-group-7 {
   visibility: visible; }
 
-.leaflet-container.obs-group-8 .obs-group-icon-8 {
+.leaflet-container.obs-group-8 .obs-group-icon.in-marker.obs-group-8 {
   visibility: visible; }
 
-.leaflet-container.obs-group-9 .obs-group-icon-9 {
+.leaflet-container.obs-group-9 .obs-group-icon.in-marker.obs-group-9 {
   visibility: visible; }
 
-.fa-lbm-color-skyblue {
-  color: #00A0DC; }
-
-.fa-lbm-color-seagreen {
-  color: #3B7511; }
+.obs-group-icon {
+  position: relative;
+  font-size: calc( 10em/10); }
 
 .obs-group-icon-top {
   top: -0.30em;
@@ -444,4 +446,22 @@ get class="obs-group-icon obs-group-icon-N" plus the fa-classes to create the ic
 
 .obs-group-icon-bottom {
   top: 0.30em;
+  z-index: 10; }
+
+.obs-group-icon-left {
+  left: -0.30em;
+  z-index: 10; }
+
+.obs-group-icon-MANGLER {
+  left: -0.20em; }
+
+.obs-group-icon-middle {
+  top: 0;
+  z-index: 1; }
+
+.obs-group-icon-MANNGLER2 {
+  top: 0.25em; }
+
+.obs-group-icon-right {
+  left: 0.30em;
   z-index: 10; }

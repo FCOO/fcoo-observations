@@ -20,7 +20,6 @@
 //MODERNIZR-SCSS - https://github.com/FCOO/modernizr-scss
 @import "../bower_components/modernizr-scss/dist/modernizr-scss";
 
-
 //JQUERY-BOOTSTRAP VARIABLES AND MIXINS
 @import "../bower_components/jquery-bootstrap/src/include-jquery-bootstrap-variables";
 
@@ -32,6 +31,11 @@
 //Create classes to give observations a yellow color. Colors are from ifm - colors for markers in different layers.js
 @include lbm-marker-and-icon-classes( observations, #EFB920 );
 
+/*
+//Hard coded color. TODO: Include all LinkedIn-colors as lbm-colors
+.fa-lbm-color-skyblue   { color: #00A0DC; }
+.fa-lbm-color-seagreen  { color: #3B7511; }
+*/
 
 //CREATE CSS
 @import "fcoo-observations-mixin";

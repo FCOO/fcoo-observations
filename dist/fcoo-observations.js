@@ -43,7 +43,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.2.0",
+			VERSION         : "3.3.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -454,11 +454,12 @@ Location = group of Stations with the same or different paramtre
         getHeader
         *********************************************/
         getHeader: function(){
-            return {
-//HBER TEST                 icon: L.bsMarkerAsIcon(bsMarkerOptions.colorName, null, {faClassName:'fa-square'}),
-                icon: L.bsMarkerAsIcon(bsMarkerOptions),
-                text: this.name
-            };
+            var icon = L.bsMarkerAsIcon( bsMarkerOptions );
+            $.each(this.observationGroups, function(id, obsGroup){
+                icon[0].push('fal ' + obsGroup.markerIconBase + ' obs-group-'+obsGroup.options.index);
+            });
+
+            return {icon: icon, text: this.name};
         },
 
         /*********************************************
@@ -592,7 +593,7 @@ Location = group of Stations with the same or different paramtre
             markerOptions.innerIconClass = [];
             $.each(this.observationGroupList, function(index, observationGroup){
                 var ogIndex = observationGroup.options.index;
-                markerOptions.innerIconClass.push(observationGroup.options.icon+' obs-group-icon-'+ogIndex);
+                markerOptions.innerIconClass.push(observationGroup.markerIcon+' obs-group-'+ogIndex);
                 markerOptions.markerClassName += ' obs-group-marker-'+ogIndex;
             });
 
@@ -1184,7 +1185,12 @@ ObservationGroup = group of Locations with the same parameter(-group)
         {
             "id"                    : "SEALEVEL",
             "name"                  : {"da": "Vandstand", "en": "Sea Level"},
-            "icon"                  : "fas fa-horizontal-rule _fa-lbm-color-white    obs-group-icon  obs-group-icon-center fa-rotate-90",
+            "iconOptions": {
+                "vertical": true,
+                "position": "middle"
+            },
+
+
             "parameterId"           : "sea_surface_height_above_mean_sea_level",
             "formatterMethod"       : "formatterSeaLevel",
             "allNeeded"             : true,
@@ -1201,7 +1207,9 @@ ObservationGroup = group of Locations with the same parameter(-group)
         {
             "id"                    : "METEOGRAM",
             "name"                  : {"da": "Meteogram", "en": "Meteogram"},
-            "icon"                  : "fas fa-horizontal-rule fa-lbm-color-skyblue  obs-group-icon obs-group-icon-top",
+            "iconOptions": {
+            ...
+            },
             "parameterId"           : "",
             "allNeeded"             : false
         },
@@ -1210,7 +1218,9 @@ ObservationGroup = group of Locations with the same parameter(-group)
         {
             "id"                    : "WIND",
             "name"                  : {"da": "Vind", "en": "Wind"},
-            "icon"                  : "fas fa-horizontal-rule fa-lbm-color-gray      obs-group-icon obs-group-icon-over",
+            "iconOptions": {
+            ...
+            },
             "parameterId"           : "wind wind_speed_of_gust",
             "directionFrom"         : true,
             "formatterMethod"       : "formatterVectorWind",
@@ -1222,8 +1232,10 @@ ObservationGroup = group of Locations with the same parameter(-group)
 /*
         {
             "id"                    : "WAVE",
+            "iconOptions": {
+            ...
+            },
             "name"                  : {"da": "Bølger", "en": "Waves"},
-            "icon"                  : "fas fa-horizontal-rule fa-lbm-color-gray      obs-group-icon",
             "parameterId"           : "",
             "formatterMethod"       : "formatterWave",
             "allNeeded"             : false
@@ -1235,10 +1247,13 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "id"                    : "CURRENT",
             "name"                  : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
             "shortName"             : {"da": "Strøm", "en": "Current"},
-            "icon"                  : "fas fa-horizontal-rule fa-lbm-color-gray      obs-group-icon obs-group-icon-below",
-            "parameterId"           : "surface_sea_water_velocity",
+            "iconOptions": {
+                "vertical": false,
+                "position": "below"
+            },
 
-"formatUnit": "nm h-1",
+            "parameterId"           : "surface_sea_water_velocity",
+            "formatUnit"            : "nm h-1",
 
             "formatterMethod"       : "formatterVectorDefault",
             "formatterStatMethod"   : "formatterStatVectorDefault",
@@ -1280,6 +1295,28 @@ ObservationGroup = group of Locations with the same parameter(-group)
         this.name = options.name;
         this.shortName = options.shortName || this.name;
 
+
+        /*
+        Create markerIcon [STRING] and faIcon []STRING to be used to creaet marker and icon in eq. bsModal
+        iconOptions = {
+            vertical: [BOOLEAN]
+            position: vertical = true : 'left', 'MANGLER', 'middle', 'MANGLER2', or 'right'
+                      vertical = false: 'top', 'over', 'center', 'below', or 'bottom'
+        */
+
+        var iconClasses = 'fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
+
+
+        this.markerIconBase = 'in-marker '+ iconClasses;
+        this.markerIcon = 'fas '+ this.markerIconBase;
+
+
+        this.faIcon = L.bsMarkerAsIcon('observations', null, false );
+        this.faIcon[0].push( 'fa-lbm-border-color-black fal ' + iconClasses );
+
+
+
+
         this.maxDelayValueOf = moment.duration(this.options.maxDelay).valueOf();
         this.observations = observations;
         this.locationList = [];
@@ -1309,6 +1346,10 @@ ObservationGroup = group of Locations with the same parameter(-group)
         $.each(i18next.options.languages || i18next.languages, function(index, lang){
             _this.header[lang] = (_this.name[lang] || _this.name['en']) + ' [' + (primaryUnit.name[lang] ||  primaryUnit.name['en']) + ']';
         });
+
+
+
+
     };
 
 

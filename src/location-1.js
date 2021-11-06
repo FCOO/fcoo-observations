@@ -96,11 +96,12 @@ Location = group of Stations with the same or different paramtre
         getHeader
         *********************************************/
         getHeader: function(){
-            return {
-//HBER TEST                 icon: L.bsMarkerAsIcon(bsMarkerOptions.colorName, null, {faClassName:'fa-square'}),
-                icon: L.bsMarkerAsIcon(bsMarkerOptions),
-                text: this.name
-            };
+            var icon = L.bsMarkerAsIcon( bsMarkerOptions );
+            $.each(this.observationGroups, function(id, obsGroup){
+                icon[0].push('fal ' + obsGroup.markerIconBase + ' obs-group-'+obsGroup.options.index);
+            });
+
+            return {icon: icon, text: this.name};
         },
 
         /*********************************************
@@ -234,7 +235,7 @@ Location = group of Stations with the same or different paramtre
             markerOptions.innerIconClass = [];
             $.each(this.observationGroupList, function(index, observationGroup){
                 var ogIndex = observationGroup.options.index;
-                markerOptions.innerIconClass.push(observationGroup.options.icon+' obs-group-icon-'+ogIndex);
+                markerOptions.innerIconClass.push(observationGroup.markerIcon+' obs-group-'+ogIndex);
                 markerOptions.markerClassName += ' obs-group-marker-'+ogIndex;
             });
 
