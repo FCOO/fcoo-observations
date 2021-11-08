@@ -43,7 +43,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.3.0",
+			VERSION         : "3.4.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -52,6 +52,8 @@
             locationFileName        : 'locations.json',
             fileName                : ['observations-sealevel.json','observations-current.json'/*, 'observations-wind.json'*/],
             lastObservationFileName : 'LastObservations_SEALVL.json LastObservations_CURRENT.json',
+
+            geoJSONOptions : {}    //Extra options for the L.GeoJSON-layer
         }, options || {});
 
         this.maps = {};
@@ -272,11 +274,16 @@
         geoJSON return a L.geoJSON layer
         **********************************************************/
         geoJSON: function(){
-            this.geoJSONOptions = this.geoJSONOptions || {
-                pointToLayer : function(geoJSONPoint/*, latlng*/) {
-                    return geoJSONPoint.properties.createMarker();
-                }
-            };
+            this.geoJSONOptions =
+                this.geoJSONOptions ||
+                $.extend(true,
+                    this.options.geoJSONOptions,
+                    {
+                        pointToLayer : function(geoJSONPoint/*, latlng*/) {
+                            return geoJSONPoint.properties.createMarker();
+                        }
+                    }
+                );
 
             var result = L.geoJSON(null, this.geoJSONOptions);
 
@@ -606,7 +613,7 @@ Location = group of Stations with the same or different paramtre
         /*****************************************************
         loadObservation
         Load observation for all stations and parameter (if any) and update observationDataList and call location.updateObservation()
-        NOYE: The data is only loaded ONCE since loading last observation will update observationDataList
+        NOTE: The data is only loaded ONCE since loading last observation will update observationDataList
         *****************************************************/
         loadObservation: function(){
             var _this = this;

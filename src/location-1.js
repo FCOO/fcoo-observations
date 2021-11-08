@@ -248,7 +248,7 @@ Location = group of Stations with the same or different paramtre
         /*****************************************************
         loadObservation
         Load observation for all stations and parameter (if any) and update observationDataList and call location.updateObservation()
-        NOYE: The data is only loaded ONCE since loading last observation will update observationDataList
+        NOTE: The data is only loaded ONCE since loading last observation will update observationDataList
         *****************************************************/
         loadObservation: function(){
             var _this = this;

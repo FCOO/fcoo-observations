@@ -52,6 +52,8 @@
             locationFileName        : 'locations.json',
             fileName                : ['observations-sealevel.json','observations-current.json'/*, 'observations-wind.json'*/],
             lastObservationFileName : 'LastObservations_SEALVL.json LastObservations_CURRENT.json',
+
+            geoJSONOptions : {}    //Extra options for the L.GeoJSON-layer
         }, options || {});
 
         this.maps = {};
@@ -272,11 +274,16 @@
         geoJSON return a L.geoJSON layer
         **********************************************************/
         geoJSON: function(){
-            this.geoJSONOptions = this.geoJSONOptions || {
-                pointToLayer : function(geoJSONPoint/*, latlng*/) {
-                    return geoJSONPoint.properties.createMarker();
-                }
-            };
+            this.geoJSONOptions =
+                this.geoJSONOptions ||
+                $.extend(true,
+                    this.options.geoJSONOptions,
+                    {
+                        pointToLayer : function(geoJSONPoint/*, latlng*/) {
+                            return geoJSONPoint.properties.createMarker();
+                        }
+                    }
+                );
 
             var result = L.geoJSON(null, this.geoJSONOptions);
 

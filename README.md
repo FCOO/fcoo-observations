@@ -3,7 +3,7 @@
 
 
 ## Description
-1. Definitions and descriptions of setup- and meta-files used to display observations in FCOOs web-applications. See [README_SETUPFILES.md](README_SETUPFILES.md) for documentation
+1. Definitions and descriptions of setup- and meta-files used to display observations in FCOOs web-applications.<br><!-- See [README_SETUPFILES.md](README_SETUPFILES.md) for documentation -->See `src/fcoo-observations.js` for documentation
 2. JS-package to load and display observations in Leaflet-maps, jquery-bootstrap modal windows, and stand-alone websites
 
 ## Installation

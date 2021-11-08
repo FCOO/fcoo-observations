@@ -1,4 +1,4 @@
-# Setup-files for FCOOs observations
+# Setup-files for FCOOs observations - NOT READY
 
 
 
