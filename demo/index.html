@@ -149,7 +149,8 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</a>'
         }).addTo(maps[1]);
 
-       
+       maps[0].createPane('observations');
+       maps[1].createPane('observations');
         
 		fcooObservation = new window.fcoo.FCOOObservations({
             fileName:[
@@ -160,8 +161,10 @@
                 'observations-current_knots.json'
             ],
             lastObservationFileName : ['LastObservations_SEALVL.json', 'LastObservations_CURRENT.json'],
+            geoJSONOptions: {
+                pane: 'observations'
+            }
         });
-//HER        window.fcoo.LOCAL_DATA = false;
 
         var geoJSON0 = fcooObservation.geoJSON().addTo(maps[0]);
         fcooObservation.show('SEALEVEL', maps[0]);

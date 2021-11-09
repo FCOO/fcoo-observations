@@ -274,14 +274,16 @@
         geoJSON return a L.geoJSON layer
         **********************************************************/
         geoJSON: function(){
+            var thisOptionsGeoJSONOptions = this.options.geoJSONOptions;
+
             this.geoJSONOptions =
                 this.geoJSONOptions ||
                 $.extend(true,
-                    this.options.geoJSONOptions,
+                    thisOptionsGeoJSONOptions,
                     {
                         pointToLayer : function(geoJSONPoint/*, latlng*/) {
-                            return geoJSONPoint.properties.createMarker();
-                        }
+                            return geoJSONPoint.properties.createMarker(thisOptionsGeoJSONOptions);
+                        },
                     }
                 );
 
@@ -294,8 +296,14 @@
                 add   : $.proxy(this._geoJSON_onAdd,    this),
                 remove: $.proxy(this._geoJSON_onRemove, this)
             });
+
+//HERresult.addTo = function(){
+//HERconsole.log(this, arguments);
+//HER};
+
             return result;
         },
+
 
         //_geoJSON_onEachFeature: called with this = geoJSONLayer
         _geoJSON_onEachFeature: function(feature, marker) {

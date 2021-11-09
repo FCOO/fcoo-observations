@@ -43,7 +43,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.4.0",
+			VERSION         : "3.4.1",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -274,14 +274,16 @@
         geoJSON return a L.geoJSON layer
         **********************************************************/
         geoJSON: function(){
+            var thisOptionsGeoJSONOptions = this.options.geoJSONOptions;
+
             this.geoJSONOptions =
                 this.geoJSONOptions ||
                 $.extend(true,
-                    this.options.geoJSONOptions,
+                    thisOptionsGeoJSONOptions,
                     {
                         pointToLayer : function(geoJSONPoint/*, latlng*/) {
-                            return geoJSONPoint.properties.createMarker();
-                        }
+                            return geoJSONPoint.properties.createMarker(thisOptionsGeoJSONOptions);
+                        },
                     }
                 );
 
@@ -294,8 +296,14 @@
                 add   : $.proxy(this._geoJSON_onAdd,    this),
                 remove: $.proxy(this._geoJSON_onRemove, this)
             });
+
+//HERresult.addTo = function(){
+//HERconsole.log(this, arguments);
+//HER};
+
             return result;
         },
+
 
         //_geoJSON_onEachFeature: called with this = geoJSONLayer
         _geoJSON_onEachFeature: function(feature, marker) {
@@ -408,7 +416,7 @@ Location = group of Stations with the same or different paramtre
             tooltipDirection: 'top',
             tooltipPosition: 'top',
             */
-            tooltipHideWhenPopupOpen: true
+            tooltipHideWhenPopupOpen: true,
         };
 
 
@@ -594,8 +602,8 @@ Location = group of Stations with the same or different paramtre
         /*********************************************
         createMarker
         *********************************************/
-        createMarker: function(){
-            var markerOptions = $.extend(true, {}, bsMarkerOptions);
+        createMarker: function(options){
+            var markerOptions = $.extend(true, {}, bsMarkerOptions, options || {});
             markerOptions.locationId = this.id;
             markerOptions.innerIconClass = [];
             $.each(this.observationGroupList, function(index, observationGroup){

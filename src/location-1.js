@@ -43,7 +43,7 @@ Location = group of Stations with the same or different paramtre
             tooltipDirection: 'top',
             tooltipPosition: 'top',
             */
-            tooltipHideWhenPopupOpen: true
+            tooltipHideWhenPopupOpen: true,
         };
 
 
@@ -229,8 +229,8 @@ Location = group of Stations with the same or different paramtre
         /*********************************************
         createMarker
         *********************************************/
-        createMarker: function(){
-            var markerOptions = $.extend(true, {}, bsMarkerOptions);
+        createMarker: function(options){
+            var markerOptions = $.extend(true, {}, bsMarkerOptions, options || {});
             markerOptions.locationId = this.id;
             markerOptions.innerIconClass = [];
             $.each(this.observationGroupList, function(index, observationGroup){
