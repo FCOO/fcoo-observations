@@ -439,7 +439,7 @@ Location = group of Stations with the same or different paramtre
                 fixable: true,
                 //scroll : 'horizontal',
 
-                noVerticalPadding:  true,
+                //noVerticalPadding:  true,
                 //noHorizontalPadding: true,
 
                 header : this.getHeader(),

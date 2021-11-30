@@ -43,7 +43,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.4.1",
+			VERSION         : "3.4.2",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -812,7 +812,7 @@ Location = group of Stations with the same or different paramtre
                 fixable: true,
                 //scroll : 'horizontal',
 
-                noVerticalPadding:  true,
+                //noVerticalPadding:  true,
                 //noHorizontalPadding: true,
 
                 header : this.getHeader(),
