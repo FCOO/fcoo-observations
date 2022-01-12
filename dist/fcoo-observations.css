@@ -69,6 +69,9 @@ $font-size-base         : 1rem !default;
 $spacer                 : 1rem !default;
 */
 /************************************************************
+Set margin for buttons in block
+************************************************************/
+/************************************************************
 Adjust dropdown-menu
 ************************************************************/
 /************************************************************
@@ -125,6 +128,7 @@ Font-sizes for labels are same siae as header but incl a xxs-size
 CONTENT
 Unifies padding and font-size for content of modal, accordion, popup etc.
 Using same font-size and vertical/horizontal padding as buttons
+NOTE: For sm and xs y-padding = x-padding
 ************************************************************/
 /************************************************************
 MARGIN-BOTTOM

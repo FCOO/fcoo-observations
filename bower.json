@@ -1,6 +1,6 @@
 {
   "name": "fcoo-observations",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "homepage": "https://github.com/FCOO/fcoo-observations",
   "authors": [
     "Niels Holt"
@@ -27,8 +27,7 @@
     "fcoo-moment": "fcoo/fcoo-moment#^1.3.1",
     "fcoo-number": "fcoo/fcoo-number#^1.3.4",
     "fcoo-value-format": "fcoo/fcoo-value-format#^3.4.0",
-    "fcoo-settings": "fcoo/fcoo-settings",
-    "fcoo-fontawesome": "https://gitlab.com/FCOO/fcoo-fontawesome.git#^5.7.2"
+    "fcoo-settings": "fcoo/fcoo-settings"
   },
   "devDependencies": {
     "bourbon": "latest",
