@@ -464,10 +464,10 @@ TGhe calc(... - 1px) is due to the non-symetric shape of the icon
   font-size: calc( 10em/10); }
 
 .obs-group-icon-top {
-  top: cals(-0.1785714286em - 1px); }
+  top: calc( -0.1785714286em - 1px); }
 
 .obs-group-icon-over {
-  top: cals(-0.119047619em - 1px); }
+  top: calc( -0.119047619em - 1px); }
 
 .obs-group-icon-center {
   top: 0; }
@@ -479,10 +479,10 @@ TGhe calc(... - 1px) is due to the non-symetric shape of the icon
   top: 0.2380952381em; }
 
 .obs-group-icon-left {
-  left: cals(-0.1785714286em - 1px); }
+  left: calc( -0.1785714286em - 1px); }
 
 .obs-group-icon-beside-left {
-  left: cals(-0.119047619em - 1px); }
+  left: calc( -0.119047619em - 1px); }
 
 .obs-group-icon-middle {
   left: 0; }

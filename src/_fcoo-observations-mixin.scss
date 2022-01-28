@@ -147,14 +147,14 @@ $dim2  : (1em / 2) * $factor;
     font-size: calc( 10em/10);
 }
 
-.obs-group-icon-top          { top: cals( #{$dim4 - $dim2} - 1px);  }
-.obs-group-icon-over         { top: cals( #{$dim3 - $dim2} - 1px);  }
+.obs-group-icon-top          { top: calc( #{$dim4 - $dim2} - 1px);  }
+.obs-group-icon-over         { top: calc( #{$dim3 - $dim2} - 1px);  }
 .obs-group-icon-center       { top: 0;                              }
 .obs-group-icon-below        { top: $dim4;                          }
 .obs-group-icon-bottom       { top: $dim3;                          }
 
-.obs-group-icon-left         { left: cals( #{$dim4 - $dim2} - 1px); }
-.obs-group-icon-beside-left  { left: cals( #{$dim3 - $dim2} - 1px); }
+.obs-group-icon-left         { left: calc( #{$dim4 - $dim2} - 1px); }
+.obs-group-icon-beside-left  { left: calc( #{$dim3 - $dim2} - 1px); }
 .obs-group-icon-middle       { left: 0;                             }
 .obs-group-icon-beside-right { left: $dim4;                         }
 .obs-group-icon-right        { left: $dim3;                         }
