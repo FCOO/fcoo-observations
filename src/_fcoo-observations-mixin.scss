@@ -135,6 +135,7 @@ Position =
 
 In css the linie (fa-munus) is already at middle/center =>
 all pos in scc = pos - dim/2
+TGhe calc(... - 1px) is due to the non-symetric shape of the icon
 *****************************************************/
 $factor: 10/14;
 $dim4  : (1em / 4) * $factor;
@@ -146,17 +147,17 @@ $dim2  : (1em / 2) * $factor;
     font-size: calc( 10em/10);
 }
 
-.obs-group-icon-top          { top: $dim4 - $dim2;  z-index: 10; }
-.obs-group-icon-over         { top: $dim3 - $dim2;               }
-.obs-group-icon-center       { top:  0;             z-index:  1; }
-.obs-group-icon-below        { top:  $dim4;                      }
-.obs-group-icon-bottom       { top:  $dim3;         z-index: 10; }
+.obs-group-icon-top          { top: cals( #{$dim4 - $dim2} - 1px);  }
+.obs-group-icon-over         { top: cals( #{$dim3 - $dim2} - 1px);  }
+.obs-group-icon-center       { top: 0;                              }
+.obs-group-icon-below        { top: $dim4;                          }
+.obs-group-icon-bottom       { top: $dim3;                          }
 
-.obs-group-icon-left         { left: $dim4 - $dim2; z-index: 10; }
-.obs-group-icon-beside-left  { left: $dim3 - $dim2;              }
-.obs-group-icon-middle       { left: 0;             z-index:  1; }
-.obs-group-icon-beside-right { left: $dim4;                      }
-.obs-group-icon-right        { left: $dim3;         z-index: 10; }
+.obs-group-icon-left         { left: cals( #{$dim4 - $dim2} - 1px); }
+.obs-group-icon-beside-left  { left: cals( #{$dim3 - $dim2} - 1px); }
+.obs-group-icon-middle       { left: 0;                             }
+.obs-group-icon-beside-right { left: $dim4;                         }
+.obs-group-icon-right        { left: $dim3;                         }
 
 
 
