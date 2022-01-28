@@ -51,8 +51,7 @@ Only one station pro Location is active within the same ObservationGroup
                 marker    : true,
                 markerSize: 2,
                 visible   : this.observationGroup.isVisible(mapOrMapId),
-                data      : obsDataList,
-//HERdirectionArrow: true
+                data      : obsDataList
             });
 
 

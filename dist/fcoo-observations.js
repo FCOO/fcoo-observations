@@ -35,6 +35,8 @@
     nsObservations.observation_minimumPercentValues = 2/3;
     nsObservations.forecast_minimumPercentValues    = 1;    //All forecast needed!
 
+    //Add the color-names to the list of colors for markers and polylines
+    L.BsMarker._lbmAddColorName('observations');
 
 
     /***************************************************************
@@ -43,7 +45,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.4.3",
+			VERSION         : "3.4.4",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -297,13 +299,8 @@
                 remove: $.proxy(this._geoJSON_onRemove, this)
             });
 
-//HERresult.addTo = function(){
-//HERconsole.log(this, arguments);
-//HER};
-
             return result;
         },
-
 
         //_geoJSON_onEachFeature: called with this = geoJSONLayer
         _geoJSON_onEachFeature: function(feature, marker) {
@@ -402,8 +399,11 @@ Location = group of Stations with the same or different paramtre
             colorName: 'observations',
             round    : false,
 
-            scaleInner      : 150,
-            markerClassName : 'overflow-hidden',
+            markerClassName  : 'overflow-hidden',
+            thinBorder       : true,
+            individualContent: true,
+
+
 
             transparent: true,
 
@@ -464,18 +464,73 @@ Location = group of Stations with the same or different paramtre
         this.openPopupAsNormal = true;
     };
 
+
+
+
+
+
     nsObservations.Location.prototype = {
         /*********************************************
         getHeader
         *********************************************/
         getHeader: function(){
             var icon = L.bsMarkerAsIcon( bsMarkerOptions );
+            /* removed
             $.each(this.observationGroups, function(id, obsGroup){
                 icon[0].push('fal ' + obsGroup.markerIconBase + ' obs-group-'+obsGroup.options.index);
             });
-
+            */
             return {icon: icon, text: this.name};
         },
+
+        /*********************************************
+        createSVG
+        *********************************************/
+        createSVG: function(draw, dim, backgroundColor, borderColor, iconColor, marker){
+            var _this = marker.options._this,
+                dim2  = Math.floor( dim / 2),
+                dim3  = Math.floor( dim / 3),
+                dim4  = Math.floor( dim / 4),
+                iconOptions, pos;
+
+            draw.attr({'shape-rendering': "crispEdges"});
+
+
+            $.each(_this.observationGroupList, function(index, observationGroup){
+                /*
+                For each observationGroup the location is part of => draw a vertical or horizontal line
+                iconOptions = {
+                    vertical: [BOOLEAN]
+                    position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'
+                              vertical = false: 'top', ' over',        'center', 'below',        or 'bottom'
+                */
+                iconOptions = observationGroup.options.iconOptions;
+                switch (iconOptions.position){
+                    case 'left'         : case 'top'   :  pos = dim4;        break;
+                    case 'beside-left'  : case 'over'  :  pos = dim3;        break;
+                    case 'middle'       : case 'center':  pos = dim2;        break;
+                    case 'beside-right' : case 'below' :  pos = dim2 + dim4; break;
+                    case 'right'        : case 'bottom':  pos = dim2 + dim3; break;
+                    default                            :  pos = dim2;
+                }
+
+                draw
+                    .line(
+                        iconOptions.vertical ? pos : 0,
+                        iconOptions.vertical ? 0   : pos,
+                        iconOptions.vertical ? pos : dim,
+                        iconOptions.vertical ? dim : pos
+                    )
+                    .stroke({
+                        color: 'rgb(80,80,80)',  //or borderColor,
+                        width: 2
+                    })
+                    .addClass('obs-group-marker-'+observationGroup.options.index);
+            });
+        },
+
+
+
 
         /*********************************************
         appendStations
@@ -605,16 +660,16 @@ Location = group of Stations with the same or different paramtre
         createMarker: function(options){
             var markerOptions = $.extend(true, {}, bsMarkerOptions, options || {});
             markerOptions.locationId = this.id;
-            markerOptions.innerIconClass = [];
-            $.each(this.observationGroupList, function(index, observationGroup){
-                var ogIndex = observationGroup.options.index;
-                markerOptions.innerIconClass.push(observationGroup.markerIcon+' obs-group-'+ogIndex);
-                markerOptions.markerClassName += ' obs-group-marker-'+ogIndex;
-            });
+            markerOptions._this = this;
+            markerOptions.svg = this.createSVG;
 
+
+            $.each(this.observationGroupList, function(index, observationGroup){
+                markerOptions.markerClassName += ' obs-group-marker-' + observationGroup.options.index;
+            });
             markerOptions.tooltip = {text: this.name};
 
-            return L.bsMarkerCircle( this.latLng, markerOptions);
+            return L.bsMarkerSimpleSquare( this.latLng, markerOptions);
         },
 
 
@@ -1315,11 +1370,11 @@ ObservationGroup = group of Locations with the same parameter(-group)
         Create markerIcon [STRING] and faIcon []STRING to be used to creaet marker and icon in eq. bsModal
         iconOptions = {
             vertical: [BOOLEAN]
-            position: vertical = true : 'left', 'MANGLER', 'middle', 'MANGLER2', or 'right'
-                      vertical = false: 'top', 'over', 'center', 'below', or 'bottom'
+            position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'
+                      vertical = false: 'top',  'over',        'center', 'below',        or 'bottom'
         */
 
-        var iconClasses = 'fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
+        var iconClasses = 'fas fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
 
 
         this.markerIconBase = 'in-marker '+ iconClasses;
@@ -1327,9 +1382,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
 
         this.faIcon = L.bsMarkerAsIcon('observations', null, false );
-        this.faIcon[0].push( 'fa-lbm-border-color-black fal ' + iconClasses );
-
-
+        this.faIcon[0].push( 'fa-lbm-border-color-black ' + iconClasses );
 
 
         this.maxDelayValueOf = moment.duration(this.options.maxDelay).valueOf();
@@ -1485,8 +1538,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
             if (!this.isVisible(mapId))
                 this.show(mapId);
-//HER var start = moment().valueOf();
-//HER console.log('START');
             //Open all not-open location within the maps current bounds
             $.each(this.locations, function(id, location){
                 if (mapBounds.contains(location.latLng) && location.markers[mapId]){
@@ -1496,8 +1547,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
                     location.openPopupAsNormal = true;
                 }
             });
-
-//HER console.log('END ', moment().valueOf() - start );
         },
 
         /*********************************************
@@ -1515,10 +1564,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
                     location.markers[mapId].closePopup();
                 }
             });
-
-
-
-//HER            return this._getMapOptions(mapOrMapId).$container.hasClass('obs-group-'+this.options.index);
         },
     };
 
@@ -2178,8 +2223,7 @@ Only one station pro Location is active within the same ObservationGroup
                 marker    : true,
                 markerSize: 2,
                 visible   : this.observationGroup.isVisible(mapOrMapId),
-                data      : obsDataList,
-//HERdirectionArrow: true
+                data      : obsDataList
             });
 
 

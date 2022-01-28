@@ -142,11 +142,11 @@ ObservationGroup = group of Locations with the same parameter(-group)
         Create markerIcon [STRING] and faIcon []STRING to be used to creaet marker and icon in eq. bsModal
         iconOptions = {
             vertical: [BOOLEAN]
-            position: vertical = true : 'left', 'MANGLER', 'middle', 'MANGLER2', or 'right'
-                      vertical = false: 'top', 'over', 'center', 'below', or 'bottom'
+            position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'
+                      vertical = false: 'top',  'over',        'center', 'below',        or 'bottom'
         */
 
-        var iconClasses = 'fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
+        var iconClasses = 'fas fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
 
 
         this.markerIconBase = 'in-marker '+ iconClasses;
@@ -154,9 +154,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
 
         this.faIcon = L.bsMarkerAsIcon('observations', null, false );
-        this.faIcon[0].push( 'fa-lbm-border-color-black fal ' + iconClasses );
-
-
+        this.faIcon[0].push( 'fa-lbm-border-color-black ' + iconClasses );
 
 
         this.maxDelayValueOf = moment.duration(this.options.maxDelay).valueOf();
@@ -312,8 +310,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
             if (!this.isVisible(mapId))
                 this.show(mapId);
-//HER var start = moment().valueOf();
-//HER console.log('START');
             //Open all not-open location within the maps current bounds
             $.each(this.locations, function(id, location){
                 if (mapBounds.contains(location.latLng) && location.markers[mapId]){
@@ -323,8 +319,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
                     location.openPopupAsNormal = true;
                 }
             });
-
-//HER console.log('END ', moment().valueOf() - start );
         },
 
         /*********************************************
@@ -342,10 +336,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
                     location.markers[mapId].closePopup();
                 }
             });
-
-
-
-//HER            return this._getMapOptions(mapOrMapId).$container.hasClass('obs-group-'+this.options.index);
         },
     };
 

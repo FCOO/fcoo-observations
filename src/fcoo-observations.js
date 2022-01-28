@@ -35,6 +35,8 @@
     nsObservations.observation_minimumPercentValues = 2/3;
     nsObservations.forecast_minimumPercentValues    = 1;    //All forecast needed!
 
+    //Add the color-names to the list of colors for markers and polylines
+    L.BsMarker._lbmAddColorName('observations');
 
 
     /***************************************************************
@@ -297,13 +299,8 @@
                 remove: $.proxy(this._geoJSON_onRemove, this)
             });
 
-//HERresult.addTo = function(){
-//HERconsole.log(this, arguments);
-//HER};
-
             return result;
         },
-
 
         //_geoJSON_onEachFeature: called with this = geoJSONLayer
         _geoJSON_onEachFeature: function(feature, marker) {
