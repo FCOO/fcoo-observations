@@ -146,17 +146,14 @@ ObservationGroup = group of Locations with the same parameter(-group)
                       vertical = false: 'top',  'over',        'center', 'below',        or 'bottom'
         */
 
-        var iconClasses = 'fas fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
-
+        var iconClasses = 'far fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
 
         this.markerIconBase = 'in-marker '+ iconClasses;
         this.markerIcon = 'fas '+ this.markerIconBase;
 
-
         this.faIconPopup = L.bsMarkerAsIcon('observations', null, false );
         this.faIcon = L.bsMarkerAsIcon('observations', null, false );
         this.faIcon[0].push( 'fa-lbm-border-color-black ' + iconClasses );
-
 
         this.maxDelayValueOf = moment.duration(this.options.maxDelay).valueOf();
         this.observations = observations;

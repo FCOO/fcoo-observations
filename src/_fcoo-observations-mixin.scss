@@ -122,8 +122,8 @@ get class="obs-group-icon obs-group-icon-N" plus the fa-classes to create the ic
 /*****************************************************
 Adjustments of vertical and horizontal lines in
 icons for different observation-groups
-The factor 10/14 is from the inner-height of the
-square icon = 10px when font-size = 14px
+The factor 11/14 is from the inner-height of the
+square icon = 11px when font-size = 14px
 From src/location-1.js the following placement is used
 when dim = inner height of the icon and pos = from top
 Position =
@@ -135,9 +135,9 @@ Position =
 
 In css the linie (fa-munus) is already at middle/center =>
 all pos in scc = pos - dim/2
-TGhe calc(... - 1px) is due to the non-symetric shape of the icon
+The calc(... - 1px) is fine fine tuning due to the non-symetric shape of the icon
 *****************************************************/
-$factor: 10/14;
+$factor: 11/14;
 $dim4  : (1em / 4) * $factor;
 $dim3  : (1em / 3) * $factor;
 $dim2  : (1em / 2) * $factor;
@@ -148,15 +148,15 @@ $dim2  : (1em / 2) * $factor;
 }
 
 .obs-group-icon-top          { top: calc( #{$dim4 - $dim2} - 1px);  }
-.obs-group-icon-over         { top: calc( #{$dim3 - $dim2} - 1px);  }
+.obs-group-icon-over         { top: $dim3 - $dim2;                  }
 .obs-group-icon-center       { top: 0;                              }
-.obs-group-icon-below        { top: $dim4;                          }
+.obs-group-icon-below        { top: calc( #{$dim4} - 1px);          }
 .obs-group-icon-bottom       { top: $dim3;                          }
 
 .obs-group-icon-left         { left: calc( #{$dim4 - $dim2} - 1px); }
-.obs-group-icon-beside-left  { left: calc( #{$dim3 - $dim2} - 1px); }
+.obs-group-icon-beside-left  { left: $dim3 - $dim2;                 }
 .obs-group-icon-middle       { left: 0;                             }
-.obs-group-icon-beside-right { left: $dim4;                         }
+.obs-group-icon-beside-right { left: calc(#{$dim4} - 1px);          }
 .obs-group-icon-right        { left: $dim3;                         }
 
 

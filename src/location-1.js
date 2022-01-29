@@ -95,10 +95,6 @@ Location = group of Stations with the same or different paramtre
     };
 
 
-
-
-
-
     nsObservations.Location.prototype = {
         /*********************************************
         getHeader
@@ -121,7 +117,6 @@ Location = group of Stations with the same or different paramtre
                 iconOptions, pos;
 
             draw.attr({'shape-rendering': "crispEdges"});
-
 
             $.each(_this.observationGroupList, function(index, observationGroup){
                 /*
@@ -149,8 +144,11 @@ Location = group of Stations with the same or different paramtre
                         iconOptions.vertical ? dim : pos
                     )
                     .stroke({
-                        color: 'rgb(80,80,80)',  //or borderColor,
-                        width: 2
+                        //color: 'rgb(80,80,80)',
+                        //width: 2,
+
+                        color: borderColor,
+                        width: 1
                     })
                     .addClass('obs-group-marker-'+observationGroup.options.index);
             });

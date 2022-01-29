@@ -45,7 +45,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.5.0",
+			VERSION         : "3.5.1",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -465,10 +465,6 @@ Location = group of Stations with the same or different paramtre
     };
 
 
-
-
-
-
     nsObservations.Location.prototype = {
         /*********************************************
         getHeader
@@ -491,7 +487,6 @@ Location = group of Stations with the same or different paramtre
                 iconOptions, pos;
 
             draw.attr({'shape-rendering': "crispEdges"});
-
 
             $.each(_this.observationGroupList, function(index, observationGroup){
                 /*
@@ -519,8 +514,11 @@ Location = group of Stations with the same or different paramtre
                         iconOptions.vertical ? dim : pos
                     )
                     .stroke({
-                        color: 'rgb(80,80,80)',  //or borderColor,
-                        width: 2
+                        //color: 'rgb(80,80,80)',
+                        //width: 2,
+
+                        color: borderColor,
+                        width: 1
                     })
                     .addClass('obs-group-marker-'+observationGroup.options.index);
             });
@@ -1371,17 +1369,14 @@ ObservationGroup = group of Locations with the same parameter(-group)
                       vertical = false: 'top',  'over',        'center', 'below',        or 'bottom'
         */
 
-        var iconClasses = 'fas fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
-
+        var iconClasses = 'far fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
 
         this.markerIconBase = 'in-marker '+ iconClasses;
         this.markerIcon = 'fas '+ this.markerIconBase;
 
-
         this.faIconPopup = L.bsMarkerAsIcon('observations', null, false );
         this.faIcon = L.bsMarkerAsIcon('observations', null, false );
         this.faIcon[0].push( 'fa-lbm-border-color-black ' + iconClasses );
-
 
         this.maxDelayValueOf = moment.duration(this.options.maxDelay).valueOf();
         this.observations = observations;
