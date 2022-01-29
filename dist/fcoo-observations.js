@@ -45,7 +45,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.5.1",
+			VERSION         : "3.5.2",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -857,7 +857,7 @@ Location = group of Stations with the same or different paramtre
         addPopup: function(mapId, marker){
             var _this = this;
             marker.bindPopup({
-                width  : 250,
+                width  : 265,
 
                 fixable: true,
                 //scroll : 'horizontal',
