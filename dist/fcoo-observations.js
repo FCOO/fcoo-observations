@@ -45,7 +45,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.4.7",
+			VERSION         : "3.5.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -474,13 +474,10 @@ Location = group of Stations with the same or different paramtre
         getHeader
         *********************************************/
         getHeader: function(){
-            var icon = L.bsMarkerAsIcon( bsMarkerOptions );
-            /* removed
-            $.each(this.observationGroups, function(id, obsGroup){
-                icon[0].push('fal ' + obsGroup.markerIconBase + ' obs-group-'+obsGroup.options.index);
-            });
-            */
-            return {icon: icon, text: this.name};
+            return {
+                icon: this.observationGroupList[0].faIconPopup,
+                text: this.name
+            };
         },
 
         /*********************************************
@@ -1367,7 +1364,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
 
         /*
-        Create markerIcon [STRING] and faIcon []STRING to be used to creaet marker and icon in eq. bsModal
+        Create markerIcon:[STRING], faIconPopup:[STRING],  and faIcon []STRING to be used to create marker and icon in eq. bsModal
         iconOptions = {
             vertical: [BOOLEAN]
             position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'
@@ -1381,6 +1378,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
         this.markerIcon = 'fas '+ this.markerIconBase;
 
 
+        this.faIconPopup = L.bsMarkerAsIcon('observations', null, false );
         this.faIcon = L.bsMarkerAsIcon('observations', null, false );
         this.faIcon[0].push( 'fa-lbm-border-color-black ' + iconClasses );
 

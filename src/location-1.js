@@ -104,13 +104,10 @@ Location = group of Stations with the same or different paramtre
         getHeader
         *********************************************/
         getHeader: function(){
-            var icon = L.bsMarkerAsIcon( bsMarkerOptions );
-            /* removed
-            $.each(this.observationGroups, function(id, obsGroup){
-                icon[0].push('fal ' + obsGroup.markerIconBase + ' obs-group-'+obsGroup.options.index);
-            });
-            */
-            return {icon: icon, text: this.name};
+            return {
+                icon: this.observationGroupList[0].faIconPopup,
+                text: this.name
+            };
         },
 
         /*********************************************

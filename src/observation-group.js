@@ -139,7 +139,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
 
         /*
-        Create markerIcon [STRING] and faIcon []STRING to be used to creaet marker and icon in eq. bsModal
+        Create markerIcon:[STRING], faIconPopup:[STRING],  and faIcon []STRING to be used to create marker and icon in eq. bsModal
         iconOptions = {
             vertical: [BOOLEAN]
             position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'
@@ -153,6 +153,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
         this.markerIcon = 'fas '+ this.markerIconBase;
 
 
+        this.faIconPopup = L.bsMarkerAsIcon('observations', null, false );
         this.faIcon = L.bsMarkerAsIcon('observations', null, false );
         this.faIcon[0].push( 'fa-lbm-border-color-black ' + iconClasses );
 
