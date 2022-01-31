@@ -109,14 +109,15 @@ Location = group of Stations with the same or different paramtre
         /*********************************************
         createSVG
         *********************************************/
-        createSVG: function(draw, dim, backgroundColor, borderColor, iconColor, marker){
-            var _this = marker.options._this,
+        createSVG: function(svgOptions){
+            var _this = svgOptions.marker.options._this,
+                dim   = svgOptions.width,
                 dim2  = Math.floor( dim / 2),
                 dim3  = Math.floor( dim / 3),
                 dim4  = Math.floor( dim / 4),
                 iconOptions, pos;
 
-            draw.attr({'shape-rendering': "crispEdges"});
+            svgOptions.draw.attr({'shape-rendering': "crispEdges"});
 
             $.each(_this.observationGroupList, function(index, observationGroup){
                 /*
@@ -136,7 +137,7 @@ Location = group of Stations with the same or different paramtre
                     default                            :  pos = dim2;
                 }
 
-                draw
+                svgOptions.draw
                     .line(
                         iconOptions.vertical ? pos : 0,
                         iconOptions.vertical ? 0   : pos,
@@ -144,10 +145,7 @@ Location = group of Stations with the same or different paramtre
                         iconOptions.vertical ? dim : pos
                     )
                     .stroke({
-                        //color: 'rgb(80,80,80)',
-                        //width: 2,
-
-                        color: borderColor,
+                        color: svgOptions.borderColor,
                         width: 1
                     })
                     .addClass('obs-group-marker-'+observationGroup.options.index);

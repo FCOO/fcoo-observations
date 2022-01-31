@@ -18,7 +18,7 @@
 
 ************************************************/
 /***********************************************
-    modernizr-mediaquery.scss,
+    modernizr-mediaquery.scss, 
 
     (c) 2015, FCOO
 
@@ -27,7 +27,7 @@
 
 ************************************************/
 /***********************************************
-    modernizr-mediaquery-variables.scss,
+    modernizr-mediaquery-variables.scss, 
 
     (c) 2015, FCOO
 
@@ -38,7 +38,7 @@
 
 ************************************************/
 /***********************************************
-    _modernizr-mediaquery-orientation_print.scss,
+    _modernizr-mediaquery-orientation_print.scss, 
 
     (c) 2015, FCOO
 
@@ -33064,6 +33064,9 @@ _leaflet-bootstrap-marker-icon.scss,
   width: 100%;
   height: 100%; }
 
+.lbm-type-icon .lbm-content-svg {
+  position: relative; }
+
 .lbm-type-icon .lbm-content {
   display: block;
   position: relative;
@@ -33362,8 +33365,13 @@ _leaflet-bootstrap-marker-SVG.scss
 .leaflet-marker-icon svg {
   vertical-align: top; }
 
+.leaflet-marker-svg-container {
+  width: 100%;
+  height: 100%;
+  margin-top: -100%; }
+
 /***********************************************
-	leaflet-control-topcenter.scss,
+	leaflet-control-topcenter.scss, 
 
 	(c) 2016, FCOO
 
@@ -33391,7 +33399,7 @@ _leaflet-bootstrap-marker-SVG.scss
   right: 0; }
 
 /*! =======================================================
-                      VERSION  11.0.2
+                      VERSION  11.0.2              
 ========================================================= */
 /*! =========================================================
  * bootstrap-slider.js
@@ -33408,7 +33416,7 @@ _leaflet-bootstrap-marker-SVG.scss
  *
  * bootstrap-slider is released under the MIT License
  * Copyright (c) 2019 Kyle Kemp, Rohit Kalkur, and contributors
- *
+ * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -33417,10 +33425,10 @@ _leaflet-bootstrap-marker-SVG.scss
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
