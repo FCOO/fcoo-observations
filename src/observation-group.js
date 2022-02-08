@@ -39,7 +39,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
             "maxDelay"              : "PT1H",   //Max delay of latest measurement before it is not shown as "Last Measurement"
             "maxGap"                : 60,       //Minutes. Max gap between points before no line is drawn.
-            "historyPeriod"         : "PT30H",  //Length of historical period
+            "historyPeriod"         : "PT54H",  //Length of historical period
 
             "formatUnit"            : "cm",
             "minRange"              : 80,   //Min range on y-axis. Same as formatUnit or parameter default unit
@@ -103,6 +103,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
             "maxDelay"              : "PT1H",   //Max delay of latest measurement before it is not shown as "Last Measurement"
             "maxGap"                : 60,       //Minutes. Max gap between points before no line is drawn.
+            "historyPeriod"         : "PT54H",  //Length of historical period
 
             "minRange"              : 1, //Min range on y-axis. Same as formatUnit or parameter default unit
 

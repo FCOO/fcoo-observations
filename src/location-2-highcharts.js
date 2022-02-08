@@ -58,7 +58,6 @@ Methods for creating Highcharts for a Location
                 });
 
 
-
             nsHC.timeSeries(timeSeriesOptions);
         }
     });
