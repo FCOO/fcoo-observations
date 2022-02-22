@@ -37,7 +37,7 @@ $input-btn-padding-x-lg: $input-btn-padding-y-lg;
 
 Syntax and relations:
 In Bootstrap
-    $input-btn-padding(-x|-y)[-sm|-lg]
+    $input-btn-padding(-x|-y)[-sm|-lg] = A Value
     $btn-padding(-x|-y)[-sm|-lg] = $input-btn-padding(-x|-y)[-sm|-lg]
 
 
@@ -122,7 +122,7 @@ Dimentions for square buttons with only icons
 ************************************************************/
 /************************************************************
 LABEL
-Font-sizes for labels are same siae as header but incl a xxs-size
+Font-sizes for labels are same size as header but incl a xxs-size
 ************************************************************/
 /************************************************************
 CONTENT

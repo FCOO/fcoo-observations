@@ -995,7 +995,7 @@ $input-btn-padding-x-lg: $input-btn-padding-y-lg;
 
 Syntax and relations:
 In Bootstrap
-    $input-btn-padding(-x|-y)[-sm|-lg]
+    $input-btn-padding(-x|-y)[-sm|-lg] = A Value
     $btn-padding(-x|-y)[-sm|-lg] = $input-btn-padding(-x|-y)[-sm|-lg]
 
 
@@ -8739,7 +8739,7 @@ Dimentions for square buttons with only icons
 ************************************************************/
 /************************************************************
 LABEL
-Font-sizes for labels are same siae as header but incl a xxs-size
+Font-sizes for labels are same size as header but incl a xxs-size
 ************************************************************/
 /************************************************************
 CONTENT
@@ -11288,6 +11288,15 @@ form.form-validation .form-group {
   .input-group-border.input-group-border-with-label {
     margin-top: 0.25em; }
 
+.input-group-with-text {
+  cursor: default;
+  min-height: 1em; }
+
+/*
+Only for test: red labels
+.has-float-label > span:last-child > span{ background-color: red; }
+.has-fixed-label > span:last-child { background-color: red; }
+*/
 /************************************************************
 FLOAT-LABEL
 
@@ -33861,7 +33870,7 @@ $input-btn-padding-x-lg: $input-btn-padding-y-lg;
 
 Syntax and relations:
 In Bootstrap
-    $input-btn-padding(-x|-y)[-sm|-lg]
+    $input-btn-padding(-x|-y)[-sm|-lg] = A Value
     $btn-padding(-x|-y)[-sm|-lg] = $input-btn-padding(-x|-y)[-sm|-lg]
 
 
@@ -33946,7 +33955,7 @@ Dimentions for square buttons with only icons
 ************************************************************/
 /************************************************************
 LABEL
-Font-sizes for labels are same siae as header but incl a xxs-size
+Font-sizes for labels are same size as header but incl a xxs-size
 ************************************************************/
 /************************************************************
 CONTENT
@@ -34498,9 +34507,7 @@ leaflet-bootstrap-control-position.scss
   .leaflet-zoom-anim .leaflet-position-marker, .hide-control-position-map-center .leaflet-position-marker {
     display: none !important; }
 
-.leaflet-control-container .input-group .bsPosition-content {
-  border: 1px solid #ced4da;
-  outline: none !important;
+.leaflet-control-container .input-group div.bsPosition-content {
   display: flex;
   align-items: center;
   text-align: center;
@@ -34508,18 +34515,6 @@ leaflet-bootstrap-control-position.scss
   padding: 0 0.25rem;
   padding-top: 1px;
   font-size: 13px; }
-  .leaflet-control-container .input-group .bsPosition-content:active, .leaflet-control-container .input-group .bsPosition-content.active {
-    border-color: #b8c1ca; }
-  .leaflet-control-container .input-group .bsPosition-content:focus, .leaflet-control-container .input-group .bsPosition-content.focus {
-    border-color: #80bdff; }
-  .leaflet-control-container .input-group .bsPosition-content.disabled:not(.show-as-normal), .leaflet-control-container .input-group .bsPosition-content:disabled:not(.show-as-normal) {
-    border-color: #ced4da; }
-  .leaflet-control-container .input-group .bsPosition-content.focus:not(:disabled):not(.disabled):not(.no-hover), .leaflet-control-container .input-group .bsPosition-content:focus:not(:disabled):not(.disabled):not(.no-hover),
-  .mouse-hover .leaflet-control-container .input-group .bsPosition-content:hover:not(:disabled):not(.disabled):not(.no-hover) {
-    position: relative;
-    z-index: 4; }
-  .mouse-hover .leaflet-control-container .input-group .bsPosition-content:hover:not(:focus):not(:disabled):not(.disabled):not(.no-hover) {
-    border-color: #8C959D; }
 
 .control-position-cursor .hide-for-control-position-cursor {
   display: none !important; }

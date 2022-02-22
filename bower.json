@@ -1,6 +1,6 @@
 {
   "name": "fcoo-observations",
-  "version": "3.6.0",
+  "version": "3.6.1",
   "homepage": "https://github.com/FCOO/fcoo-observations",
   "authors": [
     "Niels Holt"
@@ -30,9 +30,6 @@
     "fcoo-settings": "fcoo/fcoo-settings"
   },
   "devDependencies": {
-    "bourbon": "latest",
-    "modernizr-mixin": "latest",
-    "mathsass": "latest",
     "modernizr-scss": "https://github.com/FCOO/modernizr-scss.git#latest"
   },
   "license": "MIT",
