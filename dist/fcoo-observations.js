@@ -45,7 +45,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.6.1",
+			VERSION         : "3.7.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -2061,6 +2061,7 @@ Only one station pro Location is active within the same ObservationGroup
                             return true;
                         }
                     });
+
                     if (!found)
                         dataList.push(newDataSet);
 
@@ -2072,6 +2073,7 @@ Only one station pro Location is active within the same ObservationGroup
             dataList.sort(function(dataSet1, dataSet2){
                 return dataSet1.timestamp.localeCompare(dataSet2.timestamp);
             });
+
 
             //If the station contains vector-parameter => calc speed, direction, eastware and northware for all dataSet
             if (this.vectorParameterList)
@@ -2086,7 +2088,6 @@ Only one station pro Location is active within the same ObservationGroup
                     metaData[northwardId] = metaData[northwardId] || metaData[eastwardId]  || metaData[speedId]     || {};
                     metaData[eastwardId]  = metaData[eastwardId]  || metaData[northwardId] || metaData[speedId]     || {};
                     metaData[directionId] = metaData[directionId] || {unit: "degree"}; //Hard-coded to degree
-
 
                     $.each(dataList, function(index2, dataSet){
                         var speedValue     = dataSet[speedId],

@@ -11156,27 +11156,26 @@ The default bootstrap structure used for elements in a form is
       margin-top: 0.25rem;
       margin-bottom: 0; }
 
-.form-group.form-group-xs,
 .form-group.form-group-sm {
   padding-top: 0.1875rem;
   padding-bottom: 0.375rem; }
-  .form-group.form-group-xs.small-bottom-padding,
   .form-group.form-group-sm.small-bottom-padding {
     padding-bottom: 0.1875rem; }
-  .form-group.form-group-xs hr.above-label,
   .form-group.form-group-sm hr.above-label {
     margin-bottom: 0.5625rem; }
 
-/*
 .form-group.form-group-xs {
-    padding-top   :     $input-padding-y-xs;
-    padding-bottom: 2 * $input-padding-y-xs;
-    &.small-bottom-padding {
-        padding-bottom: $input-padding-y-xs;
-    }
-    hr.above-label { margin-bottom: 3 * $input-padding-y-xs; }
-}
-*/
+  padding-top: 0.125rem;
+  padding-bottom: 0.25rem; }
+  .form-group.form-group-xs.small-bottom-padding {
+    padding-bottom: 0.125rem; }
+  .form-group.form-group-xs hr.above-label {
+    margin-bottom: 0.375rem; }
+
+.form-group.no-vertical-padding {
+  padding-top: 0;
+  padding-bottom: 0; }
+
 /************************************************************
 Style for formValidation (via fcoo-form-validation)
 form-group inside a <form class="form-validation"> gets special style for validation-state and messages
@@ -11271,10 +11270,21 @@ form.form-validation .form-group {
   font-size: 0.75rem;
   border-radius: 0.125rem; }
 
+.input-group {
+  font-size: 1rem; }
+
+.input-group-sm {
+  font-size: 0.875rem; }
+
+.input-group-xs {
+  font-size: 0.75rem; }
+
 .input-group-with-float-label {
   padding-top: 0.25rem; }
-  .input-group-with-float-label.input-group-sm, .input-group-with-float-label.input-group-xs {
+  .input-group-with-float-label.input-group-sm {
     padding-top: 0.1875rem; }
+  .input-group-with-float-label.input-group-xs {
+    padding-top: 0.125rem; }
 
 .input-group-border {
   padding: 0.25rem 0.3125rem;
@@ -11282,15 +11292,29 @@ form.form-validation .form-group {
   border-radius: 0.25rem; }
   .input-group-border.input-group-border-dark {
     border-color: black; }
-  .input-group-border.input-group-sm, .input-group-border.input-group-xs {
+  .input-group-border.input-group-sm {
     padding: 0.1875rem 0.25rem;
     border-radius: 0.1875rem; }
+  .input-group-border.input-group-xs {
+    padding: 0.125rem 0.1875rem;
+    border-radius: 0.125rem; }
   .input-group-border.input-group-border-with-label {
     margin-top: 0.25em; }
 
 .input-group-with-text {
   cursor: default;
-  min-height: 1em; }
+  min-height: 1em;
+  margin: 0.25em 0; }
+
+i.part-of-compact-text {
+  font-size: 1.25em;
+  width: 1.50em;
+  padding-right: inherit; }
+  i.part-of-compact-text + .container-icon-and-text {
+    cursor: default;
+    min-height: 1em;
+    padding-left: inherit;
+    border-left: 1px solid #ced4da; }
 
 /*
 Only for test: red labels
@@ -31116,7 +31140,6 @@ This is fixed by overwriting the last size with "inherit"
 .fa-inside-circle.fa-inside-circle {
   font-size: inherit; }
 
-@charset "UTF-8";
 /***********************************************
 	jquery-bootstrap-highcharts.scss,
 
@@ -31167,16 +31190,28 @@ in integer px from rem
 /*Not used. No lg-buttons
 $input-btn-padding-y-lg: .75rem;
 $input-btn-padding-x-lg: $input-btn-padding-y-lg;
-*/
-/* VERSION 1.x
-//$font-size-sm = .875rem; // = 14px
-$font-size-sm: rem(13px); //<= TODO MANGLER. Skal muligvis sættes til 14px og så skal padding for buttons rettes tilsvarrende
 
-$input-btn-padding-y-sm: rem(4px);
-$input-btn-padding-x-sm: $input-btn-padding-y-sm;
+Syntax and relations:
+In Bootstrap
+    $input-btn-padding(-x|-y)[-sm|-lg] = A Value
+    $btn-padding(-x|-y)[-sm|-lg] = $input-btn-padding(-x|-y)[-sm|-lg]
+
+
+
+In jquery-bootstrap
+    $input-btn-padding-x-sm = 3px
+    $input-btn-padding-y-sm = 4px
+
+    xs-versions added
+    $input-btn-padding-x-xs = 2px
+    $input-btn-padding-y-xs = 3px
+
 */
 /************************************************************
-Including "size" xs as in Bootstrap 3
+Including "size" xs as in Bootstrap 4
+************************************************************/
+/************************************************************
+Add line-heights for xs
 ************************************************************/
 /************************************************************
 Border-colors
@@ -31189,6 +31224,9 @@ releative to container (rem -> em)
 $font-size-base         : 1rem !default;
 $spacer                 : 1rem !default;
 */
+/************************************************************
+Set margin for buttons in block
+************************************************************/
 /************************************************************
 Adjust dropdown-menu
 ************************************************************/
@@ -31240,12 +31278,13 @@ Dimentions for square buttons with only icons
 ************************************************************/
 /************************************************************
 LABEL
-Font-sizes for labels are same siae as header but incl a xxs-size
+Font-sizes for labels are same size as header but incl a xxs-size
 ************************************************************/
 /************************************************************
 CONTENT
 Unifies padding and font-size for content of modal, accordion, popup etc.
 Using same font-size and vertical/horizontal padding as buttons
+NOTE: For sm and xs y-padding = x-padding
 ************************************************************/
 /************************************************************
 MARGIN-BOTTOM
@@ -31321,7 +31360,9 @@ All elements in modal-windows get same margin-bottom
 JQUERY-SCROLL-CONTAINER: Scroll-bar
 ************************************************/
 /***********************************************
-    _jquery-scroll-container-variables.scss,
+
+jquery-scroll-container-variables.scss
+
 ************************************************/
 /***********************************************
 BOOTSTRAP -> HIGHCHART
@@ -32113,7 +32154,7 @@ html.no-mouse .highcharts-container {
 
 .highcharts-menu hr {
   width: 100%;
-  margin: 0.3125rem 0;
+  margin: 0.25rem 0;
   padding: 0; }
 
 .highcharts-range-input .highcharts-label-box {
@@ -32153,7 +32194,7 @@ li.highcharts-menu-item:hover {
 
 .highcharts-scrollbar-thumb {
   fill: #cdcdcd;
-  transition: fill 0.2s linear; }
+  transition: fill .2s linear; }
 
 html.no-mouse .highcharts-scrollbar-thumb,
 .highcharts-scrollbar:hover .highcharts-scrollbar-thumb {
@@ -34220,6 +34261,9 @@ leaflet-bootstrap-control.scss
 .leaflet-container.has-control-attribution-bs .leaflet-control-container .leaflet-bottom:not(.has-control-attribution-bs) .leaflet-control:last-child {
   margin-bottom: 13px; }
 
+div.leaflet-control.leaflet-control-hidden * {
+  display: none !important; }
+
 /***********************************************
 leaflet-bootstrap-control-attribution.scss
 ************************************************/
@@ -34513,8 +34557,9 @@ leaflet-bootstrap-control-position.scss
   text-align: center;
   line-height: 1;
   padding: 0 0.25rem;
-  padding-top: 1px;
-  font-size: 13px; }
+  padding-top: 1px; }
+  .leaflet-control-container .input-group div.bsPosition-content > * {
+    font-size: 13px; }
 
 .control-position-cursor .hide-for-control-position-cursor {
   display: none !important; }
