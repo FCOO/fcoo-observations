@@ -45,7 +45,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.7.0",
+			VERSION         : "3.7.1",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
