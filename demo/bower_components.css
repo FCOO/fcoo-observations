@@ -8826,7 +8826,7 @@ ADDITIONS AND ADJUSTMENTS TO FONTAWESOME
 /************************************************************
 FONTAWESOME
 
-Additions and adjustments to Fontawesome 5 (when included)
+Additions and adjustments to Fontawesome 6 (when included)
 ************************************************************/
 .fa-inside-circle {
   position: relative;
@@ -8836,9 +8836,26 @@ Additions and adjustments to Fontawesome 5 (when included)
 
 .fa-inside-circle2 {
   position: relative;
-  top: -.2em; }
+  top: -.15em; }
   .fa-inside-circle2:before {
     font-size: .55em; }
+
+.fa-inside-circle-xmark {
+  position: relative;
+  top: calc(-.5em /3);
+  left: calc(-0.75em / 3);
+  font-size: calc(2em/3); }
+
+.show-for-hover {
+  opacity: 0; }
+  .container-stacked-icons:hover .show-for-hover:not(.disabled), .show-for-hover:not(.disabled):hover {
+    opacity: initial; }
+
+.container-stacked-icons:hover .fa-hover-color-red:not(.disabled), .fa-hover-color-red:not(.disabled):hover {
+  color: #dc3545; }
+
+.container-stacked-icons:hover .fa-hover-color-white:not(.disabled), .fa-hover-color-white:not(.disabled):hover {
+  color: white; }
 
 /************************************************
 BASE STYLE
@@ -9535,6 +9552,25 @@ div.btn, div.list-group-item {
     .btn.btn-standard.primary.disabled:not(.show-as-normal), .btn.btn-standard.primary:disabled:not(.show-as-normal) {
       opacity: 1 !important;
       color: rgba(0, 123, 255, 0.65); }
+  .btn.btn-standard.semi-selected:not(.standard-checkbox) {
+    color: #fff;
+    background: #fd7e14 linear-gradient(180deg, #fd9137, #fd7e14) repeat-x; }
+    .mouse-hover .hover .btn.btn-standard.semi-selected:not(.standard-checkbox):not(:active):not(:disabled):not(.disabled),
+    .mouse-hover .btn.btn-standard.semi-selected:not(.standard-checkbox).hover:not(:active):not(:disabled):not(.disabled),
+    .mouse-hover .btn.btn-standard.semi-selected:not(.standard-checkbox):hover:not(:active):not(:disabled):not(.disabled) {
+      color: #f2f2f2;
+      background: #f57102 linear-gradient(180deg, #f78628, #f57102) repeat-x; }
+    .btn.btn-standard.semi-selected:not(.standard-checkbox):active {
+      color: #ececec;
+      background: #e96b02 linear-gradient(180deg, #ec8128, #e96b02) repeat-x; }
+    .btn.btn-standard.semi-selected:not(.standard-checkbox).disabled:not(.show-as-normal), .btn.btn-standard.semi-selected:not(.standard-checkbox):disabled:not(.show-as-normal) {
+      opacity: 1 !important;
+      color: rgba(255, 255, 255, 0.65);
+      background: #fd7e14 linear-gradient(180deg, #fd9137, #fd7e14) repeat-x; }
+  .btn.btn-standard.standard-checkbox .standard-checkbox-checked-color {
+    color: #007bff; }
+  .btn.btn-standard.standard-checkbox.semi-selected .standard-checkbox-checked-color {
+    color: #fd7e14; }
   .btn.btn-standard > i.fa {
     min-width: 1em;
     text-align: left; }
@@ -9683,16 +9719,24 @@ div.btn, div.list-group-item {
       .btn.btn-standard.square:not(.big-square).btn-sm, .btn-group-sm > .btn.btn-standard.square:not(.big-square) {
         height: 1.8125rem;
         width: 1.8125rem; }
+      .btn.btn-standard.square:not(.big-square).btn-xs, .btn-group-xs > .btn.btn-standard.square:not(.big-square) {
+        height: 1.5rem;
+        width: 1.5rem; }
     .btn.btn-standard.square.big-square {
       height: 3rem;
       width: 3rem; }
       .btn.btn-standard.square.big-square.btn-sm, .btn-group-sm > .btn.btn-standard.square.big-square {
         height: 2.625rem;
         width: 2.625rem; }
+      .btn.btn-standard.square.big-square.btn-xs, .btn-group-xs > .btn.btn-standard.square.big-square {
+        height: 2.1875rem;
+        width: 2.1875rem; }
     .btn.btn-standard.square.big-icon {
       font-size: 1.625rem; }
     .btn.btn-standard.square.btn-sm.big-icon, .btn-group-sm > .btn.btn-standard.square.big-icon {
       font-size: 1.375rem; }
+    .btn.btn-standard.square.btn-xs.big-icon, .btn-group-xs > .btn.btn-standard.square.big-icon {
+      font-size: 1.1875rem; }
     .btn.btn-standard.square > i.fa {
       width: 1.25em;
       height: 1em;
@@ -9780,7 +9824,13 @@ BUTTON-GROUP
   color: #495057;
   background-color: #e9ecef;
   line-height: 1.3;
-  width: 100%; }
+  width: 100%;
+  /* Removed to align all icons in groups (with and without header)
+        //Adjust padding for buttons after a header
+        & ~ .btn {
+            padding-left: 2*$btn-padding-x;
+        }
+*/ }
   .btn-group-vertical .btn-group-header span {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -9788,8 +9838,10 @@ BUTTON-GROUP
   .btn-group-vertical .btn-group-header span.fixed-header {
     overflow: visible;
     word-break: keep-all; }
-  .btn-group-vertical .btn-group-header ~ .btn {
-    padding-left: 0.625rem; }
+
+.btn-group-vertical .btn.container-icon-and-text > i, .btn-group-vertical .btn.container-icon-and-text > .container-stacked-icons {
+  width: 1.25em;
+  text-align: center; }
 
 .btn-group-vertical.btn-group-sm .btn-group-header {
   /*
@@ -9812,7 +9864,12 @@ BUTTON-GROUP
   font-size: 0.875rem;
   line-height: 1.5;
   border-radius: inherit;
-  line-height: 1.3; }
+  line-height: 1.3;
+  /* Removed to align all icons in groups (with and without header)
+        & ~ .btn {
+            padding-left: 2*$btn-padding-x-sm;
+        }
+*/ }
   .btn-group-vertical.btn-group-sm .btn-group-header span {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -9820,8 +9877,6 @@ BUTTON-GROUP
   .btn-group-vertical.btn-group-sm .btn-group-header span.fixed-header {
     overflow: visible;
     word-break: keep-all; }
-  .btn-group-vertical.btn-group-sm .btn-group-header ~ .btn {
-    padding-left: 0.5rem; }
 
 .btn-group-vertical.btn-group-xs .btn-group-header {
   /*
@@ -9844,7 +9899,12 @@ BUTTON-GROUP
   font-size: 0.6875rem;
   line-height: 1.5;
   border-radius: inherit;
-  line-height: 1.3; }
+  line-height: 1.3;
+  /* Removed to align all icons in groups (with and without header)
+        & ~ .btn {
+            padding-left: 2*$btn-padding-x-xs;
+        }
+*/ }
   .btn-group-vertical.btn-group-xs .btn-group-header span {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -9852,8 +9912,6 @@ BUTTON-GROUP
   .btn-group-vertical.btn-group-xs .btn-group-header span.fixed-header {
     overflow: visible;
     word-break: keep-all; }
-  .btn-group-vertical.btn-group-xs .btn-group-header ~ .btn {
-    padding-left: 0.375rem; }
 
 .btn-group-vertical + .btn-group-vertical {
   margin-top: 0.25rem; }
@@ -10081,7 +10139,20 @@ Icons for modal header inside a container
     width: 1em;
     text-align: center;
     cursor: default;
-    color: #6c757d; }
+    color: #6c757d;
+    /*
+        //Special version for icons with colored background (normal or hover)
+        &.header-icon-colored-background .back { color: transparent; }
+
+        //Special version for close-icon: red background on hover
+        &.header-icon-close {
+            &:not(.disabled):hover {
+                .back    { color: $red; }
+                .middle  { color: white; }
+                .front   { color: $red; }
+            }
+        }
+*/ }
     .header-icon-container .header-icon.hidden {
       display: none; }
     .mouse-hover .hover .header-icon-container .header-icon:not(:active):not(:disabled):not(.disabled),
@@ -10108,14 +10179,6 @@ Icons for modal header inside a container
     .header-icon-container .header-icon.disabled:not(.show-as-normal), .header-icon-container .header-icon:disabled:not(.show-as-normal) {
       opacity: 1 !important;
       color: rgba(108, 117, 125, 0.65); }
-    .header-icon-container .header-icon.header-icon-colored-background .back {
-      color: transparent; }
-    .header-icon-container .header-icon.header-icon-close:not(.disabled):hover .back {
-      color: #dc3545; }
-    .header-icon-container .header-icon.header-icon-close:not(.disabled):hover .middle {
-      color: white; }
-    .header-icon-container .header-icon.header-icon-close:not(.disabled):hover .front {
-      color: #dc3545; }
     .header-icon-container .header-icon.header-icon-warning .middle {
       font-size: .6em;
       position: relative;
@@ -10772,43 +10835,10 @@ body.modal-open .modal {
     background: #e9ecef linear-gradient(180deg, #eceff2, #e9ecef) repeat-x; }
     .mouse-hover .modal-dialog .modal-content:hover.modal-minimized.modal-minimized-clickable .modal-body.modal-body-semi-transparent, .mouse-hover .modal-dialog .modal-content:hover.modal-minimized.modal-minimized-clickable .modal-body-fixed.modal-body-semi-transparent, .mouse-hover .modal-dialog .modal-content:hover.modal-normal.modal-normal-clickable .modal-body.modal-body-semi-transparent, .mouse-hover .modal-dialog .modal-content:hover.modal-normal.modal-normal-clickable .modal-body-fixed.modal-body-semi-transparent, .mouse-hover .modal-dialog .modal-content:hover.modal-extended.modal-extended-clickable .modal-body.modal-body-semi-transparent, .mouse-hover .modal-dialog .modal-content:hover.modal-extended.modal-extended-clickable .modal-body-fixed.modal-body-semi-transparent {
       background: rgba(255, 255, 255, 0.75); }
-  .modal-dialog.modal-dialog-sm .modal-content .modal-header {
-    /*
-    $padding-x: $input-btn-padding-x;
-    $padding-y: $input-btn-padding-y;
-    @if $size == "sm" {
-        $padding-x: $input-btn-padding-x-sm;
-        $padding-y: $input-btn-padding-y-sm;
-    }
-    @if $size == "xs" {
-        $padding-x: $input-btn-padding-x-xs;
-        $padding-y: $input-btn-padding-y-xs;
-    }
-*/
-    display: flex;
-    align-items: center;
-    cursor: default;
-    font-weight: 400;
-    padding: 0.1875rem 0.25rem;
-    font-size: 0.75rem;
-    line-height: 1.5;
-    border-radius: inherit;
-    border-bottom: 1px solid #9aa1a8;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0; }
-    .modal-dialog.modal-dialog-sm .modal-content .modal-header span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap; }
-    .modal-dialog.modal-dialog-sm .modal-content .modal-header span.fixed-header {
-      overflow: visible;
-      word-break: keep-all; }
-  .modal-dialog.modal-dialog-sm .modal-content .modal-body,
-  .modal-dialog.modal-dialog-sm .modal-content .modal-body-fixed {
-    padding: 0.25rem 0.25rem;
+  .modal-dialog.modal-dialog-sm {
     font-size: 0.875rem; }
-  .modal-dialog.modal-dialog-sm .modal-content .modal-footer-header {
-    /*
+    .modal-dialog.modal-dialog-sm .modal-content .modal-header {
+      /*
     $padding-x: $input-btn-padding-x;
     $padding-y: $input-btn-padding-y;
     @if $size == "sm" {
@@ -10820,33 +10850,30 @@ body.modal-open .modal {
         $padding-y: $input-btn-padding-y-xs;
     }
 */
-    display: flex;
-    align-items: center;
-    cursor: default;
-    font-weight: 400;
-    padding: 0.1875rem 0.25rem;
-    font-size: 0.75rem;
-    line-height: 1.5;
-    border-radius: inherit;
-    color: #495057;
-    background-color: #f2f2f2;
-    line-height: 1.25;
-    border-top: 1px solid #9aa1a8;
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important; }
-    .modal-dialog.modal-dialog-sm .modal-content .modal-footer-header span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap; }
-    .modal-dialog.modal-dialog-sm .modal-content .modal-footer-header span.fixed-header {
-      overflow: visible;
-      word-break: keep-all; }
-    .modal-dialog.modal-dialog-sm .modal-content .modal-footer-header:empty {
-      display: none !important; }
-  .modal-dialog.modal-dialog-sm .modal-content .modal-footer {
-    padding: 0.1875rem 0.25rem; }
-  .modal-dialog.modal-dialog-xs .modal-content .modal-header {
-    /*
+      display: flex;
+      align-items: center;
+      cursor: default;
+      font-weight: 400;
+      padding: 0.1875rem 0.25rem;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      border-radius: inherit;
+      border-bottom: 1px solid #9aa1a8;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0; }
+      .modal-dialog.modal-dialog-sm .modal-content .modal-header span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap; }
+      .modal-dialog.modal-dialog-sm .modal-content .modal-header span.fixed-header {
+        overflow: visible;
+        word-break: keep-all; }
+    .modal-dialog.modal-dialog-sm .modal-content .modal-body,
+    .modal-dialog.modal-dialog-sm .modal-content .modal-body-fixed {
+      padding: 0.25rem 0.25rem;
+      font-size: 0.875rem; }
+    .modal-dialog.modal-dialog-sm .modal-content .modal-footer-header {
+      /*
     $padding-x: $input-btn-padding-x;
     $padding-y: $input-btn-padding-y;
     @if $size == "sm" {
@@ -10858,30 +10885,35 @@ body.modal-open .modal {
         $padding-y: $input-btn-padding-y-xs;
     }
 */
-    display: flex;
-    align-items: center;
-    cursor: default;
-    font-weight: 400;
-    padding: 0.125rem 0.1875rem;
-    font-size: 0.6875rem;
-    line-height: 1.5;
-    border-radius: inherit;
-    border-bottom: 1px solid #9aa1a8;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0; }
-    .modal-dialog.modal-dialog-xs .modal-content .modal-header span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap; }
-    .modal-dialog.modal-dialog-xs .modal-content .modal-header span.fixed-header {
-      overflow: visible;
-      word-break: keep-all; }
-  .modal-dialog.modal-dialog-xs .modal-content .modal-body,
-  .modal-dialog.modal-dialog-xs .modal-content .modal-body-fixed {
-    padding: 0.1875rem 0.1875rem;
+      display: flex;
+      align-items: center;
+      cursor: default;
+      font-weight: 400;
+      padding: 0.1875rem 0.25rem;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      border-radius: inherit;
+      color: #495057;
+      background-color: #f2f2f2;
+      line-height: 1.25;
+      border-top: 1px solid #9aa1a8;
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important; }
+      .modal-dialog.modal-dialog-sm .modal-content .modal-footer-header span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap; }
+      .modal-dialog.modal-dialog-sm .modal-content .modal-footer-header span.fixed-header {
+        overflow: visible;
+        word-break: keep-all; }
+      .modal-dialog.modal-dialog-sm .modal-content .modal-footer-header:empty {
+        display: none !important; }
+    .modal-dialog.modal-dialog-sm .modal-content .modal-footer {
+      padding: 0.1875rem 0.25rem; }
+  .modal-dialog.modal-dialog-xs {
     font-size: 0.75rem; }
-  .modal-dialog.modal-dialog-xs .modal-content .modal-footer-header {
-    /*
+    .modal-dialog.modal-dialog-xs .modal-content .modal-header {
+      /*
     $padding-x: $input-btn-padding-x;
     $padding-y: $input-btn-padding-y;
     @if $size == "sm" {
@@ -10893,31 +10925,66 @@ body.modal-open .modal {
         $padding-y: $input-btn-padding-y-xs;
     }
 */
-    display: flex;
-    align-items: center;
-    cursor: default;
-    font-weight: 400;
-    padding: 0.125rem 0.1875rem;
-    font-size: 0.6875rem;
-    line-height: 1.5;
-    border-radius: inherit;
-    color: #495057;
-    background-color: #f2f2f2;
-    line-height: 1.25;
-    border-top: 1px solid #9aa1a8;
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important; }
-    .modal-dialog.modal-dialog-xs .modal-content .modal-footer-header span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap; }
-    .modal-dialog.modal-dialog-xs .modal-content .modal-footer-header span.fixed-header {
-      overflow: visible;
-      word-break: keep-all; }
-    .modal-dialog.modal-dialog-xs .modal-content .modal-footer-header:empty {
-      display: none !important; }
-  .modal-dialog.modal-dialog-xs .modal-content .modal-footer {
-    padding: 0.125rem 0.1875rem; }
+      display: flex;
+      align-items: center;
+      cursor: default;
+      font-weight: 400;
+      padding: 0.125rem 0.1875rem;
+      font-size: 0.6875rem;
+      line-height: 1.5;
+      border-radius: inherit;
+      border-bottom: 1px solid #9aa1a8;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0; }
+      .modal-dialog.modal-dialog-xs .modal-content .modal-header span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap; }
+      .modal-dialog.modal-dialog-xs .modal-content .modal-header span.fixed-header {
+        overflow: visible;
+        word-break: keep-all; }
+    .modal-dialog.modal-dialog-xs .modal-content .modal-body,
+    .modal-dialog.modal-dialog-xs .modal-content .modal-body-fixed {
+      padding: 0.1875rem 0.1875rem;
+      font-size: 0.75rem; }
+    .modal-dialog.modal-dialog-xs .modal-content .modal-footer-header {
+      /*
+    $padding-x: $input-btn-padding-x;
+    $padding-y: $input-btn-padding-y;
+    @if $size == "sm" {
+        $padding-x: $input-btn-padding-x-sm;
+        $padding-y: $input-btn-padding-y-sm;
+    }
+    @if $size == "xs" {
+        $padding-x: $input-btn-padding-x-xs;
+        $padding-y: $input-btn-padding-y-xs;
+    }
+*/
+      display: flex;
+      align-items: center;
+      cursor: default;
+      font-weight: 400;
+      padding: 0.125rem 0.1875rem;
+      font-size: 0.6875rem;
+      line-height: 1.5;
+      border-radius: inherit;
+      color: #495057;
+      background-color: #f2f2f2;
+      line-height: 1.25;
+      border-top: 1px solid #9aa1a8;
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important; }
+      .modal-dialog.modal-dialog-xs .modal-content .modal-footer-header span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap; }
+      .modal-dialog.modal-dialog-xs .modal-content .modal-footer-header span.fixed-header {
+        overflow: visible;
+        word-break: keep-all; }
+      .modal-dialog.modal-dialog-xs .modal-content .modal-footer-header:empty {
+        display: none !important; }
+    .modal-dialog.modal-dialog-xs .modal-content .modal-footer {
+      padding: 0.125rem 0.1875rem; }
 
 .modal-dialog .modal-body-fixed.scrollbar-vertical, .modal-dialog.modal-dialog-sm .modal-body-fixed.scrollbar-vertical, .modal-dialog.modal-dialog-xs .modal-body-fixed.scrollbar-vertical {
   padding-left: 8px;
@@ -30235,7 +30302,7 @@ $input-btn-padding-x-lg: $input-btn-padding-y-lg;
 
 Syntax and relations:
 In Bootstrap
-    $input-btn-padding(-x|-y)[-sm|-lg]
+    $input-btn-padding(-x|-y)[-sm|-lg] = A Value
     $btn-padding(-x|-y)[-sm|-lg] = $input-btn-padding(-x|-y)[-sm|-lg]
 
 
@@ -30320,7 +30387,7 @@ Dimentions for square buttons with only icons
 ************************************************************/
 /************************************************************
 LABEL
-Font-sizes for labels are same siae as header but incl a xxs-size
+Font-sizes for labels are same size as header but incl a xxs-size
 ************************************************************/
 /************************************************************
 CONTENT
@@ -31062,6 +31129,12 @@ Different versions of sub-icons can be created using different methods in namesp
   .active .fa-circle-small-right-bottom, .active
   .fa-square-small-right-bottom {
     color: #007bff !important; }
+  .semi-selected .fa-circle-small-right-bottom,
+  .active.semi-selected .fa-circle-small-right-bottom, .semi-selected
+  .fa-square-small-right-bottom,
+  .active.semi-selected
+  .fa-square-small-right-bottom {
+    color: #fd7e14 !important; }
   .card-header .fa-circle-small-right-bottom, .card-header
   .fa-square-small-right-bottom {
     color: #e9ecef !important; }
