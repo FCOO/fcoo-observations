@@ -107,9 +107,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
             "minRange"              : 1, //Min range on y-axis. Same as formatUnit or parameter default unit
 
-//            "arrow"                 : "fal-long-arrow-up",
-            "arrow"                 : "fal-arrow-alt-up",
-            "arrowDim"              : 16
+            "arrow"                 : "far-long-arrow-alt-up",  //Previuos = "fal-long-arrow-up"
+            "arrowDim"              : 20                        //Previuos = 16
 
         },
 //*/
