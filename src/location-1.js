@@ -681,7 +681,7 @@ Location = group of Stations with the same or different paramtre
 
                 var $td = $('<td/>')
                     .css('font-size', 'larger')
-                    .addClass('font-weight-bold')
+                    .addClass('fw-bold')
                     .appendTo($tr);
 
                 groupElements.$lastObservation.push($td);
@@ -714,7 +714,7 @@ Location = group of Stations with the same or different paramtre
 
                 //Create table with stat for previous observations and stat for forecast
                 var $tr_prevObservation = $('<tr/>')
-                        .addClass('font-weight-bold no-border-border-when-last-visible show-for-obs-group-'+observationGroup.options.index)
+                        .addClass('fw-bold no-border-border-when-last-visible show-for-obs-group-'+observationGroup.options.index)
                         .appendTo($table_prevObservation),
                     $tr_forecast = $tr_prevObservation.clone().appendTo($table_forecast),
                     i;
@@ -740,9 +740,9 @@ Location = group of Stations with the same or different paramtre
 
             //Append tree texboxes with the tree tables
             $body._bsAppendContent([
-                {type: 'textbox', label: {da:'Forrige målinger ', en:'Previous Measurements'}, icon: ns.icons.working, iconClass: tempClassName[0], center: true, smallBottomPadding: true},
-                {type: 'textbox', label: {da:'Seneste måling',    en:'Latest Measurement'},    icon: ns.icons.working, iconClass: tempClassName[1], center: true, smallBottomPadding: true, darkBorderlabel: true},
-                {type: 'textbox', label: {da:'Prognoser',         en:'Forecasts'},             icon: ns.icons.working, iconClass: tempClassName[2], center: true, smallBottomPadding: true}
+                {type: 'textbox', label: {da:'Forrige målinger ', en:'Previous Measurements'}, icon: ns.icons.working, iconClass: tempClassName[0], center: true},
+                {type: 'textbox', label: {da:'Seneste måling',    en:'Latest Measurement'},    icon: ns.icons.working, iconClass: tempClassName[1], center: true, darkBorderlabel: true},
+                {type: 'textbox', label: {da:'Prognoser',         en:'Forecasts'},             icon: ns.icons.working, iconClass: tempClassName[2], center: true}
             ]);
 
             //Insert $table_XX instead of span or remove it
