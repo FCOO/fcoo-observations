@@ -1753,6 +1753,9 @@ Accordion
 Card
 ***********************************************/
 /***********************************************
+Form
+***********************************************/
+/***********************************************
 Toast
 ***********************************************/
 /***********************************************
@@ -3825,12 +3828,12 @@ textarea.form-control-lg {
   z-index: 5;
   display: none;
   max-width: 100%;
-  padding: 0.25rem 0.5rem;
+  padding: 0px 0px;
   margin-top: .1rem;
   font-size: 0.6875rem;
   color: #fff;
   background-color: rgba(25, 135, 84, 0.9);
-  border-radius: 0.375rem; }
+  border-radius: 0.0625rem; }
 
 .was-validated :valid ~ .valid-feedback,
 .was-validated :valid ~ .valid-tooltip,
@@ -3841,7 +3844,7 @@ textarea.form-control-lg {
 .was-validated .form-control:valid, .form-control.is-valid {
   border-color: #198754;
   padding-right: calc(1.5em + 0.75rem);
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+  background-image: "";
   background-repeat: no-repeat;
   background-position: right calc(0.375em + 0.1875rem) center;
   background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem); }
@@ -3857,7 +3860,7 @@ textarea.form-control-lg {
   border-color: #198754; }
   .was-validated .form-select:valid:not([multiple]):not([size]), .was-validated .form-select:valid:not([multiple])[size="1"], .form-select.is-valid:not([multiple]):not([size]), .form-select.is-valid:not([multiple])[size="1"] {
     padding-right: 2.0625rem;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), "";
     background-position: right 0.375rem center, center right 1.125rem;
     background-size: 16px 12px, calc(0.75em + 0.375rem) calc(0.75em + 0.375rem); }
   .was-validated .form-select:valid:focus, .form-select.is-valid:focus {
@@ -3899,12 +3902,12 @@ textarea.form-control-lg {
   z-index: 5;
   display: none;
   max-width: 100%;
-  padding: 0.25rem 0.5rem;
+  padding: 0px 0px;
   margin-top: .1rem;
   font-size: 0.6875rem;
   color: #fff;
   background-color: rgba(220, 53, 69, 0.9);
-  border-radius: 0.375rem; }
+  border-radius: 0.0625rem; }
 
 .was-validated :invalid ~ .invalid-feedback,
 .was-validated :invalid ~ .invalid-tooltip,
@@ -3915,7 +3918,7 @@ textarea.form-control-lg {
 .was-validated .form-control:invalid, .form-control.is-invalid {
   border-color: #dc3545;
   padding-right: calc(1.5em + 0.75rem);
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+  background-image: "";
   background-repeat: no-repeat;
   background-position: right calc(0.375em + 0.1875rem) center;
   background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem); }
@@ -3931,7 +3934,7 @@ textarea.form-control-lg {
   border-color: #dc3545; }
   .was-validated .form-select:invalid:not([multiple]):not([size]), .was-validated .form-select:invalid:not([multiple])[size="1"], .form-select.is-invalid:not([multiple]):not([size]), .form-select.is-invalid:not([multiple])[size="1"] {
     padding-right: 2.0625rem;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), "";
     background-position: right 0.375rem center, center right 1.125rem;
     background-size: 16px 12px, calc(0.75em + 0.375rem) calc(0.75em + 0.375rem); }
   .was-validated .form-select:invalid:focus, .form-select.is-invalid:focus {
@@ -5475,11 +5478,11 @@ textarea.form-control-lg {
   .alert-warning .alert-link, .noty_theme__jquery-bootstrap.noty_type__warning .alert-link {
     color: #523e02; }
 
-.alert-danger, .noty_theme__jquery-bootstrap.noty_type__error {
+.alert-danger, form.form-validation .invalid-tooltip, .noty_theme__jquery-bootstrap.noty_type__error {
   --bs-alert-color: #842029;
   --bs-alert-bg: #f8d7da;
   --bs-alert-border-color: #f5c2c7; }
-  .alert-danger .alert-link, .noty_theme__jquery-bootstrap.noty_type__error .alert-link {
+  .alert-danger .alert-link, form.form-validation .invalid-tooltip .alert-link, .noty_theme__jquery-bootstrap.noty_type__error .alert-link {
     color: #6a1a21; }
 
 .alert-light, .noty_theme__jquery-bootstrap.noty_type__help {
@@ -11466,42 +11469,45 @@ not-first child assuming the previous sibling element
 is next to it.
 In jquery-bootstrap the previous sibling
 can be the label => still need round left corners
+The selection in Bootstrap is not pretty => not pretty here
 ***********************************************/
-.input-group > .label-outside + * {
-  margin-left: initial !important;
+.input-group > .label-outside + *:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+  margin-left: initial;
   border-top-left-radius: var(--bs-btn-border-radius) !important;
   border-bottom-left-radius: var(--bs-btn-border-radius) !important; }
 
 /************************************************************
-FORMVALIDATION
-Style for formValidation (via fcoo-form-validation)
+VALIDATION
+Adjust to css in
 input-group-container inside a <form class="form-validation"> gets special style for validation-state and messages
 ************************************************************/
-.modal-content.modal-has-warning {
-  border: 1px solid #dc3545; }
+form.form-validation input.form-control {
+  padding-right: var(--bs-input-padding-x) !important; }
 
-form.form-validation .input-group-container {
-  --bs-form-control-feedback-height: calc( var(--bs-input-font-size) + 2 * var(--bs-input-padding-y) );
-  padding-top: var(--bs-input-padding-y);
-  padding-bottom: var(--bs-form-control-feedback-height); }
-  form.form-validation .input-group-container .form-control-feedback {
-    line-height: 1;
-    padding-top: 0;
-    padding-bottom: 0; }
-  form.form-validation .input-group-container.has-warning {
-    padding-bottom: 0px; }
-  form.form-validation .input-group-container.no-validation {
-    padding-bottom: var(--bs-input-padding-y); }
-  form.form-validation .input-group-container .form-control-feedback {
-    height: var(--bs-form-control-feedback-height);
-    font-size: var(--bs-input-font-size);
-    color: #dc3545;
-    padding-left: var(--bs-input-padding-x);
-    vertical-align: top; }
-  form.form-validation .input-group-container.has-warning .form-control-feedback[data-fv-result="INVALID"] {
-    display: inline-block !important; }
-  form.form-validation .input-group-container.fv-do-not-validate {
-    visibility: hidden; }
+form.form-validation .invalid-tooltip {
+  color: var(--bs-alert-color);
+  background-color: var(--bs-alert-bg);
+  font-size: var(--bs-input-label-font-size);
+  --jb-invalid-tooltip-padding: 0.25rem 0.25rem;
+  padding: var(--jb-invalid-tooltip-padding);
+  --jb-invalid-tooltip-border-radius: 0.25rem;
+  border-radius: var(--jb-invalid-tooltip-border-radius);
+  --jb-invalid-tooltip-left: 0.375rem;
+  left: var(--jb-invalid-tooltip-left);
+  top: initial; }
+
+form.form-validation input.form-control:focus + .invalid-tooltip {
+  display: none; }
+
+.modal-dialog.modal-dialog-sm, form.form-sm, .input-group-container-sm, .input-group-sm {
+  --jb-invalid-tooltip-padding: 0.125rem 0.125rem;
+  --jb-invalid-tooltip-border-radius: 0.125rem;
+  --jb-invalid-tooltip-left: 0.25rem; }
+
+.modal-dialog.modal-dialog-sm, form.form-xs, .input-group-container-xs, .input-group-xs {
+  --jb-invalid-tooltip-padding: 0.0625rem 0.0625rem;
+  --jb-invalid-tooltip-border-radius: 0.0625rem;
+  --jb-invalid-tooltip-left: 0.125rem; }
 
 /************************************************************
 TABLE
@@ -11790,9 +11796,15 @@ Is a modification to Bootstrap modal-dialog-class
     animation-name: noty-flash;
     animation-iteration-count: 3;
     animation-duration: .5s; }
-  .modal-dialog.noty_bar.noty_theme__jquery-bootstrap .modal-body.noty_body {
+  .modal-dialog.noty_bar.noty_theme__jquery-bootstrap .modal-content {
     color: var(--bs-alert-color);
     background-color: var(--bs-alert-bg); }
+  .modal-dialog.noty_bar.noty_theme__jquery-bootstrap .header-content {
+    --jb-header-bg: rgba(0,0,0, .1);
+    --jb-header-color: var(--bs-alert-color); }
+  .modal-dialog.noty_bar.noty_theme__jquery-bootstrap .modal-body.noty_body {
+    color: inherit;
+    background-color: transparent; }
     .modal-dialog.noty_bar.noty_theme__jquery-bootstrap .modal-body.noty_body * {
       white-space: pre-wrap;
       word-break: break-word;
@@ -25973,96 +25985,6 @@ Ex.
     left: 2.5%; }
 
 /***********************************************
-	fcoo-form-validation.scss,
-
-	(c) 2018, FCOO
-
-	https://github.com/FCOO/fcoo-form-validation
-	https://github.com/FCOO
-
-    This is a edited copy of the style-files used by formValidation and contains copy of
-    src/_formValidation/dist/css/formValidation.css
-
-    Editions:
-    All .fv-form-bootstrap removed
-    All .fv-form-foundation5 removed
-    All .fv-form-foundation removed
-    All .fv-form-pure removed
-    All .fv-form-semantic removed
-    All .fv-form-uikit removed
-
-    Red and green color for label removed ( at ** ... ** )
-
-************************************************/
-/*!
- * FormValidation (http://formvalidation.io)
- * The best jQuery plugin to validate form fields. Support Bootstrap, Foundation, Pure, SemanticUI, UIKit and custom frameworks
- *
- * @version     v0.8.1, built on 2016-07-29 1:10:54 AM
- * @author      https://twitter.com/formvalidation
- * @copyright   (c) 2013 - 2016 Nguyen Huu Phuoc
- * @license     http://formvalidation.io/license/
- */
-.fv-has-feedback {
-  position: relative; }
-
-.fv-control-feedback {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 3;
-  display: block;
-  text-align: center; }
-
-.fv-help-block {
-  display: block; }
-
-/* Hide the clear icon for field using placeholder attribute on IE10/11 */
-.fv-form [placeholder]::-ms-clear {
-  display: none; }
-
-/* -------------------------
- * Support Bootstrap 4 alpha
- * ------------------------- */
-.fv-form-bootstrap4 .fv-control-feedback {
-  width: 38px;
-  height: 38px;
-  line-height: 38px; }
-
-/* For horizontal form */
-.fv-form-bootstrap4 .form-group.row .fv-control-feedback {
-  right: 15px; }
-
-.fv-form-bootstrap4 .form-group.row .form-check ~ .fv-control-feedback {
-  top: -7px;
-  /* labelHeight/2 - iconHeight/2 */ }
-
-/* Inline form */
-.fv-form-bootstrap4.form-inline .form-group {
-  vertical-align: top; }
-
-/* Stacked form */
-.fv-form-bootstrap4:not(.form-inline) label ~ .fv-control-feedback {
-  top: 32px; }
-
-/* Without label */
-.fv-form-bootstrap4:not(.form-inline) label.sr-only ~ .fv-control-feedback {
-  top: -7px;
-  /* labelHeight/2 - iconHeight/2 */ }
-
-.fv-form-bootstrap4:not(.form-inline) .form-check ~ .fv-control-feedback {
-  top: 25px;
-  /* labelHeight + checkboxHeight/2 - iconHeight/2 */ }
-
-/** .fv-form-bootstrap4 .has-success label, **/
-.fv-form-bootstrap4 .has-success .fv-control-feedback {
-  color: #5cb85c; }
-
-/** .fv-form-bootstrap4 .has-warning label, **/
-.fv-form-bootstrap4 .has-warning .fv-control-feedback {
-  color: #f0ad4e; }
-
-/***********************************************
 lang-flag-icon.scss, Version 2.x
 
 (c) 2020, FCOO
@@ -28900,6 +28822,9 @@ Accordion
 Card
 ***********************************************/
 /***********************************************
+Form
+***********************************************/
+/***********************************************
 Toast
 ***********************************************/
 /***********************************************
@@ -29781,11 +29706,20 @@ Different versions of sub-icons can be created using different methods in namesp
   right: -0.3125em;
   bottom: -0.3125em;
   font-size: 0.9em;
-  color: var(--bs-btn-bg) !important;
+  color: var(--bs-modal-bg) !important;
   text-shadow: none; }
+  .btn .fa-circle-small-right-bottom, .btn
+  .fa-square-small-right-bottom {
+    color: var(--bs-btn-bg) !important; }
   .btn:hover .fa-circle-small-right-bottom, .btn:hover
   .fa-square-small-right-bottom {
     color: var(--bs-btn-hover-bg) !important; }
+  .header-content .fa-circle-small-right-bottom, .header-content
+  .fa-square-small-right-bottom {
+    color: var(--jb-header-bg) !important; }
+  .footer-content .fa-circle-small-right-bottom, .footer-content
+  .fa-square-small-right-bottom {
+    color: var(--jb-footer-bg) !important; }
   .accordion-button.collapsed .fa-circle-small-right-bottom, .accordion-button.collapsed
   .fa-square-small-right-bottom {
     color: var(--bs-accordion-btn-bg) !important; }

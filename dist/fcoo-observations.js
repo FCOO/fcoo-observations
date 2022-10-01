@@ -45,7 +45,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.8.0",
+			VERSION         : "3.9.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -881,6 +881,17 @@ Location = group of Stations with the same or different paramtre
                 contentContext: this,
                 dynamic       : true,
                 buttons: [{
+                    id     : 'mini',
+                    icon   : 'fai fai-label-center',
+                    text   : {da: 'Vis', en: 'Show'},
+                    title  : {da: 'Vis seneste måling', en: 'Show latest measurement'},
+                    class  : 'min-width',
+                    context: this,
+                    onClick: function(){
+                        this.popupMinimized( mapId );
+                    }
+
+                },{
                     id      : 'extend',
                     //icon    : ['fa-chart-line', 'fa-table'],
                     //text    : {da:'Graf og tabel', en:'Chart and Table'},
@@ -944,6 +955,20 @@ Location = group of Stations with the same or different paramtre
             delete this.popups[mapId];
         },
 
+
+        /*********************************************
+        popupMinimized
+        Minimize and pin popup
+        *********************************************/
+        popupMinimized: function( popupEventOrMapId ){
+            var mapId = getMapIdFromPopupEvent(popupEventOrMapId);
+            if (this.markers[mapId]){
+                this.openPopupAsNormal = false;
+                this.markers[mapId].openPopup();
+                this.popups[mapId]._setPinned(true);
+                this.openPopupAsNormal = true;
+            }
+        },
 
         /*********************************************
         _getModalElements
@@ -1529,14 +1554,11 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
             if (!this.isVisible(mapId))
                 this.show(mapId);
+
             //Open all not-open location within the maps current bounds
             $.each(this.locations, function(id, location){
-                if (mapBounds.contains(location.latLng) && location.markers[mapId]){
-                    location.openPopupAsNormal = false;
-                    location.markers[mapId].openPopup();
-                    location.popups[mapId]._setPinned(true);
-                    location.openPopupAsNormal = true;
-                }
+                if (mapBounds.contains(location.latLng))
+                    location.popupMinimized(mapId);
             });
         },
 

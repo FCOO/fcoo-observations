@@ -309,14 +309,11 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
             if (!this.isVisible(mapId))
                 this.show(mapId);
+
             //Open all not-open location within the maps current bounds
             $.each(this.locations, function(id, location){
-                if (mapBounds.contains(location.latLng) && location.markers[mapId]){
-                    location.openPopupAsNormal = false;
-                    location.markers[mapId].openPopup();
-                    location.popups[mapId]._setPinned(true);
-                    location.openPopupAsNormal = true;
-                }
+                if (mapBounds.contains(location.latLng))
+                    location.popupMinimized(mapId);
             });
         },
 

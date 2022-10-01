@@ -511,6 +511,17 @@ Location = group of Stations with the same or different paramtre
                 contentContext: this,
                 dynamic       : true,
                 buttons: [{
+                    id     : 'mini',
+                    icon   : 'fai fai-label-center',
+                    text   : {da: 'Vis', en: 'Show'},
+                    title  : {da: 'Vis seneste måling', en: 'Show latest measurement'},
+                    class  : 'min-width',
+                    context: this,
+                    onClick: function(){
+                        this.popupMinimized( mapId );
+                    }
+
+                },{
                     id      : 'extend',
                     //icon    : ['fa-chart-line', 'fa-table'],
                     //text    : {da:'Graf og tabel', en:'Chart and Table'},
@@ -574,6 +585,20 @@ Location = group of Stations with the same or different paramtre
             delete this.popups[mapId];
         },
 
+
+        /*********************************************
+        popupMinimized
+        Minimize and pin popup
+        *********************************************/
+        popupMinimized: function( popupEventOrMapId ){
+            var mapId = getMapIdFromPopupEvent(popupEventOrMapId);
+            if (this.markers[mapId]){
+                this.openPopupAsNormal = false;
+                this.markers[mapId].openPopup();
+                this.popups[mapId]._setPinned(true);
+                this.openPopupAsNormal = true;
+            }
+        },
 
         /*********************************************
         _getModalElements
