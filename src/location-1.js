@@ -705,7 +705,6 @@ Location = group of Stations with the same or different paramtre
                     .appendTo($tr);
 
                 var $td = $('<td/>')
-                    .css('font-size', 'larger')
                     .addClass('fw-bold')
                     .appendTo($tr);
 

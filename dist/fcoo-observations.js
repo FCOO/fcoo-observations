@@ -45,7 +45,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.9.0",
+			VERSION         : "3.9.1",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -1075,7 +1075,6 @@ Location = group of Stations with the same or different paramtre
                     .appendTo($tr);
 
                 var $td = $('<td/>')
-                    .css('font-size', 'larger')
                     .addClass('fw-bold')
                     .appendTo($tr);
 
