@@ -512,7 +512,7 @@ Location = group of Stations with the same or different paramtre
                 dynamic       : true,
                 buttons: [{
                     id     : 'mini',
-                    icon   : 'fai fai-label-center',
+                    icon   : 'far fa-message-middle',
                     text   : {da: 'Vis', en: 'Show'},
                     title  : {da: 'Vis seneste måling', en: 'Show latest measurement'},
                     class  : 'min-width',
@@ -525,7 +525,7 @@ Location = group of Stations with the same or different paramtre
                     id      : 'extend',
                     //icon    : ['fa-chart-line', 'fa-table'],
                     //text    : {da:'Graf og tabel', en:'Chart and Table'},
-                    icon    : 'fa-chart-line',
+                    icon    : 'far fa-chart-line',
                     text    : {da:'Vis graf', en:'Show Chart'},
 
                     onClick : function(){
