@@ -45,7 +45,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.9.2",
+			VERSION         : "3.9.3",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -906,6 +906,7 @@ Location = group of Stations with the same or different paramtre
                             content: function( $body ){
                                 _this.createCharts($body, true, mapId);
                             },
+                            remove: true,
                             show: true
                         });
 //                        marker._popup.setSizeExtended();

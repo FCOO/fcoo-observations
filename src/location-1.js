@@ -536,6 +536,7 @@ Location = group of Stations with the same or different paramtre
                             content: function( $body ){
                                 _this.createCharts($body, true, mapId);
                             },
+                            remove: true,
                             show: true
                         });
 //                        marker._popup.setSizeExtended();
