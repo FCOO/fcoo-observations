@@ -164,7 +164,8 @@ jquery-scroll-container-variables.scss
 :root {
   --jsc-scroll-size: 10px;
   --jsc-scroll-padding: 10px;
-  --jsc-scroll-auto-padding: 10px; }
+  --jsc-scroll-auto-padding: 10px;
+}
 
 /************************************************************
 VARIABLES
@@ -183,7 +184,7 @@ Modal
 ************************************************/
 /***********************************************
 Button And Modal
-Opacity for semi-transparent and transparent content
+Opacity for semi-transparent and transparent content using color-mix
 ************************************************/
 /************************************************************
 MIXIN
@@ -227,24 +228,31 @@ to create fa-icon looking like the marker
 *************************************************************************/
 .lbm-type-circle.lbm-color-observations {
   background-color: #EFB920;
-  color: #000; }
-  .lbm-type-circle.lbm-color-observations.lbm-transparent {
-    background-color: rgba(239, 185, 32, 0.7); }
-    .lbm-type-circle.lbm-color-observations.lbm-transparent.lbm-hover:hover {
-      background-color: rgba(239, 185, 32, 0.9); }
-  .lbm-type-circle.lbm-color-observations.lbm-shadow, .lbm-type-circle.lbm-color-observations.leaflet-drag-target, .lbm-type-circle.lbm-color-observations.lbm-hover:hover {
-    box-shadow: 0px 0px 0px 5px rgba(239, 185, 32, 0.28); }
-  .lbm-type-circle.lbm-color-observations:before {
-    box-shadow: 0 0 6px 2px #EFB920; }
-
+  color: #000;
+}
+.lbm-type-circle.lbm-color-observations.lbm-transparent {
+  background-color: rgba(239, 185, 32, 0.7);
+}
+.lbm-type-circle.lbm-color-observations.lbm-transparent.lbm-hover:hover {
+  background-color: rgba(239, 185, 32, 0.9);
+}
+.lbm-type-circle.lbm-color-observations.lbm-shadow, .lbm-type-circle.lbm-color-observations.leaflet-drag-target, .lbm-type-circle.lbm-color-observations.lbm-hover:hover {
+  box-shadow: 0px 0px 0px 5px rgba(239, 185, 32, 0.28);
+}
+.lbm-type-circle.lbm-color-observations:before {
+  box-shadow: 0 0 6px 2px #EFB920;
+}
 .lbm-type-circle.lbm-border-color-observations {
-  border-color: #EFB920; }
+  border-color: #EFB920;
+}
 
 .fa-lbm-color-observations {
-  color: #EFB920; }
+  color: #EFB920;
+}
 
 .fa-lbm-border-color-observations {
-  color: #EFB920; }
+  color: #EFB920;
+}
 
 /*
 //Hard coded color. TODO: Include all LinkedIn-colors as lbm-colors
@@ -261,148 +269,178 @@ table.last-observation = two coloums: group-name, last value
 table.obs-statistics: rows = [time-periods, obs-group headser, tree intervals, obs-group headser, tree intervals,...]
 */
 table.last-observation, table.obs-statistics {
-  width: 100%; }
+  width: 100%;
+}
 
 table.last-observation td:first-child {
   text-align: right;
-  padding-right: 0.375rem; }
-
+  padding-right: 0.375rem;
+}
 table.last-observation td:last-child {
-  text-align: left; }
-  .no-multi-obs-group table.last-observation td:last-child {
-    text-align: center; }
+  text-align: left;
+}
+.no-multi-obs-group table.last-observation td:last-child {
+  text-align: center;
+}
 
 table.obs-statistics {
-  table-layout: fixed; }
-  table.obs-statistics tr:nth-of-type(2n+1) {
-    font-size: 0.6875rem;
-    border-bottom: 1px solid var(--jb-container-border-color); }
-    table.obs-statistics tr:nth-of-type(2n+1).no-border-border-when-last-visible:last-child,
-    .no-multi-obs-group table.obs-statistics tr:nth-of-type(2n+1) {
-      border-bottom: none; }
-  table.obs-statistics td {
-    width: 33%;
-    padding-bottom: 0.15rem;
-    padding-top: 0.15rem; }
-    table.obs-statistics td span.value {
-      display: inline-block;
-      text-align: center;
-      font-size: 0.6875rem; }
+  table-layout: fixed;
+}
+table.obs-statistics tr:nth-of-type(2n+1) {
+  font-size: 0.6875rem;
+  border-bottom: 1px solid var(--jb-container-border-color);
+}
+table.obs-statistics tr:nth-of-type(2n+1).no-border-border-when-last-visible:last-child, .no-multi-obs-group table.obs-statistics tr:nth-of-type(2n+1) {
+  border-bottom: none;
+}
+table.obs-statistics td {
+  width: 33%;
+  padding-bottom: 0.15rem;
+  padding-top: 0.15rem;
+}
+table.obs-statistics td span.value {
+  display: inline-block;
+  text-align: center;
+  font-size: 0.6875rem;
+}
 
 /*
 obs-group-marker-N used to display a marker on the map if observation group N is visible.
 class="obs-group-marker-1 obs-group-marker-3" will be visible if group 1 OR group 3 is visible
 */
-.leaflet-container [class*="obs-group-marker-"] {
-  display: none; }
-
+.leaflet-container [class*=obs-group-marker-] {
+  display: none;
+}
 .leaflet-container.obs-group-0 .obs-group-marker-0 {
-  display: block; }
-
+  display: block;
+}
 .leaflet-container.obs-group-1 .obs-group-marker-1 {
-  display: block; }
-
+  display: block;
+}
 .leaflet-container.obs-group-2 .obs-group-marker-2 {
-  display: block; }
-
+  display: block;
+}
 .leaflet-container.obs-group-3 .obs-group-marker-3 {
-  display: block; }
-
+  display: block;
+}
 .leaflet-container.obs-group-4 .obs-group-marker-4 {
-  display: block; }
-
+  display: block;
+}
 .leaflet-container.obs-group-5 .obs-group-marker-5 {
-  display: block; }
-
+  display: block;
+}
 .leaflet-container.obs-group-6 .obs-group-marker-6 {
-  display: block; }
-
+  display: block;
+}
 .leaflet-container.obs-group-7 .obs-group-marker-7 {
-  display: block; }
-
+  display: block;
+}
 .leaflet-container.obs-group-8 .obs-group-marker-8 {
-  display: block; }
-
+  display: block;
+}
 .leaflet-container.obs-group-9 .obs-group-marker-9 {
-  display: block; }
+  display: block;
+}
 
 /*
 Inner box with latest observation in popup
 */
 .latest-observation:not(:last-child) {
-  border-bottom: 1px solid var(--jb-container-border-color); }
+  border-bottom: 1px solid var(--jb-container-border-color);
+}
 
 /*
 show-for-obs-group-N is added to show an element when observation group no N is visible
 */
 .no-obs-group-0 .show-for-obs-group-0 {
-  display: none !important; }
+  display: none !important;
+}
 
 .last-visible-obs-group-0 .show-for-obs-group-0.no-border-border-when-last-visible {
-  border-bottom: none; }
+  border-bottom: none;
+}
 
 .no-obs-group-1 .show-for-obs-group-1 {
-  display: none !important; }
+  display: none !important;
+}
 
 .last-visible-obs-group-1 .show-for-obs-group-1.no-border-border-when-last-visible {
-  border-bottom: none; }
+  border-bottom: none;
+}
 
 .no-obs-group-2 .show-for-obs-group-2 {
-  display: none !important; }
+  display: none !important;
+}
 
 .last-visible-obs-group-2 .show-for-obs-group-2.no-border-border-when-last-visible {
-  border-bottom: none; }
+  border-bottom: none;
+}
 
 .no-obs-group-3 .show-for-obs-group-3 {
-  display: none !important; }
+  display: none !important;
+}
 
 .last-visible-obs-group-3 .show-for-obs-group-3.no-border-border-when-last-visible {
-  border-bottom: none; }
+  border-bottom: none;
+}
 
 .no-obs-group-4 .show-for-obs-group-4 {
-  display: none !important; }
+  display: none !important;
+}
 
 .last-visible-obs-group-4 .show-for-obs-group-4.no-border-border-when-last-visible {
-  border-bottom: none; }
+  border-bottom: none;
+}
 
 .no-obs-group-5 .show-for-obs-group-5 {
-  display: none !important; }
+  display: none !important;
+}
 
 .last-visible-obs-group-5 .show-for-obs-group-5.no-border-border-when-last-visible {
-  border-bottom: none; }
+  border-bottom: none;
+}
 
 .no-obs-group-6 .show-for-obs-group-6 {
-  display: none !important; }
+  display: none !important;
+}
 
 .last-visible-obs-group-6 .show-for-obs-group-6.no-border-border-when-last-visible {
-  border-bottom: none; }
+  border-bottom: none;
+}
 
 .no-obs-group-7 .show-for-obs-group-7 {
-  display: none !important; }
+  display: none !important;
+}
 
 .last-visible-obs-group-7 .show-for-obs-group-7.no-border-border-when-last-visible {
-  border-bottom: none; }
+  border-bottom: none;
+}
 
 .no-obs-group-8 .show-for-obs-group-8 {
-  display: none !important; }
+  display: none !important;
+}
 
 .last-visible-obs-group-8 .show-for-obs-group-8.no-border-border-when-last-visible {
-  border-bottom: none; }
+  border-bottom: none;
+}
 
 .no-obs-group-9 .show-for-obs-group-9 {
-  display: none !important; }
+  display: none !important;
+}
 
 .last-visible-obs-group-9 .show-for-obs-group-9.no-border-border-when-last-visible {
-  border-bottom: none; }
+  border-bottom: none;
+}
 
 /*
 obs-group-header used for the name of the observation-group. Is hidden when only one group is displasyed on a map to save space
 */
 .obs-group-header {
-  margin: 0 !important; }
-  .multi-obs-group .obs-group-header.show-for-single-obs-group,
-  .no-multi-obs-group .obs-group-header.show-for-multi-obs-group {
-    display: none !important; }
+  margin: 0 !important;
+}
+.multi-obs-group .obs-group-header.show-for-single-obs-group, .no-multi-obs-group .obs-group-header.show-for-multi-obs-group {
+  display: none !important;
+}
 
 /*
 obs-group-icon used to style the different "lines" inside the marker
@@ -412,37 +450,38 @@ Each ObservationGroup has an index N and the "lines" representing the group
 get class="obs-group-icon obs-group-icon-N" plus the fa-classes to create the icon
 */
 .leaflet-container .obs-group-icon.in-marker {
-  visibility: hidden; }
-
+  visibility: hidden;
+}
 .leaflet-container.obs-group-0 .obs-group-icon.in-marker.obs-group-0 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.obs-group-1 .obs-group-icon.in-marker.obs-group-1 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.obs-group-2 .obs-group-icon.in-marker.obs-group-2 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.obs-group-3 .obs-group-icon.in-marker.obs-group-3 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.obs-group-4 .obs-group-icon.in-marker.obs-group-4 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.obs-group-5 .obs-group-icon.in-marker.obs-group-5 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.obs-group-6 .obs-group-icon.in-marker.obs-group-6 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.obs-group-7 .obs-group-icon.in-marker.obs-group-7 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.obs-group-8 .obs-group-icon.in-marker.obs-group-8 {
-  visibility: visible; }
-
+  visibility: visible;
+}
 .leaflet-container.obs-group-9 .obs-group-icon.in-marker.obs-group-9 {
-  visibility: visible; }
+  visibility: visible;
+}
 
 /*****************************************************
 Adjustments of vertical and horizontal lines in
@@ -464,37 +503,48 @@ The calc(... - 1px) is fine fine tuning due to the non-symetric shape of the ico
 *****************************************************/
 .obs-group-icon {
   position: relative;
-  font-size: calc( 10em/10); }
+  font-size: 1em;
+}
 
 .obs-group-icon-top {
-  top: calc( -0.1964285714em - 1px); }
+  top: calc(-0.1964285714em - 1px);
+}
 
 .obs-group-icon-over {
-  top: -0.130952381em; }
+  top: -0.130952381em;
+}
 
 .obs-group-icon-center {
-  top: 0; }
+  top: 0;
+}
 
 .obs-group-icon-below {
-  top: calc( 0.1964285714em - 1px); }
+  top: calc(0.1964285714em - 1px);
+}
 
 .obs-group-icon-bottom {
-  top: 0.2619047619em; }
+  top: 0.2619047619em;
+}
 
 .obs-group-icon-left {
-  left: calc( -0.1964285714em - 1px); }
+  left: calc(-0.1964285714em - 1px);
+}
 
 .obs-group-icon-beside-left {
-  left: -0.130952381em; }
+  left: -0.130952381em;
+}
 
 .obs-group-icon-middle {
-  left: 0; }
+  left: 0;
+}
 
 .obs-group-icon-beside-right {
-  left: calc(0.1964285714em - 1px); }
+  left: calc(0.1964285714em - 1px);
+}
 
 .obs-group-icon-right {
-  left: 0.2619047619em; }
+  left: 0.2619047619em;
+}
 
 /*
 .obs-group-icon-top          { top: -0.30em; z-index: 10; }

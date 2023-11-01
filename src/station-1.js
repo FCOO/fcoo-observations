@@ -487,24 +487,24 @@ Only one station pro Location is active within the same ObservationGroup
 
 
                 $.each(properties.value, function(valueIndex, value){
-                    var newDataSet = {timestamp: properties.timestep[valueIndex]},
-                        found      = false;
-                    newDataSet[parameterId] = value;
+                    if ((typeof value == 'number') && (value != properties.missing_value)){
+                        var newDataSet = {timestamp: properties.timestep[valueIndex]},
+                            found      = false;
+                        newDataSet[parameterId] = value;
 
-                    //Add parameterId, value, timestamp to
-                    $.each(dataList, function(index, dataSet){
-                        if (dataSet.timestamp == newDataSet.timestamp){
-                            dataSet = $.extend(dataSet, newDataSet);
-                            found = true;
-                            return true;
-                        }
-                    });
+                        //Add parameterId, value, timestamp to
+                        $.each(dataList, function(index, dataSet){
+                            if (dataSet.timestamp == newDataSet.timestamp){
+                                dataSet = $.extend(dataSet, newDataSet);
+                                found = true;
+                                return true;
+                            }
+                        });
 
-                    if (!found)
-                        dataList.push(newDataSet);
-
+                        if (!found)
+                            dataList.push(newDataSet);
+                    }
                 });
-
             });
 
             //Sort by timestamp
@@ -579,14 +579,14 @@ Only one station pro Location is active within the same ObservationGroup
         *****************************************************/
         _resolveForecast: function(geoJSON){
             this.forecastDataList = [];
-            this._resolveGeoJSON(geoJSON, true, 2);
+            this._resolveGeoJSON(geoJSON, true);
         },
 
         /*****************************************************
         _resolveObservations
         *****************************************************/
         _resolveObservations: function(geoJSON){
-            this._resolveGeoJSON(geoJSON, false, 3);
+            this._resolveGeoJSON(geoJSON, false);
         },
 
 

@@ -190,7 +190,7 @@
                 $.each(_this.locations, function(locationId, location){
                     $.each(location.stations, function(stationId, station){
                         if (stationId == findStationId){
-                            station._resolveGeoJSON(geoJSON, false, 1);
+                            station._resolveGeoJSON(geoJSON, false);
                             location.callUpdateObservation = true;
                         }
                     });
