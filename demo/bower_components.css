@@ -14402,6 +14402,59 @@ NOTE: remove ".css" from file in @import to include code
 @import 'sliding_exits/slideOutRight.css';
 @import 'sliding_exits/slideOutUp.css';
 */
+/************************************************************
+COMMON
+
+Common classes for differnet elements
+************************************************************/
+.min-width-1em {
+  min-width: 1em !important;
+}
+
+.min-width-2em {
+  min-width: 2em !important;
+}
+
+.min-width-3em {
+  min-width: 3em !important;
+}
+
+.min-width-4em {
+  min-width: 4em !important;
+}
+
+.min-width-5em {
+  min-width: 5em !important;
+}
+
+.min-width-6em {
+  min-width: 6em !important;
+}
+
+.min-width-7em {
+  min-width: 7em !important;
+}
+
+.min-width-8em {
+  min-width: 8em !important;
+}
+
+.min-width-9em {
+  min-width: 9em !important;
+}
+
+.min-width-10em {
+  min-width: 10em !important;
+}
+
+.min-width-11em {
+  min-width: 11em !important;
+}
+
+.min-width-12em {
+  min-width: 12em !important;
+}
+
 /************************************************
 STYLE FOR DIFFERENT ELEMENTS
 *************************************************/
@@ -15383,10 +15436,13 @@ div.modal-dialog.modal-flex-width.modal-mega-width {
 div.modal-dialog.modal-max-width:not(.modal-full-screen) {
   width: calc(100% - 20px);
 }
+div.modal-dialog.modal-full-width:not(.modal-full-screen) {
+  width: 100%;
+}
 div.modal-dialog.modal-full-screen {
   width: 100%;
 }
-div.modal-dialog.modal-full-screen .modal-content {
+div.modal-dialog.modal-full-screen:not(.modal-full-screen-with-border) .modal-content {
   border: none;
   border-radius: 0px;
 }
@@ -15970,6 +16026,11 @@ Adjustmernt to Bootstrap table
 ************************************************************/
 .table.jb-table {
   /*******************************************************
+  For some (unknown) reason the height of the table needs
+  to be 1px to allow height=100% of elements inside td
+  ********************************************************/
+  height: 1px;
+  /*******************************************************
   For some (unknown) reason the padding and font-size of
   table cells are not set using var(...)
   This is iomplemented here.
@@ -16453,163 +16514,138 @@ Style for elements used to display any image in a modal-window
 }
 @charset "UTF-8";
 /***********************************************
-fcoo-application-logo-and-color.scss,
+    fcoo-colors.scss,
 
-Defines default application-color
+    (c) 2023, FCOO
+
+    https://github.com/fcoo/fcoo-colors
+    https://github.com/fcoo
+
+
 ************************************************/
-/*****************************************************
-LOADING
-Style for the <div> covering the page during loading
-*****************************************************/
-html.loading .hide-for-loading {
-  display: none !important;
-}
+/***********************************************************************
 
-html.no-loading .show-for-loading {
-  display: none !important;
-}
+leaflet-bootstrap-marker-mixin.scss
 
-/* Blinking dots from https://martinwolf.org/before-2018/blog/2015/01/pure-css-savingloading-dots-animation/ */
-@keyframes blink {
-  0% {
-    opacity: 0.2;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.2;
-  }
-}
-div.loading {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2147483647;
-  background-color: var(--fcoo-app-base-color);
-  opacity: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: progress;
-}
-div.loading > div {
-  position: absolute;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  cursor: inherit;
-  text-align: center;
-}
-div.loading > div.version {
-  font-family: sans-serif;
-  font-size: 2rem;
-  top: 0;
-  height: 3rem;
-  line-height: 3rem;
-  margin-bottom: -3rem;
-  background-color: red;
-  color: white;
-}
-div.loading > div.version:empty {
-  visibility: hidden;
-}
-div.loading > div.logo {
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-}
-html.logo-portrait div.loading > div.logo {
-  height: 80vmin;
-  width: 100%;
-}
-html.no-logo-portrait div.loading > div.logo {
-  height: 100%;
-  width: 80vmin;
-}
-html.fab-text-color-is-white div.loading > div.logo {
-  background-image: var(--fcoo-app-logo_black-url) !important;
-  background-image: var(--fcoo-app-logo_white-url);
-}
-html.no-fab-text-color-is-white div.loading > div.logo {
-  background-image: var(--fcoo-app-logo_white-url) !important;
-  background-image: var(--fcoo-app-logo_black-url);
-}
-div.loading > div.dots {
-  height: 1em;
-  bottom: 0;
-  font-size: 6rem;
-  display: flex;
-  align-items: end;
-  justify-content: center;
-}
-div.loading > div.dots span {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
-  color: var(--fcoo-app-base-text-color);
-  width: 0.25em;
-  animation-name: blink;
-  animation-duration: 1.4s;
-  animation-iteration-count: infinite;
-  animation-fill-mode: both;
-}
-div.loading > div.dots span:nth-child(2) {
-  animation-delay: 0.2s;
-}
-div.loading > div.dots span:nth-child(3) {
-  animation-delay: 0.4s;
-}
-html.no-loading div.loading {
-  width: 0;
-  height: 0;
-  opacity: 0;
-  transition: opacity 0.4s ease-out 0s, width 0s ease-in-out 0.4s, height 0s ease-in-out 0.4s;
-}
-html.no-loading div.loading:before, html.no-loading div.loading > div {
-  display: none !important;
-}
-
-/*****************************************************
-
-*****************************************************/
-:root {
-  --fcoo-app-logo-wh-ratio: var(--_fcoo-app-logo-wh-ratio, 1);
-}
-
-.fcoo-app-standard-logo {
-  width: 200px;
-  height: 160px;
-  background-image: var(--fcoo-app-logo-url);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-}
-html.logo-portrait .fcoo-app-standard-logo {
-  width: calc(160px * var(--fcoo-app-logo-wh-ratio));
-  height: 160px;
-}
-html.no-logo-portrait .fcoo-app-standard-logo {
-  width: 200px;
-  height: calc(200px / var(--fcoo-app-logo-wh-ratio));
-}
-
-/*****************************************************
-Defines --fcoo-app-base-color and --fcoo-app-base-text-color
-Defaults is = DALO color in "Forsvarsministeriets koncernfælles Designmanual 2018"
-Can be changed by mixin application-base-color( new-color ) in src/_fcoo-application-base-color-mixin.scss
-*****************************************************/
+*************************************************************************/
+/***********************************************************************
+marker-circle-color
+Create style for bsMarkerCircle in different colors
+*************************************************************************/
+/***********************************************************************
+lbm-circle-and-icon-classes
+Create class for bsMarkerCircle named $name with color and color-border
+*************************************************************************/
+/***********************************************************************
+lbm-marker-and-icon-classes
+Create class for bsMarkerCircle named $name with color and color-border
+*************************************************************************/
+/***********************************************************************
+fa-lbm-color
+Create class for color and border-color used by L.bsMarkerAsIcon (and $.bsMarkerAsIcon)
+to create fa-icon looking like the marker
+*************************************************************************/
 /***********************************************
-fcoo-application-base-color-mixin
+    _leaflet-polyline-mixin.scss
 
-Defines application-base-color = Background color for loading etc.
+	(c) 2018, FCOO
+
+	https://github.com/FCOO/leaflet-polyline
+	https://github.com/FCOO
+
 ************************************************/
+/**********************************************************
+	fcoo-colors-variables.scss,
+
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+**********************************************************/
+/**********************************************************
+The color scheme is from LinkedIn and shown in linkedin-palette-screen.pdf
+**********************************************************/
+/**********************************************************
+Color for time = tree colors for the past, now, and the future
+**********************************************************/
+/**********************************************************
+Application color
+Defaults is = DALO color in "Forsvarsministeriets koncernfælles Designmanual 2018"
+Can be changed by mixin application-base-color( new-color )
+in src/_fcoo-color-mixin.scss
+**********************************************************/
+/**********************************************************
+    fcoo-colors-mixin.scss
+
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+
+**********************************************************/
+/**********************************************************
+Functions to get colors in different (relative) gradients
+**********************************************************/
+/**********************************************************
+marker-and-polygon-color
+create color-classes for bsMarker and bsPolyline
+**********************************************************/
+/**********************************************************
+Application color
+Defaults is = DALO color in "Forsvarsministeriets koncernfælles Designmanual 2018"
+Can be changed by mixin application-base-color( new-color )
+**********************************************************/
+/**********************************************************
+Color for time = tree colors for the past, now, and the future
+**********************************************************/
+:root {
+  --fc-time-past-color: #EADCC1;
+  --fc-time-past-text-color: #000;
+  --fc-time-now-color: #3B7511;
+  --fc-time-now-text-color: #fff;
+  --fc-time-future-color: #94B5C2;
+  --fc-time-future-text-color: #000;
+}
+
+.time-past-text-color {
+  color: var(--fc-time-past-text-color);
+}
+
+.time-past-color {
+  background-color: var(--fc-time-past-color);
+}
+
+.time-now-text-color {
+  color: var(--fc-time-now-text-color);
+}
+
+.time-now-color {
+  background-color: var(--fc-time-now-color);
+}
+
+.time-future-text-color {
+  color: var(--fc-time-future-text-color);
+}
+
+.time-future-color {
+  background-color: var(--fc-time-future-color);
+}
+
+/**********************************************************
+Application color
+Defaults is = DALO color in "Forsvarsministeriets koncernfælles Designmanual 2018"
+Can be changed by mixin application-base-color( new-color )
+in src/_fcoo-color-mixin.scss
+**********************************************************/
 :root {
   --_fcoo-default-app-base-color: #3f5b58;
   --fcoo-app-base-color: var(--_fcoo-app-base-color, var(--_fcoo-default-app-base-color));
   --_fcoo-default-app-base-text-color: #ffffff;
   --fcoo-app-base-text-color: var(--_fcoo-app-base-text-color, var(--_fcoo-default-app-base-text-color));
+}
+
+.fcoo-app-base-text-color {
+  color: var(--fcoo-app-base-text-color);
+}
+
+.fcoo-app-base-color {
+  background-color: var(--fcoo-app-base-color);
 }
 @charset "UTF-8";
 /***********************************************
@@ -32062,6 +32098,241 @@ Move the icon MOVE em in x or y direction
 .fa-move-y-75 {
   transform: translateY(0.75em); }
 
+@charset "UTF-8";
+/***********************************************
+fcoo-application-logo-and-color.scss,
+
+Defines default application-color
+************************************************/
+/**********************************************************
+	fcoo-colors-include.scss,
+
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+
+
+    Contain all include for a packages using
+    the scss-variables and scss-mixins of fcoo-colors
+
+    The scss file must also include
+
+    //COLOR-HELPER
+    @import "../bower_components/sass-color-helpers/stylesheets/color-helpers";
+
+    //LEAFLET-BOOTSTRAP-MARKER-MIXIN - mixin to create colors for marker (bsMarker)
+    @import "../bower_components/leaflet-bootstrap-marker-mixin/dist/leaflet-bootstrap-marker-mixin";
+
+    //LEAFLET-POLYLINE-MIXIN - mixin to create colors for polyline and polygon
+    @import "../bower_components/leaflet-polyline-mixin/dist/leaflet-polyline-mixin";
+
+**********************************************************/
+/**********************************************************
+	fcoo-colors-variables.scss,
+
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+**********************************************************/
+/**********************************************************
+The color scheme is from LinkedIn and shown in linkedin-palette-screen.pdf
+**********************************************************/
+/**********************************************************
+Color for time = tree colors for the past, now, and the future
+**********************************************************/
+/**********************************************************
+Application color
+Defaults is = DALO color in "Forsvarsministeriets koncernfælles Designmanual 2018"
+Can be changed by mixin application-base-color( new-color )
+in src/_fcoo-color-mixin.scss
+**********************************************************/
+/**********************************************************
+    fcoo-colors-mixin.scss
+
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+
+**********************************************************/
+/**********************************************************
+Functions to get colors in different (relative) gradients
+**********************************************************/
+/**********************************************************
+marker-and-polygon-color
+create color-classes for bsMarker and bsPolyline
+**********************************************************/
+/**********************************************************
+Application color
+Defaults is = DALO color in "Forsvarsministeriets koncernfælles Designmanual 2018"
+Can be changed by mixin application-base-color( new-color )
+**********************************************************/
+/*****************************************************
+FONT-FAMILY
+Standard font-family from fmi.dk and Forsvarsministeriets koncernfælles Designmanual 2018
+*****************************************************/
+:root {
+  --fmn-font-family: Verdana, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+}
+
+/*****************************************************
+LOADING and WORKING
+Style for the <div> covering the page during loading
+*****************************************************/
+html.loading .hide-for-loading {
+  display: none !important;
+}
+
+html.no-loading .show-for-loading {
+  display: none !important;
+}
+
+/* Blinking dots from https://martinwolf.org/before-2018/blog/2015/01/pure-css-savingloading-dots-animation/ */
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+div.loading {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2147483647;
+  background-color: var(--fcoo-app-base-color);
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: progress;
+}
+div.loading > div {
+  position: absolute;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: inherit;
+  text-align: center;
+}
+div.loading > div.version {
+  font-family: var(--fmn-font-family);
+  font-size: 2rem;
+  top: 0;
+  height: 3rem;
+  line-height: 3rem;
+  margin-bottom: -3rem;
+  background-color: red;
+  color: white;
+}
+div.loading > div.version:empty {
+  visibility: hidden;
+}
+div.loading > div.logo {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+html.logo-portrait div.loading > div.logo {
+  height: 80vmin;
+  width: 100%;
+}
+html.no-logo-portrait div.loading > div.logo {
+  height: 100%;
+  width: 80vmin;
+}
+html.fab-text-color-is-white div.loading > div.logo {
+  background-image: var(--fcoo-app-logo_black-url) !important;
+  background-image: var(--fcoo-app-logo_white-url);
+}
+html.no-fab-text-color-is-white div.loading > div.logo {
+  background-image: var(--fcoo-app-logo_white-url) !important;
+  background-image: var(--fcoo-app-logo_black-url);
+}
+div.loading > div.dots {
+  height: 1em;
+  bottom: 0;
+  font-size: 6rem;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+}
+div.loading > div.dots span {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+  color: var(--fcoo-app-base-text-color);
+  width: 0.25em;
+  animation-name: blink;
+  animation-duration: 1.4s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+div.loading > div.dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+div.loading > div.dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+html.no-loading div.loading {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease-out 0s, width 0s ease-in-out 0.4s, height 0s ease-in-out 0.4s;
+}
+html.no-loading div.loading:before, html.no-loading div.loading > div {
+  display: none !important;
+}
+
+html.working .hide-for-working {
+  display: none !important;
+}
+
+html.no-working .show-for-working {
+  display: none !important;
+}
+
+div.working {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2147483647;
+  background-color: white;
+  opacity: 0.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: progress;
+  --fa-animation-duration: 1s;
+}
+
+/*****************************************************
+
+*****************************************************/
+:root {
+  --fcoo-app-logo-wh-ratio: var(--_fcoo-app-logo-wh-ratio, 1);
+}
+
+.fcoo-app-standard-logo {
+  width: 200px;
+  height: 160px;
+  background-image: var(--fcoo-app-logo-url);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+html.logo-portrait .fcoo-app-standard-logo {
+  width: calc(160px * var(--fcoo-app-logo-wh-ratio));
+  height: 160px;
+}
+html.no-logo-portrait .fcoo-app-standard-logo {
+  width: 200px;
+  height: calc(200px / var(--fcoo-app-logo-wh-ratio));
+}
 /***********************************************
 lang-flag-icon.scss, Version 2.x
 
@@ -33630,7 +33901,8 @@ jquery-scroll-container-variables.scss
 :root {
   --jsc-scroll-size: 10px;
   --jsc-scroll-padding: 10px;
-  --jsc-scroll-auto-padding: 10px; }
+  --jsc-scroll-auto-padding: 10px;
+}
 
 /************************************************************
 VARIABLES
@@ -33649,7 +33921,7 @@ Modal
 ************************************************/
 /***********************************************
 Button And Modal
-Opacity for semi-transparent and transparent content
+Opacity for semi-transparent and transparent content using color-mix
 ************************************************/
 /************************************************************
 MIXIN
@@ -33693,7 +33965,8 @@ COLORS AND STYLE
   --mm-item-closed-bg: null;
   --mm-panel-opened-bg: rgba(0,0,0, 0.05);
   --mm-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  --chevrolet-dim: 0.625rem; }
+  --chevrolet-dim: 0.625rem;
+}
 
 .mm-menu.mm-menu-sm {
   --mm-font-size: 0.875rem;
@@ -33701,7 +33974,8 @@ COLORS AND STYLE
   --mm-listitem-size: 2.4375rem;
   --mm-navbar-size: 2.4375rem;
   --mm-iconbar-size: 2.4375rem;
-  --chevrolet-dim: 0.3125rem; }
+  --chevrolet-dim: 0.3125rem;
+}
 
 /***********************************************
 IMPORT MMENU SCSS
@@ -33731,14 +34005,17 @@ IMPORT MMENU SCSS
   --mm-color-background: #f3f3f3;
   --mm-color-background-highlight: rgba(0, 0, 0, 0.05);
   --mm-color-background-emphasis: rgba(255, 255, 255, 0.4);
-  --mm-shadow: 0 0 10px rgba(0, 0, 0, 0.3); }
+  --mm-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
 
 .mm-hidden {
-  display: none !important; }
+  display: none !important;
+}
 
 .mm-wrapper {
   overflow-x: hidden;
-  position: relative; }
+  position: relative;
+}
 
 .mm-menu {
   display: flex;
@@ -33759,14 +34036,16 @@ IMPORT MMENU SCSS
   line-height: var(--mm-line-height);
   -webkit-tap-highlight-color: var(--mm-color-background-emphasis);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-  .mm-menu a,
-  .mm-menu a:link,
-  .mm-menu a:active,
-  .mm-menu a:visited,
-  .mm-menu a:hover {
-    text-decoration: none;
-    color: inherit; }
+  -moz-osx-font-smoothing: grayscale;
+}
+.mm-menu a,
+.mm-menu a:link,
+.mm-menu a:active,
+.mm-menu a:visited,
+.mm-menu a:hover {
+  text-decoration: none;
+  color: inherit;
+}
 
 .mm-panel {
   z-index: 0;
@@ -33779,33 +34058,43 @@ IMPORT MMENU SCSS
   border-color: var(--mm-color-border);
   background: var(--mm-color-background);
   transform: translate3d(100%, 0, 0);
-  transition: transform 0.4s ease; }
-  .mm-panel:not(.mm-hidden) {
-    display: block; }
-  .mm-panel:after {
-    content: '';
-    display: block;
-    height: var(--mm-listitem-size); }
-  .mm-panel_opened {
-    z-index: 1;
-    transform: translate3d(0%, 0, 0); }
-  .mm-panel_opened-parent {
-    transform: translate3d(-30%, 0, 0); }
-  .mm-panel_highest {
-    z-index: 2; }
-  .mm-panel_noanimation {
-    transition: none !important; }
-    .mm-panel_noanimation.mm-panel_opened-parent {
-      transform: translate3d(0, 0, 0); }
-  .mm-panels > .mm-panel {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0; }
+  transition: transform 0.4s ease;
+}
+.mm-panel:not(.mm-hidden) {
+  display: block;
+}
+.mm-panel:after {
+  content: "";
+  display: block;
+  height: var(--mm-listitem-size);
+}
+.mm-panel_opened {
+  z-index: 1;
+  transform: translate3d(0%, 0, 0);
+}
+.mm-panel_opened-parent {
+  transform: translate3d(-30%, 0, 0);
+}
+.mm-panel_highest {
+  z-index: 2;
+}
+.mm-panel_noanimation {
+  transition: none !important;
+}
+.mm-panel_noanimation.mm-panel_opened-parent {
+  transform: translate3d(0, 0, 0);
+}
+.mm-panels > .mm-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
 
 .mm-panel__content {
-  padding: 20px 20px 0; }
+  padding: 20px 20px 0;
+}
 
 .mm-panels {
   position: relative;
@@ -33814,30 +34103,36 @@ IMPORT MMENU SCSS
   overflow: hidden;
   background: var(--mm-color-background);
   border-color: var(--mm-color-border);
-  color: var(--mm-color-text); }
+  color: var(--mm-color-text);
+}
 
 .mm-listitem_vertical > .mm-panel {
   display: none;
   width: 100%;
   padding: 10px 0 10px 10px;
-  transform: none !important; }
-  .mm-listitem_vertical > .mm-panel:before, .mm-listitem_vertical > .mm-panel:after {
-    content: none;
-    display: none; }
+  transform: none !important;
+}
+.mm-listitem_vertical > .mm-panel:before, .mm-listitem_vertical > .mm-panel:after {
+  content: none;
+  display: none;
+}
 
 .mm-listitem_opened > .mm-panel {
-  display: block; }
+  display: block;
+}
 
 .mm-listitem_vertical > .mm-listitem__btn {
   height: var(--mm-listitem-size);
-  bottom: auto; }
-
+  bottom: auto;
+}
 .mm-listitem_vertical .mm-listitem:last-child:after {
-  border-color: transparent; }
+  border-color: transparent;
+}
 
 .mm-listitem_opened > .mm-listitem__btn:after {
   transform: rotate(225deg);
-  right: 19px; }
+  right: 19px;
+}
 
 .mm-btn {
   flex-grow: 0;
@@ -33845,12 +34140,14 @@ IMPORT MMENU SCSS
   position: relative;
   box-sizing: border-box;
   width: 50px;
-  padding: 0; }
-  .mm-btn:before, .mm-btn:after {
-    border: 2px solid var(--mm-color-button); }
+  padding: 0;
+}
+.mm-btn:before, .mm-btn:after {
+  border: 2px solid var(--mm-color-button);
+}
 
-.mm-btn_prev:before, .mm-btn_next:after {
-  content: '';
+.mm-btn_next:after, .mm-btn_prev:before {
+  content: "";
   border-bottom: none;
   border-right: none;
   box-sizing: content-box;
@@ -33860,20 +34157,21 @@ IMPORT MMENU SCSS
   margin: auto;
   position: absolute;
   top: 0;
-  bottom: 0; }
+  bottom: 0;
+}
 
 .mm-btn_prev:before {
   transform: rotate(-45deg);
   left: 23px;
-  right: auto; }
-
+  right: auto;
+}
 .mm-btn_next:after {
   transform: rotate(135deg);
   right: 23px;
-  left: auto; }
-
+  left: auto;
+}
 .mm-btn_close:before, .mm-btn_close:after {
-  content: '';
+  content: "";
   box-sizing: content-box;
   display: block;
   width: 5px;
@@ -33882,17 +34180,18 @@ IMPORT MMENU SCSS
   position: absolute;
   top: 0;
   bottom: 0;
-  transform: rotate(-45deg); }
-
+  transform: rotate(-45deg);
+}
 .mm-btn_close:before {
   border-right: none;
   border-bottom: none;
-  right: 18px; }
-
+  right: 18px;
+}
 .mm-btn_close:after {
   border-left: none;
   border-top: none;
-  right: 25px; }
+  right: 25px;
+}
 
 .mm-navbar {
   display: flex;
@@ -33902,44 +34201,55 @@ IMPORT MMENU SCSS
   color: var(--mm-color-text-dimmed);
   text-align: center;
   opacity: 1;
-  transition: opacity 0.4s ease; }
-  @supports (position: sticky) {
-    .mm-navbar_sticky {
-      position: sticky;
-      top: 0;
-      z-index: 1; } }
-  .mm-navbar > * {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box; }
+  transition: opacity 0.4s ease;
+}
+@supports (position: sticky) {
+  .mm-navbar_sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+}
+.mm-navbar > * {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
 
 .mm-navbar__btn {
-  flex-grow: 0; }
+  flex-grow: 0;
+}
 
 .mm-navbar__title {
   flex: 1 1 50%;
   display: flex;
   padding-left: 20px;
   padding-right: 20px;
-  overflow: hidden; }
-  .mm-navbar__title:not(:last-child) {
-    padding-right: 0; }
-  .mm-navbar__title > span {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden; }
-  .mm-navbar__btn:not(.mm-hidden) + .mm-navbar__title {
-    padding-left: 0; }
-    .mm-navbar__btn:not(.mm-hidden) + .mm-navbar__title:last-child {
-      padding-right: 50px; }
+  overflow: hidden;
+}
+.mm-navbar__title:not(:last-child) {
+  padding-right: 0;
+}
+.mm-navbar__title > span {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.mm-navbar__btn:not(.mm-hidden) + .mm-navbar__title {
+  padding-left: 0;
+}
+.mm-navbar__btn:not(.mm-hidden) + .mm-navbar__title:last-child {
+  padding-right: 50px;
+}
 
 .mm-listview {
   list-style: none;
   display: block;
   padding: 0;
-  margin: 0; }
+  margin: 0;
+}
 
 .mm-listitem {
   color: var(--mm-color-text);
@@ -33950,27 +34260,31 @@ IMPORT MMENU SCSS
   margin: 0;
   position: relative;
   display: flex;
-  flex-wrap: wrap; }
-  .mm-listitem:after {
-    content: '';
-    border-color: inherit;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    display: block;
-    position: absolute;
-    left: 20px;
-    right: 0;
-    bottom: 0; }
-  .mm-listitem a,
-  .mm-listitem a:hover {
-    text-decoration: none; }
+  flex-wrap: wrap;
+}
+.mm-listitem:after {
+  content: "";
+  border-color: inherit;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  display: block;
+  position: absolute;
+  left: 20px;
+  right: 0;
+  bottom: 0;
+}
+.mm-listitem a,
+.mm-listitem a:hover {
+  text-decoration: none;
+}
 
-.mm-listitem__text, .mm-listitem__btn {
+.mm-listitem__btn, .mm-listitem__text {
   display: block;
   padding: calc((var(--mm-listitem-size) - var(--mm-line-height)) / 2);
   padding-left: 0;
   padding-right: 0;
-  color: inherit; }
+  color: inherit;
+}
 
 .mm-listitem__text {
   text-overflow: ellipsis;
@@ -33979,65 +34293,79 @@ IMPORT MMENU SCSS
   padding-left: 20px;
   padding-right: 10px;
   flex-grow: 1;
-  flex-basis: 10%; }
+  flex-basis: 10%;
+}
 
 .mm-listitem__btn {
   background: rgba(3, 2, 1, 0);
   border-color: inherit;
   width: auto;
   padding-right: 50px;
-  position: relative; }
-  .mm-listitem__btn:not(.mm-listitem__text) {
-    border-left-width: 1px;
-    border-left-style: solid; }
+  position: relative;
+}
+.mm-listitem__btn:not(.mm-listitem__text) {
+  border-left-width: 1px;
+  border-left-style: solid;
+}
 
 .mm-listitem_selected > .mm-listitem__text {
-  background: var(--mm-color-background-emphasis); }
-
+  background: var(--mm-color-background-emphasis);
+}
 .mm-listitem_opened > .mm-listitem__btn,
 .mm-listitem_opened > .mm-panel {
-  background: var(--mm-color-background-highlight); }
+  background: var(--mm-color-background-highlight);
+}
 
 .mm-page {
   box-sizing: border-box;
-  position: relative; }
+  position: relative;
+}
 
 .mm-slideout {
   transition: transform 0.4s ease;
-  z-index: 1; }
+  z-index: 1;
+}
 
 .mm-wrapper_opened {
   overflow-x: hidden;
-  position: relative; }
-  .mm-wrapper_opened .mm-page {
-    min-height: 100vh; }
-
+  position: relative;
+}
+.mm-wrapper_opened .mm-page {
+  min-height: 100vh;
+}
 .mm-wrapper_background .mm-page {
-  background: inherit; }
+  background: inherit;
+}
 
 .mm-menu_offcanvas {
   position: fixed;
   right: auto;
-  z-index: 0; }
-  .mm-menu_offcanvas:not(.mm-menu_opened) {
-    display: none; }
+  z-index: 0;
+}
+.mm-menu_offcanvas:not(.mm-menu_opened) {
+  display: none;
+}
 
 .mm-menu_offcanvas {
   width: 80%;
   min-width: 240px;
-  max-width: 440px; }
+  max-width: 440px;
+}
 
 .mm-wrapper_opening .mm-menu_offcanvas.mm-menu_opened ~ .mm-slideout {
-  transform: translate3d(80vw, 0, 0); }
+  transform: translate3d(80vw, 0, 0);
+}
 
 @media all and (max-width: 300px) {
   .mm-wrapper_opening .mm-menu_offcanvas.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(240px, 0, 0); } }
-
+    transform: translate3d(240px, 0, 0);
+  }
+}
 @media all and (min-width: 550px) {
   .mm-wrapper_opening .mm-menu_offcanvas.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(440px, 0, 0); } }
-
+    transform: translate3d(440px, 0, 0);
+  }
+}
 .mm-wrapper__blocker {
   background: rgba(3, 2, 1, 0);
   overflow: hidden;
@@ -34047,14 +34375,18 @@ IMPORT MMENU SCSS
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 2; }
+  z-index: 2;
+}
 
 .mm-wrapper_blocking {
-  overflow: hidden; }
-  .mm-wrapper_blocking body {
-    overflow: hidden; }
-  .mm-wrapper_blocking .mm-wrapper__blocker {
-    display: block; }
+  overflow: hidden;
+}
+.mm-wrapper_blocking body {
+  overflow: hidden;
+}
+.mm-wrapper_blocking .mm-wrapper__blocker {
+  display: block;
+}
 
 .mm-sronly {
   border: 0 !important;
@@ -34067,302 +34399,376 @@ IMPORT MMENU SCSS
   min-height: 1px !important;
   padding: 0 !important;
   overflow: hidden !important;
-  position: absolute !important; }
+  position: absolute !important;
+}
 
 .mm-menu_autoheight:not(.mm-menu_offcanvas) {
-  position: relative; }
-
+  position: relative;
+}
 .mm-menu_autoheight.mm-menu_position-top, .mm-menu_autoheight.mm-menu_position-bottom {
-  max-height: 80%; }
-
+  max-height: 80%;
+}
 .mm-menu_autoheight-measuring .mm-panel {
-  display: block !important; }
-
+  display: block !important;
+}
 .mm-menu_autoheight-measuring .mm-panels > .mm-panel {
   bottom: auto !important;
-  height: auto !important; }
-
+  height: auto !important;
+}
 .mm-menu_autoheight-measuring .mm-listitem_vertical:not(.mm-listitem_opened) .mm-panel {
-  display: none !important; }
+  display: none !important;
+}
 
-[class*='mm-menu_columns-'] {
-  transition-property: width; }
-  [class*='mm-menu_columns-'] .mm-panels > .mm-panel {
-    right: auto;
-    transition-property: width, transform; }
-    [class*='mm-menu_columns-'] .mm-panels > .mm-panel_opened, [class*='mm-menu_columns-'] .mm-panels > .mm-panel_opened-parent {
-      display: block !important; }
+[class*=mm-menu_columns-] {
+  transition-property: width;
+}
+[class*=mm-menu_columns-] .mm-panels > .mm-panel {
+  right: auto;
+  transition-property: width, transform;
+}
+[class*=mm-menu_columns-] .mm-panels > .mm-panel_opened, [class*=mm-menu_columns-] .mm-panels > .mm-panel_opened-parent {
+  display: block !important;
+}
 
-[class*='mm-panel_columns-'] {
+[class*=mm-panel_columns-] {
   border-right: 1px solid;
-  border-color: inherit; }
+  border-color: inherit;
+}
 
 .mm-menu_columns-1 .mm-panel_columns-0,
 .mm-menu_columns-2 .mm-panel_columns-1,
 .mm-menu_columns-3 .mm-panel_columns-2,
 .mm-menu_columns-4 .mm-panel_columns-3 {
-  border-right: none; }
+  border-right: none;
+}
 
-[class*='mm-menu_columns-'] .mm-panels > .mm-panel_columns-0 {
-  transform: translate3d(0%, 0, 0); }
+[class*=mm-menu_columns-] .mm-panels > .mm-panel_columns-0 {
+  transform: translate3d(0%, 0, 0);
+}
 
 .mm-menu_columns-0 .mm-panels > .mm-panel {
-  z-index: 0; }
-  .mm-menu_columns-0 .mm-panels > .mm-panel else {
-    width: 100%; }
-  .mm-menu_columns-0 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
-    transform: translate3d(100%, 0, 0); }
+  z-index: 0;
+}
+.mm-menu_columns-0 .mm-panels > .mm-panel else {
+  width: 100%;
+}
+.mm-menu_columns-0 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
+  transform: translate3d(100%, 0, 0);
+}
 
 .mm-menu_columns-0 {
   width: 80%;
   min-width: 240px;
-  max-width: 0px; }
+  max-width: 0px;
+}
 
 .mm-wrapper_opening .mm-menu_columns-0.mm-menu_opened ~ .mm-slideout {
-  transform: translate3d(80vw, 0, 0); }
+  transform: translate3d(80vw, 0, 0);
+}
 
 @media all and (max-width: 300px) {
   .mm-wrapper_opening .mm-menu_columns-0.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(240px, 0, 0); } }
-
+    transform: translate3d(240px, 0, 0);
+  }
+}
 @media all and (min-width: 0px) {
   .mm-wrapper_opening .mm-menu_columns-0.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(0px, 0, 0); } }
-
+    transform: translate3d(0px, 0, 0);
+  }
+}
 .mm-wrapper_opening .mm-menu_columns-0.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-  transform: translate3d(-80vw, 0, 0); }
+  transform: translate3d(-80vw, 0, 0);
+}
 
 @media all and (max-width: 300px) {
   .mm-wrapper_opening .mm-menu_columns-0.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(-240px, 0, 0); } }
-
+    transform: translate3d(-240px, 0, 0);
+  }
+}
 @media all and (min-width: 0px) {
   .mm-wrapper_opening .mm-menu_columns-0.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(0px, 0, 0); } }
-
-[class*='mm-menu_columns-'] .mm-panels > .mm-panel_columns-1 {
-  transform: translate3d(100%, 0, 0); }
+    transform: translate3d(0px, 0, 0);
+  }
+}
+[class*=mm-menu_columns-] .mm-panels > .mm-panel_columns-1 {
+  transform: translate3d(100%, 0, 0);
+}
 
 .mm-menu_columns-1 .mm-panels > .mm-panel {
   z-index: 1;
-  width: 100%; }
-  .mm-menu_columns-1 .mm-panels > .mm-panel else {
-    width: 100%; }
-  .mm-menu_columns-1 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
-    transform: translate3d(200%, 0, 0); }
+  width: 100%;
+}
+.mm-menu_columns-1 .mm-panels > .mm-panel else {
+  width: 100%;
+}
+.mm-menu_columns-1 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
+  transform: translate3d(200%, 0, 0);
+}
 
 .mm-menu_columns-1 {
   width: 80%;
   min-width: 240px;
-  max-width: 440px; }
+  max-width: 440px;
+}
 
 .mm-wrapper_opening .mm-menu_columns-1.mm-menu_opened ~ .mm-slideout {
-  transform: translate3d(80vw, 0, 0); }
+  transform: translate3d(80vw, 0, 0);
+}
 
 @media all and (max-width: 300px) {
   .mm-wrapper_opening .mm-menu_columns-1.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(240px, 0, 0); } }
-
+    transform: translate3d(240px, 0, 0);
+  }
+}
 @media all and (min-width: 550px) {
   .mm-wrapper_opening .mm-menu_columns-1.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(440px, 0, 0); } }
-
+    transform: translate3d(440px, 0, 0);
+  }
+}
 .mm-wrapper_opening .mm-menu_columns-1.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-  transform: translate3d(-80vw, 0, 0); }
+  transform: translate3d(-80vw, 0, 0);
+}
 
 @media all and (max-width: 300px) {
   .mm-wrapper_opening .mm-menu_columns-1.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(-240px, 0, 0); } }
-
+    transform: translate3d(-240px, 0, 0);
+  }
+}
 @media all and (min-width: 550px) {
   .mm-wrapper_opening .mm-menu_columns-1.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(-440px, 0, 0); } }
-
-[class*='mm-menu_columns-'] .mm-panels > .mm-panel_columns-2 {
-  transform: translate3d(200%, 0, 0); }
+    transform: translate3d(-440px, 0, 0);
+  }
+}
+[class*=mm-menu_columns-] .mm-panels > .mm-panel_columns-2 {
+  transform: translate3d(200%, 0, 0);
+}
 
 .mm-menu_columns-2 .mm-panels > .mm-panel {
   z-index: 2;
-  width: 50%; }
-  .mm-menu_columns-2 .mm-panels > .mm-panel else {
-    width: 100%; }
-  .mm-menu_columns-2 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
-    transform: translate3d(300%, 0, 0); }
+  width: 50%;
+}
+.mm-menu_columns-2 .mm-panels > .mm-panel else {
+  width: 100%;
+}
+.mm-menu_columns-2 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
+  transform: translate3d(300%, 0, 0);
+}
 
 .mm-menu_columns-2 {
   width: 80%;
   min-width: 240px;
-  max-width: 880px; }
+  max-width: 880px;
+}
 
 .mm-wrapper_opening .mm-menu_columns-2.mm-menu_opened ~ .mm-slideout {
-  transform: translate3d(80vw, 0, 0); }
+  transform: translate3d(80vw, 0, 0);
+}
 
 @media all and (max-width: 300px) {
   .mm-wrapper_opening .mm-menu_columns-2.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(240px, 0, 0); } }
-
+    transform: translate3d(240px, 0, 0);
+  }
+}
 @media all and (min-width: 1100px) {
   .mm-wrapper_opening .mm-menu_columns-2.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(880px, 0, 0); } }
-
+    transform: translate3d(880px, 0, 0);
+  }
+}
 .mm-wrapper_opening .mm-menu_columns-2.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-  transform: translate3d(-80vw, 0, 0); }
+  transform: translate3d(-80vw, 0, 0);
+}
 
 @media all and (max-width: 300px) {
   .mm-wrapper_opening .mm-menu_columns-2.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(-240px, 0, 0); } }
-
+    transform: translate3d(-240px, 0, 0);
+  }
+}
 @media all and (min-width: 1100px) {
   .mm-wrapper_opening .mm-menu_columns-2.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(-880px, 0, 0); } }
-
-[class*='mm-menu_columns-'] .mm-panels > .mm-panel_columns-3 {
-  transform: translate3d(300%, 0, 0); }
+    transform: translate3d(-880px, 0, 0);
+  }
+}
+[class*=mm-menu_columns-] .mm-panels > .mm-panel_columns-3 {
+  transform: translate3d(300%, 0, 0);
+}
 
 .mm-menu_columns-3 .mm-panels > .mm-panel {
   z-index: 3;
-  width: 33.34%; }
-  .mm-menu_columns-3 .mm-panels > .mm-panel else {
-    width: 100%; }
-  .mm-menu_columns-3 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
-    transform: translate3d(400%, 0, 0); }
+  width: 33.34%;
+}
+.mm-menu_columns-3 .mm-panels > .mm-panel else {
+  width: 100%;
+}
+.mm-menu_columns-3 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
+  transform: translate3d(400%, 0, 0);
+}
 
 .mm-menu_columns-3 {
   width: 80%;
   min-width: 240px;
-  max-width: 1320px; }
+  max-width: 1320px;
+}
 
 .mm-wrapper_opening .mm-menu_columns-3.mm-menu_opened ~ .mm-slideout {
-  transform: translate3d(80vw, 0, 0); }
+  transform: translate3d(80vw, 0, 0);
+}
 
 @media all and (max-width: 300px) {
   .mm-wrapper_opening .mm-menu_columns-3.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(240px, 0, 0); } }
-
+    transform: translate3d(240px, 0, 0);
+  }
+}
 @media all and (min-width: 1650px) {
   .mm-wrapper_opening .mm-menu_columns-3.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(1320px, 0, 0); } }
-
+    transform: translate3d(1320px, 0, 0);
+  }
+}
 .mm-wrapper_opening .mm-menu_columns-3.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-  transform: translate3d(-80vw, 0, 0); }
+  transform: translate3d(-80vw, 0, 0);
+}
 
 @media all and (max-width: 300px) {
   .mm-wrapper_opening .mm-menu_columns-3.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(-240px, 0, 0); } }
-
+    transform: translate3d(-240px, 0, 0);
+  }
+}
 @media all and (min-width: 1650px) {
   .mm-wrapper_opening .mm-menu_columns-3.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(-1320px, 0, 0); } }
-
-[class*='mm-menu_columns-'] .mm-panels > .mm-panel_columns-4 {
-  transform: translate3d(400%, 0, 0); }
+    transform: translate3d(-1320px, 0, 0);
+  }
+}
+[class*=mm-menu_columns-] .mm-panels > .mm-panel_columns-4 {
+  transform: translate3d(400%, 0, 0);
+}
 
 .mm-menu_columns-4 .mm-panels > .mm-panel {
   z-index: 4;
-  width: 25%; }
-  .mm-menu_columns-4 .mm-panels > .mm-panel else {
-    width: 100%; }
-  .mm-menu_columns-4 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
-    transform: translate3d(500%, 0, 0); }
+  width: 25%;
+}
+.mm-menu_columns-4 .mm-panels > .mm-panel else {
+  width: 100%;
+}
+.mm-menu_columns-4 .mm-panels > .mm-panel:not(.mm-panel_opened):not(.mm-panel_opened-parent) {
+  transform: translate3d(500%, 0, 0);
+}
 
 .mm-menu_columns-4 {
   width: 80%;
   min-width: 240px;
-  max-width: 1760px; }
+  max-width: 1760px;
+}
 
 .mm-wrapper_opening .mm-menu_columns-4.mm-menu_opened ~ .mm-slideout {
-  transform: translate3d(80vw, 0, 0); }
+  transform: translate3d(80vw, 0, 0);
+}
 
 @media all and (max-width: 300px) {
   .mm-wrapper_opening .mm-menu_columns-4.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(240px, 0, 0); } }
-
+    transform: translate3d(240px, 0, 0);
+  }
+}
 @media all and (min-width: 2200px) {
   .mm-wrapper_opening .mm-menu_columns-4.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(1760px, 0, 0); } }
-
+    transform: translate3d(1760px, 0, 0);
+  }
+}
 .mm-wrapper_opening .mm-menu_columns-4.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-  transform: translate3d(-80vw, 0, 0); }
+  transform: translate3d(-80vw, 0, 0);
+}
 
 @media all and (max-width: 300px) {
   .mm-wrapper_opening .mm-menu_columns-4.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(-240px, 0, 0); } }
-
+    transform: translate3d(-240px, 0, 0);
+  }
+}
 @media all and (min-width: 2200px) {
   .mm-wrapper_opening .mm-menu_columns-4.mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(-1760px, 0, 0); } }
-
-[class*='mm-menu_columns-'].mm-menu_position-bottom, [class*='mm-menu_columns-'].mm-menu_position-top {
+    transform: translate3d(-1760px, 0, 0);
+  }
+}
+[class*=mm-menu_columns-].mm-menu_position-bottom, [class*=mm-menu_columns-].mm-menu_position-top {
   width: 100%;
   max-width: 100%;
-  min-width: 100%; }
+  min-width: 100%;
+}
 
-.mm-wrapper_opening [class*='mm-menu_columns-'].mm-menu_position-front {
-  transition-property: width, min-width, max-width, transform; }
+.mm-wrapper_opening [class*=mm-menu_columns-].mm-menu_position-front {
+  transition-property: width, min-width, max-width, transform;
+}
 
 .mm-counter {
   display: block;
   padding-left: 20px;
   float: right;
   text-align: right;
-  color: var(--mm-color-text-dimmed); }
+  color: var(--mm-color-text-dimmed);
+}
 
 .mm-listitem_nosubitems > .mm-counter {
-  display: none; }
+  display: none;
+}
 
 .mm-divider {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   min-height: var(--mm-line-height);
-  padding: calc( ((var(--mm-listitem-size) * 0.65) - var(--mm-line-height)) * 0.5);
+  padding: calc((var(--mm-listitem-size) * 0.65 - var(--mm-line-height)) * 0.5);
   padding-right: 10px;
   padding-left: 20px;
   font-size: 75%;
   text-transform: uppercase;
   background: var(--mm-color-background);
   opacity: 1;
-  transition: opacity 0.4s ease; }
-  @supports (position: sticky) {
-    .mm-divider {
-      position: sticky;
-      z-index: 2;
-      top: 0; }
-      .mm-navbar_sticky:not(.mm-hidden) ~ .mm-listview .mm-divider {
-        top: var(--mm-navbar-size); } }
-  .mm-divider:before {
-    content: '';
-    position: absolute;
+  transition: opacity 0.4s ease;
+}
+@supports (position: sticky) {
+  .mm-divider {
+    position: sticky;
+    z-index: 2;
     top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    background: var(--mm-color-background-highlight); }
+  }
+  .mm-navbar_sticky:not(.mm-hidden) ~ .mm-listview .mm-divider {
+    top: var(--mm-navbar-size);
+  }
+}
+.mm-divider:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  background: var(--mm-color-background-highlight);
+}
 
 .mm-wrapper_dragging .mm-menu,
 .mm-wrapper_dragging .mm-slideout {
   transition-duration: 0s !important;
-  user-select: none !important; }
-
+  user-select: none !important;
+}
 .mm-wrapper_dragging .mm-menu {
-  pointer-events: none !important; }
-
+  pointer-events: none !important;
+}
 .mm-wrapper_dragging .mm-wrapper__blocker {
-  display: none !important; }
+  display: none !important;
+}
 
 :root {
-  --mm-iconbar-size: 50px; }
+  --mm-iconbar-size: 50px;
+}
 
 .mm-menu_iconbar-left .mm-panels,
 .mm-menu_iconbar-left .mm-navbars_top,
 .mm-menu_iconbar-left .mm-navbars_bottom {
-  margin-left: var(--mm-iconbar-size); }
-
+  margin-left: var(--mm-iconbar-size);
+}
 .mm-menu_iconbar-right .mm-panels,
 .mm-menu_iconbar-right .mm-navbars_top,
 .mm-menu_iconbar-right .mm-navbars_bottom {
-  margin-right: var(--mm-iconbar-size); }
+  margin-right: var(--mm-iconbar-size);
+}
 
 .mm-iconbar {
   display: none;
@@ -34377,18 +34783,21 @@ IMPORT MMENU SCSS
   border-color: var(--mm-color-border);
   background: var(--mm-color-background);
   color: var(--mm-color-text-dimmed);
-  text-align: center; }
-  .mm-menu_iconbar-left .mm-iconbar,
-  .mm-menu_iconbar-right .mm-iconbar {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; }
-  .mm-menu_iconbar-left .mm-iconbar {
-    border-right-width: 1px;
-    left: 0; }
-  .mm-menu_iconbar-right .mm-iconbar {
-    border-left-width: 1px;
-    right: 0; }
+  text-align: center;
+}
+.mm-menu_iconbar-left .mm-iconbar, .mm-menu_iconbar-right .mm-iconbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.mm-menu_iconbar-left .mm-iconbar {
+  border-right-width: 1px;
+  left: 0;
+}
+.mm-menu_iconbar-right .mm-iconbar {
+  border-left-width: 1px;
+  right: 0;
+}
 
 .mm-iconbar__top,
 .mm-iconbar__bottom {
@@ -34396,85 +34805,106 @@ IMPORT MMENU SCSS
   -webkit-overflow-scrolling: touch;
   overflow: hidden;
   overflow-y: auto;
-  overscroll-behavior: contain; }
-  .mm-iconbar__top > *,
-  .mm-iconbar__bottom > * {
-    box-sizing: border-box;
-    display: block;
-    padding: 12.5px 0; }
-  .mm-iconbar__top a,
-  .mm-iconbar__top a:hover,
-  .mm-iconbar__bottom a,
-  .mm-iconbar__bottom a:hover {
-    text-decoration: none; }
+  overscroll-behavior: contain;
+}
+.mm-iconbar__top > *,
+.mm-iconbar__bottom > * {
+  box-sizing: border-box;
+  display: block;
+  padding: 12.5px 0;
+}
+.mm-iconbar__top a,
+.mm-iconbar__top a:hover,
+.mm-iconbar__bottom a,
+.mm-iconbar__bottom a:hover {
+  text-decoration: none;
+}
 
 .mm-iconbar__tab_selected {
-  background: var(--mm-color-background-emphasis); }
+  background: var(--mm-color-background-emphasis);
+}
 
 :root {
-  --mm-iconpanel-size: 50px; }
+  --mm-iconpanel-size: 50px;
+}
 
 .mm-panel_iconpanel-1 {
-  width: calc(100% - (var(--mm-iconpanel-size) * 1)); }
+  width: calc(100% - (var(--mm-iconpanel-size) * 1));
+}
 
 .mm-panel_iconpanel-2 {
-  width: calc(100% - (var(--mm-iconpanel-size) * 2)); }
+  width: calc(100% - (var(--mm-iconpanel-size) * 2));
+}
 
 .mm-panel_iconpanel-3 {
-  width: calc(100% - (var(--mm-iconpanel-size) * 3)); }
+  width: calc(100% - (var(--mm-iconpanel-size) * 3));
+}
 
 .mm-panel_iconpanel-first ~ .mm-panel {
-  width: calc(100% - var(--mm-iconpanel-size)); }
+  width: calc(100% - var(--mm-iconpanel-size));
+}
 
 .mm-menu_iconpanel .mm-panels > .mm-panel {
   left: auto;
-  transition-property: transform, width; }
-  .mm-menu_iconpanel .mm-panels > .mm-panel_opened, .mm-menu_iconpanel .mm-panels > .mm-panel_opened-parent {
-    display: block !important; }
-  .mm-menu_iconpanel .mm-panels > .mm-panel_opened-parent {
-    overflow-y: hidden;
-    transform: unset; }
-  .mm-menu_iconpanel .mm-panels > .mm-panel:not(.mm-panel_iconpanel-first):not(.mm-panel_iconpanel-0) {
-    border-left-width: 1px;
-    border-left-style: solid; }
+  transition-property: transform, width;
+}
+.mm-menu_iconpanel .mm-panels > .mm-panel_opened, .mm-menu_iconpanel .mm-panels > .mm-panel_opened-parent {
+  display: block !important;
+}
+.mm-menu_iconpanel .mm-panels > .mm-panel_opened-parent {
+  overflow-y: hidden;
+  transform: unset;
+}
+.mm-menu_iconpanel .mm-panels > .mm-panel:not(.mm-panel_iconpanel-first):not(.mm-panel_iconpanel-0) {
+  border-left-width: 1px;
+  border-left-style: solid;
+}
 
 .mm-menu_hidenavbar .mm-panel_opened-parent .mm-navbar,
 .mm-menu_hidedivider .mm-panel_opened-parent .mm-divider {
-  opacity: 0; }
+  opacity: 0;
+}
 
-.mm-menu_keyboardfocus a:focus,
-.mm-menu_keyboardfocus.mm-menu_opened ~ .mm-wrapper__blocker a:focus {
+.mm-menu_keyboardfocus a:focus, .mm-menu_keyboardfocus.mm-menu_opened ~ .mm-wrapper__blocker a:focus {
   background: var(--mm-color-background-emphasis);
-  outline: none; }
+  outline: none;
+}
 
 .mm-wrapper__blocker .mm-tabstart {
   cursor: default;
   display: block;
   width: 100%;
-  height: 100%; }
-
+  height: 100%;
+}
 .mm-wrapper__blocker .mm-tabend {
   opacity: 0;
   position: absolute;
-  bottom: 0; }
+  bottom: 0;
+}
 
 .mm-navbars_top {
-  flex-shrink: 0; }
-  .mm-navbars_top .mm-navbar:not(:last-child) {
-    border-bottom: none; }
+  flex-shrink: 0;
+}
+.mm-navbars_top .mm-navbar:not(:last-child) {
+  border-bottom: none;
+}
 
 .mm-navbars_bottom {
-  flex-shrink: 0; }
-  .mm-navbars_bottom .mm-navbar {
-    border-bottom: none; }
-    .mm-navbars_bottom .mm-navbar:first-child {
-      border-top: 1px solid var(--mm-color-border); }
+  flex-shrink: 0;
+}
+.mm-navbars_bottom .mm-navbar {
+  border-bottom: none;
+}
+.mm-navbars_bottom .mm-navbar:first-child {
+  border-top: 1px solid var(--mm-color-border);
+}
 
 .mm-btn:not(.mm-hidden) + .mm-navbar__searchfield .mm-searchfield__input {
-  padding-left: 0; }
-
+  padding-left: 0;
+}
 .mm-navbar__searchfield:not(:last-child) .mm-searchfield__input {
-  padding-right: 0; }
+  padding-right: 0;
+}
 
 .mm-navbar__breadcrumbs {
   text-overflow: ellipsis;
@@ -34485,92 +34915,107 @@ IMPORT MMENU SCSS
   justify-content: flex-start;
   padding: 0 20px;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch; }
-  .mm-navbar__breadcrumbs > * {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-right: 6px; }
-  .mm-navbar__breadcrumbs > a {
-    text-decoration: underline; }
-  .mm-navbar__breadcrumbs:not(:last-child) {
-    padding-right: 0; }
-  .mm-btn:not(.mm-hidden) + .mm-navbar__breadcrumbs {
-    padding-left: 0; }
+  -webkit-overflow-scrolling: touch;
+}
+.mm-navbar__breadcrumbs > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 6px;
+}
+.mm-navbar__breadcrumbs > a {
+  text-decoration: underline;
+}
+.mm-navbar__breadcrumbs:not(:last-child) {
+  padding-right: 0;
+}
+.mm-btn:not(.mm-hidden) + .mm-navbar__breadcrumbs {
+  padding-left: 0;
+}
 
 .mm-navbar_tabs > * {
   padding: 0 10px;
-  border: 1px solid transparent; }
+  border: 1px solid transparent;
+}
 
 .mm-navbar__tab_selected {
   background: var(--mm-color-background);
-  color: var(--mm-color-text); }
-  .mm-navbar__tab_selected:not(:first-child) {
-    border-left-color: var(--mm-color-border); }
-  .mm-navbar__tab_selected:not(:last-child) {
-    border-right-color: var(--mm-color-border); }
+  color: var(--mm-color-text);
+}
+.mm-navbar__tab_selected:not(:first-child) {
+  border-left-color: var(--mm-color-border);
+}
+.mm-navbar__tab_selected:not(:last-child) {
+  border-right-color: var(--mm-color-border);
+}
 
 .mm-navbars_top .mm-navbar_tabs {
-  border-bottom: none; }
-
+  border-bottom: none;
+}
 .mm-navbars_top .mm-navbar_tabs > * {
-  border-bottom-color: var(--mm-color-border); }
-
+  border-bottom-color: var(--mm-color-border);
+}
 .mm-navbars_top .mm-navbar__tab_selected {
   border-top-color: var(--mm-color-border);
-  border-bottom-color: transparent; }
-
+  border-bottom-color: transparent;
+}
 .mm-navbars_top.mm-navbars_has-tabs .mm-navbar {
-  background: var(--mm-color-background-emphasis); }
-
+  background: var(--mm-color-background-emphasis);
+}
 .mm-navbars_top.mm-navbars_has-tabs .mm-navbar_tabs ~ .mm-navbar {
-  background: var(--mm-color-background); }
+  background: var(--mm-color-background);
+}
 
 .mm-navbars_bottom .mm-navbar_tabs:first-child {
-  border-top: none; }
-
+  border-top: none;
+}
 .mm-navbars_bottom .mm-navbar_tabs > * {
-  border-top-color: var(--mm-color-border); }
-
+  border-top-color: var(--mm-color-border);
+}
 .mm-navbars_bottom .mm-navbar__tab_selected {
   border-bottom-color: var(--mm-color-border);
-  border-top-color: transparent; }
-
+  border-top-color: transparent;
+}
 .mm-navbars_bottom.mm-navbars_has-tabs .mm-navbar {
-  background: var(--mm-color-background); }
-
+  background: var(--mm-color-background);
+}
 .mm-navbars_bottom.mm-navbars_has-tabs .mm-navbar_tabs,
 .mm-navbars_bottom.mm-navbars_has-tabs .mm-navbar_tabs ~ .mm-navbar {
-  background: var(--mm-color-background-emphasis); }
+  background: var(--mm-color-background-emphasis);
+}
 
 .mm-searchfield {
   display: flex;
   flex-grow: 1;
   height: var(--mm-navbar-size);
   padding: 0;
-  overflow: hidden; }
-  .mm-searchfield input {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: calc(var(--mm-navbar-size) * 0.7);
-    min-height: unset;
-    max-height: unset;
-    margin: 0;
-    padding: 0 10px;
-    box-sizing: border-box;
-    border: none !important;
-    border-radius: 4px;
-    line-height: calc(var(--mm-navbar-size) * 0.7);
-    box-shadow: none !important;
-    outline: none !important;
-    font: inherit;
-    font-size: inherit; }
-    .mm-searchfield input, .mm-searchfield input:hover, .mm-searchfield input:focus {
-      background: var(--mm-color-background-highlight);
-      color: var(--mm-color-text); }
-  .mm-searchfield input::-ms-clear {
-    display: none; }
+  overflow: hidden;
+}
+.mm-searchfield input {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: calc(var(--mm-navbar-size) * 0.7);
+  min-height: unset;
+  max-height: unset;
+  margin: 0;
+  padding: 0 10px;
+  box-sizing: border-box;
+  border: none !important;
+  border-radius: 4px;
+  line-height: calc(var(--mm-navbar-size) * 0.7);
+  box-shadow: none !important;
+  outline: none !important;
+  font: inherit;
+  font-size: inherit;
+}
+.mm-searchfield input, .mm-searchfield input:hover, .mm-searchfield input:focus {
+  background: var(--mm-color-background-highlight);
+  color: var(--mm-color-text);
+}
+.mm-searchfield input::-ms-clear {
+  display: none;
+}
 
 .mm-searchfield__input {
   display: flex;
@@ -34580,25 +35025,29 @@ IMPORT MMENU SCSS
   width: 100%;
   max-width: 100%;
   padding: 0 10px;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 .mm-panel__noresultsmsg {
   padding: 50px 0;
   color: var(--mm-color-text-dimmed);
   text-align: center;
-  font-size: 150%; }
+  font-size: 150%;
+}
 
 .mm-searchfield__btn {
   position: absolute;
   right: 0;
   top: 0;
-  bottom: 0; }
+  bottom: 0;
+}
 
 .mm-panel_search {
   left: 0 !important;
   right: 0 !important;
   width: 100% !important;
-  border-left: none !important; }
+  border-left: none !important;
+}
 
 .mm-searchfield__cancel {
   display: block;
@@ -34606,20 +35055,24 @@ IMPORT MMENU SCSS
   margin-right: -100px;
   line-height: var(--mm-navbar-size);
   text-decoration: none;
-  transition: margin 0.4s ease; }
+  transition: margin 0.4s ease;
+}
 
 .mm-searchfield__cancel-active {
-  margin-right: 0; }
+  margin-right: 0;
+}
 
 .mm-listitem_nosubitems > .mm-listitem__btn {
-  display: none; }
-
+  display: none;
+}
 .mm-listitem_nosubitems > .mm-listitem__text {
-  padding-right: 10px; }
+  padding-right: 10px;
+}
 
 .mm-listitem_onlysubitems > .mm-listitem__text:not(.mm-listitem__btn) {
   z-index: -1;
-  pointer-events: none; }
+  pointer-events: none;
+}
 
 .mm-sectionindexer {
   background: inherit;
@@ -34635,75 +35088,93 @@ IMPORT MMENU SCSS
   transition: right 0.4s ease;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly; }
-  .mm-sectionindexer a {
-    color: var(--mm-color-text-dimmed);
-    line-height: 1;
-    text-decoration: none;
-    display: block; }
-  .mm-sectionindexer ~ .mm-panel {
-    padding-right: 0; }
-  .mm-sectionindexer_active {
-    right: 0; }
-    .mm-sectionindexer_active ~ .mm-panel {
-      padding-right: 20px; }
+  justify-content: space-evenly;
+}
+.mm-sectionindexer a {
+  color: var(--mm-color-text-dimmed);
+  line-height: 1;
+  text-decoration: none;
+  display: block;
+}
+.mm-sectionindexer ~ .mm-panel {
+  padding-right: 0;
+}
+.mm-sectionindexer_active {
+  right: 0;
+}
+.mm-sectionindexer_active ~ .mm-panel {
+  padding-right: 20px;
+}
 
 .mm-menu_selected-hover .mm-listitem__text,
 .mm-menu_selected-hover .mm-listitem__btn, .mm-menu_selected-parent .mm-listitem__text,
 .mm-menu_selected-parent .mm-listitem__btn {
-  transition: background-color 0.4s ease; }
-
+  transition: background-color 0.4s ease;
+}
 .mm-menu_selected-hover .mm-listview:hover > .mm-listitem_selected:not(:hover) > .mm-listitem__text {
-  background: none; }
-
+  background: none;
+}
 .mm-menu_selected-hover .mm-listitem__text:hover,
 .mm-menu_selected-hover .mm-listitem__btn:hover {
-  background: var(--mm-color-background-emphasis); }
-
+  background: var(--mm-color-background-emphasis);
+}
 .mm-menu_selected-parent .mm-panel_opened-parent .mm-listitem:not(.mm-listitem_selected-parent) > .mm-listitem__text {
-  background: none; }
-
+  background: none;
+}
 .mm-menu_selected-parent .mm-listitem_selected-parent > .mm-listitem__text,
 .mm-menu_selected-parent .mm-listitem_selected-parent > .mm-listitem__btn {
-  background: var(--mm-color-background-emphasis); }
+  background: var(--mm-color-background-emphasis);
+}
 
 .mm-menu_border-none .mm-listitem:after {
-  content: none; }
+  content: none;
+}
 
 .mm-menu_border-full .mm-listitem:after {
-  left: 0 !important; }
+  left: 0 !important;
+}
 
 .mm-menu_fx-menu-slide {
-  transition: transform 0.4s ease; }
+  transition: transform 0.4s ease;
+}
 
 .mm-wrapper_opened .mm-menu_fx-menu-slide {
-  transform: translate3d(-30%, 0, 0); }
+  transform: translate3d(-30%, 0, 0);
+}
 
 .mm-wrapper_opening .mm-menu_fx-menu-slide {
-  transform: translate3d(0%, 0, 0); }
+  transform: translate3d(0%, 0, 0);
+}
 
 .mm-wrapper_opened .mm-menu_fx-menu-slide.mm-menu_position-right {
-  transform: translate3d(30%, 0, 0); }
+  transform: translate3d(30%, 0, 0);
+}
 
 .mm-wrapper_opening .mm-menu_fx-menu-slide.mm-menu_position-right {
-  transform: translate3d(0%, 0, 0); }
+  transform: translate3d(0%, 0, 0);
+}
 
 .mm-menu_fx-panels-none .mm-panel,
 .mm-panel_fx-none {
-  transition-property: none; }
-  .mm-menu_fx-panels-none .mm-panel.mm-panel_opened-parent,
-  .mm-panel_fx-none.mm-panel_opened-parent {
-    transform: translate3d(0, 0, 0); }
+  transition-property: none;
+}
+.mm-menu_fx-panels-none .mm-panel.mm-panel_opened-parent,
+.mm-panel_fx-none.mm-panel_opened-parent {
+  transform: translate3d(0, 0, 0);
+}
 
 .mm-menu_fx-panels-slide-0 .mm-panel_opened-parent {
-  transform: translate3d(0, 0, 0); }
+  transform: translate3d(0, 0, 0);
+}
 
 .mm-menu_fx-panels-slide-100 .mm-panel_opened-parent {
-  transform: translate3d(-100%, 0, 0); }
+  transform: translate3d(-100%, 0, 0);
+}
 
 .mm-menu_multiline .mm-listitem__text {
   text-overflow: clip;
-  white-space: normal; }
+  white-space: normal;
+}
 
 .mm-menu_popup {
   transition: opacity 0.4s ease;
@@ -34717,146 +35188,193 @@ IMPORT MMENU SCSS
   bottom: auto;
   right: auto;
   z-index: 2;
-  transform: translate3d(-50%, -50%, 0); }
-  .mm-menu_popup.mm-menu_opened ~ .mm-slideout {
-    transform: none !important;
-    z-index: 0; }
-  .mm-menu_popup.mm-menu_opened ~ .mm-wrapper__blocker {
-    transition-delay: 0s !important;
-    z-index: 1; }
-  .mm-wrapper_opening .mm-menu_popup {
-    opacity: 1; }
+  transform: translate3d(-50%, -50%, 0);
+}
+.mm-menu_popup.mm-menu_opened ~ .mm-slideout {
+  transform: none !important;
+  z-index: 0;
+}
+.mm-menu_popup.mm-menu_opened ~ .mm-wrapper__blocker {
+  transition-delay: 0s !important;
+  z-index: 1;
+}
+.mm-wrapper_opening .mm-menu_popup {
+  opacity: 1;
+}
 
 .mm-menu_position-right {
   left: auto;
-  right: 0; }
+  right: 0;
+}
 
 .mm-wrapper_opening .mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-  transform: translate3d(-80vw, 0, 0); }
+  transform: translate3d(-80vw, 0, 0);
+}
 
 @media all and (max-width: 300px) {
   .mm-wrapper_opening .mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(-240px, 0, 0); } }
-
+    transform: translate3d(-240px, 0, 0);
+  }
+}
 @media all and (min-width: 550px) {
   .mm-wrapper_opening .mm-menu_position-right.mm-menu_opened ~ .mm-slideout {
-    transform: translate3d(-440px, 0, 0); } }
-
+    transform: translate3d(-440px, 0, 0);
+  }
+}
 .mm-menu_position-front, .mm-menu_position-top, .mm-menu_position-bottom {
-  transition: transform 0.4s ease; }
-  .mm-menu_position-front.mm-menu_opened, .mm-menu_position-top.mm-menu_opened, .mm-menu_position-bottom.mm-menu_opened {
-    z-index: 2; }
-    .mm-menu_position-front.mm-menu_opened ~ .mm-slideout, .mm-menu_position-top.mm-menu_opened ~ .mm-slideout, .mm-menu_position-bottom.mm-menu_opened ~ .mm-slideout {
-      transform: none !important;
-      z-index: 0; }
-    .mm-menu_position-front.mm-menu_opened ~ .mm-wrapper__blocker, .mm-menu_position-top.mm-menu_opened ~ .mm-wrapper__blocker, .mm-menu_position-bottom.mm-menu_opened ~ .mm-wrapper__blocker {
-      z-index: 1; }
+  transition: transform 0.4s ease;
+}
+.mm-menu_position-front.mm-menu_opened, .mm-menu_position-top.mm-menu_opened, .mm-menu_position-bottom.mm-menu_opened {
+  z-index: 2;
+}
+.mm-menu_position-front.mm-menu_opened ~ .mm-slideout, .mm-menu_position-top.mm-menu_opened ~ .mm-slideout, .mm-menu_position-bottom.mm-menu_opened ~ .mm-slideout {
+  transform: none !important;
+  z-index: 0;
+}
+.mm-menu_position-front.mm-menu_opened ~ .mm-wrapper__blocker, .mm-menu_position-top.mm-menu_opened ~ .mm-wrapper__blocker, .mm-menu_position-bottom.mm-menu_opened ~ .mm-wrapper__blocker {
+  z-index: 1;
+}
 
 .mm-menu_position-front {
-  transform: translate3d(-100%, 0, 0); }
-  .mm-menu_position-front.mm-menu_position-right {
-    transform: translate3d(100%, 0, 0); }
+  transform: translate3d(-100%, 0, 0);
+}
+.mm-menu_position-front.mm-menu_position-right {
+  transform: translate3d(100%, 0, 0);
+}
 
 .mm-menu_position-top, .mm-menu_position-bottom {
   width: 100%;
   min-width: 100%;
-  max-width: 100%; }
+  max-width: 100%;
+}
 
 .mm-menu_position-top {
-  transform: translate3d(0, -100%, 0); }
+  transform: translate3d(0, -100%, 0);
+}
 
 .mm-menu_position-top {
   height: 80vh;
   min-height: 140px;
-  max-height: 880px; }
+  max-height: 880px;
+}
 
 .mm-menu_position-bottom {
   transform: translate3d(0, 100%, 0);
-  top: auto; }
+  top: auto;
+}
 
 .mm-menu_position-bottom {
   height: 80vh;
   min-height: 140px;
-  max-height: 880px; }
+  max-height: 880px;
+}
 
 .mm-wrapper_opening .mm-menu_position-front, .mm-wrapper_opening .mm-menu_position-top, .mm-wrapper_opening .mm-menu_position-bottom {
-  transform: translate3d(0, 0, 0); }
+  transform: translate3d(0, 0, 0);
+}
 
 body.modal-open .mm-slideout {
-  z-index: unset; }
+  z-index: unset;
+}
 
 /***********************************************
 ADJUST MMENU AND JQUERY-BOOTSTRAP ELEMENTS
 ***********************************************/
 .mm-menu .mm-listitem__text {
   padding-left: 0.375rem;
-  padding-right: 0.375rem; }
-
+  padding-right: 0.375rem;
+}
 .mm-menu-sm .mm-listitem__text {
   padding-left: 0.25rem;
-  padding-right: 0.25rem; }
+  padding-right: 0.25rem;
+}
 
 .mm-menu .mm-listitem__btn {
   padding-left: 0.375rem;
-  padding-right: calc(2.8 * var(--chevrolet-dim)); }
-
+  padding-right: calc(2.8 * var(--chevrolet-dim));
+}
 .mm-menu-sm .mm-listitem__btn {
-  padding-left: 0.25rem; }
+  padding-left: 0.25rem;
+}
 
 .mm-menu .mm-listitem:after {
-  left: 0.375rem; }
-
+  left: 0.375rem;
+}
 .mm-menu-sm .mm-listitem:after {
-  left: 0.25rem; }
+  left: 0.25rem;
+}
 
 .mm-listitem_vertical > .mm-panel {
-  padding: 0 0 0 5px !important; }
+  padding: 0 0 0 5px !important;
+}
 
 .mm-menu .mm-listitem_opened > .mm-listitem__btn {
   color: var(--mm-item-opened-color);
-  background: var(--mm-item-opened-bg); }
-
+  background: var(--mm-item-opened-bg);
+}
 .mm-menu .mm-listitem:not(.mm-listitem_opened) > .mm-listitem__btn {
   color: var(--mm-item-closed-color);
-  background: var(--mm-item-closed-bg); }
+  background: var(--mm-item-closed-bg);
+}
 
 .mm-listitem {
   font-size: var(--mm-font-size);
-  min-height: var(--mm-line-height); }
-  .mm-listitem .mm-listitem-content {
-    line-height: 1.5 !important; }
+  min-height: var(--mm-line-height);
+}
+.mm-listitem .mm-listitem-content {
+  line-height: 1.5 !important;
+}
 
 .mm-btn_prev:before, .mm-btn_next:after {
   width: var(--chevrolet-dim) !important;
   height: var(--chevrolet-dim) !important;
-  right: var(--chevrolet-dim) !important; }
+  right: var(--chevrolet-dim) !important;
+}
 
 .mm-iconbar .btn.standard.square {
+  display: inline-flex;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: calc( (var(--mm-listitem-size) - var(--bs-btn-square-dimention)) / 2); }
+  margin-bottom: calc((var(--mm-listitem-size) - var(--bs-btn-square-dimention)) / 2);
+}
 
 .mm-listitem__text {
   display: flex;
-  flex-wrap: wrap; }
-  .mm-listitem__text > *:first-child {
-    flex: 1; }
+  flex-wrap: wrap;
+}
+.mm-listitem__text > *:first-child {
+  flex: 1;
+}
 
 a.btn.mm-favorite-icons {
-  height: var(--mm-line-height); }
+  height: var(--mm-line-height);
+}
 
 .button-bar-container {
   padding: 0;
-  margin: 0; }
-  .button-bar-container:last-child {
-    margin-bottom: 2px; }
-  .button-bar-container.padding-left {
-    padding-left: 1.5em; }
-  .button-bar-container.padding-right {
-    padding-right: 2.375rem; }
-    .mm-menu-sm .button-bar-container.padding-right {
-      padding-right: 1.9375rem; }
+  margin: 0;
+}
+.button-bar-container:last-child {
+  margin-bottom: 2px;
+}
+.button-bar-container.padding-left {
+  padding-left: 1.5em;
+}
+.button-bar-container.padding-right {
+  padding-right: 2.375rem;
+}
+.mm-menu-sm .button-bar-container.padding-right {
+  padding-right: 1.9375rem;
+}
 
+.mm-listitem.only-buttons {
+  --mm-line-height: 0;
+  padding-top: 2px;
+}
+.mm-listitem.only-buttons.no-padding-right .mm-listitem__text {
+  padding-right: 0;
+}
+@charset "UTF-8";
 /***********************************************
     fcoo-application.scss,
 
@@ -35063,11 +35581,65 @@ button-border-color-variant
 button-background-color-variant
 Adjust text-, border-, and background-color for a button
 ************************************************************/
-/***********************************************
-fcoo-application-base-color-mixin
+/**********************************************************
+	fcoo-colors-include.scss,
 
-Defines application-base-color = Background color for loading etc.
-************************************************/
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+
+
+    Contain all include for a packages using
+    the scss-variables and scss-mixins of fcoo-colors
+
+    The scss file must also include
+
+    //COLOR-HELPER
+    @import "../bower_components/sass-color-helpers/stylesheets/color-helpers";
+
+    //LEAFLET-BOOTSTRAP-MARKER-MIXIN - mixin to create colors for marker (bsMarker)
+    @import "../bower_components/leaflet-bootstrap-marker-mixin/dist/leaflet-bootstrap-marker-mixin";
+
+    //LEAFLET-POLYLINE-MIXIN - mixin to create colors for polyline and polygon
+    @import "../bower_components/leaflet-polyline-mixin/dist/leaflet-polyline-mixin";
+
+**********************************************************/
+/**********************************************************
+	fcoo-colors-variables.scss,
+
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+**********************************************************/
+/**********************************************************
+The color scheme is from LinkedIn and shown in linkedin-palette-screen.pdf
+**********************************************************/
+/**********************************************************
+Color for time = tree colors for the past, now, and the future
+**********************************************************/
+/**********************************************************
+Application color
+Defaults is = DALO color in "Forsvarsministeriets koncernfælles Designmanual 2018"
+Can be changed by mixin application-base-color( new-color )
+in src/_fcoo-color-mixin.scss
+**********************************************************/
+/**********************************************************
+    fcoo-colors-mixin.scss
+
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+
+**********************************************************/
+/**********************************************************
+Functions to get colors in different (relative) gradients
+**********************************************************/
+/**********************************************************
+marker-and-polygon-color
+create color-classes for bsMarker and bsPolyline
+**********************************************************/
+/**********************************************************
+Application color
+Defaults is = DALO color in "Forsvarsministeriets koncernfælles Designmanual 2018"
+Can be changed by mixin application-base-color( new-color )
+**********************************************************/
 /*****************************************************
 APPLICATION-COLOR-MIXIN
 Mixin for creating specific application-color
@@ -35091,60 +35663,148 @@ APPLICATION-COLOR
 
 Defines default application-color and adjust different jquery-bootstrap and fcoo-application element-styles
 
-See _application-color-mixin.scss for description of application colors
+A number of css-variable are defined.
+The are all named
+--fcoo-app-TYPE-color[-PERCENT]
+and have the value
+var(--_fcoo-app-TYPE-color-PERCENT, var(--_fcoo-default-app-TYPE-color-PERCENT) ); (Note the "_" at the beginning of the var-names)
+
+All the default values --_fcoo-default-app... are defined using DALO standard dark-green
+
+To change the default colors the css-variables --_fcoo-app-TYPE-color-PERCENT must be assigned a value
+This can be done in two ways:
+1: In scss by including src/_application-color-mixin.scss in the applications scss-file and adding @include application-color( NEW_APPLICATION_COLOR );
+2: Dynamically via javascript by calling window.fcoo.setApplicationColors( NEW_APPLICATION_COLOR ); (see src/fcoo-application-color.js)
 *****************************************************/
 :root {
   --_fcoo-default-app-bg-color-0: #3f5b58;
+  --_fcoo-default-app-hover-bg-color-0: #5c7471;
+  --_fcoo-default-app-active-bg-color-0: #657c79;
   --_fcoo-default-app-text-color-0: #fff;
+  --_fcoo-default-app-hover-text-color-0: white;
+  --_fcoo-default-app-active-text-color-0: white;
   --_fcoo-default-app-shadow-color-0: #000;
   --_fcoo-default-app-bg-color-25: #78a29d;
+  --_fcoo-default-app-hover-bg-color-25: #8cb0ac;
+  --_fcoo-default-app-active-bg-color-25: #93b5b1;
   --_fcoo-default-app-text-color-25: #000;
-  --_fcoo-default-app-shadow-color-25: #fff;
+  --_fcoo-default-app-hover-text-color-25: #1a1a1a;
+  --_fcoo-default-app-active-text-color-25: #1a1a1a;
   --_fcoo-default-app-bg-color-50: #c3d6d4;
+  --_fcoo-default-app-hover-bg-color-50: #ccdcda;
+  --_fcoo-default-app-active-bg-color-50: #cfdedd;
   --_fcoo-default-app-text-color-50: #000;
-  --_fcoo-default-app-shadow-color-50: #fff;
+  --_fcoo-default-app-hover-text-color-50: #1a1a1a;
+  --_fcoo-default-app-active-text-color-50: #1a1a1a;
   --_fcoo-default-app-bg-color-63: #eaf1f0;
+  --_fcoo-default-app-hover-bg-color-63: #edf3f2;
+  --_fcoo-default-app-active-bg-color-63: #eef4f3;
   --_fcoo-default-app-text-color-63: #000;
-  --_fcoo-default-app-shadow-color-63: #fff;
+  --_fcoo-default-app-hover-text-color-63: #1a1a1a;
+  --_fcoo-default-app-active-text-color-63: #1a1a1a;
 }
 
+:root {
+  --fcoo-app-bg-color: var(--_fcoo-app-bg-color-0, var(--_fcoo-default-app-bg-color-0));
+  --fcoo-app-hover-bg-color: var(--_fcoo-app-hover-bg-color-0, var(--_fcoo-default-app-hover-bg-color-0));
+  --fcoo-app-active-bg-color: var(--_fcoo-app-active-bg-color-0, var(--_fcoo-default-app-active-bg-color-0));
+  --fcoo-app-text-color: var(--_fcoo-app-text-color-0, var(--_fcoo-default-app-text-color-0));
+  --fcoo-app-hover-text-color: var(--_fcoo-app-hover-text-color-0, var(--_fcoo-default-app-hover-text-color-0));
+  --fcoo-app-active-text-color: var(--_fcoo-app-active-text-color-0, var(--_fcoo-default-app-active-text-color-0));
+  --fcoo-app-shadow-color: var(--_fcoo-app-shadow-color-0, var(--_fcoo-default-app-shadow-color-0));
+  --fcoo-app-bg-color-25: var(--_fcoo-app-bg-color-25, var(--_fcoo-default-app-bg-color-25));
+  --fcoo-app-hover-bg-color-25: var(--_fcoo-app-hover-bg-color-25, var(--_fcoo-default-app-hover-bg-color-25));
+  --fcoo-app-active-bg-color-25: var(--_fcoo-app-active-bg-color-25, var(--_fcoo-default-app-active-bg-color-25));
+  --fcoo-app-text-color-25: var(--_fcoo-app-text-color-25, var(--_fcoo-default-app-text-color-25));
+  --fcoo-app-hover-text-color-25: var(--_fcoo-app-hover-text-color-25, var(--_fcoo-default-app-hover-text-color-25));
+  --fcoo-app-active-text-color-25: var(--_fcoo-app-active-text-color-25, var(--_fcoo-default-app-active-text-color-25));
+  --fcoo-app-bg-color-50: var(--_fcoo-app-bg-color-50, var(--_fcoo-default-app-bg-color-50));
+  --fcoo-app-hover-bg-color-50: var(--_fcoo-app-hover-bg-color-50, var(--_fcoo-default-app-hover-bg-color-50));
+  --fcoo-app-active-bg-color-50: var(--_fcoo-app-active-bg-color-50, var(--_fcoo-default-app-active-bg-color-50));
+  --fcoo-app-text-color-50: var(--_fcoo-app-text-color-50, var(--_fcoo-default-app-text-color-50));
+  --fcoo-app-hover-text-color-50: var(--_fcoo-app-hover-text-color-50, var(--_fcoo-default-app-hover-text-color-50));
+  --fcoo-app-active-text-color-50: var(--_fcoo-app-active-text-color-50, var(--_fcoo-default-app-active-text-color-50));
+  --fcoo-app-bg-color-63: var(--_fcoo-app-bg-color-63, var(--_fcoo-default-app-bg-color-63));
+  --fcoo-app-hover-bg-color-63: var(--_fcoo-app-hover-bg-color-63, var(--_fcoo-default-app-hover-bg-color-63));
+  --fcoo-app-active-bg-color-63: var(--_fcoo-app-active-bg-color-63, var(--_fcoo-default-app-active-bg-color-63));
+  --fcoo-app-text-color-63: var(--_fcoo-app-text-color-63, var(--_fcoo-default-app-text-color-63));
+  --fcoo-app-hover-text-color-63: var(--_fcoo-app-hover-text-color-63, var(--_fcoo-default-app-hover-text-color-63));
+  --fcoo-app-active-text-color-63: var(--_fcoo-app-active-text-color-63, var(--_fcoo-default-app-active-text-color-63));
+}
+
+.fcoo-app-bg-color {
+  background-color: var(--fcoo-app-bg-color) !important;
+}
+
+.fcoo-app-text-color {
+  color: var(--fcoo-app-text-color) !important;
+}
+
+.fcoo-app-bg-color-25 {
+  background-color: var(--fcoo-app-bg-color-25) !important;
+}
+
+.fcoo-app-text-color-25 {
+  color: var(--fcoo-app-text-color-25) !important;
+}
+
+.fcoo-app-bg-color-50 {
+  background-color: var(--fcoo-app-bg-color-50) !important;
+}
+
+.fcoo-app-text-color-50 {
+  color: var(--fcoo-app-text-color-50) !important;
+}
+
+.fcoo-app-bg-color-63 {
+  background-color: var(--fcoo-app-bg-color-63) !important;
+}
+
+.fcoo-app-text-color-63 {
+  color: var(--fcoo-app-text-color-63) !important;
+}
+
+/*****************************************************
+Create css-var for buttons when inside a container with fcoo-application
+Text and border color are the same
+*****************************************************/
 .btn-fcoo-app-color .btn-jb.standard {
-  --bs-btn-color: #fff;
-  --bs-btn-hover-color: white;
-  --bs-btn-active-color: white;
-  --bs-btn-disabled-color: #fff;
-  --bs-btn-border-color: #fff;
-  --bs-btn-hover-border-color: white;
-  --bs-btn-active-border-color: white;
-  --bs-btn-bg: #3f5b58;
-  --bs-btn-hover-bg: #5c7471;
-  --bs-btn-active-bg: #657c79;
+  --bs-btn-bg: var(--fcoo-app-bg-color);
+  --bs-btn-hover-bg: var(--fcoo-app-hover-bg-color);
+  --bs-btn-active-bg: var(--fcoo-app-active-bg-color);
+  --bs-btn-color: var(--fcoo-app-text-color);
+  --bs-btn-hover-color: var(--fcoo-app-hover-text-color);
+  --bs-btn-active-color: var(--fcoo-app-active-text-color);
+  --bs-btn-disabled-color: var(--fcoo-app-text-color);
+  --bs-btn-border-color: var(--fcoo-app-text-color);
+  --bs-btn-hover-border-color: var(--fcoo-app-hover-text-color);
+  --bs-btn-active-border-color: var(--fcoo-app-active-text-color);
 }
 
 .btn-fcoo-app-color-25 .btn-jb.standard {
-  --bs-btn-color: #000;
-  --bs-btn-hover-color: #1a1a1a;
-  --bs-btn-active-color: #1a1a1a;
-  --bs-btn-disabled-color: #000;
-  --bs-btn-border-color: #000;
-  --bs-btn-hover-border-color: #1a1a1a;
-  --bs-btn-active-border-color: #1a1a1a;
-  --bs-btn-bg: #78a29d;
-  --bs-btn-hover-bg: #8cb0ac;
-  --bs-btn-active-bg: #93b5b1;
+  --bs-btn-bg: var(--fcoo-app-bg-color-25);
+  --bs-btn-hover-bg: var(--fcoo-app-hover-bg-color-25);
+  --bs-btn-active-bg: var(--fcoo-app-active-bg-color-25);
+  --bs-btn-color: var(--fcoo-app-text-color-25);
+  --bs-btn-hover-color: var(--fcoo-app-hover-text-color-25);
+  --bs-btn-active-color: var(--fcoo-app-active-text-color-25);
+  --bs-btn-disabled-color: var(--fcoo-app-text-color-25);
+  --bs-btn-border-color: var(--fcoo-app-text-color-25);
+  --bs-btn-hover-border-color: var(--fcoo-app-hover-text-color-25);
+  --bs-btn-active-border-color: var(--fcoo-app-active-text-color-25);
 }
 
 .btn-fcoo-app-color-50 .btn-jb.standard {
-  --bs-btn-color: #000;
-  --bs-btn-hover-color: #1a1a1a;
-  --bs-btn-active-color: #1a1a1a;
-  --bs-btn-disabled-color: #000;
-  --bs-btn-border-color: #000;
-  --bs-btn-hover-border-color: #1a1a1a;
-  --bs-btn-active-border-color: #1a1a1a;
-  --bs-btn-bg: #c3d6d4;
-  --bs-btn-hover-bg: #ccdcda;
-  --bs-btn-active-bg: #cfdedd;
+  --bs-btn-bg: var(--fcoo-app-bg-color-50);
+  --bs-btn-hover-bg: var(--fcoo-app-hover-bg-color-50);
+  --bs-btn-active-bg: var(--fcoo-app-active-bg-color-50);
+  --bs-btn-color: var(--fcoo-app-text-color-50);
+  --bs-btn-hover-color: var(--fcoo-app-hover-text-color-50);
+  --bs-btn-active-color: var(--fcoo-app-active-text-color-50);
+  --bs-btn-disabled-color: var(--fcoo-app-text-color-50);
+  --bs-btn-border-color: var(--fcoo-app-text-color-50);
+  --bs-btn-hover-border-color: var(--fcoo-app-hover-text-color-50);
+  --bs-btn-active-border-color: var(--fcoo-app-active-text-color-50);
 }
 
 [class*=btn-fcoo-app-color] .btn-jb.standard {
@@ -35152,50 +35812,6 @@ See _application-color-mixin.scss for description of application colors
   --bs-btn-disabled-bg: var(--bs-btn-bg);
   --bs-btn-disabled-border-color: var(--bs-btn-border-color);
   --bs-btn-disabled-opacity: 0.4;
-}
-
-:root {
-  --fcoo-app-bg-color: var(--_fcoo-app-bg-color-0, var(--_fcoo-default-app-bg-color-0));
-  --fcoo-app-text-color: var(--_fcoo-app-text-color-0, var(--_fcoo-default-app-text-color-0));
-  --fcoo-app-shadow-color: var(--_fcoo-app-shadow-color-0, var(--_fcoo-default-app-shadow-color-0));
-  --fcoo-default-app-bg-color: var(--_fcoo-default-app-bg-color-0);
-  --fcoo-default-app-text-color: var(--_fcoo-default-app-text-color-0);
-  --fcoo-default-app-shadow-color: var(--_fcoo-default-app-shadow-color-0);
-  --fcoo-app-bg-color-25: var(--_fcoo-app-bg-color-25, var(--_fcoo-default-app-bg-color-25));
-  --fcoo-app-text-color-25: var(--_fcoo-app-text-color-25, var(--_fcoo-default-app-text-color-25));
-  --fcoo-app-bg-color-50: var(--_fcoo-app-bg-color-50, var(--_fcoo-default-app-bg-color-50));
-  --fcoo-app-text-color-50: var(--_fcoo-app-text-color-50, var(--_fcoo-default-app-text-color-50));
-  --fcoo-app-bg-color-63: var(--_fcoo-app-bg-color-63, var(--_fcoo-default-app-bg-color-63));
-  --fcoo-app-text-color-63: var(--_fcoo-app-text-color-63, var(--_fcoo-default-app-text-color-63));
-}
-
-.fcoo-default-app-colors {
-  color: var(--fcoo-default-app-text-color) !important;
-  background-color: var(--fcoo-default-app-bg-color) !important;
-}
-
-.fcoo-app-text-color {
-  color: var(--fcoo-app-text-color) !important;
-}
-
-.fcoo-app-bg-color {
-  background-color: var(--fcoo-app-bg-color) !important;
-}
-
-.fcoo-app-text-color-25 {
-  color: var(--fcoo-app-text-color-25) !important;
-}
-
-.fcoo-app-bg-color-25 {
-  background-color: var(--fcoo-app-bg-color-25) !important;
-}
-
-.fcoo-app-text-color-50 {
-  color: var(--fcoo-app-text-color-50) !important;
-}
-
-.fcoo-app-bg-color-50 {
-  background-color: var(--fcoo-app-bg-color-50) !important;
 }
 
 /*****************************************************
@@ -35222,6 +35838,9 @@ Adjust different parts in jquery-bootstrap and fcoo-application
   --mm-item-opened-bg: var(--fcoo-app-bg-color-50);
 }
 
+/********** DEMO ******************
+@include application-color(darkred);
+//*********************************/
 .hide {
   display: none !important;
 }
@@ -35398,7 +36017,7 @@ confussions another name is used
   flex-shrink: 1;
   flex-grow: 1;
   text-align: center;
-  font-family: "Verdana";
+  font-family: var(--fmn-font-family);
   font-size: 1.5em;
   line-height: 1.5;
   overflow: hidden;
@@ -35668,7 +36287,7 @@ Style for 'About FCOO' modal-content
 .about-owner {
   text-align: center;
   font-size: 0.8rem;
-  font-family: "Verdana";
+  font-family: var(--fmn-font-family);
 }
 .about-owner .application-header {
   margin: 0;
@@ -35688,7 +36307,7 @@ Style for 'About FCOO' modal-content
 }
 .about-owner .application-owner {
   color: rgb(33, 37, 41);
-  font-family: Verdana, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: var(--fmn-font-family);
   font-size: 15.0589px;
   font-weight: 600;
   letter-spacing: -0.4px;
@@ -35734,20 +36353,20 @@ Two modes:
   z-index: 1048;
 }
 .touch-menu-container.opened {
-  transition-property: transform;
+  transition-property: all;
   transition-duration: 0.3s;
   transition-timing-function: ease-out;
 }
-.touch-menu-container.opened.no-animation {
+html.loading .touch-menu-container.opened, .touch-menu-container.opened.no-animation {
   transition: none !important;
 }
 .touch-menu-container.closed {
-  transition-property: transform, z-index;
+  transition-property: all;
   transition-duration: 0.3s;
   transition-timing-function: ease-out;
   transform: none !important;
 }
-.touch-menu-container.closed.no-animation {
+html.loading .touch-menu-container.closed, .touch-menu-container.closed.no-animation {
   transition: none !important;
 }
 .touch-menu-container .touch-menu {
@@ -35756,7 +36375,7 @@ Two modes:
 .touch-menu-container.vertical-auto-width {
   width: auto !important;
 }
-.touch-menu-container.vertical-auto-height {
+.touch-menu-container.horizontal-auto-height {
   height: auto !important;
 }
 
@@ -35812,12 +36431,12 @@ Two modes:
 }
 
 .neighbour-container {
-  transition-property: margin-left, margin-right, margin-top, margin-bottom !important;
+  transition-property: all !important;
   transition-duration: 0.3s !important;
   transition-timing-function: ease-out !important;
 }
-.neighbour-container.no-animation {
-  transition-duration: 0s 4;
+html.loading .neighbour-container, .neighbour-container.no-animation {
+  transition-duration: 0s !important;
 }
 
 html.top-menu-open .hide-for-top-menu-open {
@@ -36028,7 +36647,7 @@ html.xlarge-down .invisible-for-xlarge-down {
 }
 
 /*****************************************************
-Special claa for buttons in reset-list
+Special class for buttons in reset-list
 *****************************************************/
 .btn-reset {
   min-height: 4em;
@@ -39839,6 +40458,10 @@ leaflet-bootstrap-contextmenu.scss
 }
 .leaflet-popup-contextmenu .modal-content .modal-footer:empty {
   display: none !important;
+}
+
+.leaflet-popup-content .modal-body > .contextmenu-item-group:not(:first-child) {
+  margin-top: 4px;
 }
 
 /***********************************************

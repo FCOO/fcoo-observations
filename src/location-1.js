@@ -498,7 +498,7 @@ Location = group of Stations with the same or different paramtre
                 isMinimized: true,
                 minimized  : {
                     showTooltip: true,
-                    width    : 70,
+                    width    : 80,
                     className: 'text-center',
 
                     //showHeaderOnClick: true,
