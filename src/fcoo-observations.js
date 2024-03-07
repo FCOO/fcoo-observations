@@ -109,7 +109,7 @@
         });
 
 
-        //Read last measuremnt every 3 min
+        //Read last measurement every 3 min
         var fileNameList = $.isArray(this.options.lastObservationFileName) ? this.options.lastObservationFileName : this.options.lastObservationFileName.split(' ');
         $.each(fileNameList, function(index, fileName){
             ns.promiseList.append({

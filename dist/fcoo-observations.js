@@ -45,7 +45,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.10.1",
+			VERSION         : "3.10.2",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -109,7 +109,7 @@
         });
 
 
-        //Read last measuremnt every 3 min
+        //Read last measurement every 3 min
         var fileNameList = $.isArray(this.options.lastObservationFileName) ? this.options.lastObservationFileName : this.options.lastObservationFileName.split(' ');
         $.each(fileNameList, function(index, fileName){
             ns.promiseList.append({
@@ -962,13 +962,22 @@ Location = group of Stations with the same or different paramtre
         Minimize and pin popup
         *********************************************/
         popupMinimized: function( popupEventOrMapId ){
-            var mapId = getMapIdFromPopupEvent(popupEventOrMapId);
-            if (this.markers[mapId]){
+            var mapId = getMapIdFromPopupEvent(popupEventOrMapId),
+                marker = this.markers[mapId];
+
+            if (!marker) return this;
+
+            if (marker.isPopupOpen())
+                marker.getPopup()
+                    .setSizeMinimized()
+                    ._setPinned(true);
+            else {
                 this.openPopupAsNormal = false;
                 this.markers[mapId].openPopup();
                 this.popups[mapId]._setPinned(true);
                 this.openPopupAsNormal = true;
             }
+            return this;
         },
 
         /*********************************************

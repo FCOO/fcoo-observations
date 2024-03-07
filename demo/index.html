@@ -76,6 +76,7 @@
         window.fcoo = window.fcoo || {};
         window.fcoo.DEMO_VERSION = true;
 
+
 //HER        window.fcoo.LOCAL_DATA = window.fcoo.DEMO_VERSION;
 
     </script>
@@ -100,6 +101,9 @@
 //HER        //ONLY WHEN PUSH TO GITHUB        
 //HER        window.fcoo.DEMO_VERSION = true;
 //HER        window.fcoo.LOCAL_DATA = !window.fcoo.DEMO_VERSION;
+
+        //TEMP: No access to data-files on AWS. Read from old location instead 
+        window.fcoo.path.setPath({host: 'bal.fcoo.dk'});
 
 
         Promise.defaultErrorHandler = function( error ){

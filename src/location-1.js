@@ -592,13 +592,22 @@ Location = group of Stations with the same or different paramtre
         Minimize and pin popup
         *********************************************/
         popupMinimized: function( popupEventOrMapId ){
-            var mapId = getMapIdFromPopupEvent(popupEventOrMapId);
-            if (this.markers[mapId]){
+            var mapId = getMapIdFromPopupEvent(popupEventOrMapId),
+                marker = this.markers[mapId];
+
+            if (!marker) return this;
+
+            if (marker.isPopupOpen())
+                marker.getPopup()
+                    .setSizeMinimized()
+                    ._setPinned(true);
+            else {
                 this.openPopupAsNormal = false;
                 this.markers[mapId].openPopup();
                 this.popups[mapId]._setPinned(true);
                 this.openPopupAsNormal = true;
             }
+            return this;
         },
 
         /*********************************************
