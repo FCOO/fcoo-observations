@@ -176,9 +176,8 @@ Only one station pro Location is active within the same ObservationGroup
             var hasValueForAllParameters = true;
             function checkIfValuesExists(parameterList){
                 $.each(parameterList, function(index, parameter){
-                    if (dataSet[parameter.id] == undefined){
+                    if (dataSet[parameter.id] == undefined)
                         hasValueForAllParameters = false;
-                    }
                 });
             }
             $.each(this.parameters, function(parameterId, parameterOptions){
@@ -197,6 +196,15 @@ Only one station pro Location is active within the same ObservationGroup
                 return '?';
 
             return this.formatter(dataSet, forecast);
+        },
+
+        /*****************************************************
+        datasetIsRealTime(dataSet)
+        Return true if the timestamp of the dataset is not to old
+        "To old" is given by the observationGroup
+        *****************************************************/
+        datasetIsRealTime: function(dataSet){
+            return dataSet && (moment().valueOf() <= (moment(dataSet.timestamp).valueOf() + this.observationGroup.maxDelayValueOf));
         },
 
         /*****************************************************
@@ -235,6 +243,18 @@ Only one station pro Location is active within the same ObservationGroup
 
 
         /*****************************************************
+        getPeriodStat(periodIndex, forecast)
+        get the stat for period from/to now to/from nsObservations.observationPeriods[periodIndex]/nsObservations.forecastPeriods[periodIndex]
+        Ex. getPeriodStat(1, true) will return the stat for the perion now (=0) to nsObservations.forecastPeriods[1] (default = 6);
+        *****************************************************/
+        getPeriodStat: function(periodIndex, forecast){
+            if (forecast)
+                return this.getStat(0/*fromHour*/, nsObservations.forecastPeriods[periodIndex]-1/*toHour*/, true/*forecast*/) || {};
+            else
+                return this.getStat(-1*nsObservations.observationPeriods[periodIndex]+1/*fromHour*/, 0/*toHour*/, false/*forecast*/ ) || {};
+        },
+
+        /*****************************************************
         formatStat
         Return a formated string with the stat
         Using this.formatterStat that is set by this.addToObservationGroup
@@ -266,6 +286,14 @@ Only one station pro Location is active within the same ObservationGroup
             });
 
             return statOk ? this.formatterStat(stat, forecast) : "?";
+        },
+
+        /*****************************************************
+        formatPeriodStat
+        Return a formated string with the stat from getPeriodStat
+        *****************************************************/
+        formatPeriodStat: function(periodIndex, forecast){
+            return this.formatStat( this.getPeriodStat(periodIndex, forecast), forecast );
         },
 
         /**********************************************************************************************************
@@ -331,20 +359,28 @@ Only one station pro Location is active within the same ObservationGroup
         /*****************************************************
         getVectorFormatParts
         Get all parts of a vector-parameter.
-        Return []{vectorParameterId, speedStr, unitStr, speedAndUnitStr, directionStr, defaultStr}
+        Return []{vectorParameterId, speedParameterId, directionParameterId, speedStr, speed, unitStr, speedAndUnitStr, directionStr, direction, defaultStr}
         *****************************************************/
         getVectorFormatParts: function(dataSet, forecast){
             var _this = this,
                 result = [];
             $.each(this.vectorParameterList, function(index, vectorParameter){
-                var speedId            = vectorParameter.speed_direction[0].id,
-                    directionParameter = vectorParameter.speed_direction[1],
+                var speedParameterId     = vectorParameter.speed_direction[0].id,
+                    directionParameter   = vectorParameter.speed_direction[1],
+                    directionParameterId = directionParameter.id,
                     oneVectorResult = {
-                        vectorParameterId: vectorParameter.id,
-                        speedStr         : _this.formatParameter(dataSet, speedId, forecast, true),
-                        unitStr          : _this.getDisplayUnit(speedId).translate('', '', true),
-                        speedAndUnitStr  : _this.formatParameter(dataSet, speedId, forecast, false),
-                        directionStr     : directionParameter.asText( dataSet[directionParameter.id] ),
+                        vectorParameterId   : vectorParameter.id,
+                        speedParameterId    : speedParameterId,
+                        directionParameterId: directionParameterId,
+
+                        speedStr         : _this.formatParameter(dataSet, speedParameterId, forecast, true),
+                        speed            : dataSet[speedParameterId],
+                        unitStr          : _this.getDisplayUnit(speedParameterId).translate('', '', true),
+                        speedAndUnitStr  : _this.formatParameter(dataSet, speedParameterId, forecast, false),
+
+                        directionStr     : directionParameter.asText( dataSet[directionParameterId] ),
+                        direction        : dataSet[directionParameterId],
+
                         defaultStr       : ''
                     };
                 oneVectorResult.defaultStr = oneVectorResult.directionStr + ' ' + oneVectorResult.speedAndUnitStr;

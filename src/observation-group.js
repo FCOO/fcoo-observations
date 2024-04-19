@@ -3,7 +3,7 @@ observation-group.js
 
 ObservationGroup = group of Locations with the same parameter(-group)
 ****************************************************************************/
-(function ($, L, i18next, moment, window, document, undefined) {
+(function ($, i18next, moment, window, document, undefined) {
 	"use strict";
 
 	window.fcoo = window.fcoo || {};
@@ -101,7 +101,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             "formatterStatMethod"   : "formatterStatVectorDefault",
             "allNeeded"             : true,
 
-            "maxDelay"              : "PT1H",   //Max delay of latest measurement before it is not shown as "Last Measurement"
+            "maxDelay"              : "PT1H15M",//Max delay of latest measurement before it is not shown as "Last Measurement"
             "maxGap"                : 60,       //Minutes. Max gap between points before no line is drawn.
             "historyPeriod"         : "PT54H",  //Length of historical period
 
@@ -140,21 +140,17 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
 
         /*
-        Create markerIcon:[STRING], faIconPopup:[STRING],  and faIcon []STRING to be used to create marker and icon in eq. bsModal
+        Create markerIcon:[STRING]
         iconOptions = {
             vertical: [BOOLEAN]
             position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'
                       vertical = false: 'top',  'over',        'center', 'below',        or 'bottom'
         */
 
-        var iconClasses = 'far fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
+        this.iconClasses = 'far fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
 
-        this.markerIconBase = 'in-marker '+ iconClasses;
+        this.markerIconBase = 'in-marker '+ this.iconClasses;
         this.markerIcon = 'fas '+ this.markerIconBase;
-
-        this.faIconPopup = L.bsMarkerAsIcon('observations', null, false );
-        this.faIcon = L.bsMarkerAsIcon('observations', null, false );
-        this.faIcon[0].push( 'fa-lbm-border-color-black ' + iconClasses );
 
         this.maxDelayValueOf = moment.duration(this.options.maxDelay).valueOf();
         this.observations = observations;
@@ -186,13 +182,18 @@ ObservationGroup = group of Locations with the same parameter(-group)
             _this.header[lang] = (_this.name[lang] || _this.name['en']) + ' [' + (primaryUnit.name[lang] ||  primaryUnit.name['en']) + ']';
         });
 
-
+        this.init();
 
 
     };
 
 
     nsObservations.ObservationGroup.prototype = {
+        init: function(){
+            /* Empty here but can be extended in extentions of FCOOObservations */
+        },
+
+
         /*********************************************
         checkAndAdd: Check if the location belong in the group
         *********************************************/
@@ -335,4 +336,4 @@ ObservationGroup = group of Locations with the same parameter(-group)
         },
     };
 
-}(jQuery, L, this.i18next, this.moment, this, document));
+}(jQuery, this.i18next, this.moment, this, document));

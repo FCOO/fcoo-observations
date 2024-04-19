@@ -9,21 +9,12 @@
     Create an internal FCOO packages to read and display observations
 
 ****************************************************************************/
-(function ($, L, i18next, moment, window/*, document, undefined*/) {
+(function ($, i18next, moment, window/*, document, undefined*/) {
 	"use strict";
 
-	window.fcoo = window.fcoo || {};
     var ns = window.fcoo = window.fcoo || {},
-        //nsParameter = ns.parameter = ns.parameter || {},
+       //nsParameter = ns.parameter = ns.parameter || {},
         nsObservations = ns.observations = ns.observations || {};
-
-    //nsObservations.getMapId(mapOrMapIdap) return the unique id for the map
-    nsObservations.getMapId = function(mapOrMapId){
-        if (mapOrMapId)
-            return typeof mapOrMapId == 'string' ? mapOrMapId : ''+mapOrMapId._leaflet_id;
-        else
-            return null;
-    };
 
     nsObservations.observationPeriods = [6, 12, 24]; //= The different hour-periods to display previous observation stat (min, mean, max) over. Must have length = 3
     nsObservations.forecastPeriods    = [6, 12, 24]; //= The different hour-periods to display forecast stat (min, mean, max) over. Must have length = 3
@@ -34,10 +25,6 @@
     */
     nsObservations.observation_minimumPercentValues = 2/3;
     nsObservations.forecast_minimumPercentValues    = 1;    //All forecast needed!
-
-    //Add the color-names to the list of colors for markers and polylines
-    L.BsMarker._lbmAddColorName('observations');
-
 
     /***************************************************************
     FCOOObservations
@@ -54,11 +41,9 @@
             locationFileName        : 'locations.json',
             fileName                : ['observations-sealevel.json','observations-current.json'/*, 'observations-wind.json'*/],
             lastObservationFileName : 'LastObservations_SEALVL.json LastObservations_CURRENT.json',
-
-            geoJSONOptions : {}    //Extra options for the L.GeoJSON-layer
         }, options || {});
 
-        this.maps = {};
+        this.init();
 
         this.ready = false;
 
@@ -104,10 +89,9 @@
         $.each(this.fileNameList, function(index, fileName){
             ns.promiseList.append({
                 fileName: ns.dataFilePath({subDir: _this.options.subDir.observations, fileName: fileName}),
-                resolve : $.proxy(_this._resolve, _this)
+                resolve : _this._resolve.bind(_this)
             });
         });
-
 
         //Read last measurement every 3 min
         var fileNameList = $.isArray(this.options.lastObservationFileName) ? this.options.lastObservationFileName : this.options.lastObservationFileName.split(' ');
@@ -115,20 +99,17 @@
             ns.promiseList.append({
                 fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: fileName}, //_this.options.lastObservationFileName},
                 resolve : $.proxy(_this._resolve_last_measurment, _this),
-                reload  : 3,
+                reload  : 1, //TEST3,
                 promiseOptions: {noCache: true}
             });
         });
-
-
-
-
     };
 
     ns.FCOOObservations.prototype = {
-        _mapId: function(map){
-            return nsObservations.getMapId(map);
+        init: function(){
+            /* Empty here but can be extended in extentions of FCOOObservations */
         },
+
         _resolve : function(data){
             var _this = this;
             data = $.extend(true, {default_station:{}}, data);
@@ -152,6 +133,7 @@
                 nextLocation.observationGroupList.sort(function(ob1, ob2){ return ob1.options.index - ob2.options.index; });
             });
 
+
             this.filesResolved++;
             if (this.filesResolved == this.fileNameList.length){
                 //Update all Locations regarding active station etc.
@@ -159,16 +141,13 @@
                     location._finally();
                 });
 
-                //All data are loaded => initialize all maps and update the geoJSON-data and update any layer added before the data was ready
                 this.ready = true;
-                this._initializeMaps();
-                $.each(this.maps, function(id, options){
-                    if (!options.dataAdded){
-                        options.geoJSONLayer.addData( _this._getGeoJSONData() );
-                        options.dataAdded = true;
-                    }
-                });
+                this.onResolve();
             }
+        },
+
+        onResolve: function(){
+            /* Empty here but can be extended in extentions of FCOOObservations */
         },
 
         /*****************************************************
@@ -202,167 +181,8 @@
                     location.callUpdateObservation = false;
                 }
             });
-        },
-
-        _initializeMaps: function(map){
-            var _this = this,
-                maps = map ? [{map:map}] : this.maps;
-            $.each(maps, function(index, mapObj){
-                var mapId = nsObservations.getMapId(mapObj.map);
-                $.each(_this.observationGroups, function(groupId, observationGroup){
-                    var stateId = groupId+'_'+mapId,
-                        show = _this.state && _this.state[stateId];
-                    observationGroup.toggle(mapObj.map, !!show);
-                });
-            });
-        },
-
-        /**********************************************************
-        show(groupId, mapOrMapId)
-        Show ObservationGroup with id on mapOrMapId
-        **********************************************************/
-        show: function(groupId, mapOrMapId){
-            return this.toggle(groupId, mapOrMapId, true);
-        },
-
-        /**********************************************************
-        hide(groupId, mapOrMapId)
-        Hide ObservationGroup with id on mapOrMapId
-        **********************************************************/
-        hide: function(groupId, mapOrMapId){
-            return this.toggle(groupId, mapOrMapId, false);
-        },
-
-        /**********************************************************
-        toggle(groupId, mapOrMapId, show)
-        Toggle ObservationGroup with id on mapOrMapId
-        Save new state if ObservationGroup is not jet loaded/created
-        **********************************************************/
-        toggle: function(groupId, mapOrMapId, show){
-            var mapId = nsObservations.getMapId(mapOrMapId),
-                stateId = groupId+'_'+mapId;
-
-            this.state = this.state || {};
-            this.state[stateId] = !!show;
-
-            if (this.observationGroups[groupId])
-                this.observationGroups[groupId].toggle(mapOrMapId, show);
-
-            return this;
-        },
-
-
-        /**********************************************************
-        openVisiblePopup(groupId, mapOrMapId)
-        Open popup for all locations visible at the map
-        **********************************************************/
-        openVisiblePopup: function(groupId, mapOrMapId){
-            if (this.observationGroups[groupId])
-                this.observationGroups[groupId].openVisiblePopup(mapOrMapId);
-            return this;
-        },
-
-        /**********************************************************
-        closeVisiblePopup(groupId, mapOrMapId)
-        Close popup for all locations visible at the map
-        **********************************************************/
-        closeVisiblePopup: function(groupId, mapOrMapId){
-            if (this.observationGroups[groupId])
-                this.observationGroups[groupId].closeVisiblePopup(mapOrMapId);
-            return this;
-        },
-
-        /**********************************************************
-        geoJSON return a L.geoJSON layer
-        **********************************************************/
-        geoJSON: function(){
-            var thisOptionsGeoJSONOptions = this.options.geoJSONOptions;
-
-            this.geoJSONOptions =
-                this.geoJSONOptions ||
-                $.extend(true,
-                    thisOptionsGeoJSONOptions,
-                    {
-                        pointToLayer : function(geoJSONPoint/*, latlng*/) {
-                            return geoJSONPoint.properties.createMarker(thisOptionsGeoJSONOptions);
-                        },
-                    }
-                );
-
-            var result = L.geoJSON(null, this.geoJSONOptions);
-
-            result.fcooObservation = this;
-            result.options.onEachFeature = $.proxy(this._geoJSON_onEachFeature, result);
-
-            result.on({
-                add   : $.proxy(this._geoJSON_onAdd,    this),
-                remove: $.proxy(this._geoJSON_onRemove, this)
-            });
-
-            return result;
-        },
-
-        //_geoJSON_onEachFeature: called with this = geoJSONLayer
-        _geoJSON_onEachFeature: function(feature, marker) {
-            var mapId = nsObservations.getMapId(this._map),
-                location = this.fcooObservation.locations[marker.options.locationId];
-
-            location.markers[mapId] = marker;
-            feature.properties.addPopup( mapId, marker );
-        },
-
-        _geoJSON_onAdd: function(event){
-            var geoJSONLayer = event.target,
-                map          = geoJSONLayer._map,
-                mapId        = nsObservations.getMapId(map);
-
-            this.maps[mapId] = {
-                map         : map,
-                $container  : $(map.getContainer()),
-                geoJSONLayer: geoJSONLayer,
-                dataAdded   : this.ready
-            };
-
-            if (this.ready){
-                this._initializeMaps(map);
-                geoJSONLayer.addData( this._getGeoJSONData() );
-            }
-        },
-
-        _geoJSON_onRemove: function(event){
-            //Save selected groups (this.state) and call hide for all observationGroups to close popups and clean up.
-            var state = this.state;
-            this.state = {};
-            var mapId = nsObservations.getMapId(event.target._map);
-            delete this.maps[mapId];
-            $.each(this.observationGroups, function(id, observationGroup){
-                observationGroup.hide(mapId);
-            });
-            this.state = state;
-        },
-
-        _getGeoJSONData: function(){
-            var _this = this;
-            if (!this.ready)
-                return null;
-
-            if (!this.geoJSONData){
-                this.geoJSONData = { type: "FeatureCollection", features: []};
-
-                //Create all locations and add them to the geoJSON-data if they are active and included in a observation-group
-                $.each(this.locations, function(locationId, location){
-                    if (location.active && location.observationGroupList.length)
-                        _this.geoJSONData.features.push({
-                            type      : "Feature",
-                            geometry  : {type: "Point", coordinates: [location.latLng.lng, location.latLng.lat]},
-                            properties: location
-                        });
-                });
-            }
-            return this.geoJSONData;
         }
     };
-
-}(jQuery, L, this.i18next, this.moment, this, document));
+}(jQuery, this.i18next, this.moment, this, document));
 
 
