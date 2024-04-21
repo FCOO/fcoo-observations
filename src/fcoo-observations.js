@@ -99,7 +99,7 @@
             ns.promiseList.append({
                 fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: fileName}, //_this.options.lastObservationFileName},
                 resolve : $.proxy(_this._resolve_last_measurment, _this),
-                reload  : 1, //TEST3,
+                reload  : 3,
                 promiseOptions: {noCache: true}
             });
         });
