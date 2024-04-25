@@ -14,7 +14,7 @@ Location = group of Stations with the same or different paramtre
 
     /*****************************************************
     Location
-    Reprecent a location with one or more 'stations'
+    Represent a location with one or more 'stations'
     *****************************************************/
 
     /*
@@ -49,7 +49,6 @@ Location = group of Stations with the same or different paramtre
         this.name = ns.ajdustLangName(options.name);
 
         this.stationList = [];
-        this.stations = {};
 
         //observationGroups and observationGroupList = the gropup this location belongs to
         this.observationGroups = {};
@@ -69,87 +68,6 @@ Location = group of Stations with the same or different paramtre
             /* Empty here but can be extended in extentions of FCOOObservations */
         },
 
-        /*********************************************
-        getHeader
-        *********************************************/
-        getHeader: function(){
-            return {
-                icon: this.observationGroupList[0].faIconPopup,
-                text: this.name
-            };
-        },
-
-        /*********************************************
-        createSVG
-        *********************************************/
-        createSVG: function(svgOptions){
-//console.log(svgOptions);
-            var _this = svgOptions.marker.options._this,
-                dim   = svgOptions.width,
-                dim2  = Math.floor( dim / 2),
-                dim3  = Math.floor( dim / 3),
-                dim4  = Math.floor( dim / 4),
-                iconOptions, pos;
-//console.log(dim, dim2, dim3, dim4);
-            svgOptions.draw.attr({'shape-rendering': "crispEdges"});
-
-            $.each(_this.observationGroupList, function(index, observationGroup){
-                /*
-                For each observationGroup the location is part of => draw a vertical or horizontal line
-                iconOptions = {
-                    vertical: [BOOLEAN]
-                    position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'
-                              vertical = false: 'top', ' over',        'center', 'below',        or 'bottom'
-                */
-//['left', 'beside-left', 'middle', 'beside-right', 'right'].forEach( (pos) => {
-
-                iconOptions = observationGroup.options.iconOptions;
-//                iconOptions = {position: pos, vertical: observationGroup.options.iconOptions.vertical};
-
-                switch (iconOptions.position){
-                    case 'left'         : case 'top'   :  pos = dim4;        break;
-                    case 'beside-left'  : case 'over'  :  pos = dim3;        break;
-                    case 'middle'       : case 'center':  pos = dim2;        break;
-                    case 'beside-right' : case 'below' :  pos = dim2 + dim4; break;
-                    case 'right'        : case 'bottom':  pos = dim2 + dim3; break;
-                    default                            :  pos = dim2;
-                }
-
-                svgOptions.draw
-                    .line(
-                        iconOptions.vertical ? pos : 0,
-                        iconOptions.vertical ? 0   : pos,
-                        iconOptions.vertical ? pos : dim,
-                        iconOptions.vertical ? dim : pos
-                    )
-                    .stroke({
-                        color: svgOptions.borderColor,
-                        width: 1
-                    })
-                    .addClass('obs-group-marker-'+observationGroup.options.index);
-/*
-if (!iconOptions.vertical)
-                svgOptions.draw
-                    .line(0, pos+1,  dim, pos+1)
-                    .stroke({
-                        color: '#FF0000',
-                        width: 1
-                    })
-                    .addClass('obs-group-marker-'+observationGroup.options.index);
-*/
-//});
-
-
-
-
-
-
-
-
-
-
-            });
-        },
 
         /*********************************************
         appendStations
@@ -203,7 +121,6 @@ if (!iconOptions.vertical)
                 if (newStation.options.active)
                     hasActiveStation = true;
                 _this.stationList.push(newStation);
-                _this.stations[newStation.id] = newStation;
             });
 
             if (this.active && !hasActiveStation)

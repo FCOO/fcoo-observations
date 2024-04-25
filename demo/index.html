@@ -44,30 +44,40 @@
  </tr>
  <tr style="vertical-align:top">
     <td>
-        <button id="map0_sealevel"  onClick="toggle(0, 'SEALEVEL')">Toggle Sea Level</button>
-        <!-- <button id="map0_wind"      onClick="toggle(0, 'WIND')">Toggle Wind</button> -->
-        <button id="map0_current"   onClick="toggle(0, 'CURRENT')">Toggle Current</button>
+        <button id="map0_sealevel"                  onClick="toggle(0, 'SEALEVEL')">Toggle Sea Level</button>
+<!--    <button id="map0_wind"                      onClick="toggle(0, 'WIND')">Toggle Wind</button> -->
+        <button id="map0_current_surface"           onClick="toggle(0, 'CURRENT_SURFACE')">Toggle Current Surface</button>
+        <button id="map0_current_seafloor"          onClick="toggle(0, 'CURRENT_SEAFLOOR')">Toggle Current Seafloor</button>
         <br>
-        <button id="map0_sealevel_popup" onClick="openPopup(0, 'SEALEVEL')">Open Sea Level</button>
-        <!-- <button id="map0_wind_popup"     onClick="openPopup(0, 'WIND')">Open Wind</button> -->
-        <button id="map0_current_popup"  onClick="openPopup(0, 'CURRENT')">Open Current</button>
+
+        <button id="map0_sealevel_open"             onClick="openPopup(0, 'SEALEVEL')">Open Sea Level</button>
+<!--    <button id="map0_wind_open"                 onClick="openPopup(0, 'WIND')">Open Wind</button> -->
+        <button id="map0_current_surface_open"      onClick="openPopup(0, 'CURRENT_SURFACE')">Open Current Surface</button>
+        <button id="map0_current_seafloor_open"     onClick="openPopup(0, 'CURRENT_SEAFLOOR')">Open Current Seafloor</button>
         <br>
-        <button id="map0_sealevel_popup" onClick="closePopup(0, 'SEALEVEL')">Close Sea Level</button>
-        <!-- <button id="map0_wind_popup"     onClick="closePopup(0, 'WIND')">Close Wind</button> -->
-        <button id="map0_current_popup"  onClick="closePopup(0, 'CURRENT')">Close Current</button>
+        
+        <button id="map0_sealevel_close"            onClick="closePopup(0, 'SEALEVEL')">Close Sea Level</button>
+<!--    <button id="map0_wind_close"                onClick="closePopup(0, 'WIND')">Close Wind</button> -->
+        <button id="map0_current_surface_close"     onClick="closePopup(0, 'CURRENT_SURFACE')">Close Current Surface</button>
+        <button id="map0_current_seafloor_close"    onClick="closePopup(0, 'CURRENT_SEAFLOOR')">Close Current Seafloor</button>
     </td>
     <td>
-        <button id="map1_sealevel"  onClick="toggle(1, 'SEALEVEL')">Toggle Sea Level</button>
-        <!-- <button id="map1_wind"      onClick="toggle(1, 'WIND')">Toggle Wind</button> -->
-        <button id="map1_current"   onClick="toggle(1, 'CURRENT')">Toggle Current</button>
+        <button id="map1_sealevel"                  onClick="toggle(1, 'SEALEVEL')">Toggle Sea Level</button>
+<!--    <button id="map1_wind"                      onClick="toggle(1, 'WIND')">Toggle Wind</button> -->
+        <button id="map1_current_surface"           onClick="toggle(1, 'CURRENT_SURFACE')">Toggle Current Surface</button>
+        <button id="map1_current_seafloor"          onClick="toggle(1, 'CURRENT_SEAFLOOR')">Toggle Current Seafloor</button>
         <br>
-        <button id="map0_sealevel_popup" onClick="openPopup(1, 'SEALEVEL')">Open Sea Level</button>
-        <!-- <button id="map0_wind_popup"     onClick="openPopup(1, 'WIND')">Open Wind</button> -->
-        <button id="map0_current_popup"  onClick="openPopup(1, 'CURRENT')">Open Current</button>
+
+        <button id="map1_sealevel_open"             onClick="openPopup(1, 'SEALEVEL')">Open Sea Level</button>
+<!--    <button id="map1_wind_open"                 onClick="openPopup(1, 'WIND')">Open Wind</button> -->
+        <button id="map1_current_surface_open"      onClick="openPopup(1, 'CURRENT_SURFACE')">Open Current Surface</button>
+        <button id="map1_current_seafloor_open"     onClick="openPopup(1, 'CURRENT_SEAFLOOR')">Open Current Seafloor</button>
         <br>
-        <button id="map0_sealevel_popup" onClick="closePopup(1, 'SEALEVEL')">Close Sea Level</button>
-        <!-- <button id="map0_wind_popup"     onClick="closePopup(1, 'WIND')">Close Wind</button> -->
-        <button id="map0_current_popup"  onClick="closePopup(1, 'CURRENT')">Close Current</button>
+        
+        <button id="map1_sealevel_close"            onClick="closePopup(1, 'SEALEVEL')">Close Sea Level</button>
+<!--    <button id="map1_wind_close"                onClick="closePopup(1, 'WIND')">Close Wind</button> -->
+        <button id="map1_current_surface_close"     onClick="closePopup(1, 'CURRENT_SURFACE')">Close Current Surface</button>
+        <button id="map1_current_seafloor_close"    onClick="closePopup(1, 'CURRENT_SEAFLOOR')">Close Current Seafloor</button>
     </td>
  </tr>
  
@@ -77,12 +87,14 @@
         window.fcoo.DEMO_VERSION = true;
 
 
+
 //HER        window.fcoo.LOCAL_DATA = window.fcoo.DEMO_VERSION;
 
         window.bsIsTouch = false;
         window.bsIsTouch = (window.location.search =='?touch');
-
-    console.log(window.location.search);
+        
+      
+        
     </script>
 
 
@@ -132,7 +144,7 @@
 
     var fcooObservation, maps = [];
 
-    function toggle(mapIndex, groupId){
+    function toggle(mapIndex, groupId){ 
         fcooObservation.observationGroups[groupId].toggle(maps[mapIndex]);
     }
 
@@ -167,9 +179,13 @@
                 'observations-sealevel.json',
                 // 'observations-wind_TEST.json', 
 
-                'observations-current.json'
+                'observations-current-surface.json?id=12345',
+                'observations-current-seafloor.json?id=12345'
             ],
-            lastObservationFileName : ['LastObservations_SEALVL.json', 'LastObservations_CURRENT.json'],
+            lastObservationFileName : ['LastObservations_SEALVL.json', 
+                'LastObservations_CURRENT.json', 
+                //'LastObservations_CURRENT_SURFACE.json', 'LastObservations_CURRENT_SEAFLOOR.json'
+            ],
             geoJSONOptions: {
                 pane: 'observations'
             }
@@ -180,21 +196,26 @@
         fcooObservation.show('SEALEVEL', maps[0]);
 
         var geoJSON1 = fcooObservation.geoJSON().addTo(maps[1]);
-        fcooObservation.show('CURRENT', maps[1]);
+        fcooObservation.show('CURRENT_SURFACE', maps[1]);
+        fcooObservation.show('CURRENT_SEAFLOOR', maps[1]);
         
         fcoo.promiseList.options.finally = function(){
             fcoo.globalSetting.load(null, function(){
-                i18next.changeLanguage('da');
+                i18next.changeLanguage('en');
             });
 
-        var obsG = fcooObservation.observationGroups.CURRENT; 
+            var obsG = fcooObservation.observationGroups.CURRENT_SURFACE; 
+            $.bsButton({
+                iconClass: 'obs-group-icon-container',
+                icon: obsG.faIcon,
+                text: 'Surface'
+            }).appendTo('body');            
 
-
-        $.bsButton({
-            iconClass: 'obs-group-icon-container',
-            icon: obsG.faIcon,
-            text: 'Her'
-        }).appendTo('body');            
+            $.bsButton({
+                iconClass: 'obs-group-icon-container',
+                icon: fcooObservation.observationGroups.CURRENT_SEAFLOOR.faIcon,
+                text: 'Seafloor'
+            }).appendTo('body');            
             
             
         };

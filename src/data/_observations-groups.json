@@ -3,7 +3,7 @@
         "id"            : "",
         "name"          : "",
         "shortName"     : "",
-        "iconOptions"   : "See src/observation-group.js for details.  iconOptions = {vertical: [BOOLEAN], position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'                       vertical = false: 'top',  'over', 'center', 'below', or 'bottom'",
+        "iconOptions"   : "See src/7_fcoo-observations-leaflet.js for details.  iconOptions = {position: BESIDE-LEFT, LEFT, CENTER, RIGHT, BESIDE-RIGHT (vertical lines), or AIR, SURFACE, SUBSURFACE, MIDDLE, BOTTOM (NEAR-BOTTOM) (horizintal lines)",
         "parameterId"   : "Id for the parameter(s)",
         "formatUnit"    : "Unit-id for the unit used to display values in",
 
@@ -20,12 +20,9 @@
     },
 
     "groupList": [{
-        "id"                    : "SEALEVEL",
-        "name"                  : {"da": "Vandstand", "en": "Sea Level"},
-        "iconOptions": {
-            "vertical": true,
-            "position": "middle"
-        },
+        "id"                : "SEALEVEL",
+        "name"              : {"da": "Vandstand", "en": "Sea Level"},
+        "iconOptions"       : "CENTER",
         "parameterId"       : "sea_surface_height_above_mean_sea_level",
         "formatterMethod"   : "formatterSeaLevel",
         "allNeeded"         : true,
@@ -50,6 +47,8 @@
         "inactive"          : true,  
         "name"              : {"da": "Vind", "en": "Wind"},
         "iconOptions": {
+            "position": "AIR",
+            "length"  : "2-3"
         },
         "parameterId"        : "wind wind_speed_of_gust",
         "directionFrom"      : true,
@@ -69,11 +68,10 @@
         "id"            : "CURRENT",
         "name"          : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
         "shortName"     : {"da": "Strøm", "en": "Current"},
-        "iconOptions": {
-            "vertical": false,
-            "position": "below"
-        },
-
+        "iconOptions"   : {
+            "position": "SUBSURFACE",
+            "length"  : "2-3"
+        },            
         "parameterId"       : "surface_sea_water_velocity",
         "formatUnit"        : "nm h-1",
 
@@ -93,7 +91,7 @@
         "id"                : "HYDRO",
         "inactive"          : true,
         "name"              : {"da": "MANGLER - Temp og salt mv.", "en": "TODO"},
-        "icon"              : "fas fa-horizontal-rule fa-lbm-color-seagreen obs-group-icon obs-group-icon-bottom",
+        "iconOptions"       : "SEA",
         "parameterId"       : "",
         "formatterMethod"   : "TODO",
         "allNeeded"         : false

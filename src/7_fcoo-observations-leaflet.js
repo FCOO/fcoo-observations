@@ -236,10 +236,60 @@
         init: function( _init ){ return function(){
             _init.apply(this, arguments);
 
-            //Create faIconPopup:[STRING] and faIcon []STRING to be used to create marker and icon in eq. bsModal
+            /*
+            Adjust this.options.iconOptions
+            iconOptions = STRING, or
+            iconOptions = {vertical: BOOLEAN, position: NUMBER (1-14) or STRING}
+
+            The position as STING can have the following values
+            BESIDE-LEFT, LEFT, CENTER, RIGHT, BESIDE-RIGHT (vertical lines), or
+            AIR, SURFACE, SUBSURFACE, MIDDLE, SEAFLOOR (horizintal lines)
+            */
+            if (typeof this.options.iconOptions == 'string')
+                this.options.iconOptions = {position: this.options.iconOptions};
+
+            let iconOpt = this.options.iconOptions,
+                pos = iconOpt.position.toUpperCase(),
+                numPos = 7;
+
+            if (typeof iconOpt.position == 'string'){
+                switch (pos){
+                    case 'AIR'          : numPos =  2; break;
+                    case 'SURFACE'      : numPos =  5; break;
+                    case 'SUBSURFACE'   : numPos =  8; break;
+                    case 'MIDDLE'       : numPos = 10; break;
+                    case 'SEAFLOOR'     : numPos = 12; break;
+
+                    case 'BESIDE-LEFT'  : numPos =  2; break;
+                    case 'LEFT'         : numPos =  4; break;
+                    case 'CENTER'       : numPos =  7; break;
+                    case 'RIGHT'        : numPos = 10; break;
+                    case 'BESIDE-RIGHT' : numPos = 12; break;
+
+                    default             : numPos =  5;
+                }
+                iconOpt.position = numPos;
+            }
+
+            iconOpt.vertical = ['BESIDE-LEFT', 'LEFT', 'CENTER', 'RIGHT', 'BESIDE-RIGHT'].includes(pos);
+
+            //Create faIconPopup:[STRING]= icon in eq. bsModal or popups
             this.faIconPopup = L.bsMarkerAsIcon('observations', null, false );
+
+            //Create faIcon:[STRING]: A extended icon similar to the icon used as marker
             this.faIcon = L.bsMarkerAsIcon('observations', null, false );
-            this.faIcon[0].push( 'fa-lbm-border-color-black ' + this.iconClasses );
+
+            //Remove the frame icon temporally
+            let frameIcon = this.faIcon[0].pop();
+
+            //Add a darker color representing the ground or sea
+            this.faIcon[0].push('fa-obs-line fa-obs-line-horizontal fa-obs-line-surface');
+
+
+            this.faIcon[0].push('fa-obs-line fa-obs-line-'+(iconOpt.vertical ? 'vertical' : 'horizontal') + ' fa-obs-line-pos-'+numPos + (iconOpt.length ? ' fa-obs-line-'+iconOpt.length : ''));
+
+            //Add the frame icon again and makes it on top
+            this.faIcon[0].push(frameIcon + '  position-relative');
 
         }; }(nsObservations.ObservationGroup.prototype.init),
 
@@ -251,7 +301,7 @@
     ************************************************************************************
     ************************************************************************************/
     const bsMarkerOptions = {
-            size     : 'small',
+            size     : 16, //Changed from 'small' to have same size as icon
             colorName: 'observations',
             round    : false,
 
@@ -293,7 +343,6 @@
             _init.apply(this, arguments);
 
             this.latLng = this.options.position ? L.latLng( this.options.position ) : null;
-
 
             /*
             modalElements = {
@@ -344,6 +393,69 @@
                 });
             });
             return result;
+        },
+
+        /*********************************************
+        getHeader
+        *********************************************/
+        getHeader: function(){
+            return {
+                icon: this.observationGroupList[0].faIconPopup,
+                text: this.name
+            };
+        },
+
+        /*********************************************
+        createSVG
+        *********************************************/
+        createSVG: function(svgOptions){
+            var _this = svgOptions.marker.options._this,
+                dim   = svgOptions.width + 2; //svgOptions.width is inner-width
+
+            svgOptions.draw.attr({'shape-rendering': "crispEdges"});
+
+            //Draw darker background to represent below surface
+            svgOptions.draw.line(0, 10, 16, 10).stroke({color: '#cd9c0f', width: 9});   //Color = hard copy from css for .fa-obs-line-surface
+
+            $.each(_this.observationGroupList, function(index, observationGroup){
+                /*
+                For each observationGroup the location is part of => draw a vertical or horizontal line
+                iconOpt = {
+                    vertical: [BOOLEAN]
+                    position: NUMBER Between 1 and 14
+                    vertical: BOOLEAN
+                    length  : STRING, "1-2", 2-2", "1-3", "2-3", or "3-3"
+                */
+
+                let iconOpt  = observationGroup.options.iconOptions,
+                    pos      = iconOpt.position,
+                    lgd      = iconOpt.length,
+                    vertical = iconOpt.vertical,
+                    start    = 0,
+                    end      = dim;
+
+                if (lgd)
+                    switch (lgd){
+                        case '1-2':                                 end = (dim / 2)  - 1;           break;
+                        case '2-2': start = (dim/2)  - 1;                                           break;
+                        case '1-3':                                 end = Math.floor(dim / 3);      break;
+                        case '2-3': start = Math.floor(dim/3)-1;    end = Math.floor(2 * dim / 3);  break;
+                        case '3-3': start = Math.floor(2*dim/3)-1;                                  break;
+                    }
+
+                svgOptions.draw
+                    .line(
+                        vertical ? pos   : start,
+                        vertical ? start : pos,
+                        vertical ? pos   : end,
+                        vertical ? end   : pos
+                    )
+                    .stroke({
+                        color: svgOptions.borderColor,
+                        width: 2
+                    })
+                    .addClass('obs-group-marker-'+observationGroup.options.index);
+            });
         },
 
         /*********************************************
@@ -415,7 +527,9 @@
                 return;
 
             //Update stat for previous observations
-            this._updateAny$elemetList('$observationStatistics', function(station, index){ return station.formatPeriodStat(index, false); } );
+            this._updateAny$elemetList('$observationStatistics', function(station, index){
+                return station.formatPeriodStat(index, false);
+            } );
         },
 
 

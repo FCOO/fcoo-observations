@@ -102,93 +102,79 @@ obs-group-header used for the name of the observation-group. Is hidden when only
 }
 
 /*
-obs-group-icon used to style the different "lines" inside the marker
-on a map representing the different ObservationGroup that the location
-is belonging to
-Each ObservationGroup has an index N and the "lines" representing the group
-get class="obs-group-icon obs-group-icon-N" plus the fa-classes to create the icon
+fa-obs-line and fa-obs-line-XX are used to create fa-icons for each ObservationGroup
 */
-.leaflet-container {
-    .obs-group-icon.in-marker {
-        visibility: hidden;
-    }
-    @for $index from 0 to 10 {
-        &.obs-group-#{$index} .obs-group-icon.in-marker.obs-group-#{$index} {
-            visibility: visible;
-        }
-    }
+i.fa-font-size-1rem {
+    font-size: 1rem !important;
 }
-
-/*****************************************************
-Adjustments of vertical and horizontal lines in
-icons for different observation-groups
-The factor 11/14 is from the inner-height of the
-square icon = 11px when font-size = 14px
-From src/location-1.js the following placement is used
-when dim = inner height of the icon and pos = from top
-Position =
-'left'         or 'top'   : pos = dim/4
-'beside-left'  or 'over'  : pos = dim/3
-'middle'       or 'center': pos = dim/2
-'beside-right' or 'below' : pos = dim/2 + dim/4
-'right'        or 'bottom': pos = dim/2 + dim/3
-
-In css the linie (fa-minus) is already at middle/center =>
-all pos in scc = pos - dim/2
-The calc(... - 1px) is fine fine tuning due to the non-symetric shape of the icon
-*****************************************************/
-$factor: 11/14;
-$dim4  : (1em / 4) * $factor;
-$dim3  : (1em / 3) * $factor;
-$dim2  : (1em / 2) * $factor;
-
-$top1: (1em / 12) *  $factor;
-
 
 .obs-group-icon-container {
     font-size: 16px;
 }
 
-.obs-group-icon        {
-    position  : relative;
-//    font-size: 16px; //calc( 10em/10);
+.fa-obs-line {
+    --fa-pos       : 1;
+    --fa-line-width: 2px;
+    --fa-line-color: black;
+    --fa-line-border: var(--fa-line-width) solid var(--fa-line-color);
+
+    --start: 1px;
+    --end  : 1px;
+
+
+    width   : 1em;
+    height  : 1em;
+    position: relative;
+    top     : 2px;
+
+
+    &::before {
+        content: '';
+        position: absolute;
+        left  : 1px;
+        right : 1px;
+        top   : 1px;
+        bottom: 1px;
+        box-sizing: border-box;
+    }
+
+
+    &.fa-obs-line-horizontal::before {
+        border-top  : var(--fa-line-border);
+        top         : calc( var(--fa-pos) * 1px);
+        left        : var(--start);
+        right       : var(--end);
+
+    }
+
+    &.fa-obs-line-vertical::before {
+        border-left : var(--fa-line-border);
+        left        : calc( var(--fa-pos) * 1px);
+        top         : var(--start);
+        bottom      : var(--end);
+    }
+
+    @for $index from 1 to 15 {
+        &.fa-obs-line-pos-#{$index}{
+            --fa-pos: #{$index};
+        }
+    }
+
+
+
+    //Different lengths. a-b = the Ath part of a line divided in B
+    &.fa-obs-line-1-2 { --end  : 8px; }
+    &.fa-obs-line-2-2 { --start: 8px; }
+
+    &.fa-obs-line-1-3 { --end  : 10px; }
+    &.fa-obs-line-2-3 { --start: 5px; --end: 5px}
+    &.fa-obs-line-3-3 { --start: 10px; }
+
+
+    &.fa-obs-line-surface {
+        --fa-pos       : 6;
+        --fa-line-width: 9px;
+        --fa-line-color: #{darken(#EFB920, 10%)};
+
+    }
 }
-
-.obs-group-icon-top          { top: calc( #{$dim4 - $dim2} - 1px);  }
-.obs-group-icon-over         { top: $dim3 - $dim2;                  }
-.obs-group-icon-center       { top: 0;                              }
-.obs-group-icon-below        { top: calc( #{$dim4} - 1px);          }
-.obs-group-icon-bottom       { top: $dim3;                          }
-
-.obs-group-icon-TEST       { top: $top1;                          }
-
-
-
-
-
-.obs-group-icon-left         { left: calc( #{$dim4 - $dim2} - 1px); }
-.obs-group-icon-beside-left  { left: $dim3 - $dim2;                 }
-.obs-group-icon-middle       { left: 0;                             }
-.obs-group-icon-beside-right { left: calc(#{$dim4} - 1px);          }
-.obs-group-icon-right        { left: $dim3;                         }
-
-
-
-
-/*
-.obs-group-icon-top          { top: -0.30em; z-index: 10; }
-.obs-group-icon-over         { top: -0.20em; }
-
-.obs-group-icon-center       { top:  0;      z-index:  1; }
-
-.obs-group-icon-below        { top:  0.25em; }
-.obs-group-icon-bottom       { top:  0.30em; z-index: 10; }
-
-.obs-group-icon-left         { left: -0.30em; z-index: 10; }
-.obs-group-icon-beside-left  { left: -0.20em; }
-
-.obs-group-icon-middle       { top:  0;      z-index:  1; }
-
-.obs-group-icon-beside-right { top:  0.25em; }
-.obs-group-icon-right        { left:  0.30em; z-index: 10; }
-*/

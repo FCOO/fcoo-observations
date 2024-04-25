@@ -509,9 +509,13 @@ Only one station pro Location is active within the same ObservationGroup
                 features = geoJSON ? geoJSON.features : null;
 
             //Load new data
-            $.each(features, function(index, feature){
+            features.forEach((feature) => {
                 var properties  = feature.properties,
                     parameterId = properties.standard_name;
+
+                //If the Station do not have the parameter => do not update
+                if (!_this.parameters[parameterId])
+                    return;
 
                 //Update meta-data
                 metaData[parameterId] = $.extend(metaData[parameterId] || {}, {
@@ -529,7 +533,7 @@ Only one station pro Location is active within the same ObservationGroup
                         newDataSet[parameterId] = value;
 
                         //Add parameterId, value, timestamp to
-                        $.each(dataList, function(index, dataSet){
+                        dataList.forEach((dataSet) => {
                             if (dataSet.timestamp == newDataSet.timestamp){
                                 dataSet = $.extend(dataSet, newDataSet);
                                 found = true;
@@ -551,7 +555,7 @@ Only one station pro Location is active within the same ObservationGroup
 
             //If the station contains vector-parameter => calc speed, direction, eastware and northware for all dataSet
             if (this.vectorParameterList)
-                $.each(this.vectorParameterList, function(index1, vectorParameter){
+                this.vectorParameterList.forEach((vectorParameter) => {
                     var speedId        = vectorParameter.speed_direction[0].id,
                         directionId    = vectorParameter.speed_direction[1].id,
                         eastwardId     = vectorParameter.eastward_northward ? vectorParameter.eastward_northward[0].id : null,

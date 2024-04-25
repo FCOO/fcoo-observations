@@ -23,107 +23,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
     "Wind" using wind-speed, wind-direction ad gust-speed to form something a la "12 (14) m/s NNW"
     "SEALEVEL" forms sea-level as "1.3 m"
     *****************************************************/
-    nsObservations.observationGroupData = [
-        {
-            "id"                    : "SEALEVEL",
-            "name"                  : {"da": "Vandstand", "en": "Sea Level"},
-            "iconOptions": {
-                "vertical": true,
-                "position": "middle"
-            },
-
-
-            "parameterId"           : "sea_surface_height_above_mean_sea_level",
-            "formatterMethod"       : "formatterSeaLevel",
-            "allNeeded"             : true,
-
-            "maxDelay"              : "PT1H",   //Max delay of latest measurement before it is not shown as "Last Measurement"
-            "maxGap"                : 60,       //Minutes. Max gap between points before no line is drawn.
-            "historyPeriod"         : "PT54H",  //Length of historical period
-
-            "formatUnit"            : "cm",
-            "minRange"              : 80,   //Min range on y-axis. Same as formatUnit or parameter default unit
-
-        },
-/*
-        {
-            "id"                    : "METEOGRAM",
-            "name"                  : {"da": "Meteogram", "en": "Meteogram"},
-            "iconOptions": {
-            ...
-            },
-            "parameterId"           : "",
-            "allNeeded"             : false
-        },
-*/
-/*
-        {
-            "id"                    : "WIND",
-            "name"                  : {"da": "Vind", "en": "Wind"},
-            "iconOptions": {
-            ...
-            },
-            "parameterId"           : "wind wind_speed_of_gust",
-            "directionFrom"         : true,
-            "formatterMethod"       : "formatterVectorWind",
-            "formatterStatMethod"   : "formatterStatVectorWind",
-            "allNeeded"             : false
-        },
-*/
-
-/*
-        {
-            "id"                    : "WAVE",
-            "iconOptions": {
-            ...
-            },
-            "name"                  : {"da": "Bølger", "en": "Waves"},
-            "parameterId"           : "",
-            "formatterMethod"       : "formatterWave",
-            "allNeeded"             : false
-        },
-*/
-
-//*
-        {
-            "id"                    : "CURRENT",
-            "name"                  : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
-            "shortName"             : {"da": "Strøm", "en": "Current"},
-            "iconOptions": {
-                "vertical": false,
-                "position": "below"
-            },
-
-            "parameterId"           : "surface_sea_water_velocity",
-            "formatUnit"            : "nm h-1",
-
-            "formatterMethod"       : "formatterVectorDefault",
-            "formatterStatMethod"   : "formatterStatVectorDefault",
-            "allNeeded"             : true,
-
-            "maxDelay"              : "PT1H15M",//Max delay of latest measurement before it is not shown as "Last Measurement"
-            "maxGap"                : 60,       //Minutes. Max gap between points before no line is drawn.
-            "historyPeriod"         : "PT54H",  //Length of historical period
-
-            "minRange"              : 1, //Min range on y-axis. Same as formatUnit or parameter default unit
-
-            "arrow"                 : "far-long-arrow-alt-up",  //Previuos = "fal-long-arrow-up"
-            "arrowDim"              : 20                        //Previuos = 16
-
-        },
-//*/
-/*
-        {
-            "id"                    : "HYDRO",
-            "name"                  : {"da": "MANGLER - Temp og salt mv.", "en": "TODO"},
-            "icon"                  : "fas fa-horizontal-rule fa-lbm-color-seagreen obs-group-icon obs-group-icon-bottom",
-            "parameterId"           : "",
-            "formatterMethod"       : "TODO",
-            "allNeeded"             : false
-        }
-//*/
-    ];
-
     nsObservations.ObservationGroup = function(options, observations){
         var _this = this;
         this.options = $.extend(true, {}, {
@@ -137,20 +36,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
         this.id = options.id;
         this.name = options.name;
         this.shortName = options.shortName || this.name;
-
-
-        /*
-        Create markerIcon:[STRING]
-        iconOptions = {
-            vertical: [BOOLEAN]
-            position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'
-                      vertical = false: 'top',  'over',        'center', 'below',        or 'bottom'
-        */
-
-        this.iconClasses = 'far fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
-
-        this.markerIconBase = 'in-marker '+ this.iconClasses;
-        this.markerIcon  = 'fas '+ this.markerIconBase;
 
         this.maxDelayValueOf = moment.duration(this.options.maxDelay).valueOf();
         this.observations = observations;
@@ -286,7 +171,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
             $.each(this.locations, function(id, location){
                 if (location.popups[mapId] && !show && !location.isVisible(mapId)){
                     location.popups[mapId]._pinned = false;
-                    location.popups[mapId]._close();
+                    //location.popups[mapId]._close();
+                    location.popups[mapId].close();
                 }
             });
 

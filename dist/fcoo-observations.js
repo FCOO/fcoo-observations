@@ -32,12 +32,12 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "3.11.2",
+			VERSION         : "4.1.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
             },
-            groupFileName           : 'observations-groups.json', //Not used at the moment
+            groupFileName           : 'observations-groups.json',
             locationFileName        : 'locations.json',
             fileName                : ['observations-sealevel.json','observations-current.json'/*, 'observations-wind.json'*/],
             lastObservationFileName : 'LastObservations_SEALVL.json LastObservations_CURRENT.json',
@@ -52,8 +52,7 @@
         this.observationGroups = {};
 
         ns.promiseList.append({
-            fileName: 'http://localhost/fcoo-observations/src/data/_observations-groups.json',
-            //fileName: ns.dataFilePath({subDir: this.options.subDir.observations, fileName: this.options.groupFileName}),
+            fileName: ns.dataFilePath({subDir: this.options.subDir.observations, fileName: this.options.groupFileName}),
             resolve : function(data){
                 data.groupList.forEach( (options) => {
                     if (!options.inactive){
@@ -82,6 +81,8 @@
             }
         });
 
+
+        //Reads the files with the setup for the meassurements stations
         this.fileNameList = this.options.fileName;
         if (typeof this.fileNameList == 'string')
             this.fileNameList = this.fileNameList.split(' ');
@@ -97,15 +98,30 @@
             });
         });
 
+
         //Read last measurement every 3 min
-        var fileNameList = $.isArray(this.options.lastObservationFileName) ? this.options.lastObservationFileName : this.options.lastObservationFileName.split(' ');
-        $.each(fileNameList, function(index, fileName){
-            ns.promiseList.append({
-                fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: fileName}, //_this.options.lastObservationFileName},
-                resolve : $.proxy(_this._resolve_last_measurment, _this),
-                reload  : 3,
-                promiseOptions: {noCache: true}
-            });
+        //Only in test-mode window.intervals.options.durationUnit = 'seconds';
+        ns.promiseList.append({
+            data: {},
+            resolve : function(/*data*/){
+                let fileNameList = $.isArray(_this.options.lastObservationFileName) ? _this.options.lastObservationFileName : _this.options.lastObservationFileName.split(' '),
+                    resolve      = _this._resolve_last_measurment.bind(_this),
+                    reject       = _this._reject_last_measurment.bind(_this);
+
+                $.each(fileNameList, function(index, fileName){
+                   window.intervals.addInterval({
+                        duration        : 3,
+                        fileName        : {mainDir: true, subDir: _this.options.subDir.observations, fileName: fileName},
+                        resolve         : resolve,
+                        reject          : reject,
+
+                        useDefaultErrorHandler: false,
+                        retries         : 3,
+                        retryDelay      : 15*1000,
+                        promiseOptions  : {noCache: true}
+                    })
+                });
+            }
         });
     };
 
@@ -171,8 +187,8 @@
             //Load each geoJSON "file" into station
             $.each(stationGeoJSONs, function(findStationId, geoJSON){
                 $.each(_this.locations, function(locationId, location){
-                    $.each(location.stations, function(stationId, station){
-                        if (stationId == findStationId){
+                    location.stationList.forEach((station) => {
+                        if (station.id == findStationId){
                             station._resolveGeoJSON(geoJSON, false);
                             location.callUpdateObservation = true;
                         }
@@ -185,6 +201,14 @@
                     location.callUpdateObservation = false;
                 }
             });
+        },
+
+        /*****************************************************
+        _reject_last_measurment
+        *****************************************************/
+        _reject_last_measurment: function(){
+            //Update observations to hide last measurements if they get to old
+            this.locationList.forEach( (location) => { location.updateObservation(); });
         }
     };
 }(jQuery, this.i18next, this.moment, this, document));
@@ -208,7 +232,7 @@ Location = group of Stations with the same or different paramtre
 
     /*****************************************************
     Location
-    Reprecent a location with one or more 'stations'
+    Represent a location with one or more 'stations'
     *****************************************************/
 
     /*
@@ -243,7 +267,6 @@ Location = group of Stations with the same or different paramtre
         this.name = ns.ajdustLangName(options.name);
 
         this.stationList = [];
-        this.stations = {};
 
         //observationGroups and observationGroupList = the gropup this location belongs to
         this.observationGroups = {};
@@ -263,87 +286,6 @@ Location = group of Stations with the same or different paramtre
             /* Empty here but can be extended in extentions of FCOOObservations */
         },
 
-        /*********************************************
-        getHeader
-        *********************************************/
-        getHeader: function(){
-            return {
-                icon: this.observationGroupList[0].faIconPopup,
-                text: this.name
-            };
-        },
-
-        /*********************************************
-        createSVG
-        *********************************************/
-        createSVG: function(svgOptions){
-//console.log(svgOptions);
-            var _this = svgOptions.marker.options._this,
-                dim   = svgOptions.width,
-                dim2  = Math.floor( dim / 2),
-                dim3  = Math.floor( dim / 3),
-                dim4  = Math.floor( dim / 4),
-                iconOptions, pos;
-//console.log(dim, dim2, dim3, dim4);
-            svgOptions.draw.attr({'shape-rendering': "crispEdges"});
-
-            $.each(_this.observationGroupList, function(index, observationGroup){
-                /*
-                For each observationGroup the location is part of => draw a vertical or horizontal line
-                iconOptions = {
-                    vertical: [BOOLEAN]
-                    position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'
-                              vertical = false: 'top', ' over',        'center', 'below',        or 'bottom'
-                */
-//['left', 'beside-left', 'middle', 'beside-right', 'right'].forEach( (pos) => {
-
-                iconOptions = observationGroup.options.iconOptions;
-//                iconOptions = {position: pos, vertical: observationGroup.options.iconOptions.vertical};
-
-                switch (iconOptions.position){
-                    case 'left'         : case 'top'   :  pos = dim4;        break;
-                    case 'beside-left'  : case 'over'  :  pos = dim3;        break;
-                    case 'middle'       : case 'center':  pos = dim2;        break;
-                    case 'beside-right' : case 'below' :  pos = dim2 + dim4; break;
-                    case 'right'        : case 'bottom':  pos = dim2 + dim3; break;
-                    default                            :  pos = dim2;
-                }
-
-                svgOptions.draw
-                    .line(
-                        iconOptions.vertical ? pos : 0,
-                        iconOptions.vertical ? 0   : pos,
-                        iconOptions.vertical ? pos : dim,
-                        iconOptions.vertical ? dim : pos
-                    )
-                    .stroke({
-                        color: svgOptions.borderColor,
-                        width: 1
-                    })
-                    .addClass('obs-group-marker-'+observationGroup.options.index);
-/*
-if (!iconOptions.vertical)
-                svgOptions.draw
-                    .line(0, pos+1,  dim, pos+1)
-                    .stroke({
-                        color: '#FF0000',
-                        width: 1
-                    })
-                    .addClass('obs-group-marker-'+observationGroup.options.index);
-*/
-//});
-
-
-
-
-
-
-
-
-
-
-            });
-        },
 
         /*********************************************
         appendStations
@@ -397,7 +339,6 @@ if (!iconOptions.vertical)
                 if (newStation.options.active)
                     hasActiveStation = true;
                 _this.stationList.push(newStation);
-                _this.stations[newStation.id] = newStation;
             });
 
             if (this.active && !hasActiveStation)
@@ -727,107 +668,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
     "Wind" using wind-speed, wind-direction ad gust-speed to form something a la "12 (14) m/s NNW"
     "SEALEVEL" forms sea-level as "1.3 m"
     *****************************************************/
-    nsObservations.observationGroupData = [
-        {
-            "id"                    : "SEALEVEL",
-            "name"                  : {"da": "Vandstand", "en": "Sea Level"},
-            "iconOptions": {
-                "vertical": true,
-                "position": "middle"
-            },
-
-
-            "parameterId"           : "sea_surface_height_above_mean_sea_level",
-            "formatterMethod"       : "formatterSeaLevel",
-            "allNeeded"             : true,
-
-            "maxDelay"              : "PT1H",   //Max delay of latest measurement before it is not shown as "Last Measurement"
-            "maxGap"                : 60,       //Minutes. Max gap between points before no line is drawn.
-            "historyPeriod"         : "PT54H",  //Length of historical period
-
-            "formatUnit"            : "cm",
-            "minRange"              : 80,   //Min range on y-axis. Same as formatUnit or parameter default unit
-
-        },
-/*
-        {
-            "id"                    : "METEOGRAM",
-            "name"                  : {"da": "Meteogram", "en": "Meteogram"},
-            "iconOptions": {
-            ...
-            },
-            "parameterId"           : "",
-            "allNeeded"             : false
-        },
-*/
-/*
-        {
-            "id"                    : "WIND",
-            "name"                  : {"da": "Vind", "en": "Wind"},
-            "iconOptions": {
-            ...
-            },
-            "parameterId"           : "wind wind_speed_of_gust",
-            "directionFrom"         : true,
-            "formatterMethod"       : "formatterVectorWind",
-            "formatterStatMethod"   : "formatterStatVectorWind",
-            "allNeeded"             : false
-        },
-*/
-
-/*
-        {
-            "id"                    : "WAVE",
-            "iconOptions": {
-            ...
-            },
-            "name"                  : {"da": "Bølger", "en": "Waves"},
-            "parameterId"           : "",
-            "formatterMethod"       : "formatterWave",
-            "allNeeded"             : false
-        },
-*/
-
-//*
-        {
-            "id"                    : "CURRENT",
-            "name"                  : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
-            "shortName"             : {"da": "Strøm", "en": "Current"},
-            "iconOptions": {
-                "vertical": false,
-                "position": "below"
-            },
-
-            "parameterId"           : "surface_sea_water_velocity",
-            "formatUnit"            : "nm h-1",
-
-            "formatterMethod"       : "formatterVectorDefault",
-            "formatterStatMethod"   : "formatterStatVectorDefault",
-            "allNeeded"             : true,
-
-            "maxDelay"              : "PT1H15M",//Max delay of latest measurement before it is not shown as "Last Measurement"
-            "maxGap"                : 60,       //Minutes. Max gap between points before no line is drawn.
-            "historyPeriod"         : "PT54H",  //Length of historical period
-
-            "minRange"              : 1, //Min range on y-axis. Same as formatUnit or parameter default unit
-
-            "arrow"                 : "far-long-arrow-alt-up",  //Previuos = "fal-long-arrow-up"
-            "arrowDim"              : 20                        //Previuos = 16
-
-        },
-//*/
-/*
-        {
-            "id"                    : "HYDRO",
-            "name"                  : {"da": "MANGLER - Temp og salt mv.", "en": "TODO"},
-            "icon"                  : "fas fa-horizontal-rule fa-lbm-color-seagreen obs-group-icon obs-group-icon-bottom",
-            "parameterId"           : "",
-            "formatterMethod"       : "TODO",
-            "allNeeded"             : false
-        }
-//*/
-    ];
-
     nsObservations.ObservationGroup = function(options, observations){
         var _this = this;
         this.options = $.extend(true, {}, {
@@ -841,20 +681,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
         this.id = options.id;
         this.name = options.name;
         this.shortName = options.shortName || this.name;
-
-
-        /*
-        Create markerIcon:[STRING]
-        iconOptions = {
-            vertical: [BOOLEAN]
-            position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'
-                      vertical = false: 'top',  'over',        'center', 'below',        or 'bottom'
-        */
-
-        this.iconClasses = 'far fa-minus' + (options.iconOptions.vertical ? ' fa-rotate-90' : '') + ' obs-group-icon obs-group-icon-' + options.iconOptions.position;
-
-        this.markerIconBase = 'in-marker '+ this.iconClasses;
-        this.markerIcon  = 'fas '+ this.markerIconBase;
 
         this.maxDelayValueOf = moment.duration(this.options.maxDelay).valueOf();
         this.observations = observations;
@@ -990,7 +816,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
             $.each(this.locations, function(id, location){
                 if (location.popups[mapId] && !show && !location.isVisible(mapId)){
                     location.popups[mapId]._pinned = false;
-                    location.popups[mapId]._close();
+                    //location.popups[mapId]._close();
+                    location.popups[mapId].close();
                 }
             });
 
@@ -1553,9 +1380,13 @@ Only one station pro Location is active within the same ObservationGroup
                 features = geoJSON ? geoJSON.features : null;
 
             //Load new data
-            $.each(features, function(index, feature){
+            features.forEach((feature) => {
                 var properties  = feature.properties,
                     parameterId = properties.standard_name;
+
+                //If the Station do not have the parameter => do not update
+                if (!_this.parameters[parameterId])
+                    return;
 
                 //Update meta-data
                 metaData[parameterId] = $.extend(metaData[parameterId] || {}, {
@@ -1573,7 +1404,7 @@ Only one station pro Location is active within the same ObservationGroup
                         newDataSet[parameterId] = value;
 
                         //Add parameterId, value, timestamp to
-                        $.each(dataList, function(index, dataSet){
+                        dataList.forEach((dataSet) => {
                             if (dataSet.timestamp == newDataSet.timestamp){
                                 dataSet = $.extend(dataSet, newDataSet);
                                 found = true;
@@ -1595,7 +1426,7 @@ Only one station pro Location is active within the same ObservationGroup
 
             //If the station contains vector-parameter => calc speed, direction, eastware and northware for all dataSet
             if (this.vectorParameterList)
-                $.each(this.vectorParameterList, function(index1, vectorParameter){
+                this.vectorParameterList.forEach((vectorParameter) => {
                     var speedId        = vectorParameter.speed_direction[0].id,
                         directionId    = vectorParameter.speed_direction[1].id,
                         eastwardId     = vectorParameter.eastward_northward ? vectorParameter.eastward_northward[0].id : null,
@@ -2069,10 +1900,60 @@ Only one station pro Location is active within the same ObservationGroup
         init: function( _init ){ return function(){
             _init.apply(this, arguments);
 
-            //Create faIconPopup:[STRING] and faIcon []STRING to be used to create marker and icon in eq. bsModal
+            /*
+            Adjust this.options.iconOptions
+            iconOptions = STRING, or
+            iconOptions = {vertical: BOOLEAN, position: NUMBER (1-14) or STRING}
+
+            The position as STING can have the following values
+            BESIDE-LEFT, LEFT, CENTER, RIGHT, BESIDE-RIGHT (vertical lines), or
+            AIR, SURFACE, SUBSURFACE, MIDDLE, SEAFLOOR (horizintal lines)
+            */
+            if (typeof this.options.iconOptions == 'string')
+                this.options.iconOptions = {position: this.options.iconOptions};
+
+            let iconOpt = this.options.iconOptions,
+                pos = iconOpt.position.toUpperCase(),
+                numPos = 7;
+
+            if (typeof iconOpt.position == 'string'){
+                switch (pos){
+                    case 'AIR'          : numPos =  2; break;
+                    case 'SURFACE'      : numPos =  5; break;
+                    case 'SUBSURFACE'   : numPos =  8; break;
+                    case 'MIDDLE'       : numPos = 10; break;
+                    case 'SEAFLOOR'     : numPos = 12; break;
+
+                    case 'BESIDE-LEFT'  : numPos =  2; break;
+                    case 'LEFT'         : numPos =  4; break;
+                    case 'CENTER'       : numPos =  7; break;
+                    case 'RIGHT'        : numPos = 10; break;
+                    case 'BESIDE-RIGHT' : numPos = 12; break;
+
+                    default             : numPos =  5;
+                }
+                iconOpt.position = numPos;
+            }
+
+            iconOpt.vertical = ['BESIDE-LEFT', 'LEFT', 'CENTER', 'RIGHT', 'BESIDE-RIGHT'].includes(pos);
+
+            //Create faIconPopup:[STRING]= icon in eq. bsModal or popups
             this.faIconPopup = L.bsMarkerAsIcon('observations', null, false );
+
+            //Create faIcon:[STRING]: A extended icon similar to the icon used as marker
             this.faIcon = L.bsMarkerAsIcon('observations', null, false );
-            this.faIcon[0].push( 'fa-lbm-border-color-black ' + this.iconClasses );
+
+            //Remove the frame icon temporally
+            let frameIcon = this.faIcon[0].pop();
+
+            //Add a darker color representing the ground or sea
+            this.faIcon[0].push('fa-obs-line fa-obs-line-horizontal fa-obs-line-surface');
+
+
+            this.faIcon[0].push('fa-obs-line fa-obs-line-'+(iconOpt.vertical ? 'vertical' : 'horizontal') + ' fa-obs-line-pos-'+numPos + (iconOpt.length ? ' fa-obs-line-'+iconOpt.length : ''));
+
+            //Add the frame icon again and makes it on top
+            this.faIcon[0].push(frameIcon + '  position-relative');
 
         }; }(nsObservations.ObservationGroup.prototype.init),
 
@@ -2084,7 +1965,7 @@ Only one station pro Location is active within the same ObservationGroup
     ************************************************************************************
     ************************************************************************************/
     const bsMarkerOptions = {
-            size     : 'small',
+            size     : 16, //Changed from 'small' to have same size as icon
             colorName: 'observations',
             round    : false,
 
@@ -2126,7 +2007,6 @@ Only one station pro Location is active within the same ObservationGroup
             _init.apply(this, arguments);
 
             this.latLng = this.options.position ? L.latLng( this.options.position ) : null;
-
 
             /*
             modalElements = {
@@ -2177,6 +2057,69 @@ Only one station pro Location is active within the same ObservationGroup
                 });
             });
             return result;
+        },
+
+        /*********************************************
+        getHeader
+        *********************************************/
+        getHeader: function(){
+            return {
+                icon: this.observationGroupList[0].faIconPopup,
+                text: this.name
+            };
+        },
+
+        /*********************************************
+        createSVG
+        *********************************************/
+        createSVG: function(svgOptions){
+            var _this = svgOptions.marker.options._this,
+                dim   = svgOptions.width + 2; //svgOptions.width is inner-width
+
+            svgOptions.draw.attr({'shape-rendering': "crispEdges"});
+
+            //Draw darker background to represent below surface
+            svgOptions.draw.line(0, 10, 16, 10).stroke({color: '#cd9c0f', width: 9});   //Color = hard copy from css for .fa-obs-line-surface
+
+            $.each(_this.observationGroupList, function(index, observationGroup){
+                /*
+                For each observationGroup the location is part of => draw a vertical or horizontal line
+                iconOpt = {
+                    vertical: [BOOLEAN]
+                    position: NUMBER Between 1 and 14
+                    vertical: BOOLEAN
+                    length  : STRING, "1-2", 2-2", "1-3", "2-3", or "3-3"
+                */
+
+                let iconOpt  = observationGroup.options.iconOptions,
+                    pos      = iconOpt.position,
+                    lgd      = iconOpt.length,
+                    vertical = iconOpt.vertical,
+                    start    = 0,
+                    end      = dim;
+
+                if (lgd)
+                    switch (lgd){
+                        case '1-2':                                 end = (dim / 2)  - 1;           break;
+                        case '2-2': start = (dim/2)  - 1;                                           break;
+                        case '1-3':                                 end = Math.floor(dim / 3);      break;
+                        case '2-3': start = Math.floor(dim/3)-1;    end = Math.floor(2 * dim / 3);  break;
+                        case '3-3': start = Math.floor(2*dim/3)-1;                                  break;
+                    }
+
+                svgOptions.draw
+                    .line(
+                        vertical ? pos   : start,
+                        vertical ? start : pos,
+                        vertical ? pos   : end,
+                        vertical ? end   : pos
+                    )
+                    .stroke({
+                        color: svgOptions.borderColor,
+                        width: 2
+                    })
+                    .addClass('obs-group-marker-'+observationGroup.options.index);
+            });
         },
 
         /*********************************************
@@ -2248,7 +2191,9 @@ Only one station pro Location is active within the same ObservationGroup
                 return;
 
             //Update stat for previous observations
-            this._updateAny$elemetList('$observationStatistics', function(station, index){ return station.formatPeriodStat(index, false); } );
+            this._updateAny$elemetList('$observationStatistics', function(station, index){
+                return station.formatPeriodStat(index, false);
+            } );
         },
 
 

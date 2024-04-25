@@ -37,7 +37,7 @@
                 observations: 'observations',
                 forecasts   : 'forecasts'
             },
-            groupFileName           : 'observations-groups.json', //Not used at the moment
+            groupFileName           : 'observations-groups.json',
             locationFileName        : 'locations.json',
             fileName                : ['observations-sealevel.json','observations-current.json'/*, 'observations-wind.json'*/],
             lastObservationFileName : 'LastObservations_SEALVL.json LastObservations_CURRENT.json',
@@ -52,8 +52,7 @@
         this.observationGroups = {};
 
         ns.promiseList.append({
-            fileName: 'http://localhost/fcoo-observations/src/data/_observations-groups.json',
-            //fileName: ns.dataFilePath({subDir: this.options.subDir.observations, fileName: this.options.groupFileName}),
+            fileName: ns.dataFilePath({subDir: this.options.subDir.observations, fileName: this.options.groupFileName}),
             resolve : function(data){
                 data.groupList.forEach( (options) => {
                     if (!options.inactive){
@@ -82,6 +81,8 @@
             }
         });
 
+
+        //Reads the files with the setup for the meassurements stations
         this.fileNameList = this.options.fileName;
         if (typeof this.fileNameList == 'string')
             this.fileNameList = this.fileNameList.split(' ');
@@ -97,15 +98,30 @@
             });
         });
 
+
         //Read last measurement every 3 min
-        var fileNameList = $.isArray(this.options.lastObservationFileName) ? this.options.lastObservationFileName : this.options.lastObservationFileName.split(' ');
-        $.each(fileNameList, function(index, fileName){
-            ns.promiseList.append({
-                fileName: {mainDir: true, subDir: _this.options.subDir.observations, fileName: fileName}, //_this.options.lastObservationFileName},
-                resolve : $.proxy(_this._resolve_last_measurment, _this),
-                reload  : 3,
-                promiseOptions: {noCache: true}
-            });
+        //Only in test-mode window.intervals.options.durationUnit = 'seconds';
+        ns.promiseList.append({
+            data: {},
+            resolve : function(/*data*/){
+                let fileNameList = $.isArray(_this.options.lastObservationFileName) ? _this.options.lastObservationFileName : _this.options.lastObservationFileName.split(' '),
+                    resolve      = _this._resolve_last_measurment.bind(_this),
+                    reject       = _this._reject_last_measurment.bind(_this);
+
+                $.each(fileNameList, function(index, fileName){
+                   window.intervals.addInterval({
+                        duration        : 3,
+                        fileName        : {mainDir: true, subDir: _this.options.subDir.observations, fileName: fileName},
+                        resolve         : resolve,
+                        reject          : reject,
+
+                        useDefaultErrorHandler: false,
+                        retries         : 3,
+                        retryDelay      : 15*1000,
+                        promiseOptions  : {noCache: true}
+                    })
+                });
+            }
         });
     };
 
@@ -171,8 +187,8 @@
             //Load each geoJSON "file" into station
             $.each(stationGeoJSONs, function(findStationId, geoJSON){
                 $.each(_this.locations, function(locationId, location){
-                    $.each(location.stations, function(stationId, station){
-                        if (stationId == findStationId){
+                    location.stationList.forEach((station) => {
+                        if (station.id == findStationId){
                             station._resolveGeoJSON(geoJSON, false);
                             location.callUpdateObservation = true;
                         }
@@ -185,6 +201,14 @@
                     location.callUpdateObservation = false;
                 }
             });
+        },
+
+        /*****************************************************
+        _reject_last_measurment
+        *****************************************************/
+        _reject_last_measurment: function(){
+            //Update observations to hide last measurements if they get to old
+            this.locationList.forEach( (location) => { location.updateObservation(); });
         }
     };
 }(jQuery, this.i18next, this.moment, this, document));
