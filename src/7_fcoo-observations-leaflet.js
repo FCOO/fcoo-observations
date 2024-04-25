@@ -237,9 +237,24 @@
             _init.apply(this, arguments);
 
             //Create faIconPopup:[STRING] and faIcon []STRING to be used to create marker and icon in eq. bsModal
-            this.faIconPopup = L.bsMarkerAsIcon('observations', null, false );
+            this.faIconPopup = 'fa-map'; //L.bsMarkerAsIcon('observations', null, false );
+
             this.faIcon = L.bsMarkerAsIcon('observations', null, false );
-            this.faIcon[0].push( 'fa-lbm-border-color-black ' + this.iconClasses );
+
+            //Remove the frame icon temporally
+            let frameIcon = this.faIcon[0].pop();
+
+//HER               this.faIcon[0].push( 'fa-lbm-border-color-black ' + this.iconClasses );
+this.faIcon[0].push('fa-obs-line fa-obs-line-horizontal fa-obs-line-pos-10');
+//HER   this.faIcon[0].push('fa-obs-line fa-obs-line-horizontal fa-obs-line-pos-3 fa-obs-line-1-2');
+//HER   this.faIcon[0].push('fa-obs-line fa-obs-line-horizontal fa-obs-line-pos-4 fa-obs-line-2-2');
+
+this.faIcon[0].push('fa-obs-line fa-obs-line-horizontal fa-obs-line-pos-3 fa-obs-line-1-3');
+this.faIcon[0].push('fa-obs-line fa-obs-line-horizontal fa-obs-line-pos-4 fa-obs-line-2-3');
+this.faIcon[0].push('fa-obs-line fa-obs-line-horizontal fa-obs-line-pos-5 fa-obs-line-3-3');
+
+            //Add the frame icon again and makes it on top
+            this.faIcon[0].push(frameIcon + '  position-relative');
 
         }; }(nsObservations.ObservationGroup.prototype.init),
 

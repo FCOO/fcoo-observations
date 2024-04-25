@@ -89,7 +89,7 @@ Location = group of Stations with the same or different paramtre
                 dim2  = Math.floor( dim / 2),
                 dim3  = Math.floor( dim / 3),
                 dim4  = Math.floor( dim / 4),
-                iconOptions, pos;
+                iconOptions;//, pos;
 //console.log(dim, dim2, dim3, dim4);
             svgOptions.draw.attr({'shape-rendering': "crispEdges"});
 
@@ -101,10 +101,10 @@ Location = group of Stations with the same or different paramtre
                     position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'
                               vertical = false: 'top', ' over',        'center', 'below',        or 'bottom'
                 */
-//['left', 'beside-left', 'middle', 'beside-right', 'right'].forEach( (pos) => {
+['left', 'beside-left', 'middle', 'beside-right', 'right'].forEach( (pos) => { //test
 
-                iconOptions = observationGroup.options.iconOptions;
-//                iconOptions = {position: pos, vertical: observationGroup.options.iconOptions.vertical};
+//test                iconOptions = observationGroup.options.iconOptions;
+                iconOptions = {position: pos, vertical: observationGroup.options.iconOptions.vertical}; //test
 
                 switch (iconOptions.position){
                     case 'left'         : case 'top'   :  pos = dim4;        break;
@@ -137,7 +137,7 @@ if (!iconOptions.vertical)
                     })
                     .addClass('obs-group-marker-'+observationGroup.options.index);
 */
-//});
+}); //test
 
 
 
