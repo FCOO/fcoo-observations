@@ -15,7 +15,7 @@
 
     <style>
         html, body {
-            padding: 0; margin: 0; width:100%; height:100%;
+            padding: 0; margin: 0; width:100%; height:100%; overflow: auto;
         }
 
         #map0, #map1 {
@@ -79,20 +79,24 @@
 
 //HER        window.fcoo.LOCAL_DATA = window.fcoo.DEMO_VERSION;
 
+        window.bsIsTouch = false;
+        window.bsIsTouch = (window.location.search =='?touch');
+
+    console.log(window.location.search);
     </script>
 
 
 
 
 	<script src="bower_components.js"></script>
-	<script src="../src/fcoo-observations.js"></script>
-	<script src="../src/location-1.js"></script>
-	<script src="../src/location-2-highcharts.js"></script>
-	<script src="../src/observation-group.js"></script>
-	<script src="../src/station-1.js"></script>
-	<script src="../src/station-2-highcharts.js"></script>
+	<script src="../src/1_fcoo-observations.js"></script>
+	<script src="../src/2_location.js"></script>
+	<script src="../src/3_location-highcharts.js"></script>
+	<script src="../src/4_observation-group.js"></script>
+	<script src="../src/5_station.js"></script>
+	<script src="../src/6_station-highcharts.js"></script>
 
-    <script src="../src/_fcoo-observations-leaflet.js"></script>
+    <script src="../src/7_fcoo-observations-leaflet.js"></script>
     
 	<script>
         i18next.init();
@@ -102,6 +106,7 @@
 //HER        window.fcoo.DEMO_VERSION = true;
 //HER        window.fcoo.LOCAL_DATA = !window.fcoo.DEMO_VERSION;
 
+       
         //TEMP: No access to data-files on AWS. Read from old location instead 
         window.fcoo.path.setPath({host: 'bal.fcoo.dk'});
 
@@ -181,7 +186,21 @@
             fcoo.globalSetting.load(null, function(){
                 i18next.changeLanguage('da');
             });
+
+        var obsG = fcooObservation.observationGroups.CURRENT; 
+
+
+        $.bsButton({
+            iconClass: 'obs-group-icon-container',
+            icon: obsG.faIcon,
+            text: 'Her'
+        }).appendTo('body');            
+            
+            
         };
+
+
+
 
         fcoo.promiseList.promiseAll();
     });

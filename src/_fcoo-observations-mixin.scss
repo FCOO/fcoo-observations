@@ -133,7 +133,7 @@ Position =
 'beside-right' or 'below' : pos = dim/2 + dim/4
 'right'        or 'bottom': pos = dim/2 + dim/3
 
-In css the linie (fa-munus) is already at middle/center =>
+In css the linie (fa-minus) is already at middle/center =>
 all pos in scc = pos - dim/2
 The calc(... - 1px) is fine fine tuning due to the non-symetric shape of the icon
 *****************************************************/
@@ -142,9 +142,16 @@ $dim4  : (1em / 4) * $factor;
 $dim3  : (1em / 3) * $factor;
 $dim2  : (1em / 2) * $factor;
 
+$top1: (1em / 12) *  $factor;
+
+
+.obs-group-icon-container {
+    font-size: 16px;
+}
+
 .obs-group-icon        {
     position  : relative;
-    font-size: calc( 10em/10);
+//    font-size: 16px; //calc( 10em/10);
 }
 
 .obs-group-icon-top          { top: calc( #{$dim4 - $dim2} - 1px);  }
@@ -152,6 +159,12 @@ $dim2  : (1em / 2) * $factor;
 .obs-group-icon-center       { top: 0;                              }
 .obs-group-icon-below        { top: calc( #{$dim4} - 1px);          }
 .obs-group-icon-bottom       { top: $dim3;                          }
+
+.obs-group-icon-TEST       { top: $top1;                          }
+
+
+
+
 
 .obs-group-icon-left         { left: calc( #{$dim4 - $dim2} - 1px); }
 .obs-group-icon-beside-left  { left: $dim3 - $dim2;                 }

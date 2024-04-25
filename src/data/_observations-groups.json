@@ -1,0 +1,102 @@
+{
+    "description": {
+        "id"            : "",
+        "name"          : "",
+        "shortName"     : "",
+        "iconOptions"   : "See src/observation-group.js for details.  iconOptions = {vertical: [BOOLEAN], position: vertical = true : 'left', 'beside-left', 'middle', 'beside-right', or 'right'                       vertical = false: 'top',  'over', 'center', 'below', or 'bottom'",
+        "parameterId"   : "Id for the parameter(s)",
+        "formatUnit"    : "Unit-id for the unit used to display values in",
+
+        "formatterMethod"   : "Method-name used to format observations",
+        "formatterStatMethod": "Method-name used to format statistics",
+        "allNeeded"         : "If parameterid contain more than one parameter and allNeeded=true value for all parameters are needed to display observation",
+
+        "maxDelay"      : "Delay of latest measurement before it is not shown as 'Last Measurement' Format = ISO 8601 https://www.digi.com/resources/documentation/digidocs/90001488-13/reference/r_iso_8601_duration_format.htm",
+        "maxGap"        : "Minutes. Max gap between points before no line is drawn",
+        "historyPeriod" : "Length of historical period. ISO 8601",
+        "minRange"      : "Min range on y-axis. Same as formatUnit or parameter default unit",
+        "arrow"         : "",
+        "arrowDim"      : ""
+    },
+
+    "groupList": [{
+        "id"                    : "SEALEVEL",
+        "name"                  : {"da": "Vandstand", "en": "Sea Level"},
+        "iconOptions": {
+            "vertical": true,
+            "position": "middle"
+        },
+        "parameterId"       : "sea_surface_height_above_mean_sea_level",
+        "formatterMethod"   : "formatterSeaLevel",
+        "allNeeded"         : true,
+
+        "maxDelay"          : "PT1H",
+        "maxGap"            : 60,
+        "historyPeriod"     : "PT54H",
+
+        "formatUnit"        : "cm",
+        "minRange"          : 80
+
+    },{
+        "id"                : "METEOGRAM",
+        "inactive"          : true,  
+        "name"              : {"da": "Meteogram", "en": "Meteogram"},
+        "iconOptions"       : {
+        },
+        "parameterId"       : "",
+        "allNeeded"         : false
+    }, {
+        "id"                : "WIND",
+        "inactive"          : true,  
+        "name"              : {"da": "Vind", "en": "Wind"},
+        "iconOptions": {
+        },
+        "parameterId"        : "wind wind_speed_of_gust",
+        "directionFrom"      : true,
+        "formatterMethod"    : "formatterVectorWind",
+        "formatterStatMethod": "formatterStatVectorWind",
+        "allNeeded"          : false
+    },{
+        "id"             : "WAVE",
+        "inactive"       : true,      
+        "iconOptions": {
+        },
+        "name"          : {"da": "Bølger", "en": "Waves"},
+        "parameterId"   : "",
+        "formatterMethod": "formatterWave",
+        "allNeeded"     : false
+    },{
+        "id"            : "CURRENT",
+        "name"          : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
+        "shortName"     : {"da": "Strøm", "en": "Current"},
+        "iconOptions": {
+            "vertical": false,
+            "position": "below"
+        },
+
+        "parameterId"       : "surface_sea_water_velocity",
+        "formatUnit"        : "nm h-1",
+
+        "formatterMethod"   : "formatterVectorDefault",
+        "formatterStatMethod": "formatterStatVectorDefault",
+        "allNeeded"         : true,
+
+        "maxDelay"          : "PT1H15M",
+        "maxGap"            : 60,
+        "historyPeriod"     : "PT54H",
+
+        "minRange"          : 1,
+
+        "arrow"             : "far-long-arrow-alt-up",
+        "arrowDim"          : 20
+    },{
+        "id"                : "HYDRO",
+        "inactive"          : true,
+        "name"              : {"da": "MANGLER - Temp og salt mv.", "en": "TODO"},
+        "icon"              : "fas fa-horizontal-rule fa-lbm-color-seagreen obs-group-icon obs-group-icon-bottom",
+        "parameterId"       : "",
+        "formatterMethod"   : "TODO",
+        "allNeeded"         : false
+    }]
+}
+

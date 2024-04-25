@@ -497,13 +497,16 @@ Position =
 'beside-right' or 'below' : pos = dim/2 + dim/4
 'right'        or 'bottom': pos = dim/2 + dim/3
 
-In css the linie (fa-munus) is already at middle/center =>
+In css the linie (fa-minus) is already at middle/center =>
 all pos in scc = pos - dim/2
 The calc(... - 1px) is fine fine tuning due to the non-symetric shape of the icon
 *****************************************************/
+.obs-group-icon-container {
+  font-size: 16px;
+}
+
 .obs-group-icon {
   position: relative;
-  font-size: 1em;
 }
 
 .obs-group-icon-top {
@@ -524,6 +527,10 @@ The calc(... - 1px) is fine fine tuning due to the non-symetric shape of the ico
 
 .obs-group-icon-bottom {
   top: 0.2619047619em;
+}
+
+.obs-group-icon-TEST {
+  top: 0.0654761905em;
 }
 
 .obs-group-icon-left {
