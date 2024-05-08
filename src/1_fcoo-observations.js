@@ -119,7 +119,7 @@
                         retries         : 3,
                         retryDelay      : 15*1000,
                         promiseOptions  : {noCache: true}
-                    })
+                    });
                 });
             }
         });

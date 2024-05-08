@@ -68,7 +68,6 @@ Location = group of Stations with the same or different paramtre
             /* Empty here but can be extended in extentions of FCOOObservations */
         },
 
-
         /*********************************************
         appendStations
         *********************************************/

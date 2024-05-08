@@ -32,7 +32,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "4.1.0",
+			VERSION         : "4.1.1",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -119,7 +119,7 @@
                         retries         : 3,
                         retryDelay      : 15*1000,
                         promiseOptions  : {noCache: true}
-                    })
+                    });
                 });
             }
         });
@@ -285,7 +285,6 @@ Location = group of Stations with the same or different paramtre
         init: function(){
             /* Empty here but can be extended in extentions of FCOOObservations */
         },
-
 
         /*********************************************
         appendStations
@@ -1948,7 +1947,6 @@ Only one station pro Location is active within the same ObservationGroup
 
             //Add a darker color representing the ground or sea
             this.faIcon[0].push('fa-obs-line fa-obs-line-horizontal fa-obs-line-surface');
-
 
             this.faIcon[0].push('fa-obs-line fa-obs-line-'+(iconOpt.vertical ? 'vertical' : 'horizontal') + ' fa-obs-line-pos-'+numPos + (iconOpt.length ? ' fa-obs-line-'+iconOpt.length : ''));
 

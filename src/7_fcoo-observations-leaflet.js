@@ -285,7 +285,6 @@
             //Add a darker color representing the ground or sea
             this.faIcon[0].push('fa-obs-line fa-obs-line-horizontal fa-obs-line-surface');
 
-
             this.faIcon[0].push('fa-obs-line fa-obs-line-'+(iconOpt.vertical ? 'vertical' : 'horizontal') + ' fa-obs-line-pos-'+numPos + (iconOpt.length ? ' fa-obs-line-'+iconOpt.length : ''));
 
             //Add the frame icon again and makes it on top
