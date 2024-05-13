@@ -32,7 +32,7 @@
     ns.FCOOObservations = function(options){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "4.1.2",
+			VERSION         : "4.2.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -100,7 +100,7 @@
 
 
         //Read last measurement every 3 min
-        //Only in test-mode window.intervals.options.durationUnit = 'seconds';
+        //Only in test-mode: window.intervals.options.durationUnit = 'seconds';
         ns.promiseList.append({
             data: {},
             resolve : function(/*data*/){
@@ -117,7 +117,7 @@
 
                         useDefaultErrorHandler: false,
                         retries         : 3,
-                        retryDelay      : 15*1000,
+                        retryDelay      : 2*1000,
                         promiseOptions  : {noCache: true}
                     });
                 });
@@ -237,20 +237,18 @@ Location = group of Stations with the same or different paramtre
 
     /*
     To allow different "systems" using the same FCOOObservations
-    there are four global lists of "functions" under nsObservations that are being used:
+    there are three global lists of "functions" under nsObservations that are being used:
 
-    isActiveFuncList
     updateLastObservationFuncList
     updateObservationFuncList
     updateForecastFuncList
 
-    The four list contains of
+    The three list contains of
         1: Function, or
         2: {func: Function or String (method-name for context), context: Object (default = this (Location))}, or
         3: String (method-name for Location) => 2:
     */
 
-    nsObservations.isActiveFuncList = [];
     nsObservations.updateLastObservationFuncList  = [];
     nsObservations.updateObservationFuncList  = [];
     nsObservations.updateForecastFuncList  = [];
@@ -378,49 +376,8 @@ Location = group of Stations with the same or different paramtre
 
 
         /*****************************************************
-        loadObservation
-        Load observation for all stations and parameter (if any) and update observationDataList and call location.updateObservation()
-        NOTE: The data is only loaded ONCE since loading last observation will update observationDataList
-        *****************************************************/
-        loadObservation: function(){
-            var _this = this;
-            if (this.observationIsLoaded)
-                this.updateObservation();
-            else {
-                var resolve = $.proxy(this._resolveObservation, this),
-                    promiseList = [];
-
-                this.observationPromiseIndex = [];
-                $.each(this.observationGroupStations, function(observationGroupId, station){
-                    $.each(station.observation, function(parameterId, fileName){
-                        _this.observationPromiseIndex.push(station);
-                        promiseList.push(
-                            window.Promise.getJSON(
-                                ns.dataFilePath(fileName),
-                                {noCache: true, useDefaultErrorHandler: false}
-                            )
-                        );
-                    });
-                });
-
-                window.Promise.each(promiseList, resolve)
-                    .then( $.proxy(this.updateObservation, this) );
-
-                this.observationIsLoaded = true;
-            }
-        },
-
-        /*****************************************************
-        _resolveObservation - resole observation pro station
-        *****************************************************/
-        _resolveObservation: function(data, promiseIndex){
-            this.observationPromiseIndex[promiseIndex]._resolveObservations(data);
-        },
-
-
-        /*****************************************************
         _getFuncList - Get an adjusted version of one of the function-lists:
-        isActiveFuncList, updateLastObservationFuncList, updateObservationFuncList, updateForecastFuncList
+        updateLastObservationFuncList, updateObservationFuncList, updateForecastFuncList
         *****************************************************/
         _getFuncList: function( listOrListName ){
             let _this = this,
@@ -443,75 +400,85 @@ Location = group of Stations with the same or different paramtre
             return result;
         },
 
-
-        /*****************************************************
-        isActive - Return true if any of the 'user' is active for the location
-        That means if any given methods in isActiveFuncList return true
-        *****************************************************/
-        isActive: function(){
-            let result = false;
-
-            this._getFuncList('isActiveFuncList').forEach( (func) => {
-                result = result || func();
+        _callFuncList: function( listOrListName, arg = []){
+            this._getFuncList( listOrListName ).forEach( (func) => {
+                func.apply(null, arg);
             });
-            return result;
+            return this;
         },
 
+
+        /*****************************************************
+        loadObservation
+        Load observation for all stations and parameter (if any) and update observationDataList and call location.updateObservation()
+        NOTE: The data is only loaded ONCE since loading last observation will update observationDataList
+        *****************************************************/
+        loadObservation: function(){
+            if (this.observationIsLoaded)
+                this.updateObservation();
+            else {
+                this.observationIsLoaded = true;
+
+                let stationUrls = {};
+                $.each(this.observationGroupStations, function(observationGroupId, station){
+                    let promiseOptions = {
+                            resolve: function(data) { station._resolveObservations(data, observationGroupId); },
+                            reject: function(error){ station._rejectObservations(error, observationGroupId); },
+                            noCache   : true,
+                            retries   : 3,
+                            retryDelay: 2*1000,
+                            useDefaultErrorHandler: false
+                        };
+
+                    $.each(station.observation, function(parameterId, fileName){
+                        let url = ns.dataFilePath(fileName);
+                        if (stationUrls[url])
+                            return;
+                        stationUrls[url] = true;
+
+                        Promise.getJSON(url, promiseOptions);
+                    });
+                });
+
+            }
+        },
 
         /*****************************************************
         loadForecast
         Load forecast for all stations and parameter (if any) and update forecastDataList and call location.updateForecast()
-        The load is controlled by a 'dummy' Interval that check if new data are needed
         *****************************************************/
         loadForecast: function(){
             if (this.forecastIsLoaded)
                 this.updateForecast();
-            else
-                if (this.interval)
-                    this._loadForecast();
-                else
-                    this.interval = window.intervals.addInterval({
-                        data    : {},
-                        duration: 60, //Reload every 60 min
-                        resolve : $.proxy(this._loadForecast, this),
-                        wait    : false
-                    });
-        },
+            else {
+                this.forecastIsLoaded = true;
 
-        _loadForecast: function(){
-            var _this = this;
-            //If the location of the station has any data displayed at any 'user' => load
-            if (this.isActive()){
-                var resolve = $.proxy(this._resolveForecast, this),
-                    promiseList = [];
-
-                this.forecastPromiseIndex = [];
+                //Load forecast for all parametre, but only once for each file/url
+                let stationUrls = {};
                 $.each(this.observationGroupStations, function(observationGroupId, station){
+                    let resolve = function(data) { station._resolveForecast(data,  observationGroupId); },
+                        reject  = function(error){ station._rejectForecast (error, observationGroupId); };
+
                     $.each(station.forecast, function(parameterId, fileName){
-                        _this.forecastPromiseIndex.push(station);
-                        promiseList.push(
-                            window.Promise.getJSON(
-                                ns.dataFilePath(fileName),
-                                {noCache: true, useDefaultErrorHandler: false}
-                            )
-                        );
+                        let url = ns.dataFilePath(fileName);
+                        if (stationUrls[url])
+                            return;
+                        stationUrls[url] = true;
+
+                        window.intervals.addInterval({
+                            fileName        : fileName,
+                            resolve         : resolve,
+                            reject          : reject,
+                            duration        : 60, //Reload every 60 min
+
+                            useDefaultErrorHandler: false,
+                            retries         : 3,
+                            retryDelay      : 2*1000,
+                            promiseOptions  : {noCache: true}
+                        });
                     });
                 });
-
-                window.Promise.each(promiseList, resolve)
-                    .then( $.proxy(this.updateForecast, this) );
-
-                this.forecastIsLoaded = true;
             }
-            else
-                this.forecastIsLoaded = false;
-        },
-
-        /*****************************************************
-        _resolveForecast - resole forecast pro station
-        *****************************************************/
-        _resolveForecast: function(data, promiseIndex){
-            this.forecastPromiseIndex[promiseIndex]._resolveForecast(data);
         },
 
 
@@ -521,12 +488,7 @@ Location = group of Stations with the same or different paramtre
         call all the update-methods from updateLastObservationFuncList
         *********************************************/
         updateLastObservation: function(){
-            if (this.isActive())
-                this._getFuncList('updateLastObservationFuncList').forEach( (func) => {
-                    func();
-                });
-
-            return this;
+            return this._callFuncList('updateLastObservationFuncList');
         },
 
         /*********************************************
@@ -534,20 +496,12 @@ Location = group of Stations with the same or different paramtre
         If any of the user is using this location =>
         update the observations and call all the update-methods from updateObservationFuncList
         *********************************************/
-        updateObservation: function(){
-            //If not active by any user => exit
-            if (!this.isActive())
-                return;
-
+        updateObservation: function( onlyGroupId ){
             //Update last observation
             this.updateLastObservation();
 
             //Call all the update-methods from updateObservationFuncList
-            this._getFuncList('updateObservationFuncList').forEach( (func) => {
-                func();
-            });
-
-            return this;
+            return this._callFuncList('updateObservationFuncList', [onlyGroupId]);
         },
 
         /*********************************************
@@ -555,13 +509,8 @@ Location = group of Stations with the same or different paramtre
         If any of the user is using this location =>
         update the observations and call all the update-methods from updateForecastFuncList
         *********************************************/
-        updateForecast: function(){
-            if (this.isActive())
-                this._getFuncList('updateForecastFuncList').forEach( (func) => {
-                    func();
-                });
-
-            return this;
+        updateForecast: function( onlyGroupId ){
+             return this._callFuncList('updateForecastFuncList', [onlyGroupId]);
         },
     };
 
@@ -586,16 +535,57 @@ Methods for creating Highcharts for a Location
         nsObservations = ns.observations = ns.observations || {},
         nsHC           = ns.hc = ns.highcharts = ns.highcharts || {};
 
+    nsObservations.updateLastObservationFuncList.push('updateCharts');
+    nsObservations.updateObservationFuncList.push('updateCharts');
+    nsObservations.updateForecastFuncList.push('updateCharts');
 
 
     /****************************************************************************
-    Extend Location with methods for creating and displaying a chart
+    Extend Location with methods for creating, showing an updating charts with observations and forecasts
     ****************************************************************************/
     $.extend(nsObservations.Location.prototype, {
+        /*****************************************************
+        showCharts
+        *****************************************************/
+        showCharts: function(mapId){
+            let _this = this;
 
-        createCharts: function($container, inModal, mapOrMapId){
-            var timeSeriesOptions = {
-                    container: $container,
+            //this.timeSeries = this.timeSeries || nsHC.timeSeries(this._getChartsOptions(/*$container, */true, mapOrMapId);
+            let timeSeries = this.timeSeries = nsHC.timeSeries( this._getChartsOptions(true, mapId) );
+
+            this.modalCharts =
+                $.bsModal({
+                    header   : this.getHeader(),
+                    flexWidth: true,
+                    megaWidth: true,
+                    content  : timeSeries.createChart.bind(timeSeries),
+                    _content  : function( $body ){
+                        _this.timeSeries.createChart($body);
+                    },
+
+                    onClose: function(){ _this.timeSeries = null; return true; },
+                    remove : true,
+                    show   : true
+                });
+        },
+
+
+        /*****************************************************
+        updateCharts
+        *****************************************************/
+        updateCharts: function(){
+            if (this.timeSeries){
+                let chartsOptions = this._getChartsOptions(true, 0);
+                this.timeSeries.setAllData(chartsOptions.series);
+            }
+        },
+
+
+        /*****************************************************
+        _getChartsOptions
+        *****************************************************/
+        _getChartsOptions: function(inModal, mapOrMapId){
+            var result = {
                     location : this.name,
                     parameter: [],
                     unit     : [],
@@ -607,11 +597,11 @@ Methods for creating Highcharts for a Location
             $.each(this.observationGroupStationList, function(index, station){
                 var stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
                 $.each(['parameter', 'unit', 'series', 'yAxis'], function(index, id){
-                    timeSeriesOptions[id].push( stationChartsOptions[id] );
+                    result[id].push( stationChartsOptions[id] );
                 });
            });
 
-           timeSeriesOptions.chartOptions = $.extend(true, timeSeriesOptions.chartOptions,
+           result.chartOptions = $.extend(true, result.chartOptions,
                 inModal ? {
 
                 } : {
@@ -630,8 +620,17 @@ Methods for creating Highcharts for a Location
                     }
                 });
 
+            return result;
+        },
 
-            nsHC.timeSeries(timeSeriesOptions);
+        /*****************************************************
+        createCharts
+        *****************************************************/
+        createCharts: function(inModal, mapOrMapId){
+            let timeSeriesOptions = this._getChartsOptions(inModal, mapOrMapId);
+
+            let timeSeries = nsHC.timeSeries(timeSeriesOptions);
+            return timeSeries;
         }
     });
 
@@ -891,8 +890,6 @@ Only one station pro Location is active within the same ObservationGroup
     }
     function max(value1, value2){ return _Math('max', value1, value2); }
     function min(value1, value2){ return _Math('min', value1, value2); }
-
-
 
     /*****************************************************
     Station
@@ -1484,24 +1481,39 @@ Only one station pro Location is active within the same ObservationGroup
         },
 
 
+
         /*****************************************************
         _resolveForecast
         *****************************************************/
-        _resolveForecast: function(geoJSON){
+        _resolveForecast: function(geoJSON, groupId){
             this.forecastDataList = [];
             this._resolveGeoJSON(geoJSON, true);
+
+            this.location.updateForecast( groupId );
+        },
+
+        /*****************************************************
+        _rejectForecast
+        *****************************************************/
+        _rejectForecast: function(error, groupId){
+            this.location.updateForecast( groupId );
         },
 
         /*****************************************************
         _resolveObservations
         *****************************************************/
-        _resolveObservations: function(geoJSON){
+        _resolveObservations: function(geoJSON, groupId){
             this._resolveGeoJSON(geoJSON, false);
+            this.location.updateObservation( groupId );
         },
 
-
-
-
+        /*****************************************************
+        _rejectObservations
+        *****************************************************/
+        _rejectObservations: function(error, groupId){
+            this.location.updateObservation( groupId );
+            this.location.observationIsLoaded = false; //Force reload next time
+        },
     };
 
 
@@ -1651,7 +1663,6 @@ Only one station pro Location is active within the same ObservationGroup
             result.sort(function(timestampValue1, timestampValue2){ return timestampValue1[0] - timestampValue2[0];});
             return result;
         }
-
     });
 
 
@@ -1992,7 +2003,6 @@ Only one station pro Location is active within the same ObservationGroup
     }
 
     //Sets the methods for different func-lists
-    nsObservations.isActiveFuncList.push('isShownInModal');
     nsObservations.updateLastObservationFuncList.push('updateLastObservation_in_modal');
     nsObservations.updateObservationFuncList.push('updateObservation_in_modal');
     nsObservations.updateForecastFuncList.push('updateForecast_in_modal');
@@ -2142,16 +2152,17 @@ Only one station pro Location is active within the same ObservationGroup
         _updateAny$elemetList
         Update all $-elements in the list of $-elements
         *********************************************/
-        _updateAny$elemetList: function(listId, valueFunc /*function(station)*/){
+        _updateAny$elemetList: function(listId, valueFunc/*=function(station)*/, onlyGroupId){
             var _this = this;
             $.each(this.observationGroupStations, function(observationGroupId, station){
-                $.each(_this.modalElements, function(mapId, obsGroups){
-                    var elements = obsGroups[observationGroupId];
-                    if (elements)
-                        $.each(elements[listId] || [], function(index, $element){
-                            $element.html(valueFunc(station, index));
-                        });
-                });
+                if (!onlyGroupId || (onlyGroupId == observationGroupId))
+                    $.each(_this.modalElements, function(mapId, obsGroups){
+                        var elements = obsGroups[observationGroupId];
+                        if (elements)
+                            $.each(elements[listId] || [], function(index, $element){
+                                $element.html(valueFunc(station, index));
+                            });
+                    });
             });
             return this;
         },
@@ -2167,8 +2178,9 @@ Only one station pro Location is active within the same ObservationGroup
             if (!this.isShownInModal())
                 return;
 
-            this._updateAny$elemetList('$lastObservation',
-                function(station){ // = function(station, index)
+            this._updateAny$elemetList(
+                '$lastObservation',
+                function(station){
                     var dataSet = station.getDataSet(true, false); //Last observation
 
                     //If the timestamp is to old => return '?'
@@ -2183,15 +2195,19 @@ Only one station pro Location is active within the same ObservationGroup
         modalElements[mapId][observationGroupId].$lastObservation: []$-element set of $-elements
         containing the last measured value. There is a []$-element for each map and each observation-group
         *********************************************/
-        updateObservation_in_modal: function(){
+        updateObservation_in_modal: function( onlyGroupId ){
             //If not shown in modal => exit
             if (!this.isShownInModal())
                 return;
 
             //Update stat for previous observations
-            this._updateAny$elemetList('$observationStatistics', function(station, index){
-                return station.formatPeriodStat(index, false);
-            } );
+            this._updateAny$elemetList(
+                '$observationStatistics',
+                function(station, index){
+                    return station.formatPeriodStat(index, false);
+                },
+                onlyGroupId
+            );
         },
 
 
@@ -2201,12 +2217,18 @@ Only one station pro Location is active within the same ObservationGroup
         modalElements[mapId][observationGroupId].$forecastStatistics: []$-element.
             One $-element for each interval defined by nsObservations.forecastPeriods
         *********************************************/
-        updateForecast_in_modal: function(){
+        updateForecast_in_modal: function( onlyGroupId ){
             //If not shown in modal => exit
             if (!this.isShownInModal())
                 return;
 
-            this._updateAny$elemetList('$forecastStatistics', function(station, index){ return station.formatPeriodStat(index, true); } );
+            this._updateAny$elemetList(
+                '$forecastStatistics',
+                function(station, index){
+                    return station.formatPeriodStat(index, true);
+                },
+                onlyGroupId
+            );
         },
 
 
@@ -2259,7 +2281,8 @@ Only one station pro Location is active within the same ObservationGroup
                     icon    : 'far fa-chart-line',
                     text    : {da:'Vis graf', en:'Show Chart'},
 
-                    onClick : function(){
+                    onClick : function(){ _this.showCharts(mapId); },
+                    OLDonClick : function(){
                         $.bsModal({
                             header: _this.getHeader(),
                             flexWidth: true,

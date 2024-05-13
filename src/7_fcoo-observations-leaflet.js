@@ -329,7 +329,6 @@
     }
 
     //Sets the methods for different func-lists
-    nsObservations.isActiveFuncList.push('isShownInModal');
     nsObservations.updateLastObservationFuncList.push('updateLastObservation_in_modal');
     nsObservations.updateObservationFuncList.push('updateObservation_in_modal');
     nsObservations.updateForecastFuncList.push('updateForecast_in_modal');
@@ -479,16 +478,17 @@
         _updateAny$elemetList
         Update all $-elements in the list of $-elements
         *********************************************/
-        _updateAny$elemetList: function(listId, valueFunc /*function(station)*/){
+        _updateAny$elemetList: function(listId, valueFunc/*=function(station)*/, onlyGroupId){
             var _this = this;
             $.each(this.observationGroupStations, function(observationGroupId, station){
-                $.each(_this.modalElements, function(mapId, obsGroups){
-                    var elements = obsGroups[observationGroupId];
-                    if (elements)
-                        $.each(elements[listId] || [], function(index, $element){
-                            $element.html(valueFunc(station, index));
-                        });
-                });
+                if (!onlyGroupId || (onlyGroupId == observationGroupId))
+                    $.each(_this.modalElements, function(mapId, obsGroups){
+                        var elements = obsGroups[observationGroupId];
+                        if (elements)
+                            $.each(elements[listId] || [], function(index, $element){
+                                $element.html(valueFunc(station, index));
+                            });
+                    });
             });
             return this;
         },
@@ -504,8 +504,9 @@
             if (!this.isShownInModal())
                 return;
 
-            this._updateAny$elemetList('$lastObservation',
-                function(station){ // = function(station, index)
+            this._updateAny$elemetList(
+                '$lastObservation',
+                function(station){
                     var dataSet = station.getDataSet(true, false); //Last observation
 
                     //If the timestamp is to old => return '?'
@@ -520,15 +521,19 @@
         modalElements[mapId][observationGroupId].$lastObservation: []$-element set of $-elements
         containing the last measured value. There is a []$-element for each map and each observation-group
         *********************************************/
-        updateObservation_in_modal: function(){
+        updateObservation_in_modal: function( onlyGroupId ){
             //If not shown in modal => exit
             if (!this.isShownInModal())
                 return;
 
             //Update stat for previous observations
-            this._updateAny$elemetList('$observationStatistics', function(station, index){
-                return station.formatPeriodStat(index, false);
-            } );
+            this._updateAny$elemetList(
+                '$observationStatistics',
+                function(station, index){
+                    return station.formatPeriodStat(index, false);
+                },
+                onlyGroupId
+            );
         },
 
 
@@ -538,12 +543,18 @@
         modalElements[mapId][observationGroupId].$forecastStatistics: []$-element.
             One $-element for each interval defined by nsObservations.forecastPeriods
         *********************************************/
-        updateForecast_in_modal: function(){
+        updateForecast_in_modal: function( onlyGroupId ){
             //If not shown in modal => exit
             if (!this.isShownInModal())
                 return;
 
-            this._updateAny$elemetList('$forecastStatistics', function(station, index){ return station.formatPeriodStat(index, true); } );
+            this._updateAny$elemetList(
+                '$forecastStatistics',
+                function(station, index){
+                    return station.formatPeriodStat(index, true);
+                },
+                onlyGroupId
+            );
         },
 
 
@@ -596,7 +607,8 @@
                     icon    : 'far fa-chart-line',
                     text    : {da:'Vis graf', en:'Show Chart'},
 
-                    onClick : function(){
+                    onClick : function(){ _this.showCharts(mapId); },
+                    OLDonClick : function(){
                         $.bsModal({
                             header: _this.getHeader(),
                             flexWidth: true,

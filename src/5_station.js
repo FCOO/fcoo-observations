@@ -22,8 +22,6 @@ Only one station pro Location is active within the same ObservationGroup
     function max(value1, value2){ return _Math('max', value1, value2); }
     function min(value1, value2){ return _Math('min', value1, value2); }
 
-
-
     /*****************************************************
     Station
     Represent a station with one or more parameters
@@ -614,24 +612,39 @@ Only one station pro Location is active within the same ObservationGroup
         },
 
 
+
         /*****************************************************
         _resolveForecast
         *****************************************************/
-        _resolveForecast: function(geoJSON){
+        _resolveForecast: function(geoJSON, groupId){
             this.forecastDataList = [];
             this._resolveGeoJSON(geoJSON, true);
+
+            this.location.updateForecast( groupId );
+        },
+
+        /*****************************************************
+        _rejectForecast
+        *****************************************************/
+        _rejectForecast: function(error, groupId){
+            this.location.updateForecast( groupId );
         },
 
         /*****************************************************
         _resolveObservations
         *****************************************************/
-        _resolveObservations: function(geoJSON){
+        _resolveObservations: function(geoJSON, groupId){
             this._resolveGeoJSON(geoJSON, false);
+            this.location.updateObservation( groupId );
         },
 
-
-
-
+        /*****************************************************
+        _rejectObservations
+        *****************************************************/
+        _rejectObservations: function(error, groupId){
+            this.location.updateObservation( groupId );
+            this.location.observationIsLoaded = false; //Force reload next time
+        },
     };
 
 

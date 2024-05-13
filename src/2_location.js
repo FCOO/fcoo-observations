@@ -19,20 +19,18 @@ Location = group of Stations with the same or different paramtre
 
     /*
     To allow different "systems" using the same FCOOObservations
-    there are four global lists of "functions" under nsObservations that are being used:
+    there are three global lists of "functions" under nsObservations that are being used:
 
-    isActiveFuncList
     updateLastObservationFuncList
     updateObservationFuncList
     updateForecastFuncList
 
-    The four list contains of
+    The three list contains of
         1: Function, or
         2: {func: Function or String (method-name for context), context: Object (default = this (Location))}, or
         3: String (method-name for Location) => 2:
     */
 
-    nsObservations.isActiveFuncList = [];
     nsObservations.updateLastObservationFuncList  = [];
     nsObservations.updateObservationFuncList  = [];
     nsObservations.updateForecastFuncList  = [];
@@ -160,49 +158,8 @@ Location = group of Stations with the same or different paramtre
 
 
         /*****************************************************
-        loadObservation
-        Load observation for all stations and parameter (if any) and update observationDataList and call location.updateObservation()
-        NOTE: The data is only loaded ONCE since loading last observation will update observationDataList
-        *****************************************************/
-        loadObservation: function(){
-            var _this = this;
-            if (this.observationIsLoaded)
-                this.updateObservation();
-            else {
-                var resolve = $.proxy(this._resolveObservation, this),
-                    promiseList = [];
-
-                this.observationPromiseIndex = [];
-                $.each(this.observationGroupStations, function(observationGroupId, station){
-                    $.each(station.observation, function(parameterId, fileName){
-                        _this.observationPromiseIndex.push(station);
-                        promiseList.push(
-                            window.Promise.getJSON(
-                                ns.dataFilePath(fileName),
-                                {noCache: true, useDefaultErrorHandler: false}
-                            )
-                        );
-                    });
-                });
-
-                window.Promise.each(promiseList, resolve)
-                    .then( $.proxy(this.updateObservation, this) );
-
-                this.observationIsLoaded = true;
-            }
-        },
-
-        /*****************************************************
-        _resolveObservation - resole observation pro station
-        *****************************************************/
-        _resolveObservation: function(data, promiseIndex){
-            this.observationPromiseIndex[promiseIndex]._resolveObservations(data);
-        },
-
-
-        /*****************************************************
         _getFuncList - Get an adjusted version of one of the function-lists:
-        isActiveFuncList, updateLastObservationFuncList, updateObservationFuncList, updateForecastFuncList
+        updateLastObservationFuncList, updateObservationFuncList, updateForecastFuncList
         *****************************************************/
         _getFuncList: function( listOrListName ){
             let _this = this,
@@ -225,75 +182,85 @@ Location = group of Stations with the same or different paramtre
             return result;
         },
 
-
-        /*****************************************************
-        isActive - Return true if any of the 'user' is active for the location
-        That means if any given methods in isActiveFuncList return true
-        *****************************************************/
-        isActive: function(){
-            let result = false;
-
-            this._getFuncList('isActiveFuncList').forEach( (func) => {
-                result = result || func();
+        _callFuncList: function( listOrListName, arg = []){
+            this._getFuncList( listOrListName ).forEach( (func) => {
+                func.apply(null, arg);
             });
-            return result;
+            return this;
         },
 
+
+        /*****************************************************
+        loadObservation
+        Load observation for all stations and parameter (if any) and update observationDataList and call location.updateObservation()
+        NOTE: The data is only loaded ONCE since loading last observation will update observationDataList
+        *****************************************************/
+        loadObservation: function(){
+            if (this.observationIsLoaded)
+                this.updateObservation();
+            else {
+                this.observationIsLoaded = true;
+
+                let stationUrls = {};
+                $.each(this.observationGroupStations, function(observationGroupId, station){
+                    let promiseOptions = {
+                            resolve: function(data) { station._resolveObservations(data, observationGroupId); },
+                            reject: function(error){ station._rejectObservations(error, observationGroupId); },
+                            noCache   : true,
+                            retries   : 3,
+                            retryDelay: 2*1000,
+                            useDefaultErrorHandler: false
+                        };
+
+                    $.each(station.observation, function(parameterId, fileName){
+                        let url = ns.dataFilePath(fileName);
+                        if (stationUrls[url])
+                            return;
+                        stationUrls[url] = true;
+
+                        Promise.getJSON(url, promiseOptions);
+                    });
+                });
+
+            }
+        },
 
         /*****************************************************
         loadForecast
         Load forecast for all stations and parameter (if any) and update forecastDataList and call location.updateForecast()
-        The load is controlled by a 'dummy' Interval that check if new data are needed
         *****************************************************/
         loadForecast: function(){
             if (this.forecastIsLoaded)
                 this.updateForecast();
-            else
-                if (this.interval)
-                    this._loadForecast();
-                else
-                    this.interval = window.intervals.addInterval({
-                        data    : {},
-                        duration: 60, //Reload every 60 min
-                        resolve : $.proxy(this._loadForecast, this),
-                        wait    : false
-                    });
-        },
+            else {
+                this.forecastIsLoaded = true;
 
-        _loadForecast: function(){
-            var _this = this;
-            //If the location of the station has any data displayed at any 'user' => load
-            if (this.isActive()){
-                var resolve = $.proxy(this._resolveForecast, this),
-                    promiseList = [];
-
-                this.forecastPromiseIndex = [];
+                //Load forecast for all parametre, but only once for each file/url
+                let stationUrls = {};
                 $.each(this.observationGroupStations, function(observationGroupId, station){
+                    let resolve = function(data) { station._resolveForecast(data,  observationGroupId); },
+                        reject  = function(error){ station._rejectForecast (error, observationGroupId); };
+
                     $.each(station.forecast, function(parameterId, fileName){
-                        _this.forecastPromiseIndex.push(station);
-                        promiseList.push(
-                            window.Promise.getJSON(
-                                ns.dataFilePath(fileName),
-                                {noCache: true, useDefaultErrorHandler: false}
-                            )
-                        );
+                        let url = ns.dataFilePath(fileName);
+                        if (stationUrls[url])
+                            return;
+                        stationUrls[url] = true;
+
+                        window.intervals.addInterval({
+                            fileName        : fileName,
+                            resolve         : resolve,
+                            reject          : reject,
+                            duration        : 60, //Reload every 60 min
+
+                            useDefaultErrorHandler: false,
+                            retries         : 3,
+                            retryDelay      : 2*1000,
+                            promiseOptions  : {noCache: true}
+                        });
                     });
                 });
-
-                window.Promise.each(promiseList, resolve)
-                    .then( $.proxy(this.updateForecast, this) );
-
-                this.forecastIsLoaded = true;
             }
-            else
-                this.forecastIsLoaded = false;
-        },
-
-        /*****************************************************
-        _resolveForecast - resole forecast pro station
-        *****************************************************/
-        _resolveForecast: function(data, promiseIndex){
-            this.forecastPromiseIndex[promiseIndex]._resolveForecast(data);
         },
 
 
@@ -303,12 +270,7 @@ Location = group of Stations with the same or different paramtre
         call all the update-methods from updateLastObservationFuncList
         *********************************************/
         updateLastObservation: function(){
-            if (this.isActive())
-                this._getFuncList('updateLastObservationFuncList').forEach( (func) => {
-                    func();
-                });
-
-            return this;
+            return this._callFuncList('updateLastObservationFuncList');
         },
 
         /*********************************************
@@ -316,20 +278,12 @@ Location = group of Stations with the same or different paramtre
         If any of the user is using this location =>
         update the observations and call all the update-methods from updateObservationFuncList
         *********************************************/
-        updateObservation: function(){
-            //If not active by any user => exit
-            if (!this.isActive())
-                return;
-
+        updateObservation: function( onlyGroupId ){
             //Update last observation
             this.updateLastObservation();
 
             //Call all the update-methods from updateObservationFuncList
-            this._getFuncList('updateObservationFuncList').forEach( (func) => {
-                func();
-            });
-
-            return this;
+            return this._callFuncList('updateObservationFuncList', [onlyGroupId]);
         },
 
         /*********************************************
@@ -337,13 +291,8 @@ Location = group of Stations with the same or different paramtre
         If any of the user is using this location =>
         update the observations and call all the update-methods from updateForecastFuncList
         *********************************************/
-        updateForecast: function(){
-            if (this.isActive())
-                this._getFuncList('updateForecastFuncList').forEach( (func) => {
-                    func();
-                });
-
-            return this;
+        updateForecast: function( onlyGroupId ){
+             return this._callFuncList('updateForecastFuncList', [onlyGroupId]);
         },
     };
 

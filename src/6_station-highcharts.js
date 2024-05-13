@@ -139,7 +139,6 @@ Only one station pro Location is active within the same ObservationGroup
             result.sort(function(timestampValue1, timestampValue2){ return timestampValue1[0] - timestampValue2[0];});
             return result;
         }
-
     });
 
 

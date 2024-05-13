@@ -100,7 +100,7 @@
 
 
         //Read last measurement every 3 min
-        //Only in test-mode window.intervals.options.durationUnit = 'seconds';
+        //Only in test-mode: window.intervals.options.durationUnit = 'seconds';
         ns.promiseList.append({
             data: {},
             resolve : function(/*data*/){
@@ -117,7 +117,7 @@
 
                         useDefaultErrorHandler: false,
                         retries         : 3,
-                        retryDelay      : 15*1000,
+                        retryDelay      : 2*1000,
                         promiseOptions  : {noCache: true}
                     });
                 });

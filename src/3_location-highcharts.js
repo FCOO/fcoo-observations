@@ -13,16 +13,57 @@ Methods for creating Highcharts for a Location
         nsObservations = ns.observations = ns.observations || {},
         nsHC           = ns.hc = ns.highcharts = ns.highcharts || {};
 
+    nsObservations.updateLastObservationFuncList.push('updateCharts');
+    nsObservations.updateObservationFuncList.push('updateCharts');
+    nsObservations.updateForecastFuncList.push('updateCharts');
 
 
     /****************************************************************************
-    Extend Location with methods for creating and displaying a chart
+    Extend Location with methods for creating, showing an updating charts with observations and forecasts
     ****************************************************************************/
     $.extend(nsObservations.Location.prototype, {
+        /*****************************************************
+        showCharts
+        *****************************************************/
+        showCharts: function(mapId){
+            let _this = this;
 
-        createCharts: function($container, inModal, mapOrMapId){
-            var timeSeriesOptions = {
-                    container: $container,
+            //this.timeSeries = this.timeSeries || nsHC.timeSeries(this._getChartsOptions(/*$container, */true, mapOrMapId);
+            let timeSeries = this.timeSeries = nsHC.timeSeries( this._getChartsOptions(true, mapId) );
+
+            this.modalCharts =
+                $.bsModal({
+                    header   : this.getHeader(),
+                    flexWidth: true,
+                    megaWidth: true,
+                    content  : timeSeries.createChart.bind(timeSeries),
+                    _content  : function( $body ){
+                        _this.timeSeries.createChart($body);
+                    },
+
+                    onClose: function(){ _this.timeSeries = null; return true; },
+                    remove : true,
+                    show   : true
+                });
+        },
+
+
+        /*****************************************************
+        updateCharts
+        *****************************************************/
+        updateCharts: function(){
+            if (this.timeSeries){
+                let chartsOptions = this._getChartsOptions(true, 0);
+                this.timeSeries.setAllData(chartsOptions.series);
+            }
+        },
+
+
+        /*****************************************************
+        _getChartsOptions
+        *****************************************************/
+        _getChartsOptions: function(inModal, mapOrMapId){
+            var result = {
                     location : this.name,
                     parameter: [],
                     unit     : [],
@@ -34,11 +75,11 @@ Methods for creating Highcharts for a Location
             $.each(this.observationGroupStationList, function(index, station){
                 var stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
                 $.each(['parameter', 'unit', 'series', 'yAxis'], function(index, id){
-                    timeSeriesOptions[id].push( stationChartsOptions[id] );
+                    result[id].push( stationChartsOptions[id] );
                 });
            });
 
-           timeSeriesOptions.chartOptions = $.extend(true, timeSeriesOptions.chartOptions,
+           result.chartOptions = $.extend(true, result.chartOptions,
                 inModal ? {
 
                 } : {
@@ -57,8 +98,17 @@ Methods for creating Highcharts for a Location
                     }
                 });
 
+            return result;
+        },
 
-            nsHC.timeSeries(timeSeriesOptions);
+        /*****************************************************
+        createCharts
+        *****************************************************/
+        createCharts: function(inModal, mapOrMapId){
+            let timeSeriesOptions = this._getChartsOptions(inModal, mapOrMapId);
+
+            let timeSeries = nsHC.timeSeries(timeSeriesOptions);
+            return timeSeries;
         }
     });
 
