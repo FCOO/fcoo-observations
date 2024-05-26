@@ -170,11 +170,40 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</a>'
         }).addTo(maps[1]);
 
-       maps[0].createPane('observations');
-       maps[1].createPane('observations');
+        maps[0].createPane('observations');
+        maps[1].createPane('observations');
 
         
-		fcooObservation = new window.fcoo.FCOOObservations({
+        
+        function resolveFCOOObservations( fcooObs) {
+            
+           fcooObservation = fcooObs;
+           
+            var geoJSON0 = fcooObservation.geoJSON().addTo(maps[0]);
+    //        fcooObservation.show('SEALEVEL', maps[0]);
+
+            var geoJSON1 = fcooObservation.geoJSON().addTo(maps[1]);
+            fcooObservation.show('CURRENT_SURFACE', maps[1]);
+            fcooObservation.show('CURRENT_SEAFLOOR', maps[1]);
+
+        
+            var obsG = fcooObservation.observationGroups.CURRENT_SURFACE; 
+            $.bsButton({
+                iconClass: 'obs-group-icon-container',
+                icon: obsG.faIcon,
+                text: 'Surface'
+            }).appendTo('body');            
+
+            $.bsButton({
+                iconClass: 'obs-group-icon-container',
+                icon: fcooObservation.observationGroups.CURRENT_SEAFLOOR.faIcon,
+                text: 'Seafloor'
+            }).appendTo('body');            
+        
+        }
+
+
+        window.fcoo.observations.getFCOOObservations(resolveFCOOObservations, {
             fileName:[
                 'observations-sealevel.json',
                 // 'observations-wind_TEST.json', 
@@ -192,36 +221,17 @@
         });
 
 
-        var geoJSON0 = fcooObservation.geoJSON().addTo(maps[0]);
-//        fcooObservation.show('SEALEVEL', maps[0]);
+        window.fcoo.observations.getFCOOObservations(( fcooObs) => console.log('1', fcooObs) );
+        window.fcoo.observations.getFCOOObservations(( fcooObs) => console.log('2', fcooObs) );
+        window.fcoo.observations.getFCOOObservations(( fcooObs) => console.log('3', fcooObs) );
+        window.fcoo.observations.getFCOOObservations(( fcooObs) => console.log('4', fcooObs) );
 
-        var geoJSON1 = fcooObservation.geoJSON().addTo(maps[1]);
-        fcooObservation.show('CURRENT_SURFACE', maps[1]);
-        fcooObservation.show('CURRENT_SEAFLOOR', maps[1]);
-        
+
         fcoo.promiseList.options.finally = function(){
             fcoo.globalSetting.load(null, function(){
                 i18next.changeLanguage('en');
             });
-
-            var obsG = fcooObservation.observationGroups.CURRENT_SURFACE; 
-            $.bsButton({
-                iconClass: 'obs-group-icon-container',
-                icon: obsG.faIcon,
-                text: 'Surface'
-            }).appendTo('body');            
-
-            $.bsButton({
-                iconClass: 'obs-group-icon-container',
-                icon: fcooObservation.observationGroups.CURRENT_SEAFLOOR.faIcon,
-                text: 'Seafloor'
-            }).appendTo('body');            
-            
-            
         };
-
-
-
 
         fcoo.promiseList.promiseAll();
     });

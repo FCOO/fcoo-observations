@@ -27,9 +27,31 @@
     nsObservations.forecast_minimumPercentValues    = 1;    //All forecast needed!
 
     /***************************************************************
+    fcooObservations = Current version of FCOOObservations
+    nsObservations.getFCOOObservation(resolve) calls resolve with (ns.fcooObservations)
+    nsObservations.fcooObservations is created first time
+    ****************************************************************/
+    nsObservations.fcooObservations = null;
+
+
+    nsObservations.getFCOOObservations = function(resolve, options){
+        if (ns.fcooObservations && ns.fcooObservations.loaded){
+            resolve(ns.fcooObservations);
+            return;
+        }
+
+        ns.fcooObservations = ns.fcooObservations || new ns.FCOOObservations(options);
+        ns.fcooObservations.resolvelist.push(resolve);
+    };
+
+
+
+
+
+    /***************************************************************
     FCOOObservations
     ****************************************************************/
-    ns.FCOOObservations = function(options){
+    ns.FCOOObservations = function(options = {}){
         var _this = this;
         this.options = $.extend(true, {}, {
 			VERSION         : "{VERSION}",
@@ -41,7 +63,9 @@
             locationFileName        : 'locations.json',
             fileName                : ['observations-sealevel.json','observations-current.json'/*, 'observations-wind.json'*/],
             lastObservationFileName : 'LastObservations_SEALVL.json LastObservations_CURRENT.json',
-        }, options || {});
+        }, options);
+
+        this.resolvelist = [];
 
         this.init();
 
@@ -123,6 +147,9 @@
                 });
             }
         });
+
+        //Call onFinally when all are ready
+        ns.promiseList.prependLast({data: {}, resolve: this._finally.bind(this) });
     };
 
     ns.FCOOObservations.prototype = {
@@ -169,6 +196,13 @@
         onResolve: function(){
             /* Empty here but can be extended in extentions of FCOOObservations */
         },
+
+        _finally: function(){
+            //When the object is created: Call all pending resolve-function (if any)
+            this.resolvelist.forEach(resolve => resolve(this), this);
+            this.loaded = true;
+        },
+
 
         /*****************************************************
         _resolve_last_measurment
