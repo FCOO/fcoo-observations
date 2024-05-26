@@ -54,7 +54,7 @@
     ns.FCOOObservations = function(options = {}){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "4.3.0",
+			VERSION         : "4.3.1",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -149,7 +149,7 @@
         });
 
         //Call onFinally when all are ready
-        ns.promiseList.prependLast({data: {}, resolve: this._finally.bind(this) });
+        ns.promiseList.append({data: {}, resolve: this._finally.bind(this) });
     };
 
     ns.FCOOObservations.prototype = {

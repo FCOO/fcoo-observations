@@ -149,7 +149,7 @@
         });
 
         //Call onFinally when all are ready
-        ns.promiseList.prependLast({data: {}, resolve: this._finally.bind(this) });
+        ns.promiseList.append({data: {}, resolve: this._finally.bind(this) });
     };
 
     ns.FCOOObservations.prototype = {
