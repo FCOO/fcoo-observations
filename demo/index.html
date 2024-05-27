@@ -117,7 +117,7 @@
 //HER        //ONLY WHEN PUSH TO GITHUB        
 //HER        window.fcoo.DEMO_VERSION = true;
 //HER        window.fcoo.LOCAL_DATA = !window.fcoo.DEMO_VERSION;
-
+        window.fcoo.DEV_VERSION = true;
        
         //TEMP: No access to data-files on AWS. Read from old location instead 
         window.fcoo.path.setPath({host: 'bal.fcoo.dk'});
@@ -204,12 +204,12 @@
 
 
         window.fcoo.observations.getFCOOObservations(resolveFCOOObservations, {
-            fileName:[
+            _fileName:[
                 'observations-sealevel.json',
                 // 'observations-wind_TEST.json', 
 
-                'observations-current-surface.json?id=12345',
-                'observations-current-seafloor.json?id=12345'
+                'observations-current-surface.json',
+                'observations-current-seafloor.json'
             ],
             lastObservationFileName : ['LastObservations_SEALVL.json', 
                 'LastObservations_CURRENT.json', 

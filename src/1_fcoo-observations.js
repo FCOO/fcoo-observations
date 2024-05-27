@@ -61,8 +61,6 @@
             },
             groupFileName           : 'observations-groups.json',
             locationFileName        : 'locations.json',
-            fileName                : ['observations-sealevel.json','observations-current.json'/*, 'observations-wind.json'*/],
-            lastObservationFileName : 'LastObservations_SEALVL.json LastObservations_CURRENT.json',
         }, options);
 
         this.resolvelist = [];
@@ -70,6 +68,7 @@
         this.init();
 
         this.ready = false;
+        this.loaded = false;
 
         //Read observations-groups
         this.observationGroupList = [];
@@ -102,54 +101,9 @@
                     _this.locationList.push(newLocation);
                     _this.locations[newLocation.id] = newLocation;
                 });
-            }
+                _this._promise_setup();
+            },
         });
-
-
-        //Reads the files with the setup for the meassurements stations
-        this.fileNameList = this.options.fileName;
-        if (typeof this.fileNameList == 'string')
-            this.fileNameList = this.fileNameList.split(' ');
-        else
-            this.fileNameList = $.isArray(this.options.fileName) ? this.options.fileName : [this.options.fileName];
-
-        this.filesResolved = 0;
-
-        $.each(this.fileNameList, function(index, fileName){
-            ns.promiseList.append({
-                fileName: ns.dataFilePath({subDir: _this.options.subDir.observations, fileName: fileName}),
-                resolve : _this._resolve.bind(_this)
-            });
-        });
-
-
-        //Read last measurement every 3 min
-        //Only in test-mode: window.intervals.options.durationUnit = 'seconds';
-        ns.promiseList.append({
-            data: {},
-            resolve : function(/*data*/){
-                let fileNameList = $.isArray(_this.options.lastObservationFileName) ? _this.options.lastObservationFileName : _this.options.lastObservationFileName.split(' '),
-                    resolve      = _this._resolve_last_measurment.bind(_this),
-                    reject       = _this._reject_last_measurment.bind(_this);
-
-                $.each(fileNameList, function(index, fileName){
-                   window.intervals.addInterval({
-                        duration        : 3,
-                        fileName        : {mainDir: true, subDir: _this.options.subDir.observations, fileName: fileName},
-                        resolve         : resolve,
-                        reject          : reject,
-
-                        useDefaultErrorHandler: false,
-                        retries         : 3,
-                        retryDelay      : 2*1000,
-                        promiseOptions  : {noCache: true}
-                    });
-                });
-            }
-        });
-
-        //Call onFinally when all are ready
-        ns.promiseList.append({data: {}, resolve: this._finally.bind(this) });
     };
 
     ns.FCOOObservations.prototype = {
@@ -157,7 +111,73 @@
             /* Empty here but can be extended in extentions of FCOOObservations */
         },
 
-        _resolve : function(data){
+        _promise_setup: function(){
+            //Reads the files with the setup for the meassurements stations
+            this.fileNameList = this.options.fileName;
+            //If no fileName are given in options => use the file names given in each observation-group
+            if (this.fileNameList){
+                if (typeof this.fileNameList == 'string')
+                    this.fileNameList = this.fileNameList.split(' ');
+                else
+                    this.fileNameList = $.isArray(this.options.fileName) ? this.options.fileName : [this.options.fileName];
+            }
+            else  {
+                this.fileNameList = [];
+                this.observationGroupList.forEach( obsGroup => {
+                    if (obsGroup.options.fileName)
+                        this.fileNameList.push(obsGroup.options.fileName);
+                }, this);
+            }
+            this.filesResolved = 0;
+
+            this.fileNameList.forEach(fileName => {
+                ns.promiseList.append({
+                    fileName: ns.dataFilePath({subDir: this.options.subDir.observations, fileName: fileName}),
+                    resolve : this._resolve_setup.bind(this)
+                });
+            }, this);
+
+
+            //Read last measurement every 3 min. Start after station-lists are loaded
+            //Only in test-mode: window.intervals.options.durationUnit = 'seconds';
+            let _this = this,
+                fileNameList = [];
+            if (this.options.lastObservationFileName)
+                fileNameList = $.isArray(_this.options.lastObservationFileName) ? _this.options.lastObservationFileName : _this.options.lastObservationFileName.split(' ');
+            else
+                this.observationGroupList.forEach( obsGroup => {
+                    if (obsGroup.options.lastObservationFileName)
+                        this.fileNameList.push(obsGroup.options.lastObservationFileName);
+                });
+
+            ns.promiseList.append({
+                data    : fileNameList,
+                resolve : function(fileNameList){
+                    let resolve = _this._resolve_last_measurment.bind(_this),
+                        reject  = _this._reject_last_measurment.bind(_this);
+
+                    $.each(fileNameList, function(index, fileName){
+                       window.intervals.addInterval({
+                            duration        : 3,
+                            fileName        : {mainDir: true, subDir: _this.options.subDir.observations, fileName: fileName},
+                            resolve         : resolve,
+                            reject          : reject,
+
+                            useDefaultErrorHandler: false,
+                            retries         : 3,
+                            retryDelay      : 2*1000,
+                            promiseOptions  : {noCache: true}
+                        });
+                    });
+                }
+            });
+
+            //Call onFinally when all are ready
+            ns.promiseList.append({data: {}, resolve: this._finally.bind(this) });
+        },
+
+
+        _resolve_setup : function(data){
             var _this = this;
             data = $.extend(true, {default_station:{}}, data);
             $.each(data.locationList || data.list, function(index, locationOptions){
