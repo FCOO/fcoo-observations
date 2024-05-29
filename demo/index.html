@@ -203,7 +203,7 @@
         }
 
 
-        window.fcoo.observations.getFCOOObservations(resolveFCOOObservations, {
+        window.fcoo.observations.getFCOOObservations(resolveFCOOObservations, false, {
             _fileName:[
                 'observations-sealevel.json',
                 // 'observations-wind_TEST.json', 
@@ -221,10 +221,10 @@
         });
 
 
-        window.fcoo.observations.getFCOOObservations(( fcooObs) => console.log('1', fcooObs) );
-        window.fcoo.observations.getFCOOObservations(( fcooObs) => console.log('2', fcooObs) );
-        window.fcoo.observations.getFCOOObservations(( fcooObs) => console.log('3', fcooObs) );
-        window.fcoo.observations.getFCOOObservations(( fcooObs) => console.log('4', fcooObs) );
+        window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('Last', fcooObs), true );
+        window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('2', fcooObs) );
+        window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('3', fcooObs) );
+        window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('4', fcooObs) );
 
 
         fcoo.promiseList.options.finally = function(){

@@ -34,18 +34,18 @@
     nsObservations.fcooObservations = null;
 
 
-    nsObservations.getFCOOObservations = function(resolve, options){
-        if (ns.fcooObservations && ns.fcooObservations.loaded){
+    nsObservations.getFCOOObservations = function(resolve, whenFullLoaded, options){
+        if (ns.fcooObservations && (!whenFullLoaded || ns.fcooObservations.fullLoaded)){
             resolve(ns.fcooObservations);
             return;
         }
 
         ns.fcooObservations = ns.fcooObservations || new ns.FCOOObservations(options);
-        ns.fcooObservations.resolvelist.push(resolve);
+        if (whenFullLoaded)
+            ns.fcooObservations.resolveFullList.push(resolve);
+        else
+            ns.fcooObservations.resolveList.push(resolve);
     };
-
-
-
 
 
     /***************************************************************
@@ -63,12 +63,15 @@
             locationFileName        : 'locations.json',
         }, options);
 
-        this.resolvelist = [];
+        //resolveList, resolveFullList = []FUNCTION(fcooObservations: FCOOObservations)
+        //List of functions to be called when fcooObservations is created (this.resolveList) or when full loaded (resolveFullList)
+        this.resolveList = [];
+        this.resolveFullList = [];
 
         this.init();
 
         this.ready = false;
-        this.loaded = false;
+        this.fullLoaded = false;
 
         //Read observations-groups
         this.observationGroupList = [];
@@ -101,9 +104,22 @@
                     _this.locationList.push(newLocation);
                     _this.locations[newLocation.id] = newLocation;
                 });
-                _this._promise_setup();
             },
         });
+
+        //When the object is created and obs-groups and locations are loaded: Call all pending resolve-function (if any)
+        ns.promiseList.append({
+            data   : 'none',
+            resolve: () => _this.resolveList.forEach(resolve => resolve(_this))
+        });
+
+
+        //Read setup for each observation-group
+        ns.promiseList.append({
+            data: 'none',
+            resolve: this._promise_setup.bind(this)
+        });
+
     };
 
     ns.FCOOObservations.prototype = {
@@ -218,9 +234,9 @@
         },
 
         _finally: function(){
-            //When the object is created: Call all pending resolve-function (if any)
-            this.resolvelist.forEach(resolve => resolve(this), this);
-            this.loaded = true;
+            //When the object is fully loaded: Call all pending resolve-function (if any)
+            this.resolveFullList.forEach(resolve => resolve(this), this);
+            this.fullLoaded = true;
         },
 
 
