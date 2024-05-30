@@ -54,7 +54,7 @@
     ns.FCOOObservations = function(options = {}){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "4.5.0",
+			VERSION         : "4.6.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -2033,6 +2033,12 @@ Only one station pro Location is active within the same ObservationGroup
 
             //Add the frame icon again and makes it on top
             this.faIcon[0].push(frameIcon + '  position-relative');
+
+            this.faIconClass = 'obs-group-icon-container';
+
+            //Copy icon-info into standard options
+            this.options.icon = this.faIcon;
+            this.options.iconClass = this.faIconClass;
 
         }; }(nsObservations.ObservationGroup.prototype.init),
 
