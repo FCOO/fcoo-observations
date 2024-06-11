@@ -570,7 +570,7 @@
         addPopup: function(mapId, marker){
             var _this = this;
             marker.bindPopup({
-                width  : 265,
+                width  : 250, //265,
 
                 fixable: true,
                 //scroll : 'horizontal',

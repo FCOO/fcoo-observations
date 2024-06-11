@@ -26,11 +26,12 @@ ObservationGroup = group of Locations with the same parameter(-group)
     nsObservations.ObservationGroup = function(options, observations){
         var _this = this;
         this.options = $.extend(true, {}, {
-                directionFrom : false,
+                directionFrom : true,//false,
                 allNeeded     : true,
                 maxDelay      : "PT1H",
                 maxGap        : 60,
-                historyPeriod : "PT30H"
+                historyPeriod : "PT30H",
+                faArrow       : 'fas fa-up-long'
 
             }, options);
         this.id = options.id;

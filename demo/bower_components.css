@@ -37593,6 +37593,596 @@ https://github.com/FCOO
   .fa-flag-zz.fa-flag-squared {
     background-image: url(images/zz_1x1.svg); }
 
+@charset "UTF-8";
+/***********************************************
+	fcoo-maps-colors.scss,
+
+	(c) 2021, FCOO
+
+	https://github.com/FCOO/fcoo-maps-colors
+	https://github.com/FCOO
+
+
+************************************************/
+/*********************************
+IMPORT UTILITIES
+*********************************/
+/***********************************************************************
+
+leaflet-bootstrap-marker-mixin.scss
+
+*************************************************************************/
+/***********************************************************************
+marker-circle-color
+Create style for bsMarkerCircle in different colors
+*************************************************************************/
+/***********************************************************************
+lbm-circle-and-icon-classes
+Create class for bsMarkerCircle named $name with color and color-border
+*************************************************************************/
+/***********************************************************************
+lbm-marker-and-icon-classes
+Create class for bsMarkerCircle named $name with color and color-border
+*************************************************************************/
+/***********************************************************************
+fa-lbm-color
+Create class for color and border-color used by L.bsMarkerAsIcon (and $.bsMarkerAsIcon)
+to create fa-icon looking like the marker
+*************************************************************************/
+/***********************************************
+    _leaflet-polyline-mixin.scss
+
+	(c) 2018, FCOO
+
+	https://github.com/FCOO/leaflet-polyline
+	https://github.com/FCOO
+
+************************************************/
+/*********************************
+FCOO-COLORS-VARIABLES and FCOO-COLORS-MIXIN
+*********************************/
+/**********************************************************
+	fcoo-colors-include.scss,
+
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+
+
+    Contain all include for a packages using
+    the scss-variables and scss-mixins of fcoo-colors
+
+    The scss file must also include
+
+    //COLOR-HELPER
+    @import "../bower_components/sass-color-helpers/stylesheets/color-helpers";
+
+    //LEAFLET-BOOTSTRAP-MARKER-MIXIN - mixin to create colors for marker (bsMarker)
+    @import "../bower_components/leaflet-bootstrap-marker-mixin/dist/leaflet-bootstrap-marker-mixin";
+
+    //LEAFLET-POLYLINE-MIXIN - mixin to create colors for polyline and polygon
+    @import "../bower_components/leaflet-polyline-mixin/dist/leaflet-polyline-mixin";
+
+**********************************************************/
+/**********************************************************
+	fcoo-colors-variables.scss,
+
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+**********************************************************/
+/**********************************************************
+The color scheme is from LinkedIn and shown in linkedin-palette-screen.pdf
+**********************************************************/
+/**********************************************************
+Color for time = tree colors for the past, now, and the future
+**********************************************************/
+/**********************************************************
+Application color
+Defaults is = DALO color in "Forsvarsministeriets koncernfælles Designmanual 2018"
+Can be changed by mixin application-base-color( new-color )
+in src/_fcoo-color-mixin.scss
+**********************************************************/
+/**********************************************************
+Environmental colors
+Defines a number of colors and $-variables for different
+parts of the environmental. Eq sky, cloud, sea etc.
+**********************************************************/
+/**********************************************************
+    fcoo-colors-mixin.scss
+
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+
+**********************************************************/
+/**********************************************************
+Functions to get colors in different (relative) gradients
+**********************************************************/
+/**********************************************************
+marker-and-polygon-color
+create color-classes for bsMarker and bsPolyline
+**********************************************************/
+/**********************************************************
+Application color
+Defaults is = DALO color in "Forsvarsministeriets koncernfælles Designmanual 2018"
+Can be changed by mixin application-base-color( new-color )
+**********************************************************/
+/*********************************
+FCOO-MAPS-COLORS-VARIABLES and FCOO-MAPS-COLORS-MIXIN
+scss-variable with all colors and mixins
+*********************************/
+/***********************************************
+fcoo-maps-colors-variables
+
+Create all scss-variable with colors for different fcoo-maps layers
+
+************************************************/
+/****************************************************************************
+COMMON
+****************************************************************************/
+/****************************************************************************
+SEARCH RESULT
+Color for search result
+****************************************************************************/
+/*Previous used colors:
+$DarkGoldenRod: #B8860B;
+$Chartreuse: #7FFF00;
+$osm-search-result: darken(#FF6200, 5); //dark-dark-orange
+*/
+/**********************************************************
+OBSERVATIONS
+**********************************************************/
+/**********************************************************
+NAVIGATION AND NIORD
+**********************************************************/
+/****************************************************************************
+HAVNELODS
+****************************************************************************/
+/****************************************************************************
+LOCATION
+****************************************************************************/
+/****************************************************************************
+YOUR POSITION
+****************************************************************************/
+/***********************************************
+
+fcoo-maps-colors-mixin
+
+************************************************/
+/**********************************************************
+marker-and-polygon-color
+create color-classes for bsMarker and bsPolyline
+**********************************************************/
+/*********************************
+Style for search results in fcoo-maps
+*********************************/
+/***********************************************
+_fcoo-maps-colors-search-result.scss
+
+
+************************************************/
+.lbm-type-circle.lbm-color-search-result {
+  background-color: #EC640C;
+  color: #000;
+}
+.lbm-type-circle.lbm-color-search-result.lbm-transparent {
+  background-color: rgba(236, 100, 12, 0.7);
+}
+.lbm-type-circle.lbm-color-search-result.lbm-transparent.lbm-hover:hover {
+  background-color: rgba(236, 100, 12, 0.9);
+}
+.lbm-type-circle.lbm-color-search-result.lbm-shadow, .lbm-type-circle.lbm-color-search-result.leaflet-drag-target, .lbm-type-circle.lbm-color-search-result.lbm-hover:hover {
+  box-shadow: 0px 0px 0px 5px rgba(236, 100, 12, 0.28);
+}
+.lbm-type-circle.lbm-color-search-result:before {
+  box-shadow: 0 0 6px 2px #EC640C;
+}
+.lbm-type-circle.lbm-border-color-search-result {
+  border-color: #EC640C;
+}
+
+.fa-lbm-color-search-result {
+  color: #EC640C;
+}
+
+.fa-lbm-border-color-search-result {
+  color: #EC640C;
+}
+
+.lpl-base.lpl-search-result {
+  fill: #EC640C;
+}
+
+.lpl-base.lpl-border-search-result,
+.lpl-shadow.lpl-border-search-result {
+  stroke: #EC640C;
+}
+
+.fa-search-result {
+  color: #EC640C;
+}
+
+/*********************************
+FCOO-MAPS-COLORS-OBSERVATIONS
+Style for fcoo/fcoo-maps-observations
+*********************************/
+/***********************************************
+_fcoo-maps-colors-observations.scss
+
+Style for fcoo/fcoo-maps-observations
+
+************************************************/
+.lbm-type-circle.lbm-color-observations {
+  background-color: #EFB920;
+  color: #000;
+}
+.lbm-type-circle.lbm-color-observations.lbm-transparent {
+  background-color: rgba(239, 185, 32, 0.7);
+}
+.lbm-type-circle.lbm-color-observations.lbm-transparent.lbm-hover:hover {
+  background-color: rgba(239, 185, 32, 0.9);
+}
+.lbm-type-circle.lbm-color-observations.lbm-shadow, .lbm-type-circle.lbm-color-observations.leaflet-drag-target, .lbm-type-circle.lbm-color-observations.lbm-hover:hover {
+  box-shadow: 0px 0px 0px 5px rgba(239, 185, 32, 0.28);
+}
+.lbm-type-circle.lbm-color-observations:before {
+  box-shadow: 0 0 6px 2px #EFB920;
+}
+.lbm-type-circle.lbm-border-color-observations {
+  border-color: #EFB920;
+}
+
+.fa-lbm-color-observations {
+  color: #EFB920;
+}
+
+.fa-lbm-border-color-observations {
+  color: #EFB920;
+}
+
+.fa-observations {
+  color: #EFB920;
+}
+
+/*********************************
+FCOO-MAPS-COLORS-NIORD-AND-NAVIGATION
+Style for fcoo/fcoo-maps-niord and navigation layers
+*********************************/
+/***********************************************
+_fcoo-maps-colors-niord-and-navigation.scss
+
+Style for fcoo/fcoo-maps-niord / fcoo/jquery-bootstrap-niord
+
+Create the style for the four different domains
+************************************************/
+.lbm-type-circle.lbm-color-niord-fa {
+  background-color: white;
+  color: #000;
+}
+.lbm-type-circle.lbm-color-niord-fa.lbm-transparent {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+.lbm-type-circle.lbm-color-niord-fa.lbm-transparent.lbm-hover:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+.lbm-type-circle.lbm-color-niord-fa.lbm-shadow, .lbm-type-circle.lbm-color-niord-fa.leaflet-drag-target, .lbm-type-circle.lbm-color-niord-fa.lbm-hover:hover {
+  box-shadow: 0px 0px 0px 5px rgba(255, 255, 255, 0.28);
+}
+.lbm-type-circle.lbm-color-niord-fa:before {
+  box-shadow: 0 0 6px 2px white;
+}
+.lbm-type-circle.lbm-border-color-niord-fa {
+  border-color: #7c0043;
+}
+
+.fa-lbm-color-niord-fa {
+  color: white;
+}
+
+.fa-lbm-border-color-niord-fa {
+  color: #7c0043;
+}
+
+.lpl-base.lpl-niord-fa {
+  fill: white;
+}
+
+.lpl-base.lpl-border-niord-fa,
+.lpl-shadow.lpl-border-niord-fa {
+  stroke: #7c0043;
+}
+
+.lbm-type-circle.lbm-color-niord-nm {
+  background-color: white;
+  color: #000;
+}
+.lbm-type-circle.lbm-color-niord-nm.lbm-transparent {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+.lbm-type-circle.lbm-color-niord-nm.lbm-transparent.lbm-hover:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+.lbm-type-circle.lbm-color-niord-nm.lbm-shadow, .lbm-type-circle.lbm-color-niord-nm.leaflet-drag-target, .lbm-type-circle.lbm-color-niord-nm.lbm-hover:hover {
+  box-shadow: 0px 0px 0px 5px rgba(255, 255, 255, 0.28);
+}
+.lbm-type-circle.lbm-color-niord-nm:before {
+  box-shadow: 0 0 6px 2px white;
+}
+.lbm-type-circle.lbm-border-color-niord-nm {
+  border-color: #7c0043;
+}
+
+.fa-lbm-color-niord-nm {
+  color: white;
+}
+
+.fa-lbm-border-color-niord-nm {
+  color: #7c0043;
+}
+
+.lpl-base.lpl-niord-nm {
+  fill: white;
+}
+
+.lpl-base.lpl-border-niord-nm,
+.lpl-shadow.lpl-border-niord-nm {
+  stroke: #7c0043;
+}
+
+.lbm-type-circle.lbm-color-niord-nw {
+  background-color: #E2007A;
+  color: #fff;
+}
+.lbm-type-circle.lbm-color-niord-nw.lbm-transparent {
+  background-color: rgba(226, 0, 122, 0.7);
+}
+.lbm-type-circle.lbm-color-niord-nw.lbm-transparent.lbm-hover:hover {
+  background-color: rgba(226, 0, 122, 0.9);
+}
+.lbm-type-circle.lbm-color-niord-nw.lbm-shadow, .lbm-type-circle.lbm-color-niord-nw.leaflet-drag-target, .lbm-type-circle.lbm-color-niord-nw.lbm-hover:hover {
+  box-shadow: 0px 0px 0px 5px rgba(226, 0, 122, 0.28);
+}
+.lbm-type-circle.lbm-color-niord-nw:before {
+  box-shadow: 0 0 6px 2px #E2007A;
+}
+.lbm-type-circle.lbm-border-color-niord-nw {
+  border-color: #7c0043;
+}
+
+.fa-lbm-color-niord-nw {
+  color: #E2007A;
+}
+
+.fa-lbm-border-color-niord-nw {
+  color: #7c0043;
+}
+
+.lpl-base.lpl-niord-nw {
+  fill: #E2007A;
+}
+
+.lpl-base.lpl-border-niord-nw,
+.lpl-shadow.lpl-border-niord-nw {
+  stroke: #7c0043;
+}
+
+.lbm-type-circle.lbm-color-niord-fe {
+  background-color: #E2007A;
+  color: #fff;
+}
+.lbm-type-circle.lbm-color-niord-fe.lbm-transparent {
+  background-color: rgba(226, 0, 122, 0.7);
+}
+.lbm-type-circle.lbm-color-niord-fe.lbm-transparent.lbm-hover:hover {
+  background-color: rgba(226, 0, 122, 0.9);
+}
+.lbm-type-circle.lbm-color-niord-fe.lbm-shadow, .lbm-type-circle.lbm-color-niord-fe.leaflet-drag-target, .lbm-type-circle.lbm-color-niord-fe.lbm-hover:hover {
+  box-shadow: 0px 0px 0px 5px rgba(226, 0, 122, 0.28);
+}
+.lbm-type-circle.lbm-color-niord-fe:before {
+  box-shadow: 0 0 6px 2px #E2007A;
+}
+.lbm-type-circle.lbm-border-color-niord-fe {
+  border-color: #7c0043;
+}
+
+.fa-lbm-color-niord-fe {
+  color: #E2007A;
+}
+
+.fa-lbm-border-color-niord-fe {
+  color: #7c0043;
+}
+
+.lpl-base.lpl-niord-fe {
+  fill: #E2007A;
+}
+
+.lpl-base.lpl-border-niord-fe,
+.lpl-shadow.lpl-border-niord-fe {
+  stroke: #7c0043;
+}
+
+.fa-navigation {
+  color: #E5238C;
+}
+
+.fa-niord-fa {
+  color: white;
+}
+
+.fa-niord-border-fa {
+  color: #7c0043;
+}
+
+.fa-niord-nm {
+  color: white;
+}
+
+.fa-niord-border-nm {
+  color: #7c0043;
+}
+
+.fa-niord-nw {
+  color: #E2007A;
+}
+
+.fa-niord-border-nw {
+  color: #7c0043;
+}
+
+.fa-niord-fe {
+  color: #E2007A;
+}
+
+.fa-niord-border-fe {
+  color: #7c0043;
+}
+
+:root {
+  --jbn-time-past-color: var(--fc-time-past-color);
+  --jbn-time-now-color: var(--fc-time-now-color);
+  --jbn-time-now-text-color: var(--fc-time-now-text-color);
+  --jbn-time-future-color: var(--fc-time-future-color);
+}
+
+/*********************************
+FCOO-MAPS-COLORS-HAVNELODS
+Style for fcoo/fcoo-maps-havnelods
+*********************************/
+/***********************************************
+_fcoo-maps-colors-havnelods.scss
+
+Style for fcoo/fcoo-maps-havnelods
+
+************************************************/
+.lbm-type-circle.lbm-color-harbor-dk {
+  background-color: #7CB82F;
+  color: #000;
+}
+.lbm-type-circle.lbm-color-harbor-dk.lbm-transparent {
+  background-color: rgba(124, 184, 47, 0.7);
+}
+.lbm-type-circle.lbm-color-harbor-dk.lbm-transparent.lbm-hover:hover {
+  background-color: rgba(124, 184, 47, 0.9);
+}
+.lbm-type-circle.lbm-color-harbor-dk.lbm-shadow, .lbm-type-circle.lbm-color-harbor-dk.leaflet-drag-target, .lbm-type-circle.lbm-color-harbor-dk.lbm-hover:hover {
+  box-shadow: 0px 0px 0px 5px rgba(124, 184, 47, 0.28);
+}
+.lbm-type-circle.lbm-color-harbor-dk:before {
+  box-shadow: 0 0 6px 2px #7CB82F;
+}
+.lbm-type-circle.lbm-border-color-harbor-dk {
+  border-color: #7CB82F;
+}
+
+.fa-lbm-color-harbor-dk {
+  color: #7CB82F;
+}
+
+.fa-lbm-border-color-harbor-dk {
+  color: #7CB82F;
+}
+
+.lbm-type-circle.lbm-color-harbor-gl {
+  background-color: #60AA14;
+  color: #000;
+}
+.lbm-type-circle.lbm-color-harbor-gl.lbm-transparent {
+  background-color: rgba(96, 170, 20, 0.7);
+}
+.lbm-type-circle.lbm-color-harbor-gl.lbm-transparent.lbm-hover:hover {
+  background-color: rgba(96, 170, 20, 0.9);
+}
+.lbm-type-circle.lbm-color-harbor-gl.lbm-shadow, .lbm-type-circle.lbm-color-harbor-gl.leaflet-drag-target, .lbm-type-circle.lbm-color-harbor-gl.lbm-hover:hover {
+  box-shadow: 0px 0px 0px 5px rgba(96, 170, 20, 0.28);
+}
+.lbm-type-circle.lbm-color-harbor-gl:before {
+  box-shadow: 0 0 6px 2px #60AA14;
+}
+.lbm-type-circle.lbm-border-color-harbor-gl {
+  border-color: #60AA14;
+}
+
+.fa-lbm-color-harbor-gl {
+  color: #60AA14;
+}
+
+.fa-lbm-border-color-harbor-gl {
+  color: #60AA14;
+}
+
+.fa-harbor-dk {
+  color: #7CB82F;
+}
+
+.fa-harbor-gl {
+  color: #60AA14;
+}
+
+/*********************************
+FCOO-MAPS-COLORS-YOUR-POSITION
+Style for fcoo/fcoo-maps-your-position
+*********************************/
+/***********************************************
+_fcoo-maps-colors-your-position.scss
+
+Style for fcoo/fcoo-maps-your-position
+
+************************************************/
+.lbm-type-circle.lbm-color-your-position {
+  background-color: #4285F4;
+  color: #000;
+}
+.lbm-type-circle.lbm-color-your-position.lbm-transparent {
+  background-color: rgba(66, 133, 244, 0.7);
+}
+.lbm-type-circle.lbm-color-your-position.lbm-transparent.lbm-hover:hover {
+  background-color: rgba(66, 133, 244, 0.9);
+}
+.lbm-type-circle.lbm-color-your-position.lbm-shadow, .lbm-type-circle.lbm-color-your-position.leaflet-drag-target, .lbm-type-circle.lbm-color-your-position.lbm-hover:hover {
+  box-shadow: 0px 0px 0px 5px rgba(66, 133, 244, 0.28);
+}
+.lbm-type-circle.lbm-color-your-position:before {
+  box-shadow: 0 0 6px 2px #4285F4;
+}
+.lbm-type-circle.lbm-border-color-your-position {
+  border-color: #4285F4;
+}
+
+.fa-lbm-color-your-position {
+  color: #4285F4;
+}
+
+.fa-lbm-border-color-your-position {
+  color: #4285F4;
+}
+
+.lbm-type-circle.lbm-color-your-position-follow {
+  background-color: #0b51c5;
+  color: #fff;
+}
+.lbm-type-circle.lbm-color-your-position-follow.lbm-transparent {
+  background-color: rgba(11, 81, 197, 0.7);
+}
+.lbm-type-circle.lbm-color-your-position-follow.lbm-transparent.lbm-hover:hover {
+  background-color: rgba(11, 81, 197, 0.9);
+}
+.lbm-type-circle.lbm-color-your-position-follow.lbm-shadow, .lbm-type-circle.lbm-color-your-position-follow.leaflet-drag-target, .lbm-type-circle.lbm-color-your-position-follow.lbm-hover:hover {
+  box-shadow: 0px 0px 0px 5px rgba(11, 81, 197, 0.28);
+}
+.lbm-type-circle.lbm-color-your-position-follow:before {
+  box-shadow: 0 0 6px 2px #0b51c5;
+}
+.lbm-type-circle.lbm-border-color-your-position-follow {
+  border-color: #0b51c5;
+}
+
+.fa-lbm-color-your-position-follow {
+  color: #0b51c5;
+}
+
+.fa-lbm-border-color-your-position-follow {
+  color: #0b51c5;
+}
 /***********************************************
 	fcoo-moment.scss,
 

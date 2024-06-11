@@ -265,6 +265,15 @@ fcoo-observations-mixin.scss
 
 ************************************************/
 /*
+fa-direction-arrow = The fa-icon used to displat direction
+*/
+.fa-direction-arrow {
+  width: 1em;
+  height: 1em;
+  text-align: center;
+}
+
+/*
 table.last-observation = two coloums: group-name, last value
 table.obs-statistics: rows = [time-periods, obs-group headser, tree intervals, obs-group headser, tree intervals,...]
 */

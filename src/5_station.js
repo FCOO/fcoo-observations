@@ -357,15 +357,16 @@ Only one station pro Location is active within the same ObservationGroup
         /*****************************************************
         getVectorFormatParts
         Get all parts of a vector-parameter.
-        Return []{vectorParameterId, speedParameterId, directionParameterId, speedStr, speed, unitStr, speedAndUnitStr, directionStr, direction, defaultStr}
+        Return []{vectorParameterId, speedParameterId, directionParameterId, speedStr, speed, unitStr, speedAndUnitStr, directionStr, direction, directionArrow, defaultStr}
         *****************************************************/
         getVectorFormatParts: function(dataSet, forecast){
-            var _this = this,
+            let _this = this,
                 result = [];
-            $.each(this.vectorParameterList, function(index, vectorParameter){
-                var speedParameterId     = vectorParameter.speed_direction[0].id,
+            this.vectorParameterList.forEach(vectorParameter => {
+                let speedParameterId     = vectorParameter.speed_direction[0].id,
                     directionParameter   = vectorParameter.speed_direction[1],
                     directionParameterId = directionParameter.id,
+                    direction            = dataSet[directionParameterId],
                     oneVectorResult = {
                         vectorParameterId   : vectorParameter.id,
                         speedParameterId    : speedParameterId,
@@ -377,11 +378,15 @@ Only one station pro Location is active within the same ObservationGroup
                         speedAndUnitStr  : _this.formatParameter(dataSet, speedParameterId, forecast, false),
 
                         directionStr     : directionParameter.asText( dataSet[directionParameterId] ),
-                        direction        : dataSet[directionParameterId],
-
+                        direction        : direction,
+                        directionArrow   : '<i class="fa-direction-arrow ' + _this.observationGroup.options.faArrow + '" style="rotate:'+direction+'deg;"></i>',
                         defaultStr       : ''
                     };
-                oneVectorResult.defaultStr = oneVectorResult.directionStr + ' ' + oneVectorResult.speedAndUnitStr;
+
+//dir-text + speed  oneVectorResult.defaultStr = oneVectorResult.directionStr + ' ' + oneVectorResult.speedAndUnitStr;
+//dir-arrow + speed oneVectorResult.defaultStr = oneVectorResult.directionArrow + ' ' + oneVectorResult.speedAndUnitStr;
+/* Speed + dir-arrow */
+                oneVectorResult.defaultStr = oneVectorResult.speedAndUnitStr + ' ' + oneVectorResult.directionArrow;
                 result.push(oneVectorResult);
             });
             return result;
@@ -464,15 +469,20 @@ Only one station pro Location is active within the same ObservationGroup
                 northwardMean = stat[northwardId].mean;
 
             //Create dataSet with 'dummy' speed and mean direction
-            var dataSet = {};
+            let dataSet = {};
             dataSet[speedId]     = 1;
             dataSet[directionId] = 360 * Math.atan2(eastwardMean, northwardMean) / (2*Math.PI);
+
+            let meanText    = this.formatStatParameter('mean', stat, speedId, forecast, true),
+                vectorParts = this.getVectorFormatParts(dataSet, forecast)[0];
 
             return  this.formatStatMinMaxMean(
                         this.formatStatParameter('min',  stat, speedId, forecast, true),
                         this.formatStatParameter('max',  stat, speedId, forecast, true),
-                        this.getVectorFormatParts(dataSet, forecast)[0].directionStr + ' ' + this.formatStatParameter('mean', stat, speedId, forecast, true),
-                        true
+//*Dir-text + speed*/    vectorParts.directionStr + ' ' + meanText,
+//*Dir-arrow + speed*/   vectorParts.directionArrow + ' ' + meanText,
+/*Speed + dir-arrow*/  vectorParts.directionArrow + ' ' + meanText,
+                        true    //twoLines
                     );
         },
 
