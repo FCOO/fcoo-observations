@@ -129,31 +129,126 @@ Only one station pro Location is active within the same ObservationGroup
             this.formatterStat = formatterStatMethod && this[formatterStatMethod] ? this[formatterStatMethod] : this.formatterStatDefault;
         },
 
+        /*****************************************************
+        getDataList
+        Return array of [timestamp, value] value = []FLOAT
+        timestamp can be NUMBER or STRING
+        *****************************************************/
+        getDataList: function(parameter, forecast, minTimestampValue = 0, maxTimestampValue = Infinity, clip){
+            var isVector         = parameter.type == 'vector',
+                scaleParameter   = isVector ? parameter.speed_direction[0] : parameter,
+                scaleParameterId = scaleParameter.id,
+                dirParameterId   = isVector ? parameter.speed_direction[1].id : null,
+
+                unit     = scaleParameter.unit,
+                toUnit   = this.getDisplayUnit(scaleParameter),
+
+                result   = [],
+                dataList = forecast ? this.forecastDataList : this.observationDataList; //[]{timestamp:STRING, NxPARAMETER_ID: FLOAT}
+
+            $.each(dataList, function(index, dataSet){
+                var timestampValue = moment(dataSet.timestamp).valueOf(),
+                    value          = dataSet[scaleParameterId];
+
+
+                if ((timestampValue >= minTimestampValue) && (timestampValue <= maxTimestampValue )){
+                    //timestampValue inside min-max-range
+                    var add = true;
+                    if (clip){
+                        //Check if timestampValue is OUTSIDE clip[0] - clip[1]
+                        add = (timestampValue <= clip[0]) || (timestampValue >= clip[1]);
+                    }
+                    if (add){
+                        value = nsParameter.convert(value, unit, toUnit);
+                        result.push([
+                            timestampValue,
+                            isVector ? [value, dataSet[dirParameterId]] : value
+                        ]);
+                    }
+                }
+            });
+            result.sort(function(timestampValue1, timestampValue2){ return timestampValue1[0] - timestampValue2[0];});
+            return result;
+        },
+
 
         /*****************************************************
-        getDataSet(indexOrTimestamp, forecast)
-        indexOrTimestamp:
+        getDefaultObsAndForecast()
+        Return an object with allmost all the content needed for
+        creating charts or tables
+        *****************************************************/
+        getDefaultObsAndForecast: function(){
+            let //_this = this,
+                obsGroupOptions = this.observationGroup.options,
+                parameter       = this.primaryParameter,
+                result = {
+                    startTimestampValue: moment().valueOf() - moment.duration(obsGroupOptions.historyPeriod).valueOf(),
+                    parameter          : this.primaryParameter,
+                    isVector           : parameter.type == 'vector',
+
+                    forecastDataList           : null,
+                    firstObsTimestampValue     : null,
+                    lastObsTimestampValue      : null,
+                    lastTimestampValueBeforeObs: 0,
+                    firstTimestampValueAfterObs: Infinity
+                };
+
+            result.scaleParameter = result.isVector ? parameter.speed_direction[0] : parameter,
+            result.obsDataList    = this.getDataList(parameter, false, result.startTimestampValue);
+            result.unit           = this.getDisplayUnit(result.scaleParameter);
+
+            if (this.forecast){
+                result.forecastDataList = this.getDataList(parameter, true);
+                result.firstObsTimestampValue = result.obsDataList.length ? result.obsDataList[0][0]                           : result.startTimestampValue;
+                result.lastObsTimestampValue  = result.obsDataList.length ? result.obsDataList[result.obsDataList.length-1][0] : result.startTimestampValue;
+
+                result.forecastDataList.forEach( data => {
+                    let timestampValue = data[0];
+                    if (timestampValue < result.firstObsTimestampValue)
+                        result.lastTimestampValueBeforeObs = Math.max(timestampValue, result.lastTimestampValueBeforeObs);
+                    if (timestampValue > result.lastObsTimestampValue)
+                        result.firstTimestampValueAfterObs = Math.min(timestampValue, result.firstTimestampValueAfterObs);
+                });
+
+                //Data for forecast before AND after first and last observation
+                result.forecastDataListNoObs = this.getDataList(parameter, true, result.startTimestampValue, Infinity, [result.lastTimestampValueBeforeObs, result.firstTimestampValueAfterObs]);
+
+                //Data for forecast when there are observations
+                result.forecastDataListWithObs = this.getDataList(parameter, true, result.lastTimestampValueBeforeObs, result.firstTimestampValueAfterObs);
+            }
+
+            return result;
+        },
+
+        /*****************************************************
+        getDataSet(indexOrTimestampOrMoment, forecast)
+        indexOrTimestampOrMoment:
             true => last dataSet
             number => index
+            moment => moment.toISOString
             string => find dataSet with same timestamp
         *****************************************************/
-        getDataSet: function(indexOrTimestamp, forecast){
+        getDataSet: function(indexOrTimestampOrMoment, forecast){
             var dataList = forecast ? this.forecastDataList : this.observationDataList,
                 result = null;
 
             if (!dataList.length)
                 return null;
 
-            //indexOrTimestamp == true => last dataSet
-            if (indexOrTimestamp === true)
+            //indexOrTimestampOrMoment == true => last dataSet
+            if (indexOrTimestampOrMoment === true)
                 return dataList[dataList.length-1];
 
-            if (typeof indexOrTimestamp == 'number')
-                return indexOrTimestamp < dataList.length ? dataList[indexOrTimestamp] : null;
+            if (typeof indexOrTimestampOrMoment == 'number')
+                return indexOrTimestampOrMoment < dataList.length ? dataList[indexOrTimestampOrMoment] : null;
 
-            //Find dataSet with timestamp == indexOrTimestamp
-            $.each(dataList, function(index, dataSet){
-                if (dataSet.timestamp == indexOrTimestamp){
+            if (indexOrTimestampOrMoment instanceof moment){
+                indexOrTimestampOrMoment = indexOrTimestampOrMoment.utc().toISOString();
+            }
+
+            //Find dataSet with timestamp == indexOrTimestampOrMoment
+            dataList.forEach(dataSet => {
+                if (dataSet.timestamp == indexOrTimestampOrMoment){
                     result = dataSet;
                     return true;
                 }
@@ -479,9 +574,9 @@ Only one station pro Location is active within the same ObservationGroup
             return  this.formatStatMinMaxMean(
                         this.formatStatParameter('min',  stat, speedId, forecast, true),
                         this.formatStatParameter('max',  stat, speedId, forecast, true),
-//*Dir-text + speed*/    vectorParts.directionStr + ' ' + meanText,
-//*Dir-arrow + speed*/   vectorParts.directionArrow + ' ' + meanText,
-/*Speed + dir-arrow*/  vectorParts.directionArrow + ' ' + meanText,
+//                      vectorParts.directionStr + ' ' + meanText,   // Dir-text + speed
+//                      vectorParts.directionArrow + ' ' + meanText, // Dir-arrow + speed
+                        vectorParts.directionArrow + ' ' + meanText, // Speed + dir-arrow
                         true    //twoLines
                     );
         },
@@ -533,10 +628,9 @@ Only one station pro Location is active within the same ObservationGroup
                     timestamp       : geoJSON.timestamp
                 });
 
-
                 $.each(properties.value, function(valueIndex, value){
                     if ((typeof value == 'number') && (value != properties.missing_value)){
-                        var newDataSet = {timestamp: properties.timestep[valueIndex]},
+                        var newDataSet = {timestamp: moment(properties.timestep[valueIndex]).utc().toISOString()},
                             found      = false;
                         newDataSet[parameterId] = value;
 

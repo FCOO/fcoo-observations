@@ -611,10 +611,12 @@
                     //icon    : ['fa-chart-line', 'fa-table'],
                     //text    : {da:'Graf og tabel', en:'Chart and Table'},
                     icon    : 'far fa-chart-line',
-                    text    : {da:'Vis graf', en:'Show Chart'},
+                    _text    : {da:'Vis graf', en:'Show Chart'},
+                    text    : {da:'Graf', en:'Chart'},
 
                     onClick : function(){ _this.showCharts(mapId); },
-                    OLDonClick : function(){
+/*
+                    onClick : function(){
                         $.bsModal({
                             header: _this.getHeader(),
                             flexWidth: true,
@@ -625,9 +627,17 @@
                             remove: true,
                             show: true
                         });
-//                        marker._popup.setSizeExtended();
+                        marker._popup.setSizeExtended();
                     }
-                }],
+*/
+                }, window.INCLUDETABLESINMODEL ? {
+                    id     : 'table',
+                    icon   : 'far fa-table',
+                    _text   : {da:'Vis tabel', en:'Show Table'},
+                    text   : {da:'Tabel', en:'Table'},
+
+                    onClick: function(){ _this.showTables(mapId); },
+                } : undefined],
                 footer: {da:'Format: Min'+nsObservations.toChar+'Maks (Middel)', en:'Format: Min'+nsObservations.toChar+'Max (Mean)'},
 
                 //isExtended: true,

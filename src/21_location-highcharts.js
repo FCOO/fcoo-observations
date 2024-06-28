@@ -1,5 +1,5 @@
 /****************************************************************************
-location-2-highcharts.js
+21_location-highcharts.js
 Methods for creating Highcharts for a Location
 
 ****************************************************************************/
@@ -72,7 +72,7 @@ Methods for creating Highcharts for a Location
                     zeroLine : true
                 };
 
-            $.each(this.observationGroupStationList, function(index, station){
+            this.observationGroupStationList.forEach(station => {
                 var stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
                 $.each(['parameter', 'unit', 'series', 'yAxis'], function(index, id){
                     result[id].push( stationChartsOptions[id] );
