@@ -101,14 +101,16 @@
 
 
 	<script src="bower_components.js"></script>
-	<script src="../src/1_fcoo-observations.js"></script>
-	<script src="../src/2_location.js"></script>
-	<script src="../src/3_location-highcharts.js"></script>
-	<script src="../src/4_observation-group.js"></script>
-	<script src="../src/5_station.js"></script>
-	<script src="../src/6_station-highcharts.js"></script>
+	<script src="../src/10_fcoo-observations.js"></script>
+	<script src="../src/20_location.js"></script>
+	<script src="../src/21_location-highcharts.js"></script>
+	<script src="../src/22_location-table.js"></script>
+	<script src="../src/30_observation-group.js"></script>
+	<script src="../src/40_station.js"></script>
+	<script src="../src/41_station-highcharts.js"></script>
+	<script src="../src/42_station-table.js"></script>
 
-    <script src="../src/7_fcoo-observations-leaflet.js"></script>
+    <script src="../src/50_fcoo-observations-leaflet.js"></script>
     
 	<script>
         i18next.init();
@@ -157,6 +159,7 @@
     }
 
 
+
     $(function() { 
 	    maps.push( L.map('map0').setView([56.2, 11.5], 6) );
 		L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -180,7 +183,7 @@
            fcooObservation = fcooObs;
            
             var geoJSON0 = fcooObservation.geoJSON().addTo(maps[0]);
-    //        fcooObservation.show('SEALEVEL', maps[0]);
+            fcooObservation.show('SEALEVEL', maps[0]);
 
             var geoJSON1 = fcooObservation.geoJSON().addTo(maps[1]);
             fcooObservation.show('CURRENT_SURFACE', maps[1]);
