@@ -583,7 +583,7 @@
                 isMinimized: true,
                 minimized  : {
                     showTooltip: true,
-                    width    : 84,
+                    width    : 96,
                     className: 'text-center',
 
                     //showHeaderOnClick: true,

@@ -54,7 +54,7 @@
     ns.FCOOObservations = function(options = {}){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "4.8.0",
+			VERSION         : "4.8.1",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -2675,7 +2675,7 @@ return result;
                 isMinimized: true,
                 minimized  : {
                     showTooltip: true,
-                    width    : 84,
+                    width    : 96,
                     className: 'text-center',
 
                     //showHeaderOnClick: true,
