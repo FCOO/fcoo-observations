@@ -54,7 +54,7 @@
     ns.FCOOObservations = function(options = {}){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "4.7.2",
+			VERSION         : "4.8.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -393,6 +393,7 @@ Location = group of Stations with the same or different paramtre
             if (typeof stationList == 'string')
                 stationList = stationList.split(' ');
             stationList = $.isArray(stationList) ? stationList : [stationList];
+
 
             var hasActiveStation = false;
             $.each(stationList, function(index, stationOptions){
@@ -1011,12 +1012,15 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
             var _this = this,
                 add = false;
-            $.each(location.stationList, function(index, station){
-                $.each(station.parameters, function(parameterId){
-                    if (_this.primaryParameter.id == parameterId)
-                        add = true;
-                });
-            });
+            location.stationList.forEach( station => {
+
+                //Check if the ObservationGroup only allows specific refLevel
+                if (!this.options.refLevel || (this.options.refLevel == station.options.refLevel))
+                    $.each(station.parameters, function(parameterId){
+                        if (_this.primaryParameter.id == parameterId)
+                            add = true;
+                    });
+            }, this);
 
             if (add){
                 this.locationList.push(location);

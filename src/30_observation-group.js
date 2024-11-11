@@ -90,12 +90,15 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
             var _this = this,
                 add = false;
-            $.each(location.stationList, function(index, station){
-                $.each(station.parameters, function(parameterId){
-                    if (_this.primaryParameter.id == parameterId)
-                        add = true;
-                });
-            });
+            location.stationList.forEach( station => {
+
+                //Check if the ObservationGroup only allows specific refLevel
+                if (!this.options.refLevel || (this.options.refLevel == station.options.refLevel))
+                    $.each(station.parameters, function(parameterId){
+                        if (_this.primaryParameter.id == parameterId)
+                            add = true;
+                    });
+            }, this);
 
             if (add){
                 this.locationList.push(location);

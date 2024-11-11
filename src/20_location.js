@@ -106,6 +106,7 @@ Location = group of Stations with the same or different paramtre
                 stationList = stationList.split(' ');
             stationList = $.isArray(stationList) ? stationList : [stationList];
 
+
             var hasActiveStation = false;
             $.each(stationList, function(index, stationOptions){
                 if (typeof stationOptions == 'string')

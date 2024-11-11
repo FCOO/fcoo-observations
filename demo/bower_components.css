@@ -16275,6 +16275,9 @@ Adjustmernt to Bootstrap table
   table-sort-group-header is used for row that are the header of a group of rows with the same 'value' in the column that the table is sorted by
   *************************************/
   /*************************************
+  Hidden column - only first 20 columns
+  *************************************/
+  /*************************************
   Truncation - TODO
   *************************************/
   /*
@@ -16361,6 +16364,86 @@ Adjustmernt to Bootstrap table
 }
 .table.jb-table tbody tr.filter-out {
   display: none;
+}
+.table.jb-table.hideColumnIndex0 tbody tr td:nth-child(1),
+.table.jb-table.hideColumnIndex0 thead tr th:nth-child(1) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex1 tbody tr td:nth-child(2),
+.table.jb-table.hideColumnIndex1 thead tr th:nth-child(2) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex2 tbody tr td:nth-child(3),
+.table.jb-table.hideColumnIndex2 thead tr th:nth-child(3) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex3 tbody tr td:nth-child(4),
+.table.jb-table.hideColumnIndex3 thead tr th:nth-child(4) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex4 tbody tr td:nth-child(5),
+.table.jb-table.hideColumnIndex4 thead tr th:nth-child(5) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex5 tbody tr td:nth-child(6),
+.table.jb-table.hideColumnIndex5 thead tr th:nth-child(6) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex6 tbody tr td:nth-child(7),
+.table.jb-table.hideColumnIndex6 thead tr th:nth-child(7) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex7 tbody tr td:nth-child(8),
+.table.jb-table.hideColumnIndex7 thead tr th:nth-child(8) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex8 tbody tr td:nth-child(9),
+.table.jb-table.hideColumnIndex8 thead tr th:nth-child(9) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex9 tbody tr td:nth-child(10),
+.table.jb-table.hideColumnIndex9 thead tr th:nth-child(10) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex10 tbody tr td:nth-child(11),
+.table.jb-table.hideColumnIndex10 thead tr th:nth-child(11) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex11 tbody tr td:nth-child(12),
+.table.jb-table.hideColumnIndex11 thead tr th:nth-child(12) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex12 tbody tr td:nth-child(13),
+.table.jb-table.hideColumnIndex12 thead tr th:nth-child(13) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex13 tbody tr td:nth-child(14),
+.table.jb-table.hideColumnIndex13 thead tr th:nth-child(14) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex14 tbody tr td:nth-child(15),
+.table.jb-table.hideColumnIndex14 thead tr th:nth-child(15) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex15 tbody tr td:nth-child(16),
+.table.jb-table.hideColumnIndex15 thead tr th:nth-child(16) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex16 tbody tr td:nth-child(17),
+.table.jb-table.hideColumnIndex16 thead tr th:nth-child(17) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex17 tbody tr td:nth-child(18),
+.table.jb-table.hideColumnIndex17 thead tr th:nth-child(18) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex18 tbody tr td:nth-child(19),
+.table.jb-table.hideColumnIndex18 thead tr th:nth-child(19) {
+  display: none !important;
+}
+.table.jb-table.hideColumnIndex19 tbody tr td:nth-child(20),
+.table.jb-table.hideColumnIndex19 thead tr th:nth-child(20) {
+  display: none !important;
 }
 
 /************************************************************
