@@ -19,6 +19,16 @@
         "arrowDim"      : ""
     },
 
+    "standard": {
+        "ALL": {
+        
+        },
+        "CURRENT": {
+        
+        }
+    
+    },
+
     "groupList": [{
         "id"                : "SEALEVEL",
         "name"              : {"da": "Vandstand", "en": "Sea Level"},
@@ -66,6 +76,7 @@
         "allNeeded"     : false
     },{
         "id"            : "CURRENT",
+        "standard"      : "ALL CURRENT",
         "name"          : {"da": "Strøm (overflade)", "en": "Current (Sea Surface)"},
         "shortName"     : {"da": "Strøm", "en": "Current"},
         "iconOptions"   : {

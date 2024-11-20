@@ -90,7 +90,8 @@
 
 
 
-//HER        window.fcoo.LOCAL_DATA = window.fcoo.DEMO_VERSION;
+//HER        
+        window.fcoo.LOCAL_DATA = window.fcoo.DEMO_VERSION;
 
         window.bsIsTouch = false;
         window.bsIsTouch = (window.location.search =='?touch');
@@ -195,13 +196,13 @@
             var obsG = fcooObservation.observationGroups.CURRENT_SURFACE; 
             $.bsButton({
                 iconClass: 'obs-group-icon-container',
-                icon: obsG.faIcon,
+                //icon: obsG.faIcon,
                 text: 'Surface'
             }).appendTo('body');            
 
             $.bsButton({
                 iconClass: 'obs-group-icon-container',
-                icon: fcooObservation.observationGroups.CURRENT_SEAFLOOR.faIcon,
+                //icon: fcooObservation.observationGroups.CURRENT_SEAFLOOR.faIcon,
                 text: 'Seafloor'
             }).appendTo('body');            
         
@@ -216,8 +217,8 @@
                 'observations-current-surface.json',
                 'observations-current-seafloor.json'
             ],
-            lastObservationFileName : ['LastObservations_SEALVL.json', 
-                'LastObservations_CURRENT.json', 
+            _lastObservationFileName : [
+                //'LastObservations_SEALVL.json', 'LastObservations_CURRENT.json'
                 //'LastObservations_CURRENT_SURFACE.json', 'LastObservations_CURRENT_SEAFLOOR.json'
             ],
             geoJSONOptions: {
@@ -225,12 +226,10 @@
             }
         });
 
-
         window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('Last', fcooObs), true );
         window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('2', fcooObs) );
         window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('3', fcooObs) );
         window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('4', fcooObs) );
-
 
         fcoo.promiseList.options.finally = function(){
             fcoo.globalSetting.load(null, function(){

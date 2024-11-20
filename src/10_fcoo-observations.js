@@ -80,15 +80,25 @@
         ns.promiseList.append({
             fileName: ns.dataFilePath({subDir: this.options.subDir.observations, fileName: this.options.groupFileName}),
             resolve : function(data){
-                data.groupList.forEach( (options) => {
+                let standard = data.standard || {};
+                data.groupList.forEach( options => {
                     if (!options.inactive){
-                        options.index = _this.observationGroupList.length;
-                        var newObservationGroup = new nsObservations.ObservationGroup(options, _this);
-                        _this.observationGroupList.push(newObservationGroup);
-                        _this.observationGroups[newObservationGroup.id] = newObservationGroup;
+                        let standardNameList = (options.standard || '').split(' '),
+                            ogOpt = {index: this.observationGroupList.length};
+
+                        standardNameList.forEach( standardName => {
+                            if (standardName && standard[standardName])
+                                ogOpt = $.extend(true, ogOpt, standard[standardName]);
+                        });
+
+                        ogOpt = $.extend(true, ogOpt, options);
+
+                        const newObservationGroup = new nsObservations.ObservationGroup(ogOpt, this);
+                        this.observationGroupList.push(newObservationGroup);
+                        this.observationGroups[newObservationGroup.id] = newObservationGroup;
                     }
-                });
-            }
+                }, this);
+            }.bind(this)
         });
 
 
@@ -98,13 +108,13 @@
         ns.promiseList.append({
             fileName: ns.dataFilePath({subDir: this.options.subDir.observations, fileName: this.options.locationFileName}),
             resolve : function(data){
-                $.each(data, function(index, options){
+                data.forEach( options => {
                     var newLocation = new nsObservations.Location(options);
                     newLocation.observations = _this;
-                    _this.locationList.push(newLocation);
-                    _this.locations[newLocation.id] = newLocation;
-                });
-            },
+                    this.locationList.push(newLocation);
+                    this.locations[newLocation.id] = newLocation;
+                }, this);
+            }.bind(this),
         });
 
         //When the object is created and obs-groups and locations are loaded: Call all pending resolve-function (if any)
@@ -156,36 +166,33 @@
 
             //Read last measurement every 3 min. Start after station-lists are loaded
             //Only in test-mode: window.intervals.options.durationUnit = 'seconds';
-            let _this = this,
-                fileNameList = [];
+            let lastObservationFileNameList = [];
+
             if (this.options.lastObservationFileName)
-                fileNameList = $.isArray(_this.options.lastObservationFileName) ? _this.options.lastObservationFileName : _this.options.lastObservationFileName.split(' ');
+                lastObservationFileNameList = $.isArray(this.options.lastObservationFileName) ? this.options.lastObservationFileName : this.options.lastObservationFileName.split(' ');
             else
                 this.observationGroupList.forEach( obsGroup => {
                     if (obsGroup.options.lastObservationFileName)
-                        this.fileNameList.push(obsGroup.options.lastObservationFileName);
+                        lastObservationFileNameList.push(obsGroup.options.lastObservationFileName);
                 });
 
             ns.promiseList.append({
-                data    : fileNameList,
-                resolve : function(fileNameList){
-                    let resolve = _this._resolve_last_measurment.bind(_this),
-                        reject  = _this._reject_last_measurment.bind(_this);
-
-                    $.each(fileNameList, function(index, fileName){
+                data    : lastObservationFileNameList,
+                resolve : function(lastObservationFileNameList){
+                    lastObservationFileNameList.forEach( fileName => {
                        window.intervals.addInterval({
                             duration        : 3,
-                            fileName        : {mainDir: true, subDir: _this.options.subDir.observations, fileName: fileName},
-                            resolve         : resolve,
-                            reject          : reject,
-
+                            fileName        : {mainDir: true, subDir: this.options.subDir.observations, fileName: fileName},
+                            resolve         : this._resolve_last_measurment,
+                            reject          : this._reject_last_measurment,
+                            context         : this,
                             useDefaultErrorHandler: false,
                             retries         : 3,
                             retryDelay      : 2*1000,
                             promiseOptions  : {noCache: true}
                         });
-                    });
-                }
+                    },this);
+                }.bind(this)
             });
 
             //Call onFinally when all are ready
@@ -279,6 +286,7 @@
         _reject_last_measurment: function(){
             //Update observations to hide last measurements if they get to old
             this.locationList.forEach( (location) => { location.updateObservation(); });
+            //return error;
         }
     };
 }(jQuery, this.i18next, this.moment, this, document));
