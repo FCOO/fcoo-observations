@@ -32,6 +32,7 @@ Only one station pro Location is active within the same ObservationGroup
                 },
                 result = {
                     parameter: this.observationGroup.primaryParameter,
+                    z        : this.observationGroup.z,
                     unit     : data.unit,
                     series   : [],
                     yAxis    : {

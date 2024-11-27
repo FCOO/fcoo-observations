@@ -54,7 +54,7 @@
     ns.FCOOObservations = function(options = {}){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "4.9.0",
+			VERSION         : "4.10.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -670,14 +670,13 @@ Methods for creating Highcharts for a Location
                     unit     : [],
                     series   : [],
                     yAxis    : [],
+                    z        : [],
                     zeroLine : true
                 };
 
             this.observationGroupStationList.forEach(station => {
                 var stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
-                $.each(['parameter', 'unit', 'series', 'yAxis'], function(index, id){
-                    result[id].push( stationChartsOptions[id] );
-                });
+                ['parameter', 'unit', 'series', 'yAxis', 'z'].forEach( id => result[id].push( stationChartsOptions[id] ) );
            });
 
            result.chartOptions = $.extend(true, result.chartOptions,
@@ -967,6 +966,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
         this.id = options.id;
         this.name = options.name;
         this.shortName = options.shortName || this.name;
+
+        this.z = options.z || '';
 
         this.maxDelayValueOf = moment.duration(this.options.maxDelay).valueOf();
         this.observations = observations;
@@ -1951,6 +1952,7 @@ Only one station pro Location is active within the same ObservationGroup
                 },
                 result = {
                     parameter: this.observationGroup.primaryParameter,
+                    z        : this.observationGroup.z,
                     unit     : data.unit,
                     series   : [],
                     yAxis    : {

@@ -69,14 +69,13 @@ Methods for creating Highcharts for a Location
                     unit     : [],
                     series   : [],
                     yAxis    : [],
+                    z        : [],
                     zeroLine : true
                 };
 
             this.observationGroupStationList.forEach(station => {
                 var stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
-                $.each(['parameter', 'unit', 'series', 'yAxis'], function(index, id){
-                    result[id].push( stationChartsOptions[id] );
-                });
+                ['parameter', 'unit', 'series', 'yAxis', 'z'].forEach( id => result[id].push( stationChartsOptions[id] ) );
            });
 
            result.chartOptions = $.extend(true, result.chartOptions,

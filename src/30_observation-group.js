@@ -38,6 +38,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
         this.name = options.name;
         this.shortName = options.shortName || this.name;
 
+        this.z = options.z || '';
+
         this.maxDelayValueOf = moment.duration(this.options.maxDelay).valueOf();
         this.observations = observations;
         this.locationList = [];
