@@ -184,17 +184,20 @@
         function resolveFCOOObservations( fcooObs) {
             
            fcooObservation = fcooObs;
+           console.log(fcooObs);
            
             var geoJSON0 = fcooObservation.geoJSON().addTo(maps[0]);
             fcooObservation.show('SEALEVEL', maps[0]);
 
             var geoJSON1 = fcooObservation.geoJSON().addTo(maps[1]);
-            fcooObservation.show('CURRENT_SURFACE', maps[1]);
-            fcooObservation.show('CURRENT_SEAFLOOR', maps[1]);
-
+//            fcooObservation.show('CURRENT_SURFACE', maps[1]);
+//            fcooObservation.show('CURRENT_SEAFLOOR', maps[1]);
+            fcooObservation.observationGroupList.forEach( obsGroup => {
+                fcooObservation.show(obsGroup.id, maps[1]);
+                
+            })
         
             var obsG = fcooObservation.observationGroups.CURRENT_SURFACE; 
-            
             $.bsButton({
                 iconClass: 'obs-group-icon-container',
                 //icon: obsG.faIcon,

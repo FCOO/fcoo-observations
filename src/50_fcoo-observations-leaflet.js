@@ -595,6 +595,7 @@
                 content       : this.createNormalPopupContent,
                 contentContext: this,
                 dynamic       : true,
+                scroll        : true,
                 buttons: [{
                     id     : 'mini',
                     icon   : 'far fa-message-middle',

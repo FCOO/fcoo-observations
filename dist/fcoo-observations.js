@@ -54,7 +54,7 @@
     ns.FCOOObservations = function(options = {}){
         var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "4.10.0",
+			VERSION         : "4.10.1",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -2697,6 +2697,7 @@ return result;
                 content       : this.createNormalPopupContent,
                 contentContext: this,
                 dynamic       : true,
+                scroll        : true,
                 buttons: [{
                     id     : 'mini',
                     icon   : 'far fa-message-middle',
