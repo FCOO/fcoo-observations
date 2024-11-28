@@ -568,7 +568,8 @@
         addPopup
         *********************************************/
         addPopup: function(mapId, marker){
-            var _this = this;
+            let scrollContent = this.observationGroupList.length > 2;
+
             marker.bindPopup({
                 width  : 250, //265,
 
@@ -595,7 +596,8 @@
                 content       : this.createNormalPopupContent,
                 contentContext: this,
                 dynamic       : true,
-                scroll        : true,
+                scroll        : scrollContent,
+                maxHeight     : scrollContent ? 400 : null,
                 buttons: [{
                     id     : 'mini',
                     icon   : 'far fa-message-middle',
@@ -603,9 +605,8 @@
                     title  : {da: 'Vis seneste måling', en: 'Show latest measurement'},
                     class  : 'min-width',
                     context: this,
-                    onClick: function(){
-                        this.popupMinimized( mapId );
-                    }
+                    //onClick: function(){ this.popupMinimized( mapId ); }
+                    onClick: this.popupMinimized.bind(this, mapId)
 
                 },{
                     id      : 'extend',
@@ -615,29 +616,28 @@
                     _text    : {da:'Vis graf', en:'Show Chart'},
                     text    : {da:'Graf', en:'Chart'},
 
-                    onClick : function(){ _this.showCharts(mapId); },
+                    onClick : this.showCharts.bind(this, mapId),
 /*
                     onClick : function(){
                         $.bsModal({
-                            header: _this.getHeader(),
+                            header: this.getHeader.bind(this),
                             flexWidth: true,
                             megaWidth: true,
-                            content: function( $body ){
-                                _this.createCharts($body, true, mapId);
-                            },
+                            content: this.createCharts.bind(this, $body, true, mapId)
                             remove: true,
                             show: true
                         });
                         marker._popup.setSizeExtended();
-                    }
+                    }.bind(this)
 */
-                }, window.INCLUDETABLESINMODEL ? {
+                }, window.INCLUDETABLESINMODAL ? {
                     id     : 'table',
                     icon   : 'far fa-table',
                     _text   : {da:'Vis tabel', en:'Show Table'},
                     text   : {da:'Tabel', en:'Table'},
 
-                    onClick: function(){ _this.showTables(mapId); },
+                    //onClick: function(){ _this.showTables(mapId); },
+                    onClick: this.showTables.bind(this, mapId),
                 } : undefined],
                 footer: {da:'Format: Min'+nsObservations.toChar+'Maks (Middel)', en:'Format: Min'+nsObservations.toChar+'Max (Mean)'},
 
