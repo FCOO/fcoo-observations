@@ -31,7 +31,7 @@
                 dataObj  = {};  //{timestamp}{NxGROUP_ID: {obs:STRING, for:STRING}}
 
             //Create dataObj
-            this.observationGroupStationList.forEach(station => {
+            this.stationList.forEach(station => {
                 let groupId = station.observationGroup.id;
                 $.each(station.getTableDataList(), (id, data) => {
                     if (data[groupId]){
@@ -52,39 +52,39 @@
 
             //Set options for table
             let tableOptions = {
+                fullWidth: true,
+                firstColumnFixed: true,
                 columns: [{
-                    id    : 'timestampMoment',
-                    header: {icon:'fa-clock', text: {da:'Tidsp.', en:'Time'}},
-fixedWidth: true,
-align: 'center',
-vfFormat:'datetime_short',
-                    noWrap: true
+                    id          : 'timestampMoment',
+                    header      : {icon:'fa-clock', text: {da:'Tidsp.', en:'Time'}},
+                    fixedWidth  : true,
+                    align       : 'center',
+                    vfFormat    : 'datetime_short',
+                    noWrap      : true
                 }],
-
-
-
                 content: dataList
             };
 
             this.observationGroupList.forEach( obsGroup => {
-//HER   console.log('obsGroup', obsGroup);
+//console.log(obsGroup);
+                //if gruppe skal medtages (includeAll or selected in map/location MANGLER
                 tableOptions.columns.push({
                     id    : obsGroup.id,
                     header: {
                         icon     : obsGroup.faIcon,
                         iconClass: obsGroup.faIconClass,
-                        text     : obsGroup.header,
+                        text     : obsGroup.tableHeader,
                     },
                     align : 'center',
                     noWrap: true,
+
+                    minimizable : true,
+                    //minimized: true,
+                    //minimizedIcon: obsGroup.faIcon,
 vfFormat:'NIELS',
 
                 });
             });
-
-
-//HER   console.log('tableOptions', tableOptions);
-//HER   console.log('this', this);
 
 let bsTable = $.bsTable( tableOptions );
 
@@ -97,28 +97,6 @@ this.modalTables =  bsTable.asModal({
                         remove : true,
                         show   : true
                     });
-
-
-
-//HER               this.modalTables =
-//HER                   $.bsModal({
-//HER                       header   : this.getHeader(),
-//HER                       flexWidth: true,
-//HER                       //megaWidth: true,
-//HER                       //content  : timeSeries.createChart.bind(timeSeries),
-//HER                       content  : function( $body ){
-//HER                           $body.append('HER');
-//HER   //                        _this.timeSeries.createChart($body);
-//HER                       },
-//HER
-//HER   //                    onClose: function(){ _this.timeSeries = null; return true; },
-//HER                       remove : true,
-//HER                       show   : true
-//HER                   });
-
-
-
-//HER   console.log('SHOW TABLES', this);
 
 /*
             let timeSeries = this.timeSeries = nsHC.timeSeries( this._getChartsOptions(true, mapId) );
@@ -145,51 +123,10 @@ this.modalTables =  bsTable.asModal({
         updateTables
         *****************************************************/
         updateTables: function(){
-//HER               console.log('updateTables', this);
         },
 
 
-        /*****************************************************
-        _getChartsOptions
-        *****************************************************/
-        YT__getChartsOptions: function(inModal, mapOrMapId){
-            var result = {
-                    location : this.name,
-                    parameter: [],
-                    unit     : [],
-                    series   : [],
-                    yAxis    : [],
-                    zeroLine : true
-                };
 
-            $.each(this.observationGroupStationList, function(index, station){
-                var stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
-                $.each(['parameter', 'unit', 'series', 'yAxis'], function(index, id){
-                    result[id].push( stationChartsOptions[id] );
-                });
-           });
-
-           result.chartOptions = $.extend(true, result.chartOptions,
-                inModal ? {
-
-                } : {
-                    chart: {
-                        scrollablePlotArea: {
-                            minWidth       : 2 * nsObservations.imgWidth,
-                            scrollPositionX: 1
-                        },
-
-                        container: {
-                            css: {
-                                width : nsObservations.imgWidth +'px',
-                                //height: nsObservations.imgHeight+'px',
-                            }
-                        }
-                    }
-                });
-
-            return result;
-        },
 
         /*****************************************************
         createTables

@@ -2,7 +2,7 @@
 station.js
 
 Station  = Single observation-station with one or more parametre.
-Only one station pro Location is active within the same ObservationGroup
+Only one station pro Location within the same ObservationGroup
 
 ****************************************************************************/
 (function ($, i18next, moment, window, document, undefined) {
@@ -26,12 +26,12 @@ Only one station pro Location is active within the same ObservationGroup
     Station
     Represent a station with one or more parameters
     *****************************************************/
-    nsObservations.Station = function(options, location){
+    nsObservations.Station = function(options, location, observationGroup){
         var _this = this;
         this.id = options.id;
         this.options = options;
         this.location = location;
-        this.observationGroup = null; //Is set in location._finally whan all metadata is read
+        this.observationGroup = observationGroup;
 
         this.parameterList = [];
         this.parameters = {};
@@ -73,6 +73,7 @@ Only one station pro Location is active within the same ObservationGroup
             _this.parameterList.push(newParameter);
             _this.parameters[newParameter.parameter.id] = newParameter;
         }
+
         $.each(parameterList, addParameter);
 
         this.observationDataList = []; //[]{timestamp:STRING, NxPARAMETER_ID: FLOAT}
@@ -110,25 +111,19 @@ Only one station pro Location is active within the same ObservationGroup
         }
         this.observation = adjust(options.observation, 'observations');
         this.forecast    = adjust(options.forecast,    'forecasts'   );
+
+
+        //Set the format- and format-stat-method
+        let formatterMethod     = observationGroup.options.formatterMethod,
+            formatterStatMethod = observationGroup.options.formatterStatMethod;
+
+        this.formatter     = formatterMethod     && this[formatterMethod]     ? this[formatterMethod]     : this.formatterDefault;
+        this.formatterStat = formatterStatMethod && this[formatterStatMethod] ? this[formatterStatMethod] : this.formatterStatDefault;
+
     };
 
 
     nsObservations.Station.prototype = {
-
-        /*****************************************************
-        addToObservationGroup
-        *****************************************************/
-        addToObservationGroup: function(observationGroup){
-            this.observationGroup = observationGroup;
-
-            //Set the format- and format-stat-method
-            var formatterMethod     = observationGroup.options.formatterMethod,
-                formatterStatMethod = observationGroup.options.formatterStatMethod;
-
-            this.formatter     = formatterMethod     && this[formatterMethod]     ? this[formatterMethod]     : this.formatterDefault;
-            this.formatterStat = formatterStatMethod && this[formatterStatMethod] ? this[formatterStatMethod] : this.formatterStatDefault;
-        },
-
         /*****************************************************
         getDataList
         Return array of [timestamp, value] value = []FLOAT
@@ -259,9 +254,10 @@ Only one station pro Location is active within the same ObservationGroup
         /*****************************************************
         formatDataSet
         Return a formated string with the data
-        Using this.formatter that is set by this.addToObservationGroup
+        Using this.formatter that is set by when the Station was created
         *****************************************************/
         formatDataSet: function(dataSet, forecast){
+
             if (!dataSet)
                 return '?';
 
@@ -350,7 +346,7 @@ Only one station pro Location is active within the same ObservationGroup
         /*****************************************************
         formatStat
         Return a formated string with the stat
-        Using this.formatterStat that is set by this.addToObservationGroup
+        Using this.formatterStat that is set when the Station was created
         *****************************************************/
         formatStat: function(stat, forecast){
 
@@ -392,7 +388,7 @@ Only one station pro Location is active within the same ObservationGroup
         /**********************************************************************************************************
         **********************************************************************************************************/
         //formatter(dataSet, forecast) return a string with the value and units for the parameters in this station.
-        //Is set by this.addToObservationGroup
+        //Is set when the Station was created
         formatter: function(/* dataSet, forecast */){ return 'ups'; },
 
         //formatXX(dataSet, forecast) Different format-methods for displaying single data-set
@@ -556,7 +552,7 @@ Only one station pro Location is active within the same ObservationGroup
         Mean direction is calc from mean northward and mean eastward
         *****************************************************/
         formatterStatVectorParameter: function(stat, vectorParameter, forecast){
-            var speedId       = vectorParameter.speed_direction[0].id,
+            let speedId       = vectorParameter.speed_direction[0].id,
                 directionId   = vectorParameter.speed_direction[1].id,
                 eastwardId    = vectorParameter.eastward_northward[0].id,
                 eastwardMean  = stat[eastwardId].mean,
@@ -615,6 +611,10 @@ Only one station pro Location is active within the same ObservationGroup
             features.forEach((feature) => {
                 var properties  = feature.properties,
                     parameterId = properties.standard_name;
+
+
+//HER   if (properties.units == 'degree_C')
+//HER       properties.units = 'degC';
 
                 //If the Station do not have the parameter => do not update
                 if (!_this.parameters[parameterId])

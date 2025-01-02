@@ -46,39 +46,42 @@
     <td>
         <button id="map0_sealevel"                  onClick="toggle(0, 'SEALEVEL')">Toggle Sea Level</button>
 <!--    <button id="map0_wind"                      onClick="toggle(0, 'WIND')">Toggle Wind</button> -->
-        <button id="map0_current_surface"           onClick="toggle(0, 'CURRENT_SURFACE')">Toggle Current Surface</button>
+        <button id="map0_current_2m"                onClick="toggle(0, 'CURRENT_2M')">Toggle Current 2m</button>
         <button id="map0_current_seafloor"          onClick="toggle(0, 'CURRENT_SEAFLOOR')">Toggle Current Seafloor</button><br>
-        <button id="map0_temperature_surface"       onClick="toggle(0, 'TEMPERATURE_SURFACE')">Toggle Temp. Surface</button>
+        <button id="map0_temperature_1m"            onClick="toggle(0, 'TEMPERATURE_1M')">Toggle Temp. 1m</button>
         <button id="map0_temperature_seafloor"      onClick="toggle(0, 'TEMPERATURE_SEAFLOOR')">Toggle Temp. Seafloor</button>
+        <button id="map0_salinity_1m"               onClick="toggle(0, 'SALINITY_1M')">Toggle Sali. 1m</button>
+        <button id="map0_salinity_seafloor"         onClick="toggle(0, 'SALINITY_SEAFLOOR')">Toggle Sali. Seafloor</button>
         <br>
 
         <button id="map0_sealevel_open"             onClick="openPopup(0, 'SEALEVEL')">Open Sea Level</button>
 <!--    <button id="map0_wind_open"                 onClick="openPopup(0, 'WIND')">Open Wind</button> -->
-        <button id="map0_current_surface_open"      onClick="openPopup(0, 'CURRENT_SURFACE')">Open Current Surface</button>
+        <button id="map0_current_2m_open"           onClick="openPopup(0, 'CURRENT_2M')">Open Current 2m</button>
         <button id="map0_current_seafloor_open"     onClick="openPopup(0, 'CURRENT_SEAFLOOR')">Open Current Seafloor</button>
         <br>
         
         <button id="map0_sealevel_close"            onClick="closePopup(0, 'SEALEVEL')">Close Sea Level</button>
 <!--    <button id="map0_wind_close"                onClick="closePopup(0, 'WIND')">Close Wind</button> -->
-        <button id="map0_current_surface_close"     onClick="closePopup(0, 'CURRENT_SURFACE')">Close Current Surface</button>
+        <button id="map0_current_2m_close"          onClick="closePopup(0, 'CURRENT_2M')">Close Current 2m</button>
         <button id="map0_current_seafloor_close"    onClick="closePopup(0, 'CURRENT_SEAFLOOR')">Close Current Seafloor</button>
+
     </td>
     <td>
         <button id="map1_sealevel"                  onClick="toggle(1, 'SEALEVEL')">Toggle Sea Level</button>
 <!--    <button id="map1_wind"                      onClick="toggle(1, 'WIND')">Toggle Wind</button> -->
-        <button id="map1_current_surface"           onClick="toggle(1, 'CURRENT_SURFACE')">Toggle Current Surface</button>
+        <button id="map1_current_2m"                onClick="toggle(1, 'CURRENT_2M')">Toggle Current 2m</button>
         <button id="map1_current_seafloor"          onClick="toggle(1, 'CURRENT_SEAFLOOR')">Toggle Current Seafloor</button>
         <br>
 
         <button id="map1_sealevel_open"             onClick="openPopup(1, 'SEALEVEL')">Open Sea Level</button>
 <!--    <button id="map1_wind_open"                 onClick="openPopup(1, 'WIND')">Open Wind</button> -->
-        <button id="map1_current_surface_open"      onClick="openPopup(1, 'CURRENT_SURFACE')">Open Current Surface</button>
+        <button id="map1_current_2m_open"           onClick="openPopup(1, 'CURRENT_2M')">Open Current 2m</button>
         <button id="map1_current_seafloor_open"     onClick="openPopup(1, 'CURRENT_SEAFLOOR')">Open Current Seafloor</button>
         <br>
         
         <button id="map1_sealevel_close"            onClick="closePopup(1, 'SEALEVEL')">Close Sea Level</button>
 <!--    <button id="map1_wind_close"                onClick="closePopup(1, 'WIND')">Close Wind</button> -->
-        <button id="map1_current_surface_close"     onClick="closePopup(1, 'CURRENT_SURFACE')">Close Current Surface</button>
+        <button id="map1_current_2m_close"          onClick="closePopup(1, 'CURRENT_2M')">Close Current 2m</button>
         <button id="map1_current_seafloor_close"    onClick="closePopup(1, 'CURRENT_SEAFLOOR')">Close Current Seafloor</button>
     </td>
  </tr>
@@ -125,7 +128,7 @@
         window.fcoo.DEV_VERSION = true;
        
         //TEMP: No access to data-files on AWS. Read from old location instead 
-        window.fcoo.path.setPath({host: 'bal.fcoo.dk'});
+        window.fcoo.path.setPath({host: 'app.fcoo.dk'});
 
 
         Promise.defaultErrorHandler = function( error ){
@@ -187,21 +190,23 @@
            console.log(fcooObs);
            
             var geoJSON0 = fcooObservation.geoJSON().addTo(maps[0]);
-            fcooObservation.show('SEALEVEL', maps[0]);
+            //fcooObservation.show('SEALEVEL', maps[0]);
+            fcooObservation.show('CURRENT_SEAFLOOR', maps[0]);
 
             var geoJSON1 = fcooObservation.geoJSON().addTo(maps[1]);
-//            fcooObservation.show('CURRENT_SURFACE', maps[1]);
+//            fcooObservation.show('CURRENT_2M', maps[1]);
+//            fcooObservation.show('CURRENT_SEAFLOOR', maps[1]);
 //            fcooObservation.show('CURRENT_SEAFLOOR', maps[1]);
             fcooObservation.observationGroupList.forEach( obsGroup => {
                 fcooObservation.show(obsGroup.id, maps[1]);
                 
             })
         
-            var obsG = fcooObservation.observationGroups.CURRENT_SURFACE; 
+            var obsG = fcooObservation.observationGroups.CURRENT_2M; 
             $.bsButton({
                 iconClass: 'obs-group-icon-container',
                 //icon: obsG.faIcon,
-                text: 'Surface'
+                text: '2m'
             }).appendTo('body');            
 
             $.bsButton({
@@ -214,30 +219,24 @@
 
 
         window.fcoo.observations.getFCOOObservations(resolveFCOOObservations, false, {
-            _fileName:[
-                'observations-sealevel.json',
-                // 'observations-wind_TEST.json', 
-
-                'observations-current-surface.json',
-                'observations-current-seafloor.json'
-            ],
-            _lastObservationFileName : [
-                //'LastObservations_SEALVL.json', 'LastObservations_CURRENT.json'
-                //'LastObservations_CURRENT_SURFACE.json', 'LastObservations_CURRENT_SEAFLOOR.json'
-            ],
+            //forceGroupIds: 'SEALEVEL',
+            forceGroupIds: 'SEALEVEL CURRENT_2M CURRENT_SEAFLOOR TEMPERATURE_1M TEMPERATURE_SEAFLOOR SALINITY_1M SALINITY_SEAFLOOR',
+            //forceGroupIds: 'TEMPERATURE_1M TEMPERATURE_SEAFLOOR',
+            //forceGroupIds: 'TEMPERATURE_SEAFLOOR',
+            //forceGroupIds: 'TEMPERATURE_1M',
             geoJSONOptions: {
                 pane: 'observations'
             }
         });
 
-        window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('Last', fcooObs), true );
-        window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('2', fcooObs) );
-        window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('3', fcooObs) );
-        window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('4', fcooObs) );
+//HER           window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('Last', fcooObs), true );
+//HER           window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('2', fcooObs) );
+//HER           window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('3', fcooObs) );
+//HER           window.fcoo.observations.getFCOOObservations((fcooObs) => console.log('4', fcooObs) );
 
         fcoo.promiseList.options.finally = function(){
             fcoo.globalSetting.load(null, function(){
-                i18next.changeLanguage('en');
+                //i18next.changeLanguage('en');
             });
         };
 
@@ -245,6 +244,25 @@
        
     });
 
+/*
+setTimeout(() => {
+    window.fcoo.observations.getFCOOObservations(obs => {    
+
+        obs.observationGroupList.forEach( obsGroup => {
+            console.log('******************************');        
+            console.log(obsGroup.id);        
+            obsGroup.locationList.forEach( loc => {
+                console.log('Location', loc.id);        
+                loc.stationList.forEach( station => {
+                
+                    console.log(station.id, !!station.observationGroup, station);        
+            
+                });    
+            });    
+        });    
+    });    
+}, 15000);    
+*/
 	</script>
 </body>
 </html>

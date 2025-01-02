@@ -52,9 +52,8 @@
     FCOOObservations
     ****************************************************************/
     ns.FCOOObservations = function(options = {}){
-        var _this = this;
         this.options = $.extend(true, {}, {
-			VERSION         : "4.10.2",
+			VERSION         : "4.11.0",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -81,8 +80,9 @@
             fileName: ns.dataFilePath({subDir: this.options.subDir.observations, fileName: this.options.groupFileName}),
             resolve : function(data){
                 let standard = data.standard || {};
+                let forceGroupIds = this.options.forceGroupIds || '';
                 data.groupList.forEach( options => {
-                    if (!options.inactive){
+                    if (forceGroupIds  ? forceGroupIds.includes(options.id) : !options.inactive){
                         let standardNameList = (options.standard || '').split(' '),
                             ogOpt = {index: this.observationGroupList.length};
 
@@ -109,10 +109,10 @@
             fileName: ns.dataFilePath({subDir: this.options.subDir.observations, fileName: this.options.locationFileName}),
             resolve : function(data){
                 data.forEach( options => {
-                    var newLocation = new nsObservations.Location(options);
-                    newLocation.observations = _this;
-                    this.locationList.push(newLocation);
-                    this.locations[newLocation.id] = newLocation;
+                    let location = new nsObservations.Location(options);
+                    location.observations = this;
+                    this.locationList.push(location);
+                    this.locations[location.id] = location;
                 }, this);
             }.bind(this),
         });
@@ -120,173 +120,33 @@
         //When the object is created and obs-groups and locations are loaded: Call all pending resolve-function (if any)
         ns.promiseList.append({
             data   : 'none',
-            resolve: () => _this.resolveList.forEach(resolve => resolve(_this))
+            resolve: function(){ this.resolveList.forEach(resolve => resolve(this)); }.bind(this)
         });
-
 
         //Read setup for each observation-group
         ns.promiseList.append({
-            data: 'none',
-            resolve: this._promise_setup.bind(this)
-        });
+            data   : 'none',
+            resolve: function(){
+                this.observationGroupList.forEach( obsGroup => obsGroup._promise_setup() );
 
+
+                ns.promiseList.append({
+                    data   : 'none',
+                    resolve: function(){
+                        this.ready = true;
+                        this.onResolve();
+                    }.bind(this)
+                });
+            }.bind(this)
+        });
     };
 
     ns.FCOOObservations.prototype = {
         init: function(){
             /* Empty here but can be extended in extentions of FCOOObservations */
         },
-
-        _promise_setup: function(){
-            //Reads the files with the setup for the meassurements stations
-            this.fileNameList = this.options.fileName;
-            //If no fileName are given in options => use the file names given in each observation-group
-            if (this.fileNameList){
-                if (typeof this.fileNameList == 'string')
-                    this.fileNameList = this.fileNameList.split(' ');
-                else
-                    this.fileNameList = $.isArray(this.options.fileName) ? this.options.fileName : [this.options.fileName];
-            }
-            else  {
-                this.fileNameList = [];
-                this.observationGroupList.forEach( obsGroup => {
-                    if (obsGroup.options.fileName)
-                        this.fileNameList.push(obsGroup.options.fileName);
-                }, this);
-            }
-            this.filesResolved = 0;
-
-            this.fileNameList.forEach(fileName => {
-                ns.promiseList.append({
-                    fileName: ns.dataFilePath({subDir: this.options.subDir.observations, fileName: fileName}),
-                    resolve : this._resolve_setup.bind(this)
-                });
-            }, this);
-
-
-            //Read last measurement every 3 min. Start after station-lists are loaded
-            //Only in test-mode: window.intervals.options.durationUnit = 'seconds';
-            let lastObservationFileNameList = [];
-
-            if (this.options.lastObservationFileName)
-                lastObservationFileNameList = $.isArray(this.options.lastObservationFileName) ? this.options.lastObservationFileName : this.options.lastObservationFileName.split(' ');
-            else
-                this.observationGroupList.forEach( obsGroup => {
-                    if (obsGroup.options.lastObservationFileName)
-                        lastObservationFileNameList.push(obsGroup.options.lastObservationFileName);
-                });
-
-            ns.promiseList.append({
-                data    : lastObservationFileNameList,
-                resolve : function(lastObservationFileNameList){
-                    lastObservationFileNameList.forEach( fileName => {
-                       window.intervals.addInterval({
-                            duration        : 3,
-                            fileName        : {mainDir: true, subDir: this.options.subDir.observations, fileName: fileName},
-                            resolve         : this._resolve_last_measurment,
-                            reject          : this._reject_last_measurment,
-                            context         : this,
-                            useDefaultErrorHandler: false,
-                            retries         : 3,
-                            retryDelay      : 2*1000,
-                            promiseOptions  : {noCache: true}
-                        });
-                    },this);
-                }.bind(this)
-            });
-
-            //Call onFinally when all are ready
-            ns.promiseList.append({data: {}, resolve: this._finally.bind(this) });
-        },
-
-
-        _resolve_setup : function(data){
-            var _this = this;
-            data = $.extend(true, {default_station:{}}, data);
-            $.each(data.locationList || data.list, function(index, locationOptions){
-                var nextLocation = _this.locations[locationOptions.id];
-
-                //Check if the location is set to be inactive
-                if (locationOptions.active === false)
-                    nextLocation.active = false;
-
-                //Append stations to location
-                nextLocation.appendStations(locationOptions, data.default_station);
-
-                //Assign the location to the observationGroups it belong to
-                $.each(_this.observationGroups, function(id, observationGroup){
-                    if (observationGroup.checkAndAdd(nextLocation)){
-                        nextLocation.observationGroups[id] = observationGroup;
-                        nextLocation.observationGroupList.push(observationGroup);
-                    }
-                });
-                nextLocation.observationGroupList.sort(function(ob1, ob2){ return ob1.options.index - ob2.options.index; });
-            });
-
-
-            this.filesResolved++;
-            if (this.filesResolved == this.fileNameList.length){
-                //Update all Locations regarding active station etc.
-                $.each(this.locations, function(locationId, location){
-                    location._finally();
-                });
-
-                this.ready = true;
-                this.onResolve();
-            }
-        },
-
         onResolve: function(){
             /* Empty here but can be extended in extentions of FCOOObservations */
-        },
-
-        _finally: function(){
-            //When the object is fully loaded: Call all pending resolve-function (if any)
-            this.resolveFullList.forEach(resolve => resolve(this), this);
-            this.fullLoaded = true;
-        },
-
-
-        /*****************************************************
-        _resolve_last_measurment
-        Split geoJSON into a {features:[]} for each station
-        *****************************************************/
-        _resolve_last_measurment: function(geoJSON){
-            var _this = this,
-                stationGeoJSONs = {};
-
-            $.each(geoJSON.features, function(index, feature){
-                var stationId = feature.properties.id,
-                    stationGeoJSON = stationGeoJSONs[stationId] = stationGeoJSONs[stationId] || {features:[]};
-                stationGeoJSON.features.push(feature);
-            });
-
-            //Load each geoJSON "file" into station
-            $.each(stationGeoJSONs, function(findStationId, geoJSON){
-                $.each(_this.locations, function(locationId, location){
-                    location.stationList.forEach((station) => {
-                        if (station.id == findStationId){
-                            station._resolveGeoJSON(geoJSON, false);
-                            location.callUpdateObservation = true;
-                        }
-                    });
-                });
-            });
-            $.each(_this.locations, function(locationId, location){
-                if (location.callUpdateObservation){
-                    location.updateObservation();
-                    location.callUpdateObservation = false;
-                }
-            });
-        },
-
-        /*****************************************************
-        _reject_last_measurment
-        *****************************************************/
-        _reject_last_measurment: function(){
-            //Update observations to hide last measurements if they get to old
-            this.locationList.forEach( (location) => { location.updateObservation(); });
-            //return error;
         }
     };
 }(jQuery, this.i18next, this.moment, this, document));
@@ -300,7 +160,7 @@ location.js
 Location = group of Stations with the same or different paramtre
 
 ****************************************************************************/
-(function ($, i18next, moment, window, document, undefined) {
+(function ($, i18next, moment, window/*, document, undefined*/) {
 	"use strict";
 
 	window.fcoo = window.fcoo || {};
@@ -334,12 +194,9 @@ Location = group of Stations with the same or different paramtre
     nsObservations.imgWidth  = 500; //250; //600;
     nsObservations.imgHeight = 340; //Original = 400;
 
-    nsObservations.Location = function(options){
-        options = this.options = $.extend(true, {}, {active: true}, options);
-
+    nsObservations.Location = function( options ){
+        this.options = options;
         this.id = options.id;
-        this.active = options.active;
-
         this.name = ns.ajdustLangName(options.name);
 
         this.stationList = [];
@@ -348,7 +205,7 @@ Location = group of Stations with the same or different paramtre
         this.observationGroups = {};
         this.observationGroupList = [];
 
-        //observationGroupStations = {observationGroup-id: Station} = ref to the active/prioritized Station (if any) used for the ObservationGroup
+        //observationGroupStations = {observationGroup-id: Station} = ref to the Station (if any) used for the ObservationGroup
         this.observationGroupStations = {};
         this.observationGroupStationList = [];
 
@@ -361,98 +218,6 @@ Location = group of Stations with the same or different paramtre
         init: function(){
             /* Empty here but can be extended in extentions of FCOOObservations */
         },
-
-        /*********************************************
-        appendStations
-        *********************************************/
-        appendStations: function( locationOptions, defaultStationOptions ){
-            var _this = this,
-                opt = locationOptions;
-
-            //Create default station-options from location and default options
-            defaultStationOptions =
-                $.extend(true, {}, defaultStationOptions, {
-                    level       : opt.level     || undefined,
-                    refLevel    : opt.refLevel  || undefined,
-                    owner       : opt.owner     || undefined,
-                    provider    : opt.provider  || undefined,
-                    position    : opt.position  || undefined,
-                    parameter   : opt.parameter || opt.parameterList || undefined
-                });
-
-            /*  Append the station(s) related to the location.
-                There are different ways to set stations:
-                1: A single station can be defined using attributes:
-                station or stationId: STRING = The station id
-                owner    : STRING (optional)
-                provider : STRING (optional)
-                parameter or parameterList: NxSTRING (optional) or PARAMETER or []PARAMETER
-
-                2: A list of station-records or station-id:
-                station or stationList: []STRING or []STATION
-            */
-
-            var stationList = opt.station || opt.stationId || opt.stationList;
-
-            delete opt.station;
-            delete opt.stationId;
-            delete opt.stationList;
-
-            if (typeof stationList == 'string')
-                stationList = stationList.split(' ');
-            stationList = $.isArray(stationList) ? stationList : [stationList];
-
-
-            var hasActiveStation = false;
-            $.each(stationList, function(index, stationOptions){
-                if (typeof stationOptions == 'string')
-                    stationOptions = {id: stationOptions};
-
-                stationOptions = $.extend(true, {}, defaultStationOptions, opt, stationOptions );
-                stationOptions.parameter = stationOptions.parameter || stationOptions.parameterList;
-                var newStation = new nsObservations.Station( $.extend(true, {}, defaultStationOptions, stationOptions ), _this );
-
-                if (newStation.options.active)
-                    hasActiveStation = true;
-                _this.stationList.push(newStation);
-            });
-
-            if (this.active && !hasActiveStation)
-                this.active = false;
-        },
-
-
-        /*********************************************
-        _finally - Called when all meta-data is loaded
-        *********************************************/
-        _finally: function(){
-            var _this = this,
-                wasActive = this.active;
-
-            this.active = false;
-
-            //For each ObservationGroup: Find the active station = The Station with options.prioritized = true OR the first "active" Station in the list (options.active = true)
-            $.each(this.observationGroups, function(observationGroupId, observationGroup){
-                var activeStation = null;
-                $.each(_this.stationList, function(index, station){
-                    if (station.options.active)
-                        $.each(station.parameters, function(parameterId){
-                            if (parameterId == observationGroup.primaryParameter.id)
-                                //The station is active and have parameter from observationGroup. If it is prioritized or the first station
-                                activeStation = station.options.prioritized ? station : (activeStation || station);
-                        });
-                });
-
-                if (activeStation){
-                    _this.active = wasActive;
-                    _this.observationGroupStations[observationGroupId] = activeStation;
-                    _this.observationGroupStationList.push(activeStation);
-
-                    activeStation.addToObservationGroup(observationGroup);
-                }
-            });
-        },
-
 
         /*****************************************************
         _getFuncList - Get an adjusted version of one of the function-lists:
@@ -674,7 +439,7 @@ Methods for creating Highcharts for a Location
                     zeroLine : true
                 };
 
-            this.observationGroupStationList.forEach(station => {
+            this.stationList.forEach(station => {
                 var stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
                 ['parameter', 'unit', 'series', 'yAxis', 'z'].forEach( id => result[id].push( stationChartsOptions[id] ) );
            });
@@ -752,7 +517,7 @@ Methods for creating Highcharts for a Location
                 dataObj  = {};  //{timestamp}{NxGROUP_ID: {obs:STRING, for:STRING}}
 
             //Create dataObj
-            this.observationGroupStationList.forEach(station => {
+            this.stationList.forEach(station => {
                 let groupId = station.observationGroup.id;
                 $.each(station.getTableDataList(), (id, data) => {
                     if (data[groupId]){
@@ -773,39 +538,39 @@ Methods for creating Highcharts for a Location
 
             //Set options for table
             let tableOptions = {
+                fullWidth: true,
+                firstColumnFixed: true,
                 columns: [{
-                    id    : 'timestampMoment',
-                    header: {icon:'fa-clock', text: {da:'Tidsp.', en:'Time'}},
-fixedWidth: true,
-align: 'center',
-vfFormat:'datetime_short',
-                    noWrap: true
+                    id          : 'timestampMoment',
+                    header      : {icon:'fa-clock', text: {da:'Tidsp.', en:'Time'}},
+                    fixedWidth  : true,
+                    align       : 'center',
+                    vfFormat    : 'datetime_short',
+                    noWrap      : true
                 }],
-
-
-
                 content: dataList
             };
 
             this.observationGroupList.forEach( obsGroup => {
-//HER   console.log('obsGroup', obsGroup);
+//console.log(obsGroup);
+                //if gruppe skal medtages (includeAll or selected in map/location MANGLER
                 tableOptions.columns.push({
                     id    : obsGroup.id,
                     header: {
                         icon     : obsGroup.faIcon,
                         iconClass: obsGroup.faIconClass,
-                        text     : obsGroup.header,
+                        text     : obsGroup.tableHeader,
                     },
                     align : 'center',
                     noWrap: true,
+
+                    minimizable : true,
+                    //minimized: true,
+                    //minimizedIcon: obsGroup.faIcon,
 vfFormat:'NIELS',
 
                 });
             });
-
-
-//HER   console.log('tableOptions', tableOptions);
-//HER   console.log('this', this);
 
 let bsTable = $.bsTable( tableOptions );
 
@@ -818,28 +583,6 @@ this.modalTables =  bsTable.asModal({
                         remove : true,
                         show   : true
                     });
-
-
-
-//HER               this.modalTables =
-//HER                   $.bsModal({
-//HER                       header   : this.getHeader(),
-//HER                       flexWidth: true,
-//HER                       //megaWidth: true,
-//HER                       //content  : timeSeries.createChart.bind(timeSeries),
-//HER                       content  : function( $body ){
-//HER                           $body.append('HER');
-//HER   //                        _this.timeSeries.createChart($body);
-//HER                       },
-//HER
-//HER   //                    onClose: function(){ _this.timeSeries = null; return true; },
-//HER                       remove : true,
-//HER                       show   : true
-//HER                   });
-
-
-
-//HER   console.log('SHOW TABLES', this);
 
 /*
             let timeSeries = this.timeSeries = nsHC.timeSeries( this._getChartsOptions(true, mapId) );
@@ -866,51 +609,10 @@ this.modalTables =  bsTable.asModal({
         updateTables
         *****************************************************/
         updateTables: function(){
-//HER               console.log('updateTables', this);
         },
 
 
-        /*****************************************************
-        _getChartsOptions
-        *****************************************************/
-        YT__getChartsOptions: function(inModal, mapOrMapId){
-            var result = {
-                    location : this.name,
-                    parameter: [],
-                    unit     : [],
-                    series   : [],
-                    yAxis    : [],
-                    zeroLine : true
-                };
 
-            $.each(this.observationGroupStationList, function(index, station){
-                var stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
-                $.each(['parameter', 'unit', 'series', 'yAxis'], function(index, id){
-                    result[id].push( stationChartsOptions[id] );
-                });
-           });
-
-           result.chartOptions = $.extend(true, result.chartOptions,
-                inModal ? {
-
-                } : {
-                    chart: {
-                        scrollablePlotArea: {
-                            minWidth       : 2 * nsObservations.imgWidth,
-                            scrollPositionX: 1
-                        },
-
-                        container: {
-                            css: {
-                                width : nsObservations.imgWidth +'px',
-                                //height: nsObservations.imgHeight+'px',
-                            }
-                        }
-                    }
-                });
-
-            return result;
-        },
 
         /*****************************************************
         createTables
@@ -953,7 +655,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
     "SEALEVEL" forms sea-level as "1.3 m"
     *****************************************************/
     nsObservations.ObservationGroup = function(options, observations){
-        var _this = this;
         this.options = $.extend(true, {}, {
                 directionFrom : true,//false,
                 allNeeded     : true,
@@ -995,9 +696,18 @@ ObservationGroup = group of Locations with the same parameter(-group)
         var primaryUnit = nsParameter.getUnit(this.options.formatUnit || this.primaryParameter.unit);
 
         this.header = {};
+        this.shortHeader = {};
+        this.tableHeader = {};
         $.each(i18next.options.languages || i18next.languages, function(index, lang){
-            _this.header[lang] = (_this.name[lang] || _this.name['en']) + ' [' + (primaryUnit.name[lang] ||  primaryUnit.name['en']) + ']';
-        });
+            let name      = this.name[lang]      || this.name['en'],
+                shortName = this.shortName[lang] || this.shortName['en'],
+                unitName  = '[' + (primaryUnit.name[lang] ||  primaryUnit.name['en']) + ']';
+
+            this.header[lang]      =          name      + ' '    + unitName;
+            this.shortHeader[lang] =          shortName + ' '    + unitName;
+            this.tableHeader[lang] = '<br>' + shortName + '<br>' + unitName;
+
+        }.bind(this));
 
         this.init();
 
@@ -1012,31 +722,154 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
 
         /*********************************************
-        checkAndAdd: Check if the location belong in the group
+        _promise_setup: Load setup-file with stations and meta-data
         *********************************************/
-        checkAndAdd: function(location){
-            //If already added => do nothing
-            if (this.locations[location.id])
-                return false;
+        _promise_setup: function(){
+            if (this.options.fileName)
+                ns.promiseList.append({
+                    fileName: ns.dataFilePath({subDir: this.observations.options.subDir.observations, fileName: this.options.fileName}),
+                    resolve : this._resolve_setup.bind(this)
+                });
+        },
 
-            var _this = this,
-                add = false;
-            location.stationList.forEach( station => {
+        /*********************************************
+        _resolve_setup:
+        *********************************************/
+        _resolve_setup: function( options ){
+            (options.locationList || options.list || []).forEach( locationOptions => {
+                //Check if the location is set to be inactive
+                let location = this.observations.locations[locationOptions.id];
 
-                //Check if the ObservationGroup only allows specific refLevel
-                if (!this.options.refLevel || (this.options.refLevel == station.options.refLevel))
-                    $.each(station.parameters, function(parameterId){
-                        if (_this.primaryParameter.id == parameterId)
-                            add = true;
+                let defaultStationOptions =
+                    $.extend(true, {}, options.default_station, {
+                        level       : locationOptions.level     || undefined,
+                        refLevel    : locationOptions.refLevel  || undefined,
+                        owner       : locationOptions.owner     || undefined,
+                        provider    : locationOptions.provider  || undefined,
+                        position    : locationOptions.position  || undefined,
+                        parameter   : locationOptions.parameter || locationOptions.parameterList || undefined
+                });
+
+
+
+
+                //Each observation-group can only have one station on each location
+                let stationList = locationOptions.station || locationOptions.stationId || locationOptions.stationList;
+
+                delete locationOptions.station;
+                delete locationOptions.stationId;
+                delete locationOptions.stationList;
+
+                if (typeof stationList == 'string')
+                    stationList = stationList.split(' ');
+                stationList = Array.isArray(stationList) ? stationList : [stationList];
+
+                let stationOptionsToUse = null;
+
+                stationList.forEach( stationOptions => {
+                    if (typeof stationOptions == 'string')
+                        stationOptions = {id: stationOptions};
+
+                    stationOptions = $.extend(true, {}, defaultStationOptions, locationOptions, stationOptions );
+                    stationOptions.parameter = stationOptions.parameter || stationOptions.parameterList;
+
+//HER   if (stationOptions.parameter == "sea_water_velocity_at_sea_floor")
+//HER       stationOptions.parameter = "sea_water_velocity";
+//"parameter"  : "sea_water_velocity_at_sea_floor",
+//"parameter"  : "sea_water_velocity",
+
+                    if (stationOptions.active === false)
+                        return;
+
+                    //Use first station or the one with prioritized = true
+                    stationOptionsToUse = stationOptions.prioritized ? stationOptions : stationOptionsToUse || stationOptions;
+                });
+
+
+                if (stationOptionsToUse){
+                    //Create a Station and connect Station, Location, and ObservationGroup (this)
+                    let station = new nsObservations.Station(stationOptionsToUse, location, this);
+
+
+                    //Connect location to the new station
+                    location.stationList.push(station);
+                    location.observationGroupStations[this.id] = station;
+                    location.observationGroupStationList.push(station);
+
+                    //Connect Location and ObservationGroup
+                    if (!this.locations[location.id]){
+                        this.locations[location.id] = location;
+                        this.locationList.push(location);
+                    }
+                    if (!location.observationGroups[this.id]){
+                        location.observationGroups[this.id] = this;
+                        location.observationGroupList.push(this);
+                        location.observationGroupList.sort( (ob1, ob2) => { return ob1.options.index - ob2.options.index; } );
+                    }
+                }
+            }, this); //forEach( locationOptions => {...
+
+
+            //Read last measurement every 3 min. Start after station-lists are loaded
+            //Only in test-mode: window.intervals.options.durationUnit = 'seconds';
+            let lastObservationFileName = this.options.lastObservationFileName;
+            if (lastObservationFileName)
+                window.intervals.addInterval({
+                    duration        : 3,
+                    fileName        : {mainDir: true, subDir:   this.observations.options.subDir.observations, fileName: lastObservationFileName},
+                    resolve         : this._resolve_last_measurment,
+                    reject          : this._reject_last_measurment,
+                    context         : this,
+                    useDefaultErrorHandler: false,
+                    retries         : 3,
+                    retryDelay      : 2*1000,
+                    promiseOptions  : {noCache: true}
+                });
+        },
+
+
+
+
+
+
+
+
+
+
+        /*****************************************************
+        _resolve_last_measurment
+        Split geoJSON into a {features:[]} for each station
+        *****************************************************/
+        _resolve_last_measurment: function(geoJSON){
+            let obs = this.observations,
+                stationGeoJSONs = {};
+
+            geoJSON.features.forEach( feature => {
+                let stationId = feature.properties.id,
+                    stationGeoJSON = stationGeoJSONs[stationId] = stationGeoJSONs[stationId] || {features:[]};
+                stationGeoJSON.features.push(feature);
+            });
+
+            //Load each geoJSON "file" into station
+            $.each(stationGeoJSONs, function(findStationId, geoJSON){
+                obs.locationList.forEach( location => {
+                    location.stationList.forEach( station => {
+                        if ((station.id == findStationId) && station.observationGroup && (station.observationGroup.id == this.id)){
+                            station._resolveGeoJSON(geoJSON, false);
+                            location.updateObservation();
+                        }
                     });
-            }, this);
+                });
+            }.bind(this));
+        },
 
-            if (add){
-                this.locationList.push(location);
-                this.locations[location.id] = location;
-                return true;
-            }
-            return false;
+        /*****************************************************
+        _reject_last_measurment
+        *****************************************************/
+        _reject_last_measurment: function(){
+            //Update observations to hide last measurements if they get to old
+            this.observations.locationList.forEach( location => location.updateObservation() );
+            //return error;
         },
 
 
@@ -1163,7 +996,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
 station.js
 
 Station  = Single observation-station with one or more parametre.
-Only one station pro Location is active within the same ObservationGroup
+Only one station pro Location within the same ObservationGroup
 
 ****************************************************************************/
 (function ($, i18next, moment, window, document, undefined) {
@@ -1187,12 +1020,12 @@ Only one station pro Location is active within the same ObservationGroup
     Station
     Represent a station with one or more parameters
     *****************************************************/
-    nsObservations.Station = function(options, location){
+    nsObservations.Station = function(options, location, observationGroup){
         var _this = this;
         this.id = options.id;
         this.options = options;
         this.location = location;
-        this.observationGroup = null; //Is set in location._finally whan all metadata is read
+        this.observationGroup = observationGroup;
 
         this.parameterList = [];
         this.parameters = {};
@@ -1234,6 +1067,7 @@ Only one station pro Location is active within the same ObservationGroup
             _this.parameterList.push(newParameter);
             _this.parameters[newParameter.parameter.id] = newParameter;
         }
+
         $.each(parameterList, addParameter);
 
         this.observationDataList = []; //[]{timestamp:STRING, NxPARAMETER_ID: FLOAT}
@@ -1271,25 +1105,19 @@ Only one station pro Location is active within the same ObservationGroup
         }
         this.observation = adjust(options.observation, 'observations');
         this.forecast    = adjust(options.forecast,    'forecasts'   );
+
+
+        //Set the format- and format-stat-method
+        let formatterMethod     = observationGroup.options.formatterMethod,
+            formatterStatMethod = observationGroup.options.formatterStatMethod;
+
+        this.formatter     = formatterMethod     && this[formatterMethod]     ? this[formatterMethod]     : this.formatterDefault;
+        this.formatterStat = formatterStatMethod && this[formatterStatMethod] ? this[formatterStatMethod] : this.formatterStatDefault;
+
     };
 
 
     nsObservations.Station.prototype = {
-
-        /*****************************************************
-        addToObservationGroup
-        *****************************************************/
-        addToObservationGroup: function(observationGroup){
-            this.observationGroup = observationGroup;
-
-            //Set the format- and format-stat-method
-            var formatterMethod     = observationGroup.options.formatterMethod,
-                formatterStatMethod = observationGroup.options.formatterStatMethod;
-
-            this.formatter     = formatterMethod     && this[formatterMethod]     ? this[formatterMethod]     : this.formatterDefault;
-            this.formatterStat = formatterStatMethod && this[formatterStatMethod] ? this[formatterStatMethod] : this.formatterStatDefault;
-        },
-
         /*****************************************************
         getDataList
         Return array of [timestamp, value] value = []FLOAT
@@ -1420,9 +1248,10 @@ Only one station pro Location is active within the same ObservationGroup
         /*****************************************************
         formatDataSet
         Return a formated string with the data
-        Using this.formatter that is set by this.addToObservationGroup
+        Using this.formatter that is set by when the Station was created
         *****************************************************/
         formatDataSet: function(dataSet, forecast){
+
             if (!dataSet)
                 return '?';
 
@@ -1511,7 +1340,7 @@ Only one station pro Location is active within the same ObservationGroup
         /*****************************************************
         formatStat
         Return a formated string with the stat
-        Using this.formatterStat that is set by this.addToObservationGroup
+        Using this.formatterStat that is set when the Station was created
         *****************************************************/
         formatStat: function(stat, forecast){
 
@@ -1553,7 +1382,7 @@ Only one station pro Location is active within the same ObservationGroup
         /**********************************************************************************************************
         **********************************************************************************************************/
         //formatter(dataSet, forecast) return a string with the value and units for the parameters in this station.
-        //Is set by this.addToObservationGroup
+        //Is set when the Station was created
         formatter: function(/* dataSet, forecast */){ return 'ups'; },
 
         //formatXX(dataSet, forecast) Different format-methods for displaying single data-set
@@ -1717,7 +1546,7 @@ Only one station pro Location is active within the same ObservationGroup
         Mean direction is calc from mean northward and mean eastward
         *****************************************************/
         formatterStatVectorParameter: function(stat, vectorParameter, forecast){
-            var speedId       = vectorParameter.speed_direction[0].id,
+            let speedId       = vectorParameter.speed_direction[0].id,
                 directionId   = vectorParameter.speed_direction[1].id,
                 eastwardId    = vectorParameter.eastward_northward[0].id,
                 eastwardMean  = stat[eastwardId].mean,
@@ -1776,6 +1605,10 @@ Only one station pro Location is active within the same ObservationGroup
             features.forEach((feature) => {
                 var properties  = feature.properties,
                     parameterId = properties.standard_name;
+
+
+//HER   if (properties.units == 'degree_C')
+//HER       properties.units = 'degC';
 
                 //If the Station do not have the parameter => do not update
                 if (!_this.parameters[parameterId])
@@ -1922,7 +1755,7 @@ Only one station pro Location is active within the same ObservationGroup
 station.js
 
 Station  = Single observation-station with one or more parametre.
-Only one station pro Location is active within the same ObservationGroup
+Only one station pro Location within the same ObservationGroup
 
 ****************************************************************************/
 (function ($, i18next, moment, window/*, document, undefined*/) {
@@ -2025,8 +1858,6 @@ Load and display time-series in a table
     $.valueFormat.add({
         id     : 'NIELS',
         format : function( value/*, options */){
-//HER   console.log(value);
-
             let result = '';
             if (value.obs){
                 result = value.obs;
@@ -2035,13 +1866,8 @@ Load and display time-series in a table
             }
             if (value.for)
                 result += '<em>'+value.for+'</em>';
-
-return result;
-
-
-        },
-//HER           convert: convertNumber
-
+            return result;
+        }
 
     });
 
@@ -2074,14 +1900,7 @@ return result;
                     row[groupId][isForecast ? 'for' : 'obs'] = _this.formatDataSet(dataSet, isForecast);
                 });
             });
-
-
-//HER   console.log('this', this);
-//HER   console.log('data', data);
-//HER   console.log('result', result);
-
             return result;
-
         },
 
         /*****************************************************
@@ -2315,9 +2134,10 @@ return result;
             if (!this.geoJSONData){
                 this.geoJSONData = { type: "FeatureCollection", features: []};
 
-                //Create all locations and add them to the geoJSON-data if they are active and included in a observation-group
-                $.each(this.locations, function(locationId, location){
-                    if (location.active && location.observationGroupList.length)
+
+                //Create all locations and add them to the geoJSON-data if they are included in a observation-group
+                this.locationList.forEach( location => {
+                    if (location.observationGroupList.length)
                         _this.geoJSONData.features.push({
                             type      : "Feature",
                             geometry  : {type: "Point", coordinates: [location.latLng.lng, location.latLng.lat]},
@@ -2859,7 +2679,7 @@ return result;
         createNormalPopupContent: function( $body, popup, map ){
             var _this          = this,
                 mapElements    = this._getModalElements( nsObservations.getMapId(map) ),
-                tempClassName  = ['TEMP_CLASS_NAME_0', 'TEMP_CLASS_NAME_1', 'TEMP_CLASS_NAME_2'],
+                //tempClassName  = ['TEMP_CLASS_NAME_0', 'TEMP_CLASS_NAME_1', 'TEMP_CLASS_NAME_2'],
                 hasAnyForecast = false;
 
             /*Create content in tree tables:
@@ -2867,8 +2687,8 @@ return result;
                 2: $table_lastObservation = Latest measurement(s)
                 3: $table_forecast        = Stat for forecasts
             */
-            var $table_prevObservation = $('<table/>').addClass('obs-statistics'),
-                $table_lastObservation = $('<table/>').addClass('last-observation'),
+            var $table_prevObservation = $('<table/>').addClass('obs-statistics text-center'),
+                $table_lastObservation = $('<table/>').addClass('last-observation text-center'),
                 $table_forecast        = $table_prevObservation.clone();
 
                 //Add header to previous observation and forecast
@@ -2971,6 +2791,25 @@ return result;
             this.loadForecast();
 
 
+            $body._bsAppendContent({
+                type     : 'accordion',
+                //neverClose: true,
+                multiOpen: true,
+                allOpen  : true,
+                children : [{
+                    header : {icon:'far fa-right-from-line fa-flip-horizontal', text: {da:'Forrige målinger ', en:'Previous Measurements'}},
+                    content: $table_prevObservation
+                },{
+                    header : {icon:'fa-equals fa-rotate-90', text: {da:'Seneste måling', en:'Latest Measurement'}},
+                    content: $table_lastObservation
+                },{
+                    header : {icon:'far fa-right-from-line', text: {da:'Prognoser', en:'Forecasts'}},
+                    content: hasAnyForecast ? $table_forecast : $('<span/>')._bsAddHtml({text:{da:'Ingen prognoser', en:'No forecast'}})
+                }]
+            });
+
+
+/*
             //Append tree texboxes with the tree tables
             $body._bsAppendContent([
                 {type: 'textbox', label: {da:'Forrige målinger ', en:'Previous Measurements'}, icon: ns.icons.working, iconClass: tempClassName[0], center: true},
@@ -2979,17 +2818,18 @@ return result;
             ]);
 
             //Insert $table_XX instead of span or remove it
-            $.each([
+            [
                 $table_prevObservation,
                 $table_lastObservation,
                 hasAnyForecast ? $table_forecast : $('<span/>')._bsAddHtml({text:{da:'Ingen prognoser', en:'No forecast'}})
-            ], function(index, $element){
-                var $span = $body.find('.'+tempClassName[index]),
+            ].forEach( ($element, index) => {
+                let $span = $body.find('.'+tempClassName[index]),
                     $container = $span.parent();
 
                 $container.empty();
                 $container.append($element);
             });
+*/
 
         },
 

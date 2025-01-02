@@ -17,8 +17,6 @@ Load and display time-series in a table
     $.valueFormat.add({
         id     : 'NIELS',
         format : function( value/*, options */){
-//HER   console.log(value);
-
             let result = '';
             if (value.obs){
                 result = value.obs;
@@ -27,13 +25,8 @@ Load and display time-series in a table
             }
             if (value.for)
                 result += '<em>'+value.for+'</em>';
-
-return result;
-
-
-        },
-//HER           convert: convertNumber
-
+            return result;
+        }
 
     });
 
@@ -66,14 +59,7 @@ return result;
                     row[groupId][isForecast ? 'for' : 'obs'] = _this.formatDataSet(dataSet, isForecast);
                 });
             });
-
-
-//HER   console.log('this', this);
-//HER   console.log('data', data);
-//HER   console.log('result', result);
-
             return result;
-
         },
 
         /*****************************************************

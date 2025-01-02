@@ -24,7 +24,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
     "SEALEVEL" forms sea-level as "1.3 m"
     *****************************************************/
     nsObservations.ObservationGroup = function(options, observations){
-        var _this = this;
         this.options = $.extend(true, {}, {
                 directionFrom : true,//false,
                 allNeeded     : true,
@@ -66,9 +65,18 @@ ObservationGroup = group of Locations with the same parameter(-group)
         var primaryUnit = nsParameter.getUnit(this.options.formatUnit || this.primaryParameter.unit);
 
         this.header = {};
+        this.shortHeader = {};
+        this.tableHeader = {};
         $.each(i18next.options.languages || i18next.languages, function(index, lang){
-            _this.header[lang] = (_this.name[lang] || _this.name['en']) + ' [' + (primaryUnit.name[lang] ||  primaryUnit.name['en']) + ']';
-        });
+            let name      = this.name[lang]      || this.name['en'],
+                shortName = this.shortName[lang] || this.shortName['en'],
+                unitName  = '[' + (primaryUnit.name[lang] ||  primaryUnit.name['en']) + ']';
+
+            this.header[lang]      =          name      + ' '    + unitName;
+            this.shortHeader[lang] =          shortName + ' '    + unitName;
+            this.tableHeader[lang] = '<br>' + shortName + '<br>' + unitName;
+
+        }.bind(this));
 
         this.init();
 
@@ -83,31 +91,154 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
 
         /*********************************************
-        checkAndAdd: Check if the location belong in the group
+        _promise_setup: Load setup-file with stations and meta-data
         *********************************************/
-        checkAndAdd: function(location){
-            //If already added => do nothing
-            if (this.locations[location.id])
-                return false;
+        _promise_setup: function(){
+            if (this.options.fileName)
+                ns.promiseList.append({
+                    fileName: ns.dataFilePath({subDir: this.observations.options.subDir.observations, fileName: this.options.fileName}),
+                    resolve : this._resolve_setup.bind(this)
+                });
+        },
 
-            var _this = this,
-                add = false;
-            location.stationList.forEach( station => {
+        /*********************************************
+        _resolve_setup:
+        *********************************************/
+        _resolve_setup: function( options ){
+            (options.locationList || options.list || []).forEach( locationOptions => {
+                //Check if the location is set to be inactive
+                let location = this.observations.locations[locationOptions.id];
 
-                //Check if the ObservationGroup only allows specific refLevel
-                if (!this.options.refLevel || (this.options.refLevel == station.options.refLevel))
-                    $.each(station.parameters, function(parameterId){
-                        if (_this.primaryParameter.id == parameterId)
-                            add = true;
+                let defaultStationOptions =
+                    $.extend(true, {}, options.default_station, {
+                        level       : locationOptions.level     || undefined,
+                        refLevel    : locationOptions.refLevel  || undefined,
+                        owner       : locationOptions.owner     || undefined,
+                        provider    : locationOptions.provider  || undefined,
+                        position    : locationOptions.position  || undefined,
+                        parameter   : locationOptions.parameter || locationOptions.parameterList || undefined
+                });
+
+
+
+
+                //Each observation-group can only have one station on each location
+                let stationList = locationOptions.station || locationOptions.stationId || locationOptions.stationList;
+
+                delete locationOptions.station;
+                delete locationOptions.stationId;
+                delete locationOptions.stationList;
+
+                if (typeof stationList == 'string')
+                    stationList = stationList.split(' ');
+                stationList = Array.isArray(stationList) ? stationList : [stationList];
+
+                let stationOptionsToUse = null;
+
+                stationList.forEach( stationOptions => {
+                    if (typeof stationOptions == 'string')
+                        stationOptions = {id: stationOptions};
+
+                    stationOptions = $.extend(true, {}, defaultStationOptions, locationOptions, stationOptions );
+                    stationOptions.parameter = stationOptions.parameter || stationOptions.parameterList;
+
+//HER   if (stationOptions.parameter == "sea_water_velocity_at_sea_floor")
+//HER       stationOptions.parameter = "sea_water_velocity";
+//"parameter"  : "sea_water_velocity_at_sea_floor",
+//"parameter"  : "sea_water_velocity",
+
+                    if (stationOptions.active === false)
+                        return;
+
+                    //Use first station or the one with prioritized = true
+                    stationOptionsToUse = stationOptions.prioritized ? stationOptions : stationOptionsToUse || stationOptions;
+                });
+
+
+                if (stationOptionsToUse){
+                    //Create a Station and connect Station, Location, and ObservationGroup (this)
+                    let station = new nsObservations.Station(stationOptionsToUse, location, this);
+
+
+                    //Connect location to the new station
+                    location.stationList.push(station);
+                    location.observationGroupStations[this.id] = station;
+                    location.observationGroupStationList.push(station);
+
+                    //Connect Location and ObservationGroup
+                    if (!this.locations[location.id]){
+                        this.locations[location.id] = location;
+                        this.locationList.push(location);
+                    }
+                    if (!location.observationGroups[this.id]){
+                        location.observationGroups[this.id] = this;
+                        location.observationGroupList.push(this);
+                        location.observationGroupList.sort( (ob1, ob2) => { return ob1.options.index - ob2.options.index; } );
+                    }
+                }
+            }, this); //forEach( locationOptions => {...
+
+
+            //Read last measurement every 3 min. Start after station-lists are loaded
+            //Only in test-mode: window.intervals.options.durationUnit = 'seconds';
+            let lastObservationFileName = this.options.lastObservationFileName;
+            if (lastObservationFileName)
+                window.intervals.addInterval({
+                    duration        : 3,
+                    fileName        : {mainDir: true, subDir:   this.observations.options.subDir.observations, fileName: lastObservationFileName},
+                    resolve         : this._resolve_last_measurment,
+                    reject          : this._reject_last_measurment,
+                    context         : this,
+                    useDefaultErrorHandler: false,
+                    retries         : 3,
+                    retryDelay      : 2*1000,
+                    promiseOptions  : {noCache: true}
+                });
+        },
+
+
+
+
+
+
+
+
+
+
+        /*****************************************************
+        _resolve_last_measurment
+        Split geoJSON into a {features:[]} for each station
+        *****************************************************/
+        _resolve_last_measurment: function(geoJSON){
+            let obs = this.observations,
+                stationGeoJSONs = {};
+
+            geoJSON.features.forEach( feature => {
+                let stationId = feature.properties.id,
+                    stationGeoJSON = stationGeoJSONs[stationId] = stationGeoJSONs[stationId] || {features:[]};
+                stationGeoJSON.features.push(feature);
+            });
+
+            //Load each geoJSON "file" into station
+            $.each(stationGeoJSONs, function(findStationId, geoJSON){
+                obs.locationList.forEach( location => {
+                    location.stationList.forEach( station => {
+                        if ((station.id == findStationId) && station.observationGroup && (station.observationGroup.id == this.id)){
+                            station._resolveGeoJSON(geoJSON, false);
+                            location.updateObservation();
+                        }
                     });
-            }, this);
+                });
+            }.bind(this));
+        },
 
-            if (add){
-                this.locationList.push(location);
-                this.locations[location.id] = location;
-                return true;
-            }
-            return false;
+        /*****************************************************
+        _reject_last_measurment
+        *****************************************************/
+        _reject_last_measurment: function(){
+            //Update observations to hide last measurements if they get to old
+            this.observations.locationList.forEach( location => location.updateObservation() );
+            //return error;
         },
 
 

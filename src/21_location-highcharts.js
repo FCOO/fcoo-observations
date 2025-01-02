@@ -73,7 +73,7 @@ Methods for creating Highcharts for a Location
                     zeroLine : true
                 };
 
-            this.observationGroupStationList.forEach(station => {
+            this.stationList.forEach(station => {
                 var stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
                 ['parameter', 'unit', 'series', 'yAxis', 'z'].forEach( id => result[id].push( stationChartsOptions[id] ) );
            });

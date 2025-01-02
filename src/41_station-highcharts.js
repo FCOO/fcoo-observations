@@ -2,7 +2,7 @@
 station.js
 
 Station  = Single observation-station with one or more parametre.
-Only one station pro Location is active within the same ObservationGroup
+Only one station pro Location within the same ObservationGroup
 
 ****************************************************************************/
 (function ($, i18next, moment, window/*, document, undefined*/) {

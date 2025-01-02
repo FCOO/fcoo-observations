@@ -213,9 +213,10 @@
             if (!this.geoJSONData){
                 this.geoJSONData = { type: "FeatureCollection", features: []};
 
-                //Create all locations and add them to the geoJSON-data if they are active and included in a observation-group
-                $.each(this.locations, function(locationId, location){
-                    if (location.active && location.observationGroupList.length)
+
+                //Create all locations and add them to the geoJSON-data if they are included in a observation-group
+                this.locationList.forEach( location => {
+                    if (location.observationGroupList.length)
                         _this.geoJSONData.features.push({
                             type      : "Feature",
                             geometry  : {type: "Point", coordinates: [location.latLng.lng, location.latLng.lat]},
@@ -757,7 +758,7 @@
         createNormalPopupContent: function( $body, popup, map ){
             var _this          = this,
                 mapElements    = this._getModalElements( nsObservations.getMapId(map) ),
-                tempClassName  = ['TEMP_CLASS_NAME_0', 'TEMP_CLASS_NAME_1', 'TEMP_CLASS_NAME_2'],
+                //tempClassName  = ['TEMP_CLASS_NAME_0', 'TEMP_CLASS_NAME_1', 'TEMP_CLASS_NAME_2'],
                 hasAnyForecast = false;
 
             /*Create content in tree tables:
@@ -765,8 +766,8 @@
                 2: $table_lastObservation = Latest measurement(s)
                 3: $table_forecast        = Stat for forecasts
             */
-            var $table_prevObservation = $('<table/>').addClass('obs-statistics'),
-                $table_lastObservation = $('<table/>').addClass('last-observation'),
+            var $table_prevObservation = $('<table/>').addClass('obs-statistics text-center'),
+                $table_lastObservation = $('<table/>').addClass('last-observation text-center'),
                 $table_forecast        = $table_prevObservation.clone();
 
                 //Add header to previous observation and forecast
@@ -869,6 +870,25 @@
             this.loadForecast();
 
 
+            $body._bsAppendContent({
+                type     : 'accordion',
+                //neverClose: true,
+                multiOpen: true,
+                allOpen  : true,
+                children : [{
+                    header : {icon:'far fa-right-from-line fa-flip-horizontal', text: {da:'Forrige målinger ', en:'Previous Measurements'}},
+                    content: $table_prevObservation
+                },{
+                    header : {icon:'fa-equals fa-rotate-90', text: {da:'Seneste måling', en:'Latest Measurement'}},
+                    content: $table_lastObservation
+                },{
+                    header : {icon:'far fa-right-from-line', text: {da:'Prognoser', en:'Forecasts'}},
+                    content: hasAnyForecast ? $table_forecast : $('<span/>')._bsAddHtml({text:{da:'Ingen prognoser', en:'No forecast'}})
+                }]
+            });
+
+
+/*
             //Append tree texboxes with the tree tables
             $body._bsAppendContent([
                 {type: 'textbox', label: {da:'Forrige målinger ', en:'Previous Measurements'}, icon: ns.icons.working, iconClass: tempClassName[0], center: true},
@@ -877,17 +897,18 @@
             ]);
 
             //Insert $table_XX instead of span or remove it
-            $.each([
+            [
                 $table_prevObservation,
                 $table_lastObservation,
                 hasAnyForecast ? $table_forecast : $('<span/>')._bsAddHtml({text:{da:'Ingen prognoser', en:'No forecast'}})
-            ], function(index, $element){
-                var $span = $body.find('.'+tempClassName[index]),
+            ].forEach( ($element, index) => {
+                let $span = $body.find('.'+tempClassName[index]),
                     $container = $span.parent();
 
                 $container.empty();
                 $container.append($element);
             });
+*/
 
         },
 

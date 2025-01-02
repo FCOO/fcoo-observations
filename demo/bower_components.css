@@ -2065,6 +2065,16 @@ jquery-scroll-container-variables.scss
   --jsc-scroll-auto-padding: 10px;
 }
 
+/***********************************************
+jquery-scroll-container-shadow.scss,
+
+
+Add shadow inside at top/bottom or left/right when scroll
+
+Shadow at top/bottom or left/right when content isn't scrolled to beginning/end
+Based on idea from http://dabblet.com/gist/2462915
+
+****************************************************/
 /************************************************************
 VARIABLES
 
@@ -13856,6 +13866,23 @@ button-border-color-variant
 button-background-color-variant
 Adjust text-, border-, and background-color for a button
 ************************************************************/
+/************************************************************
+TABLE COLORS
+************************************************************/
+/*****************************************************************
+create-table-variant($postfix, $background, $default, $color)
+Adjusted copy of Bootstrap table-variant($state, $background) to
+create css-var to set colors in tables
+*****************************************************************/
+/*****************************************************************
+incl-table-variant($postfix)
+Include special version of Bootstrap table-var
+The var must have been created by create-table-variant first
+*****************************************************************/
+/*****************************************************************
+table-no-hover()
+Prevent any hover effect
+*****************************************************************/
 /***********************************************
 ROOT
 ************************************************/
@@ -15912,7 +15939,10 @@ div.modal-dialog .modal-content.modal-minimized.modal-minimized-clickable .modal
 
 html.no-touchevents div.modal-dialog .modal-body-fixed.scrollbar-vertical {
   padding-left: var(--jsc-scroll-padding);
-  padding-right: var(--jsc-scroll-auto-padding);
+  padding-right: var(--jsc-scroll-padding) !important;
+}
+html.no-touchevents div.modal-dialog .modal-body-fixed.scrollbar-both {
+  padding-right: var(--jsc-scroll-padding) !important;
 }
 div.modal-dialog .modal-body.scrollbar-horizontal {
   padding-top: 0;
@@ -16255,6 +16285,53 @@ TABLE
 
 Adjustmernt to Bootstrap table
 ************************************************************/
+/*****************************************************************
+Defines the default color-values for
+header                      : Table header
+selected                    : Selected row
+fixed-first-column          : First column when it is fixed
+fixed-first-column-selected : First column when it is fixed and selected
+
+*****************************************************************/
+:root {
+  --bs-table-color-header-default: #000;
+  --bs-table-bg-header-default: lightgreen;
+  --bs-table-border-color-header-default: rgb(115.2, 190.4, 115.2);
+  --bs-table-striped-bg-header-default: rgb(136.8, 226.1, 136.8);
+  --bs-table-striped-color-header-default: #000;
+  --bs-table-active-bg-header-default: rgb(129.6, 214.2, 129.6);
+  --bs-table-active-color-header-default: #000;
+  --bs-table-hover-bg-header-default: rgb(133.2, 220.15, 133.2);
+  --bs-table-hover-color-header-default: #000;
+  --bs-table-color-selected-default: rgb(255, 255, 255);
+  --bs-table-bg-selected-default: rgb(30, 144, 255);
+  --bs-table-border-color-selected-default: rgb(75, 166.2, 255);
+  --bs-table-striped-bg-selected-default: rgb(41.25, 149.55, 255);
+  --bs-table-striped-color-selected-default: #000;
+  --bs-table-active-bg-selected-default: rgb(52.5, 155.1, 255);
+  --bs-table-active-color-selected-default: #000;
+  --bs-table-hover-bg-selected-default: rgb(46.875, 152.325, 255);
+  --bs-table-hover-color-selected-default: rgb(255, 255, 255);
+  --bs-table-color-fixed-first-column-default: #000;
+  --bs-table-bg-fixed-first-column-default: lightblue;
+  --bs-table-border-color-fixed-first-column-default: rgb(138.4, 172.8, 184);
+  --bs-table-striped-bg-fixed-first-column-default: rgb(164.35, 205.2, 218.5);
+  --bs-table-striped-color-fixed-first-column-default: #000;
+  --bs-table-active-bg-fixed-first-column-default: rgb(155.7, 194.4, 207);
+  --bs-table-active-color-fixed-first-column-default: #000;
+  --bs-table-hover-bg-fixed-first-column-default: rgb(160.025, 199.8, 212.75);
+  --bs-table-hover-color-fixed-first-column-default: #000;
+  --bs-table-color-fixed-first-column-selected-default: #fff;
+  --bs-table-bg-fixed-first-column-selected-default: blue;
+  --bs-table-border-color-fixed-first-column-selected-default: #3333ff;
+  --bs-table-striped-bg-fixed-first-column-selected-default: rgb(12.75, 12.75, 255);
+  --bs-table-striped-color-fixed-first-column-selected-default: #fff;
+  --bs-table-active-bg-fixed-first-column-selected-default: rgb(25.5, 25.5, 255);
+  --bs-table-active-color-fixed-first-column-selected-default: #fff;
+  --bs-table-hover-bg-fixed-first-column-selected-default: rgb(19.125, 19.125, 255);
+  --bs-table-hover-color-fixed-first-column-selected-default: #fff;
+}
+
 .table.jb-table {
   /*******************************************************
   For some (unknown) reason the height of the table needs
@@ -16282,7 +16359,11 @@ Adjustmernt to Bootstrap table
   table-sort-group-header is used for row that are the header of a group of rows with the same 'value' in the column that the table is sorted by
   *************************************/
   /*************************************
-  Hidden column - only first 20 columns
+  Fixed first column
+  Colors for shadow are hard copy from jquery-scroll-container
+  *************************************/
+  /*************************************
+  Hidden and minimized column - only first 20 columns
   *************************************/
   /*************************************
   Truncation - TODO
@@ -16326,14 +16407,40 @@ Adjustmernt to Bootstrap table
 .table.jb-table.table-no-padding {
   --bs-table-cell-padding-y: 0;
 }
+.table.jb-table.table-full-width {
+  width: max-content;
+}
 .table.jb-table.table-not-full-width {
   width: inherit !important;
+}
+.table.jb-table thead tr {
+  position: sticky;
+  top: 0px;
+  z-index: 100;
+  --bs-table-color: var(--bs-table-color-header, var(--bs-table-color-header-default));
+  --bs-table-bg: var(--bs-table-bg-header, var(--bs-table-bg-header-default));
+  --bs-table-border-color: var(--bs-table-border-color-header, var(--bs-table-border-color-header-default));
+  --bs-table-striped-bg: var(--bs-table-striped-bg-header, var(--bs-table-striped-bg-header-default));
+  --bs-table-striped-color: var(--bs-table-striped-color-header, var(--bs-table-striped-color-header-default));
+  --bs-table-active-bg: var(--bs-table-active-bg-header, var(--bs-table-active-bg-header-default));
+  --bs-table-active-color: var(--bs-table-active-color-header, var(--bs-table-active-color-header-default));
+  --bs-table-hover-bg: var(--bs-table-hover-bg-header, var(--bs-table-hover-bg-header-default));
+  --bs-table-hover-color: var(--bs-table-hover-color-header, var(--bs-table-hover-color-header-default));
+  color: var(--bs-table-color-header, var(--bs-table-color-header-default));
+  border-color: var(--bs-table-border-color-header, var(--bs-table-border-color-header-default));
+}
+.table.jb-table thead tr.scroll-top {
+  box-shadow: -4px 1px 6px 0px black;
 }
 .table.jb-table thead tr th {
   cursor: default;
 }
-.table.jb-table thead tr th.sortable {
+.table.jb-table thead tr th.clickable:hover {
   cursor: pointer;
+  --bs-table-color: var(--bs-table-hover-color);
+  --bs-table-bg: var(--bs-table-hover-bg);
+}
+.table.jb-table thead tr th.sortable {
   background-position: right center;
   background-repeat: no-repeat;
   background-size: 0.8em;
@@ -16353,7 +16460,10 @@ Adjustmernt to Bootstrap table
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhBwwPNhKYw6YvAAAB9klEQVRo3u2ZP04CURCHZ2CJrQWFJBT0nsLWGkH+eQLxCtzBeAKFRdCS2G7CHaagoiFoAYmtYclaWCm7+2Zm3zOa7FQkkN/38R67y5tBUNe0uG9GNwB4W5w09toU1ON399j+eh35pSutAmbHZ1NAG/gsCqjBhw/Qinlj7PXkCmgNr1RAi3iVAgrxQ7g0fOjR60oU0DJerIDW8UIFZF94I2zyVyualDo8BXSBlyigGzxfAV3huQqF9LcDL/S1eABshn7gZViBwHsdQQOy1bTSOQtVAlbwRgVMxr/50QVYKXw6aScpoHt8ugL+Bj5NAWP3fgx1sF/PldahQsxluB44wQPU1wPGCrwcva+gDG5qc1w9/zCswLbmDA9Q3taMW9BbwNyZwLy34NyK+ziDyDo8whn02feBYRUtb0S06a4gr7zyyisv/l+yU/vPAiBkCriAJ0sU/twWuPz+cWtwuAJLp/zlf/gN3JVc4eOSEw4m1zsXeObBxI1CPD71cGpTIQlvOJ7bUkjGGxsUNhTS8MYeUXaFdDyjSZX1rkCoehraUiBjPqtRqVUgRjqzVatRIFY2u1ktVSBmsqBdL1Egdq5oYMFVIEGqcGTDUSBRpnhoZVIgYaJibJemQOI81eAySYEUacrRbZwCqbLUw+ufCqRMUgt8VyB1ziesOMqPm7tGQgAAAABJRU5ErkJggg==");
 }
 .table.jb-table tbody tr.table-sort-group-header {
-  --bs-table-hover-bg: none;
+  --bs-table-hover-color: var(--bs-table-color);
+  --bs-table-hover-bg: var(--bs-table-bg);
+  --bs-table-active-color: var(--bs-table-color);
+  --bs-table-active-bg: var(--bs-table-bg);
 }
 .table.jb-table tbody tr.table-sort-group-header td *:last-child {
   margin-right: 0.3em;
@@ -16361,96 +16471,551 @@ Adjustmernt to Bootstrap table
 .table.jb-table.table-selectable tbody tr {
   cursor: default;
 }
-.table.jb-table.table-selectable tbody tr.selected {
-  --bs-table-hover-color: initial;
-  color: rgb(255, 255, 255);
-  background-color: rgb(30, 144, 255);
+.table.jb-table.table-selectable tbody tr.table-selected {
+  --bs-table-color: var(--bs-table-color-selected, var(--bs-table-color-selected-default));
+  --bs-table-bg: var(--bs-table-bg-selected, var(--bs-table-bg-selected-default));
+  --bs-table-border-color: var(--bs-table-border-color-selected, var(--bs-table-border-color-selected-default));
+  --bs-table-striped-bg: var(--bs-table-striped-bg-selected, var(--bs-table-striped-bg-selected-default));
+  --bs-table-striped-color: var(--bs-table-striped-color-selected, var(--bs-table-striped-color-selected-default));
+  --bs-table-active-bg: var(--bs-table-active-bg-selected, var(--bs-table-active-bg-selected-default));
+  --bs-table-active-color: var(--bs-table-active-color-selected, var(--bs-table-active-color-selected-default));
+  --bs-table-hover-bg: var(--bs-table-hover-bg-selected, var(--bs-table-hover-bg-selected-default));
+  --bs-table-hover-color: var(--bs-table-hover-color-selected, var(--bs-table-hover-color-selected-default));
+  color: var(--bs-table-color-selected, var(--bs-table-color-selected-default));
+  border-color: var(--bs-table-border-color-selected, var(--bs-table-border-color-selected-default));
 }
-.table.jb-table:not(.allow-zero-selected) tbody tr.selected {
-  --bs-table-hover-bg: initial;
+.table.jb-table:not(.allow-zero-selected) tbody tr.table-selected {
+  --bs-table-hover-color: var(--bs-table-color);
+  --bs-table-hover-bg: var(--bs-table-bg);
+  --bs-table-active-color: var(--bs-table-color);
+  --bs-table-active-bg: var(--bs-table-bg);
 }
 .table.jb-table tbody tr.filter-out {
   display: none;
+}
+.table.jb-table.table-first-column-fixed tr td:first-child {
+  --bs-table-color: var(--bs-table-color-fixed-first-column, var(--bs-table-color-fixed-first-column-default));
+  --bs-table-bg: var(--bs-table-bg-fixed-first-column, var(--bs-table-bg-fixed-first-column-default));
+  --bs-table-border-color: var(--bs-table-border-color-fixed-first-column, var(--bs-table-border-color-fixed-first-column-default));
+  --bs-table-striped-bg: var(--bs-table-striped-bg-fixed-first-column, var(--bs-table-striped-bg-fixed-first-column-default));
+  --bs-table-striped-color: var(--bs-table-striped-color-fixed-first-column, var(--bs-table-striped-color-fixed-first-column-default));
+  --bs-table-active-bg: var(--bs-table-active-bg-fixed-first-column, var(--bs-table-active-bg-fixed-first-column-default));
+  --bs-table-active-color: var(--bs-table-active-color-fixed-first-column, var(--bs-table-active-color-fixed-first-column-default));
+  --bs-table-hover-bg: var(--bs-table-hover-bg-fixed-first-column, var(--bs-table-hover-bg-fixed-first-column-default));
+  --bs-table-hover-color: var(--bs-table-hover-color-fixed-first-column, var(--bs-table-hover-color-fixed-first-column-default));
+  color: var(--bs-table-color-fixed-first-column, var(--bs-table-color-fixed-first-column-default));
+  border-color: var(--bs-table-border-color-fixed-first-column, var(--bs-table-border-color-fixed-first-column-default));
+}
+.table.jb-table.table-first-column-fixed.table-selectable tr.table-selected td:first-child {
+  --bs-table-color: var(--bs-table-color-fixed-first-column-selected, var(--bs-table-color-fixed-first-column-selected-default));
+  --bs-table-bg: var(--bs-table-bg-fixed-first-column-selected, var(--bs-table-bg-fixed-first-column-selected-default));
+  --bs-table-border-color: var(--bs-table-border-color-fixed-first-column-selected, var(--bs-table-border-color-fixed-first-column-selected-default));
+  --bs-table-striped-bg: var(--bs-table-striped-bg-fixed-first-column-selected, var(--bs-table-striped-bg-fixed-first-column-selected-default));
+  --bs-table-striped-color: var(--bs-table-striped-color-fixed-first-column-selected, var(--bs-table-striped-color-fixed-first-column-selected-default));
+  --bs-table-active-bg: var(--bs-table-active-bg-fixed-first-column-selected, var(--bs-table-active-bg-fixed-first-column-selected-default));
+  --bs-table-active-color: var(--bs-table-active-color-fixed-first-column-selected, var(--bs-table-active-color-fixed-first-column-selected-default));
+  --bs-table-hover-bg: var(--bs-table-hover-bg-fixed-first-column-selected, var(--bs-table-hover-bg-fixed-first-column-selected-default));
+  --bs-table-hover-color: var(--bs-table-hover-color-fixed-first-column-selected, var(--bs-table-hover-color-fixed-first-column-selected-default));
+  color: var(--bs-table-color-fixed-first-column-selected, var(--bs-table-color-fixed-first-column-selected-default));
+  border-color: var(--bs-table-border-color-fixed-first-column-selected, var(--bs-table-border-color-fixed-first-column-selected-default));
+}
+.table.jb-table.table-first-column-fixed td:first-child, .table.jb-table.table-first-column-fixed th:first-child {
+  position: sticky;
+  left: 0px;
+  z-index: 90;
+}
+.modal-body.no-scroll-at-start .table.jb-table.table-first-column-fixed td:first-child:not([colspan]), .modal-body.no-scroll-at-start .table.jb-table.table-first-column-fixed th:first-child:not([colspan]) {
+  transform-style: preserve-3d;
+}
+.modal-body.no-scroll-at-start .table.jb-table.table-first-column-fixed td:first-child:not([colspan])::before, .modal-body.no-scroll-at-start .table.jb-table.table-first-column-fixed th:first-child:not([colspan])::before {
+  content: "";
+  position: absolute;
+  inset: 0px;
+  transform: translate3d(6px, 0px, -1px);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.4) calc(100% - 6px), rgba(0, 0, 0, 0) 100%);
 }
 .table.jb-table.hideColumnIndex0 tbody tr td:nth-child(1),
 .table.jb-table.hideColumnIndex0 thead tr th:nth-child(1) {
   display: none !important;
 }
+.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex0 tbody tr td:nth-child(1) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
 .table.jb-table.hideColumnIndex1 tbody tr td:nth-child(2),
 .table.jb-table.hideColumnIndex1 thead tr th:nth-child(2) {
   display: none !important;
+}
+.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex1 tbody tr td:nth-child(2) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
 }
 .table.jb-table.hideColumnIndex2 tbody tr td:nth-child(3),
 .table.jb-table.hideColumnIndex2 thead tr th:nth-child(3) {
   display: none !important;
 }
+.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex2 tbody tr td:nth-child(3) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
 .table.jb-table.hideColumnIndex3 tbody tr td:nth-child(4),
 .table.jb-table.hideColumnIndex3 thead tr th:nth-child(4) {
   display: none !important;
+}
+.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex3 tbody tr td:nth-child(4) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
 }
 .table.jb-table.hideColumnIndex4 tbody tr td:nth-child(5),
 .table.jb-table.hideColumnIndex4 thead tr th:nth-child(5) {
   display: none !important;
 }
+.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex4 tbody tr td:nth-child(5) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
 .table.jb-table.hideColumnIndex5 tbody tr td:nth-child(6),
 .table.jb-table.hideColumnIndex5 thead tr th:nth-child(6) {
   display: none !important;
+}
+.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex5 tbody tr td:nth-child(6) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
 }
 .table.jb-table.hideColumnIndex6 tbody tr td:nth-child(7),
 .table.jb-table.hideColumnIndex6 thead tr th:nth-child(7) {
   display: none !important;
 }
+.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex6 tbody tr td:nth-child(7) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
 .table.jb-table.hideColumnIndex7 tbody tr td:nth-child(8),
 .table.jb-table.hideColumnIndex7 thead tr th:nth-child(8) {
   display: none !important;
+}
+.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex7 tbody tr td:nth-child(8) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
 }
 .table.jb-table.hideColumnIndex8 tbody tr td:nth-child(9),
 .table.jb-table.hideColumnIndex8 thead tr th:nth-child(9) {
   display: none !important;
 }
+.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex8 tbody tr td:nth-child(9) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
 .table.jb-table.hideColumnIndex9 tbody tr td:nth-child(10),
 .table.jb-table.hideColumnIndex9 thead tr th:nth-child(10) {
   display: none !important;
+}
+.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex9 tbody tr td:nth-child(10) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
 }
 .table.jb-table.hideColumnIndex10 tbody tr td:nth-child(11),
 .table.jb-table.hideColumnIndex10 thead tr th:nth-child(11) {
   display: none !important;
 }
+.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex10 tbody tr td:nth-child(11) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
 .table.jb-table.hideColumnIndex11 tbody tr td:nth-child(12),
 .table.jb-table.hideColumnIndex11 thead tr th:nth-child(12) {
   display: none !important;
+}
+.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex11 tbody tr td:nth-child(12) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
 }
 .table.jb-table.hideColumnIndex12 tbody tr td:nth-child(13),
 .table.jb-table.hideColumnIndex12 thead tr th:nth-child(13) {
   display: none !important;
 }
+.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex12 tbody tr td:nth-child(13) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
 .table.jb-table.hideColumnIndex13 tbody tr td:nth-child(14),
 .table.jb-table.hideColumnIndex13 thead tr th:nth-child(14) {
   display: none !important;
+}
+.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex13 tbody tr td:nth-child(14) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
 }
 .table.jb-table.hideColumnIndex14 tbody tr td:nth-child(15),
 .table.jb-table.hideColumnIndex14 thead tr th:nth-child(15) {
   display: none !important;
 }
+.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex14 tbody tr td:nth-child(15) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
 .table.jb-table.hideColumnIndex15 tbody tr td:nth-child(16),
 .table.jb-table.hideColumnIndex15 thead tr th:nth-child(16) {
   display: none !important;
+}
+.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex15 tbody tr td:nth-child(16) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
 }
 .table.jb-table.hideColumnIndex16 tbody tr td:nth-child(17),
 .table.jb-table.hideColumnIndex16 thead tr th:nth-child(17) {
   display: none !important;
 }
+.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex16 tbody tr td:nth-child(17) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
 .table.jb-table.hideColumnIndex17 tbody tr td:nth-child(18),
 .table.jb-table.hideColumnIndex17 thead tr th:nth-child(18) {
   display: none !important;
+}
+.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex17 tbody tr td:nth-child(18) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
 }
 .table.jb-table.hideColumnIndex18 tbody tr td:nth-child(19),
 .table.jb-table.hideColumnIndex18 thead tr th:nth-child(19) {
   display: none !important;
 }
+.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex18 tbody tr td:nth-child(19) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
 .table.jb-table.hideColumnIndex19 tbody tr td:nth-child(20),
 .table.jb-table.hideColumnIndex19 thead tr th:nth-child(20) {
   display: none !important;
+}
+.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex19 tbody tr td:nth-child(20) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table thead tr th .show-for-minimized {
+  display: none;
 }
 
 /************************************************************
@@ -16475,6 +17040,14 @@ Using Bootstrap Collapse to create accordion
 .accordion .accordion-button,
 .accordion .accordion-body {
   font-size: var(--bs-accordion-font-size);
+}
+.accordion .accordion-button.collapsed:hover {
+  color: var(--bs-accordion-btn-hover-color, var(--bs-accordion-btn-color));
+  background-color: var(--bs-accordion-btn-hover-bg, var(--bs-accordion-btn-bg));
+}
+.accordion .accordion-button:not(.collapsed):not(.accordion-never-close):hover {
+  color: var(--bs-accordion-active-btn-hover-color, var(--bs-accordion-active-btn-color));
+  background-color: var(--bs-accordion-active-btn-hover-bg, var(--bs-accordion-active-btn-bg));
 }
 .accordion .accordion-button span,
 .accordion .accordion-footer span {
@@ -42419,6 +42992,761 @@ button-border-color-variant
 button-background-color-variant
 Adjust text-, border-, and background-color for a button
 ************************************************************/
+/************************************************************
+TABLE COLORS
+************************************************************/
+/*****************************************************************
+create-table-variant($postfix, $background, $default, $color)
+Adjusted copy of Bootstrap table-variant($state, $background) to
+create css-var to set colors in tables
+*****************************************************************/
+/*****************************************************************
+incl-table-variant($postfix)
+Include special version of Bootstrap table-var
+The var must have been created by create-table-variant first
+*****************************************************************/
+/*****************************************************************
+table-no-hover()
+Prevent any hover effect
+*****************************************************************/
+/************************************************************
+TABLE
+
+Adjustmernt to Bootstrap table
+************************************************************/
+/*****************************************************************
+Defines the default color-values for
+header                      : Table header
+selected                    : Selected row
+fixed-first-column          : First column when it is fixed
+fixed-first-column-selected : First column when it is fixed and selected
+
+*****************************************************************/
+:root {
+  --bs-table-color-header-default: #000;
+  --bs-table-bg-header-default: lightgreen;
+  --bs-table-border-color-header-default: #73be73;
+  --bs-table-striped-bg-header-default: #89e289;
+  --bs-table-striped-color-header-default: #000;
+  --bs-table-active-bg-header-default: #82d682;
+  --bs-table-active-color-header-default: #000;
+  --bs-table-hover-bg-header-default: #85dc85;
+  --bs-table-hover-color-header-default: #000;
+  --bs-table-color-selected-default: rgb(255, 255, 255);
+  --bs-table-bg-selected-default: rgb(30, 144, 255);
+  --bs-table-border-color-selected-default: #4ba6ff;
+  --bs-table-striped-bg-selected-default: #2996ff;
+  --bs-table-striped-color-selected-default: #000;
+  --bs-table-active-bg-selected-default: #359bff;
+  --bs-table-active-color-selected-default: #000;
+  --bs-table-hover-bg-selected-default: #2f98ff;
+  --bs-table-hover-color-selected-default: rgb(255, 255, 255);
+  --bs-table-color-fixed-first-column-default: #000;
+  --bs-table-bg-fixed-first-column-default: lightblue;
+  --bs-table-border-color-fixed-first-column-default: #8aadb8;
+  --bs-table-striped-bg-fixed-first-column-default: #a4cddb;
+  --bs-table-striped-color-fixed-first-column-default: #000;
+  --bs-table-active-bg-fixed-first-column-default: #9cc2cf;
+  --bs-table-active-color-fixed-first-column-default: #000;
+  --bs-table-hover-bg-fixed-first-column-default: #a0c8d5;
+  --bs-table-hover-color-fixed-first-column-default: #000;
+  --bs-table-color-fixed-first-column-selected-default: #fff;
+  --bs-table-bg-fixed-first-column-selected-default: blue;
+  --bs-table-border-color-fixed-first-column-selected-default: #3333ff;
+  --bs-table-striped-bg-fixed-first-column-selected-default: #0d0dff;
+  --bs-table-striped-color-fixed-first-column-selected-default: #fff;
+  --bs-table-active-bg-fixed-first-column-selected-default: #1a1aff;
+  --bs-table-active-color-fixed-first-column-selected-default: #fff;
+  --bs-table-hover-bg-fixed-first-column-selected-default: #1313ff;
+  --bs-table-hover-color-fixed-first-column-selected-default: #fff;
+}
+
+.table.jb-table {
+  /*******************************************************
+  For some (unknown) reason the height of the table needs
+  to be 1px to allow height=100% of elements inside td
+  ********************************************************/
+  height: 1px;
+  /*******************************************************
+  For some (unknown) reason the padding and font-size of
+  table cells are not set using var(...)
+  This is iomplemented here.
+  The selection of cells are copied from
+  bower_components\bootstrap\scss\_tables.scss
+  ********************************************************/
+  --bs-table-cell-font-size: 1rem;
+  --bs-table-cell-padding-x: 0.375rem;
+  --bs-table-cell-padding-y: 0.375rem;
+  --bs-table-cell-padding: 0.375rem;
+  word-break: normal;
+  margin-bottom: 0;
+  /*************************************
+  Header
+  *************************************/
+  /*************************************
+  Rows
+  table-sort-group-header is used for row that are the header of a group of rows with the same 'value' in the column that the table is sorted by
+  *************************************/
+  /*************************************
+  Fixed first column
+  Colors for shadow are hard copy from jquery-scroll-container
+  *************************************/
+  /*************************************
+  Hidden and minimized column - only first 20 columns
+  *************************************/
+  /*************************************
+  Truncation - TODO
+  *************************************/
+  /*
+      thead tr th,
+      tbody tr td {
+          &.text-truncate {
+              span {
+                  display         : inline-block;
+                  width           : 100%;
+                  overflow        : hidden;
+                  text-overflow   : ellipsis;
+                  white-space     : nowrap;
+              }
+          }
+      }
+  */
+}
+.table.jb-table.table-sm, .modal-dialog-sm .table.jb-table {
+  --bs-table-cell-font-size: 0.875rem;
+  --bs-table-cell-padding-x: 0.25rem;
+  --bs-table-cell-padding-y: 0.25rem;
+  --bs-table-cell-padding: 0.25rem;
+}
+.table.jb-table.table-xs, .modal-dialog-xs .table.jb-table {
+  --bs-table-cell-font-size: 0.75rem;
+  --bs-table-cell-padding-x: 0.125rem;
+  --bs-table-cell-padding-y: 0.125rem;
+  --bs-table-cell-padding: 0.125rem;
+}
+.table.jb-table > :not(caption) > * > * {
+  font-size: var(--bs-table-cell-font-size);
+  padding: var(--bs-table-cell-padding-y) var(--bs-table-cell-padding-x);
+}
+.table.jb-table.table-with-header, .scrollbar-vertical > .table.jb-table {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+.table.jb-table.table-no-padding {
+  --bs-table-cell-padding-y: 0;
+}
+.table.jb-table.table-full-width {
+  width: max-content;
+}
+.table.jb-table.table-not-full-width {
+  width: inherit !important;
+}
+.table.jb-table thead tr {
+  position: sticky;
+  top: 0px;
+  z-index: 100;
+  --bs-table-color: var(--bs-table-color-header, var(--bs-table-color-header-default));
+  --bs-table-bg: var(--bs-table-bg-header, var(--bs-table-bg-header-default));
+  --bs-table-border-color: var(--bs-table-border-color-header, var(--bs-table-border-color-header-default));
+  --bs-table-striped-bg: var(--bs-table-striped-bg-header, var(--bs-table-striped-bg-header-default));
+  --bs-table-striped-color: var(--bs-table-striped-color-header, var(--bs-table-striped-color-header-default));
+  --bs-table-active-bg: var(--bs-table-active-bg-header, var(--bs-table-active-bg-header-default));
+  --bs-table-active-color: var(--bs-table-active-color-header, var(--bs-table-active-color-header-default));
+  --bs-table-hover-bg: var(--bs-table-hover-bg-header, var(--bs-table-hover-bg-header-default));
+  --bs-table-hover-color: var(--bs-table-hover-color-header, var(--bs-table-hover-color-header-default));
+  color: var(--bs-table-color-header, var(--bs-table-color-header-default));
+  border-color: var(--bs-table-border-color-header, var(--bs-table-border-color-header-default));
+}
+.table.jb-table thead tr.scroll-top {
+  box-shadow: -4px 1px 6px 0px black;
+}
+.table.jb-table thead tr th {
+  cursor: default;
+}
+.table.jb-table thead tr th.clickable:hover {
+  cursor: pointer;
+  --bs-table-color: var(--bs-table-hover-color);
+  --bs-table-bg: var(--bs-table-hover-bg);
+}
+.table.jb-table thead tr th.sortable {
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: 0.8em;
+  padding-right: 1em;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhBwwRJC7Z4CQBAAACPklEQVRo3u3Zu07DMBQG4N/EiA0hwQCIoRtMPAKoKzBCC2nLG8ALMCAGXgAWZi4pDR2BNRKPwAQbAwKGIrEiEh2GMqBc7VNbpahnqpyo/1dHjexjAXb5TlSlXUAcOa1KxP0WwY//OhVu9zN5o9tcAhPwO743AgsQj++FwAD4TniGrZQLTdnQJ2gDMuOZBE1AbjyLoAXwnfAcmwU3Xcq6DkEDoBSvTVAGKMdrEhQBvvN1IaqqWIBaozU1ghJAN16HoADgxKsTCgHceFXCSP7lQIYeNx4Q1dALZA8zEMjXC1S48T/lz9TKIQtgJL6QkAkI5JtHGwbiAYiraTeLkAEwGZ9PSAWYjs8jpAAC+drEutl4AEB7ZitJSPkbvuxbiQfWX/YVZuB27OMZU1YAQGdibuWzYAbeS9bigan3UnwoAWg84s4a4K7xWAgAsCOuQcbDSVxjJzmc8R44nxOGHwR16s/Gf9SwhjWsYf2L6vurOAXgLYpDWuW3r7IE4ob23Pv4cNq24ZiWDIcDgKA1jGO5cAbO5p0HC/E/FS3EVwSJ9cDkEzrW8juTT/GhBGDlk05s5dNJfEWYuiKaPUDbSn579iA5+Bc3JjYImlsz04S8zWlmg6IcTrvwjeT72fF/u0FhhFAQX9gjKofSpRY3nVrSzY8fhDYdl2CwUckhGG7Vdgl9bVZrEey065UJmgcWI+q3ApVI1tHMvaWpFz94h1a5BNaxndYj6FYlkg3y4qPkceIH9eg2TujD4XWXYOL4/htN/xm86wMQxwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxNy0wNy0xMlQxNzozNjo0NiswMjowMGyLBscAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTctMDctMTJUMTc6MzY6NDYrMDI6MDAd1r57AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAABJRU5ErkJggg==");
+}
+.table.jb-table thead tr th.sortable.text-center {
+  padding-left: 0.5em;
+}
+.table.jb-table thead tr th.sortable.sorting-asc, .table.jb-table thead tr th.sortable.sorting-desc {
+  box-shadow: inset 0px calc(-1px - 2px) 0px 0px var(--jb-structure-border-color);
+}
+.table.jb-table thead tr th.sortable.sorting-asc {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhBwwPOR4W7fbLAAACBklEQVRo3u2ZvU7CUBSAz7FldcEBiYuTJiQ+goZVXS1awCcwvoATgy+gDswCRSqrs+9gYqKLYTDRgRcgtLmOEuv9Oz23MZEzNbTc70vbe3vOuQjkqInv42ekjoIc+DwKyIOnKyAXnqqAfHiaAnLiKQrIi7dXQG68rQLy4+0U0AXeRgHd4M0V0BXeVAHd4c0U0CXeRGFFffrRh5yhGwHVfz6bQ+64KdUTkgAPXqeA7vFqBSwCr1LAYvByBSwKL1NA/plvtypk1oHaGziM7OjZhWjTpUB29L/3CIoOdPMJ4kral7GMZSzjP4Rkeexv4BovSExb74YC0Q5eigPgXrkFPoiL8Onnz7+VDddi18W9FoewCnvaO9Db8l7cPfF0u/2qyQfKE5g640/LE21Csj8TXVd80d2fGWRE1Q6MnfDH1Y5xYfIZiSPmd/C+EhoWJi4UZHhlccqnIMcrsuJ6UgkhZuHHcry2QfExgCAvfr1JbFCwKGjw2sKknvihGJHn/cgP1XijNl3szQfYoOBLzSAlfo7zK5jhjVu1tgqmeItmdewlfTg2vPjOb5nhrdr1xgoWeMsNCyMFK7xlfyBI/RYMlZcM7fCETavYS3pwIsW37fCkbTupAgFPatEEqd8WUWbiRRQ8ees29ua3GC7iS6cUfI7N60UFOh7ylB+xlzbEOQBeeSMqHuALEGzMJuIB3qEAAAAASUVORK5CYII=");
+}
+.table.jb-table thead tr th.sortable.sorting-desc {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhBwwPNhKYw6YvAAAB9klEQVRo3u2ZP04CURCHZ2CJrQWFJBT0nsLWGkH+eQLxCtzBeAKFRdCS2G7CHaagoiFoAYmtYclaWCm7+2Zm3zOa7FQkkN/38R67y5tBUNe0uG9GNwB4W5w09toU1ON399j+eh35pSutAmbHZ1NAG/gsCqjBhw/Qinlj7PXkCmgNr1RAi3iVAgrxQ7g0fOjR60oU0DJerIDW8UIFZF94I2zyVyualDo8BXSBlyigGzxfAV3huQqF9LcDL/S1eABshn7gZViBwHsdQQOy1bTSOQtVAlbwRgVMxr/50QVYKXw6aScpoHt8ugL+Bj5NAWP3fgx1sF/PldahQsxluB44wQPU1wPGCrwcva+gDG5qc1w9/zCswLbmDA9Q3taMW9BbwNyZwLy34NyK+ziDyDo8whn02feBYRUtb0S06a4gr7zyyisv/l+yU/vPAiBkCriAJ0sU/twWuPz+cWtwuAJLp/zlf/gN3JVc4eOSEw4m1zsXeObBxI1CPD71cGpTIQlvOJ7bUkjGGxsUNhTS8MYeUXaFdDyjSZX1rkCoehraUiBjPqtRqVUgRjqzVatRIFY2u1ktVSBmsqBdL1Egdq5oYMFVIEGqcGTDUSBRpnhoZVIgYaJibJemQOI81eAySYEUacrRbZwCqbLUw+ufCqRMUgt8VyB1ziesOMqPm7tGQgAAAABJRU5ErkJggg==");
+}
+.table.jb-table tbody tr.table-sort-group-header {
+  --bs-table-hover-color: var(--bs-table-color);
+  --bs-table-hover-bg: var(--bs-table-bg);
+  --bs-table-active-color: var(--bs-table-color);
+  --bs-table-active-bg: var(--bs-table-bg);
+}
+.table.jb-table tbody tr.table-sort-group-header td *:last-child {
+  margin-right: 0.3em;
+}
+.table.jb-table.table-selectable tbody tr {
+  cursor: default;
+}
+.table.jb-table.table-selectable tbody tr.table-selected {
+  --bs-table-color: var(--bs-table-color-selected, var(--bs-table-color-selected-default));
+  --bs-table-bg: var(--bs-table-bg-selected, var(--bs-table-bg-selected-default));
+  --bs-table-border-color: var(--bs-table-border-color-selected, var(--bs-table-border-color-selected-default));
+  --bs-table-striped-bg: var(--bs-table-striped-bg-selected, var(--bs-table-striped-bg-selected-default));
+  --bs-table-striped-color: var(--bs-table-striped-color-selected, var(--bs-table-striped-color-selected-default));
+  --bs-table-active-bg: var(--bs-table-active-bg-selected, var(--bs-table-active-bg-selected-default));
+  --bs-table-active-color: var(--bs-table-active-color-selected, var(--bs-table-active-color-selected-default));
+  --bs-table-hover-bg: var(--bs-table-hover-bg-selected, var(--bs-table-hover-bg-selected-default));
+  --bs-table-hover-color: var(--bs-table-hover-color-selected, var(--bs-table-hover-color-selected-default));
+  color: var(--bs-table-color-selected, var(--bs-table-color-selected-default));
+  border-color: var(--bs-table-border-color-selected, var(--bs-table-border-color-selected-default));
+}
+.table.jb-table:not(.allow-zero-selected) tbody tr.table-selected {
+  --bs-table-hover-color: var(--bs-table-color);
+  --bs-table-hover-bg: var(--bs-table-bg);
+  --bs-table-active-color: var(--bs-table-color);
+  --bs-table-active-bg: var(--bs-table-bg);
+}
+.table.jb-table tbody tr.filter-out {
+  display: none;
+}
+.table.jb-table.table-first-column-fixed tr td:first-child {
+  --bs-table-color: var(--bs-table-color-fixed-first-column, var(--bs-table-color-fixed-first-column-default));
+  --bs-table-bg: var(--bs-table-bg-fixed-first-column, var(--bs-table-bg-fixed-first-column-default));
+  --bs-table-border-color: var(--bs-table-border-color-fixed-first-column, var(--bs-table-border-color-fixed-first-column-default));
+  --bs-table-striped-bg: var(--bs-table-striped-bg-fixed-first-column, var(--bs-table-striped-bg-fixed-first-column-default));
+  --bs-table-striped-color: var(--bs-table-striped-color-fixed-first-column, var(--bs-table-striped-color-fixed-first-column-default));
+  --bs-table-active-bg: var(--bs-table-active-bg-fixed-first-column, var(--bs-table-active-bg-fixed-first-column-default));
+  --bs-table-active-color: var(--bs-table-active-color-fixed-first-column, var(--bs-table-active-color-fixed-first-column-default));
+  --bs-table-hover-bg: var(--bs-table-hover-bg-fixed-first-column, var(--bs-table-hover-bg-fixed-first-column-default));
+  --bs-table-hover-color: var(--bs-table-hover-color-fixed-first-column, var(--bs-table-hover-color-fixed-first-column-default));
+  color: var(--bs-table-color-fixed-first-column, var(--bs-table-color-fixed-first-column-default));
+  border-color: var(--bs-table-border-color-fixed-first-column, var(--bs-table-border-color-fixed-first-column-default));
+}
+.table.jb-table.table-first-column-fixed.table-selectable tr.table-selected td:first-child {
+  --bs-table-color: var(--bs-table-color-fixed-first-column-selected, var(--bs-table-color-fixed-first-column-selected-default));
+  --bs-table-bg: var(--bs-table-bg-fixed-first-column-selected, var(--bs-table-bg-fixed-first-column-selected-default));
+  --bs-table-border-color: var(--bs-table-border-color-fixed-first-column-selected, var(--bs-table-border-color-fixed-first-column-selected-default));
+  --bs-table-striped-bg: var(--bs-table-striped-bg-fixed-first-column-selected, var(--bs-table-striped-bg-fixed-first-column-selected-default));
+  --bs-table-striped-color: var(--bs-table-striped-color-fixed-first-column-selected, var(--bs-table-striped-color-fixed-first-column-selected-default));
+  --bs-table-active-bg: var(--bs-table-active-bg-fixed-first-column-selected, var(--bs-table-active-bg-fixed-first-column-selected-default));
+  --bs-table-active-color: var(--bs-table-active-color-fixed-first-column-selected, var(--bs-table-active-color-fixed-first-column-selected-default));
+  --bs-table-hover-bg: var(--bs-table-hover-bg-fixed-first-column-selected, var(--bs-table-hover-bg-fixed-first-column-selected-default));
+  --bs-table-hover-color: var(--bs-table-hover-color-fixed-first-column-selected, var(--bs-table-hover-color-fixed-first-column-selected-default));
+  color: var(--bs-table-color-fixed-first-column-selected, var(--bs-table-color-fixed-first-column-selected-default));
+  border-color: var(--bs-table-border-color-fixed-first-column-selected, var(--bs-table-border-color-fixed-first-column-selected-default));
+}
+.table.jb-table.table-first-column-fixed td:first-child, .table.jb-table.table-first-column-fixed th:first-child {
+  position: sticky;
+  left: 0px;
+  z-index: 90;
+}
+.modal-body.no-scroll-at-start .table.jb-table.table-first-column-fixed td:first-child:not([colspan]), .modal-body.no-scroll-at-start .table.jb-table.table-first-column-fixed th:first-child:not([colspan]) {
+  transform-style: preserve-3d;
+}
+.modal-body.no-scroll-at-start .table.jb-table.table-first-column-fixed td:first-child:not([colspan])::before, .modal-body.no-scroll-at-start .table.jb-table.table-first-column-fixed th:first-child:not([colspan])::before {
+  content: "";
+  position: absolute;
+  inset: 0px;
+  transform: translate3d(6px, 0px, -1px);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.4) calc(100% - 6px), rgba(0, 0, 0, 0) 100%);
+}
+.table.jb-table.hideColumnIndex0 tbody tr td:nth-child(1),
+.table.jb-table.hideColumnIndex0 thead tr th:nth-child(1) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex0 tbody tr td:nth-child(1) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex1 tbody tr td:nth-child(2),
+.table.jb-table.hideColumnIndex1 thead tr th:nth-child(2) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex1 tbody tr td:nth-child(2) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex2 tbody tr td:nth-child(3),
+.table.jb-table.hideColumnIndex2 thead tr th:nth-child(3) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex2 tbody tr td:nth-child(3) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex3 tbody tr td:nth-child(4),
+.table.jb-table.hideColumnIndex3 thead tr th:nth-child(4) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex3 tbody tr td:nth-child(4) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex4 tbody tr td:nth-child(5),
+.table.jb-table.hideColumnIndex4 thead tr th:nth-child(5) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex4 tbody tr td:nth-child(5) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex5 tbody tr td:nth-child(6),
+.table.jb-table.hideColumnIndex5 thead tr th:nth-child(6) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex5 tbody tr td:nth-child(6) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex6 tbody tr td:nth-child(7),
+.table.jb-table.hideColumnIndex6 thead tr th:nth-child(7) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex6 tbody tr td:nth-child(7) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex7 tbody tr td:nth-child(8),
+.table.jb-table.hideColumnIndex7 thead tr th:nth-child(8) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex7 tbody tr td:nth-child(8) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex8 tbody tr td:nth-child(9),
+.table.jb-table.hideColumnIndex8 thead tr th:nth-child(9) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex8 tbody tr td:nth-child(9) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex9 tbody tr td:nth-child(10),
+.table.jb-table.hideColumnIndex9 thead tr th:nth-child(10) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex9 tbody tr td:nth-child(10) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex10 tbody tr td:nth-child(11),
+.table.jb-table.hideColumnIndex10 thead tr th:nth-child(11) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex10 tbody tr td:nth-child(11) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex11 tbody tr td:nth-child(12),
+.table.jb-table.hideColumnIndex11 thead tr th:nth-child(12) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex11 tbody tr td:nth-child(12) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex12 tbody tr td:nth-child(13),
+.table.jb-table.hideColumnIndex12 thead tr th:nth-child(13) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex12 tbody tr td:nth-child(13) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex13 tbody tr td:nth-child(14),
+.table.jb-table.hideColumnIndex13 thead tr th:nth-child(14) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex13 tbody tr td:nth-child(14) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex14 tbody tr td:nth-child(15),
+.table.jb-table.hideColumnIndex14 thead tr th:nth-child(15) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex14 tbody tr td:nth-child(15) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex15 tbody tr td:nth-child(16),
+.table.jb-table.hideColumnIndex15 thead tr th:nth-child(16) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex15 tbody tr td:nth-child(16) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex16 tbody tr td:nth-child(17),
+.table.jb-table.hideColumnIndex16 thead tr th:nth-child(17) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex16 tbody tr td:nth-child(17) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex17 tbody tr td:nth-child(18),
+.table.jb-table.hideColumnIndex17 thead tr th:nth-child(18) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex17 tbody tr td:nth-child(18) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex18 tbody tr td:nth-child(19),
+.table.jb-table.hideColumnIndex18 thead tr th:nth-child(19) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex18 tbody tr td:nth-child(19) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table.hideColumnIndex19 tbody tr td:nth-child(20),
+.table.jb-table.hideColumnIndex19 thead tr th:nth-child(20) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) {
+  width: 1.5em;
+  text-align: center !important;
+  padding: 0;
+}
+.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) * {
+  margin: 0;
+}
+.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) *.show-for-minimized {
+  display: initial !important;
+}
+.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) *:not(.show-for-minimized) {
+  display: none !important;
+}
+.table.jb-table.minimizedColumnIndex19 tbody tr td:nth-child(20) {
+  width: 1.5em;
+  padding: 0;
+  font-size: 0;
+  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
+}
+.table.jb-table thead tr th .show-for-minimized {
+  display: none;
+}
+
 /**********************************************************
 	fcoo-colors-include.scss,
 
@@ -42523,6 +43851,7 @@ This can be done in two ways:
   --_fcoo-default-app-bg-color-0: #3f5b58;
   --_fcoo-default-app-hover-bg-color-0: #5c7471;
   --_fcoo-default-app-active-bg-color-0: #657c79;
+  --_fcoo-default-app-darken-bg-color-0: #304644;
   --_fcoo-default-app-text-color-0: #fff;
   --_fcoo-default-app-hover-text-color-0: white;
   --_fcoo-default-app-active-text-color-0: white;
@@ -42530,27 +43859,35 @@ This can be done in two ways:
   --_fcoo-default-app-bg-color-25: #78a29d;
   --_fcoo-default-app-hover-bg-color-25: #8cb0ac;
   --_fcoo-default-app-active-bg-color-25: #93b5b1;
+  --_fcoo-default-app-darken-bg-color-25: #65918c;
   --_fcoo-default-app-text-color-25: #000;
   --_fcoo-default-app-hover-text-color-25: #1a1a1a;
   --_fcoo-default-app-active-text-color-25: #1a1a1a;
   --_fcoo-default-app-bg-color-50: #c3d6d4;
   --_fcoo-default-app-hover-bg-color-50: #ccdcda;
   --_fcoo-default-app-active-bg-color-50: #cfdedd;
+  --_fcoo-default-app-darken-bg-color-50: #aec7c4;
   --_fcoo-default-app-text-color-50: #000;
   --_fcoo-default-app-hover-text-color-50: #1a1a1a;
   --_fcoo-default-app-active-text-color-50: #1a1a1a;
   --_fcoo-default-app-bg-color-63: #eaf1f0;
   --_fcoo-default-app-hover-bg-color-63: #edf3f2;
   --_fcoo-default-app-active-bg-color-63: #eef4f3;
+  --_fcoo-default-app-darken-bg-color-63: #d5e2e1;
   --_fcoo-default-app-text-color-63: #000;
   --_fcoo-default-app-hover-text-color-63: #1a1a1a;
   --_fcoo-default-app-active-text-color-63: #1a1a1a;
+}
+
+.niels {
+  color: #78a29d;
 }
 
 :root {
   --fcoo-app-bg-color: var(--_fcoo-app-bg-color-0, var(--_fcoo-default-app-bg-color-0));
   --fcoo-app-hover-bg-color: var(--_fcoo-app-hover-bg-color-0, var(--_fcoo-default-app-hover-bg-color-0));
   --fcoo-app-active-bg-color: var(--_fcoo-app-active-bg-color-0, var(--_fcoo-default-app-active-bg-color-0));
+  --fcoo-app-darken-bg-color: var(--_fcoo-app-darken-bg-color-0, var(--_fcoo-default-app-darken-bg-color-0));
   --fcoo-app-text-color: var(--_fcoo-app-text-color-0, var(--_fcoo-default-app-text-color-0));
   --fcoo-app-hover-text-color: var(--_fcoo-app-hover-text-color-0, var(--_fcoo-default-app-hover-text-color-0));
   --fcoo-app-active-text-color: var(--_fcoo-app-active-text-color-0, var(--_fcoo-default-app-active-text-color-0));
@@ -42558,18 +43895,21 @@ This can be done in two ways:
   --fcoo-app-bg-color-25: var(--_fcoo-app-bg-color-25, var(--_fcoo-default-app-bg-color-25));
   --fcoo-app-hover-bg-color-25: var(--_fcoo-app-hover-bg-color-25, var(--_fcoo-default-app-hover-bg-color-25));
   --fcoo-app-active-bg-color-25: var(--_fcoo-app-active-bg-color-25, var(--_fcoo-default-app-active-bg-color-25));
+  --fcoo-app-darken-bg-color-25: var(--_fcoo-app-darken-bg-color-25, var(--_fcoo-default-app-darken-bg-color-25));
   --fcoo-app-text-color-25: var(--_fcoo-app-text-color-25, var(--_fcoo-default-app-text-color-25));
   --fcoo-app-hover-text-color-25: var(--_fcoo-app-hover-text-color-25, var(--_fcoo-default-app-hover-text-color-25));
   --fcoo-app-active-text-color-25: var(--_fcoo-app-active-text-color-25, var(--_fcoo-default-app-active-text-color-25));
   --fcoo-app-bg-color-50: var(--_fcoo-app-bg-color-50, var(--_fcoo-default-app-bg-color-50));
   --fcoo-app-hover-bg-color-50: var(--_fcoo-app-hover-bg-color-50, var(--_fcoo-default-app-hover-bg-color-50));
   --fcoo-app-active-bg-color-50: var(--_fcoo-app-active-bg-color-50, var(--_fcoo-default-app-active-bg-color-50));
+  --fcoo-app-darken-bg-color-50: var(--_fcoo-app-darken-bg-color-50, var(--_fcoo-default-app-darken-bg-color-50));
   --fcoo-app-text-color-50: var(--_fcoo-app-text-color-50, var(--_fcoo-default-app-text-color-50));
   --fcoo-app-hover-text-color-50: var(--_fcoo-app-hover-text-color-50, var(--_fcoo-default-app-hover-text-color-50));
   --fcoo-app-active-text-color-50: var(--_fcoo-app-active-text-color-50, var(--_fcoo-default-app-active-text-color-50));
   --fcoo-app-bg-color-63: var(--_fcoo-app-bg-color-63, var(--_fcoo-default-app-bg-color-63));
   --fcoo-app-hover-bg-color-63: var(--_fcoo-app-hover-bg-color-63, var(--_fcoo-default-app-hover-bg-color-63));
   --fcoo-app-active-bg-color-63: var(--_fcoo-app-active-bg-color-63, var(--_fcoo-default-app-active-bg-color-63));
+  --fcoo-app-darken-bg-color-63: var(--_fcoo-app-darken-bg-color-63, var(--_fcoo-default-app-darken-bg-color-63));
   --fcoo-app-text-color-63: var(--_fcoo-app-text-color-63, var(--_fcoo-default-app-text-color-63));
   --fcoo-app-hover-text-color-63: var(--_fcoo-app-hover-text-color-63, var(--_fcoo-default-app-hover-text-color-63));
   --fcoo-app-active-text-color-63: var(--_fcoo-app-active-text-color-63, var(--_fcoo-default-app-active-text-color-63));
@@ -42670,15 +44010,70 @@ Adjust different parts in jquery-bootstrap and fcoo-application
 .accordion {
   --bs-accordion-btn-color: var(--fcoo-app-text-color-63);
   --bs-accordion-btn-bg: var(--fcoo-app-bg-color-63);
+  --bs-accordion-btn-hover-color: var(--fcoo-app-active-text-color-63);
+  --bs-accordion-btn-hover-bg: var(--fcoo-app-darken-bg-color-63);
   --bs-accordion-active-color: var(--fcoo-app-text-color-50);
   --bs-accordion-active-bg: var(--fcoo-app-bg-color-50);
+  --bs-accordion-active-btn-hover-color: var(--fcoo-app-active-text-color-50);
+  --bs-accordion-active-btn-hover-bg: var(--fcoo-app-darken-bg-color-50);
 }
 
 .mm-menu {
   --mm-item-closed-color: var(--fcoo-app-text-color-63);
   --mm-item-closed-bg: var(--fcoo-app-bg-color-63);
+  --mm-item-closed-hover-color: var(--fcoo-app-active-text-color-63);
+  --mm-item-closed-hover-bg: var(--fcoo-app-darken-bg-color-63);
   --mm-item-opened-color: var(--fcoo-app-text-color-50);
   --mm-item-opened-bg: var(--fcoo-app-bg-color-50);
+  --mm-item-opened-hover-color: var(--fcoo-app-active-text-color-50);
+  --mm-item-opened-hover-bg: var(--fcoo-app-darken-bg-color-50);
+}
+
+/*****************************************************************
+Table
+Defines the color-values for
+header                      : Table header
+selected                    : Selected row
+fixed-first-column          : First column when it is fixed
+fixed-first-column-selected : First column when it is fixed and selected
+*****************************************************************/
+:root {
+  --bs-table-color-header: #000;
+  --bs-table-bg-header: #c3d6d4;
+  --bs-table-border-color-header: #9cabaa;
+  --bs-table-striped-bg-header: #b9cbc9;
+  --bs-table-striped-color-header: #000;
+  --bs-table-active-bg-header: #b0c1bf;
+  --bs-table-active-color-header: #000;
+  --bs-table-hover-bg-header: #b4c6c4;
+  --bs-table-hover-color-header: #000;
+  --bs-table-color-selected: rgb(255, 255, 255);
+  --bs-table-bg-selected: rgb(30, 144, 255);
+  --bs-table-border-color-selected: #4ba6ff;
+  --bs-table-striped-bg-selected: #2996ff;
+  --bs-table-striped-color-selected: #000;
+  --bs-table-active-bg-selected: #359bff;
+  --bs-table-active-color-selected: #000;
+  --bs-table-hover-bg-selected: #2f98ff;
+  --bs-table-hover-color-selected: rgb(255, 255, 255);
+  --bs-table-color-fixed-first-column: #000;
+  --bs-table-bg-fixed-first-column: #eaf1f0;
+  --bs-table-border-color-fixed-first-column: #bbc1c0;
+  --bs-table-striped-bg-fixed-first-column: #dee5e4;
+  --bs-table-striped-color-fixed-first-column: #000;
+  --bs-table-active-bg-fixed-first-column: #d3d9d8;
+  --bs-table-active-color-fixed-first-column: #000;
+  --bs-table-hover-bg-fixed-first-column: #d8dfde;
+  --bs-table-hover-color-fixed-first-column: #000;
+  --bs-table-color-fixed-first-column-selected: rgb(255, 255, 255);
+  --bs-table-bg-fixed-first-column-selected: #007ef9;
+  --bs-table-border-color-fixed-first-column-selected: #3398fa;
+  --bs-table-striped-bg-fixed-first-column-selected: #0d84f9;
+  --bs-table-striped-color-fixed-first-column-selected: #000;
+  --bs-table-active-bg-fixed-first-column-selected: #1a8bfa;
+  --bs-table-active-color-fixed-first-column-selected: #000;
+  --bs-table-hover-bg-fixed-first-column-selected: #1388f9;
+  --bs-table-hover-color-fixed-first-column-selected: rgb(255, 255, 255);
 }
 
 /********** DEMO ******************
@@ -43164,7 +44559,7 @@ Style for 'About FCOO' modal-content
 }
 
 /*****************************************************
-Style for touch menus
+Style for touch menus and mmmenu
 *****************************************************/
 /*****************************************************
 TOUCH-MENU
@@ -43318,6 +44713,21 @@ html.right-menu-open .hide-for-right-menu-open {
 
 html.no-right-menu-open .show-for-right-menu-open {
   display: none !important;
+}
+
+/*****************************************************
+MMENU
+
+Adjustments to the style for mmenu
+*****************************************************/
+.mm-menu .mm-listitem:not(.mm-listitem_opened) > .mm-listitem__btn:hover {
+  color: var(--mm-item-closed-hover-color, var(--mm-item-closed-color));
+  background-color: var(--mm-item-closed-hover-bg, var(--mm-item-closed-bg));
+}
+
+.mm-menu .mm-listitem.mm-listitem_opened > .mm-listitem__btn:hover {
+  color: var(--mm-item-opened-hover-color, var(--mm-item-opened-color));
+  background-color: var(--mm-item-opened-hover-bg, var(--mm-item-opened-bg));
 }
 
 /*****************************************************

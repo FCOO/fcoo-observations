@@ -4,7 +4,7 @@ location.js
 Location = group of Stations with the same or different paramtre
 
 ****************************************************************************/
-(function ($, i18next, moment, window, document, undefined) {
+(function ($, i18next, moment, window/*, document, undefined*/) {
 	"use strict";
 
 	window.fcoo = window.fcoo || {};
@@ -38,12 +38,9 @@ Location = group of Stations with the same or different paramtre
     nsObservations.imgWidth  = 500; //250; //600;
     nsObservations.imgHeight = 340; //Original = 400;
 
-    nsObservations.Location = function(options){
-        options = this.options = $.extend(true, {}, {active: true}, options);
-
+    nsObservations.Location = function( options ){
+        this.options = options;
         this.id = options.id;
-        this.active = options.active;
-
         this.name = ns.ajdustLangName(options.name);
 
         this.stationList = [];
@@ -52,7 +49,7 @@ Location = group of Stations with the same or different paramtre
         this.observationGroups = {};
         this.observationGroupList = [];
 
-        //observationGroupStations = {observationGroup-id: Station} = ref to the active/prioritized Station (if any) used for the ObservationGroup
+        //observationGroupStations = {observationGroup-id: Station} = ref to the Station (if any) used for the ObservationGroup
         this.observationGroupStations = {};
         this.observationGroupStationList = [];
 
@@ -65,98 +62,6 @@ Location = group of Stations with the same or different paramtre
         init: function(){
             /* Empty here but can be extended in extentions of FCOOObservations */
         },
-
-        /*********************************************
-        appendStations
-        *********************************************/
-        appendStations: function( locationOptions, defaultStationOptions ){
-            var _this = this,
-                opt = locationOptions;
-
-            //Create default station-options from location and default options
-            defaultStationOptions =
-                $.extend(true, {}, defaultStationOptions, {
-                    level       : opt.level     || undefined,
-                    refLevel    : opt.refLevel  || undefined,
-                    owner       : opt.owner     || undefined,
-                    provider    : opt.provider  || undefined,
-                    position    : opt.position  || undefined,
-                    parameter   : opt.parameter || opt.parameterList || undefined
-                });
-
-            /*  Append the station(s) related to the location.
-                There are different ways to set stations:
-                1: A single station can be defined using attributes:
-                station or stationId: STRING = The station id
-                owner    : STRING (optional)
-                provider : STRING (optional)
-                parameter or parameterList: NxSTRING (optional) or PARAMETER or []PARAMETER
-
-                2: A list of station-records or station-id:
-                station or stationList: []STRING or []STATION
-            */
-
-            var stationList = opt.station || opt.stationId || opt.stationList;
-
-            delete opt.station;
-            delete opt.stationId;
-            delete opt.stationList;
-
-            if (typeof stationList == 'string')
-                stationList = stationList.split(' ');
-            stationList = $.isArray(stationList) ? stationList : [stationList];
-
-
-            var hasActiveStation = false;
-            $.each(stationList, function(index, stationOptions){
-                if (typeof stationOptions == 'string')
-                    stationOptions = {id: stationOptions};
-
-                stationOptions = $.extend(true, {}, defaultStationOptions, opt, stationOptions );
-                stationOptions.parameter = stationOptions.parameter || stationOptions.parameterList;
-                var newStation = new nsObservations.Station( $.extend(true, {}, defaultStationOptions, stationOptions ), _this );
-
-                if (newStation.options.active)
-                    hasActiveStation = true;
-                _this.stationList.push(newStation);
-            });
-
-            if (this.active && !hasActiveStation)
-                this.active = false;
-        },
-
-
-        /*********************************************
-        _finally - Called when all meta-data is loaded
-        *********************************************/
-        _finally: function(){
-            var _this = this,
-                wasActive = this.active;
-
-            this.active = false;
-
-            //For each ObservationGroup: Find the active station = The Station with options.prioritized = true OR the first "active" Station in the list (options.active = true)
-            $.each(this.observationGroups, function(observationGroupId, observationGroup){
-                var activeStation = null;
-                $.each(_this.stationList, function(index, station){
-                    if (station.options.active)
-                        $.each(station.parameters, function(parameterId){
-                            if (parameterId == observationGroup.primaryParameter.id)
-                                //The station is active and have parameter from observationGroup. If it is prioritized or the first station
-                                activeStation = station.options.prioritized ? station : (activeStation || station);
-                        });
-                });
-
-                if (activeStation){
-                    _this.active = wasActive;
-                    _this.observationGroupStations[observationGroupId] = activeStation;
-                    _this.observationGroupStationList.push(activeStation);
-
-                    activeStation.addToObservationGroup(observationGroup);
-                }
-            });
-        },
-
 
         /*****************************************************
         _getFuncList - Get an adjusted version of one of the function-lists:
