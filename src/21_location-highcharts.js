@@ -3,7 +3,7 @@
 Methods for creating Highcharts for a Location
 
 ****************************************************************************/
-(function ($, i18next, moment, window/*, document, undefined*/) {
+(function ($, Highcharts, i18next, moment, window/*, document, undefined*/) {
     "use strict";
 
 
@@ -16,6 +16,9 @@ Methods for creating Highcharts for a Location
     nsObservations.updateLastObservationFuncList.push('updateCharts');
     nsObservations.updateObservationFuncList.push('updateCharts');
     nsObservations.updateForecastFuncList.push('updateCharts');
+
+
+    Highcharts.USE_JB_STYLE = true;
 
 
     /****************************************************************************
@@ -70,7 +73,7 @@ Methods for creating Highcharts for a Location
                     series   : [],
                     yAxis    : [],
                     z        : [],
-                    zeroLine : true
+                    zeroLine : true,
                 };
 
             this.stationList.forEach(station => {
@@ -113,6 +116,6 @@ Methods for creating Highcharts for a Location
 
 
 
-}(jQuery, this.i18next, this.moment, this, document));
+}(jQuery, this.Highcharts, this.i18next, this.moment, this, document));
 
 

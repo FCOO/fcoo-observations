@@ -190,8 +190,12 @@
            console.log(fcooObs);
            
             var geoJSON0 = fcooObservation.geoJSON().addTo(maps[0]);
-            //fcooObservation.show('SEALEVEL', maps[0]);
+            fcooObservation.show('SEALEVEL', maps[0]);
             fcooObservation.show('CURRENT_SEAFLOOR', maps[0]);
+            fcooObservation.show('TEMPERATURE_1M', maps[0]);
+            fcooObservation.show('TEMPERATURE_SEAFLOOR', maps[0]);
+            fcooObservation.show('SALINITY_1M', maps[0]);
+            fcooObservation.show('SALINITY_SEAFLOOR', maps[0]);
 
             var geoJSON1 = fcooObservation.geoJSON().addTo(maps[1]);
 //            fcooObservation.show('CURRENT_2M', maps[1]);

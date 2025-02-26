@@ -1,45 +1,45 @@
 {
-  "name": "fcoo-observations",
-  "version": "4.11.0",
-  "homepage": "https://github.com/FCOO/fcoo-observations",
-  "authors": [
-    "Niels Holt"
-  ],
-  "description": "",
-  "main": [
-    "dist/fcoo-observations.js",
-    "dist/fcoo-observations.css"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/FCOO/fcoo-observations.git"
-  },
-  "dependencies": {
-    "leaflet-bower-bugfix-switches": "fcoo/leaflet-bower-bugfix-switches#^2.0.2",
-    "fcoo-parameter-unit": "fcoo/fcoo-parameter-unit#^1.7.0",
-    "fcoo-jquery-bootstrap-highcharts": "fcoo/fcoo-jquery-bootstrap-highcharts#^4.0.0",
-    "leaflet-bootstrap-marker": "fcoo/leaflet-bootstrap-marker#^3.0.0",
-    "leaflet-bootstrap-marker-mixin": "fcoo/leaflet-bootstrap-marker-mixin#latest",
-    "leaflet-polyline-mixin": "fcoo/leaflet-polyline-mixin#latest",
-    "leaflet-bootstrap": "fcoo/leaflet-bootstrap#^3.0.0",
-    "fcoo-promise-list": "fcoo/fcoo-promise-list#^1.1.0",
-    "fcoo-moment": "fcoo/fcoo-moment#^1.3.1",
-    "fcoo-number": "fcoo/fcoo-number#^1.3.4",
-    "fcoo-value-format": "fcoo/fcoo-value-format#^3.4.0",
-    "fcoo-settings": "fcoo/fcoo-settings"
-  },
-  "devDependencies": {
-    "modernizr-scss": "https://github.com/FCOO/modernizr-scss.git#latest"
-  },
-  "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "moduleType": [
-    "es6"
-  ]
+    "name": "fcoo-observations",
+    "version": "4.11.0",
+    "homepage": "https://github.com/FCOO/fcoo-observations",
+    "authors": [
+        "Niels Holt"
+    ],
+    "description": "",
+    "main": [
+        "dist/fcoo-observations.js",
+        "dist/fcoo-observations.css"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/FCOO/fcoo-observations.git"
+    },
+    "dependencies": {
+        "leaflet-bower-bugfix-switches": "fcoo/leaflet-bower-bugfix-switches#^2.0.2",
+        "fcoo-parameter-unit": "fcoo/fcoo-parameter-unit#^1.7.0",
+        "fcoo-jquery-bootstrap-highcharts": "fcoo/fcoo-jquery-bootstrap-highcharts#^5.0.0",
+        "leaflet-bootstrap-marker": "fcoo/leaflet-bootstrap-marker#^3.0.0",
+        "leaflet-bootstrap-marker-mixin": "fcoo/leaflet-bootstrap-marker-mixin#latest",
+        "leaflet-polyline-mixin": "fcoo/leaflet-polyline-mixin#latest",
+        "leaflet-bootstrap": "fcoo/leaflet-bootstrap#^3.0.0",
+        "fcoo-promise-list": "fcoo/fcoo-promise-list#^1.1.0",
+        "fcoo-moment": "fcoo/fcoo-moment#^1.3.1",
+        "fcoo-number": "fcoo/fcoo-number#^1.3.4",
+        "fcoo-value-format": "fcoo/fcoo-value-format#^3.4.0",
+        "fcoo-settings": "fcoo/fcoo-settings"
+    },
+    "devDependencies": {
+        "modernizr-scss": "https://github.com/FCOO/modernizr-scss.git#latest"
+    },
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "moduleType": [
+        "es6"
+    ]
 }

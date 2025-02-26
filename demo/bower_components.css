@@ -16413,6 +16413,10 @@ fixed-first-column-selected : First column when it is fixed and selected
 .table.jb-table.table-not-full-width {
   width: inherit !important;
 }
+.table.jb-table.table-bordered td, .table.jb-table.table-bordered th {
+  border-width: 1px !important;
+  border-color: black !important;
+}
 .table.jb-table thead tr {
   position: sticky;
   top: 0px;
@@ -16543,13 +16547,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex0 tbody tr td:nth-child(1) {
@@ -16567,13 +16571,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex1 tbody tr td:nth-child(2) {
@@ -16591,13 +16595,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex2 tbody tr td:nth-child(3) {
@@ -16615,13 +16619,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex3 tbody tr td:nth-child(4) {
@@ -16639,13 +16643,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex4 tbody tr td:nth-child(5) {
@@ -16663,13 +16667,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex5 tbody tr td:nth-child(6) {
@@ -16687,13 +16691,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex6 tbody tr td:nth-child(7) {
@@ -16711,13 +16715,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex7 tbody tr td:nth-child(8) {
@@ -16735,13 +16739,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex8 tbody tr td:nth-child(9) {
@@ -16759,13 +16763,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex9 tbody tr td:nth-child(10) {
@@ -16783,13 +16787,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex10 tbody tr td:nth-child(11) {
@@ -16807,13 +16811,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex11 tbody tr td:nth-child(12) {
@@ -16831,13 +16835,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex12 tbody tr td:nth-child(13) {
@@ -16855,13 +16859,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex13 tbody tr td:nth-child(14) {
@@ -16879,13 +16883,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex14 tbody tr td:nth-child(15) {
@@ -16903,13 +16907,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex15 tbody tr td:nth-child(16) {
@@ -16927,13 +16931,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex16 tbody tr td:nth-child(17) {
@@ -16951,13 +16955,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex17 tbody tr td:nth-child(18) {
@@ -16975,13 +16979,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex18 tbody tr td:nth-child(19) {
@@ -16999,13 +17003,13 @@ fixed-first-column-selected : First column when it is fixed and selected
   text-align: center !important;
   padding: 0;
 }
-.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) * {
-  margin: 0;
+.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) > * {
+  margin: 0 !important;
 }
-.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) *.show-for-minimized {
+.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) > *.show-for-minimized {
   display: initial !important;
 }
-.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) *:not(.show-for-minimized) {
+.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) > *:not(.show-for-minimized) {
   display: none !important;
 }
 .table.jb-table.minimizedColumnIndex19 tbody tr td:nth-child(20) {
@@ -17405,6 +17409,1309 @@ Style for elements used to display any image in a modal-window
   right: 0;
   bottom: 0;
 }
+/**
+ * @license Highcharts
+ *
+ * (c) 2009-2022 Torstein Honsi
+ *
+ * License: www.highcharts.com/license
+ */
+
+:root,
+.highcharts-light {
+    /* Colors for data series and points */
+    --highcharts-color-0: #2caffe;
+    --highcharts-color-1: #544fc5;
+    --highcharts-color-2: #00e272;
+    --highcharts-color-3: #fe6a35;
+    --highcharts-color-4: #6b8abc;
+    --highcharts-color-5: #d568fb;
+    --highcharts-color-6: #2ee0ca;
+    --highcharts-color-7: #fa4b42;
+    --highcharts-color-8: #feb56a;
+    --highcharts-color-9: #91e8e1;
+
+    /* Chart background, point stroke for markers and columns etc */
+    --highcharts-background-color: #ffffff;
+
+    /*
+    Neutral colors, grayscale by default. The default colors are defined by
+    mixing the background-color with neutral, with a weight corresponding to
+    the number in the name.
+
+    https://www.highcharts.com/samples/highcharts/css/palette-helper
+    */
+
+    /* Strong text. */
+    --highcharts-neutral-color-100: #000000;
+
+    /* Main text, axis labels and some strokes. */
+    --highcharts-neutral-color-80: #333333;
+
+    /* Axis title, connector fallback. */
+    --highcharts-neutral-color-60: #666666;
+
+    /* Credits text, export menu stroke. */
+    --highcharts-neutral-color-40: #999999;
+
+    /* Disabled texts, button strokes, crosshair etc. */
+    --highcharts-neutral-color-20: #cccccc;
+
+    /* Grid lines etc. */
+    --highcharts-neutral-color-10: #e6e6e6;
+
+    /* Minor grid lines etc. */
+    --highcharts-neutral-color-5: #f2f2f2;
+
+    /* Tooltip backgroud, button fills, map null points. */
+    --highcharts-neutral-color-3: #f7f7f7;
+
+    /*
+    Highlights, shades of blue by default
+    */
+
+    /* Drilldown clickable labels, color axis max color. */
+    --highcharts-highlight-color-100: #0022ff;
+
+    /* Selection marker, menu hover, button hover, chart border, navigator
+    series. */
+    --highcharts-highlight-color-80: #334eff;
+
+    /* Navigator mask fill. */
+    --highcharts-highlight-color-60: #667aff;
+
+    /* Ticks and axis line. */
+    --highcharts-highlight-color-20: #ccd3ff;
+
+    /* Pressed button, color axis min color. */
+    --highcharts-highlight-color-10: #e6e9ff;
+
+    /* Indicators */
+    --highcharts-positive-color: #06b535;
+    --highcharts-negative-color: #f21313;
+
+    /* Transparent colors for annotations */
+    --highcharts-annotation-color-0: rgba(130, 170, 255, 0.4);
+    --highcharts-annotation-color-1: rgba(139, 191, 216, 0.4);
+    --highcharts-annotation-color-2: rgba(150, 216, 192, 0.4);
+    --highcharts-annotation-color-3: rgba(156, 229, 161, 0.4);
+    --highcharts-annotation-color-4: rgba(162, 241, 130, 0.4);
+    --highcharts-annotation-color-5: rgba(169, 255, 101, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* UI colors */
+        --highcharts-background-color: rgb(48, 48, 48);
+
+        /*
+            Neutral color variations
+            https://www.highcharts.com/samples/highcharts/css/palette-helper
+        */
+        --highcharts-neutral-color-100: rgb(255, 255, 255);
+        --highcharts-neutral-color-80: rgb(214, 214, 214);
+        --highcharts-neutral-color-60: rgb(173, 173, 173);
+        --highcharts-neutral-color-40: rgb(133, 133, 133);
+        --highcharts-neutral-color-20: rgb(92, 92, 92);
+        --highcharts-neutral-color-10: rgb(71, 71, 71);
+        --highcharts-neutral-color-5: rgb(61, 61, 61);
+        --highcharts-neutral-color-3: rgb(57, 57, 57);
+
+        /* Highlight color variations */
+        --highcharts-highlight-color-100: rgb(122, 167, 255);
+        --highcharts-highlight-color-80: rgb(108, 144, 214);
+        --highcharts-highlight-color-60: rgb(94, 121, 173);
+        --highcharts-highlight-color-20: rgb(65, 74, 92);
+        --highcharts-highlight-color-10: rgb(58, 63, 71);
+    }
+}
+
+.highcharts-dark {
+    /* UI colors */
+    --highcharts-background-color: rgb(48, 48, 48);
+
+    /* Neutral color variations */
+    --highcharts-neutral-color-100: rgb(255, 255, 255);
+    --highcharts-neutral-color-80: rgb(214, 214, 214);
+    --highcharts-neutral-color-60: rgb(173, 173, 173);
+    --highcharts-neutral-color-40: rgb(133, 133, 133);
+    --highcharts-neutral-color-20: rgb(92, 92, 92);
+    --highcharts-neutral-color-10: rgb(71, 71, 71);
+    --highcharts-neutral-color-5: rgb(61, 61, 61);
+    --highcharts-neutral-color-3: rgb(57, 57, 57);
+
+    /* Highlight color variations */
+    --highcharts-highlight-color-100: rgb(122, 167, 255);
+    --highcharts-highlight-color-80: rgb(108, 144, 214);
+    --highcharts-highlight-color-60: rgb(94, 121, 173);
+    --highcharts-highlight-color-20: rgb(65, 74, 92);
+    --highcharts-highlight-color-10: rgb(58, 63, 71);
+}
+
+.highcharts-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    line-height: normal;
+    z-index: 0; /* #1072 */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol",
+        sans-serif;
+    font-size: 1rem;
+    user-select: none;
+    touch-action: manipulation;
+    outline: none;
+}
+
+.highcharts-no-touch-action {
+    touch-action: none;
+}
+
+.highcharts-root {
+    display: block;
+}
+
+.highcharts-root text {
+    stroke-width: 0;
+}
+
+.highcharts-strong {
+    font-weight: bold;
+}
+
+.highcharts-emphasized {
+    font-style: italic;
+}
+
+.highcharts-anchor {
+    cursor: pointer;
+}
+
+.highcharts-background {
+    fill: var(--highcharts-background-color);
+}
+
+.highcharts-plot-border,
+.highcharts-plot-background {
+    fill: none;
+}
+
+.highcharts-label-box {
+    fill: none;
+}
+
+.highcharts-label text {
+    fill: var(--highcharts-neutral-color-80);
+    font-size: 0.8em;
+}
+
+.highcharts-button-box {
+    fill: inherit;
+}
+
+.highcharts-tracker-line {
+    stroke-linejoin: round;
+    stroke: rgba(192, 192, 192, 0.0001);
+    stroke-width: 22;
+    fill: none;
+}
+
+.highcharts-tracker-area {
+    fill: rgba(192, 192, 192, 0.0001);
+    stroke-width: 0;
+}
+
+/* Titles */
+.highcharts-title {
+    fill: var(--highcharts-neutral-color-80);
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.highcharts-subtitle {
+    fill: var(--highcharts-neutral-color-60);
+    font-size: 0.8em;
+}
+
+/* Axes */
+.highcharts-axis-line {
+    fill: none;
+    stroke: var(--highcharts-neutral-color-80);
+}
+
+.highcharts-yaxis .highcharts-axis-line {
+    stroke-width: 0;
+}
+
+.highcharts-axis-title {
+    fill: var(--highcharts-neutral-color-60);
+    font-size: 0.8em;
+}
+
+.highcharts-axis-labels {
+    fill: var(--highcharts-neutral-color-80);
+    cursor: default;
+    font-size: 0.8em;
+}
+
+.highcharts-grid-line {
+    fill: none;
+    stroke: var(--highcharts-neutral-color-10);
+}
+
+.highcharts-xaxis-grid .highcharts-grid-line {
+    stroke-width: 0;
+}
+
+.highcharts-tick {
+    stroke: var(--highcharts-neutral-color-80);
+}
+
+.highcharts-yaxis .highcharts-tick {
+    stroke-width: 0;
+}
+
+.highcharts-minor-grid-line {
+    stroke: var(--highcharts-neutral-color-5);
+}
+
+.highcharts-crosshair-thin {
+    stroke-width: 1px;
+    stroke: var(--highcharts-neutral-color-20);
+}
+
+.highcharts-crosshair-category {
+    stroke: var(--highcharts-highlight-color-20);
+    stroke-opacity: 0.25;
+}
+
+/* Credits */
+.highcharts-credits {
+    cursor: pointer;
+    fill: var(--highcharts-neutral-color-40);
+    font-size: 0.6em;
+    transition: fill 250ms, font-size 250ms;
+}
+
+.highcharts-credits:hover {
+    fill: var(--highcharts-neutral-color-100);
+    font-size: 0.7em;
+}
+
+/* Tooltip */
+.highcharts-tooltip {
+    cursor: default;
+    pointer-events: none;
+    white-space: nowrap;
+    transition: stroke 150ms;
+}
+
+.highcharts-tooltip .highcharts-tracker {
+    fill: none;
+    stroke: none;
+}
+
+.highcharts-tooltip text {
+    fill: var(--highcharts-neutral-color-80);
+    font-size: 0.8em;
+}
+
+.highcharts-tooltip .highcharts-header {
+    font-size: 0.8em;
+}
+
+.highcharts-tooltip-box {
+    stroke-width: 1px;
+    fill: var(--highcharts-background-color);
+}
+
+.highcharts-tooltip-box {
+    stroke-width: 0;
+    fill: var(--highcharts-background-color);
+}
+
+.highcharts-tooltip-box .highcharts-label-box {
+    fill: var(--highcharts-background-color);
+}
+
+div.highcharts-tooltip {
+    filter: none;
+    font-size: 0.8em;
+}
+
+.highcharts-selection-marker {
+    fill: var(--highcharts-highlight-color-80);
+    fill-opacity: 0.25;
+}
+
+.highcharts-graph {
+    fill: none;
+    stroke-width: 2px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.highcharts-empty-series {
+    stroke-width: 1px;
+    fill: none;
+    stroke: var(--highcharts-neutral-color-20);
+}
+
+.highcharts-state-hover .highcharts-graph {
+    stroke-width: 3;
+}
+
+.highcharts-point-inactive {
+    opacity: 0.2;
+    transition: opacity 50ms; /* quick in */
+}
+
+.highcharts-series-inactive {
+    opacity: 0.2;
+    transition: opacity 50ms; /* quick in */
+}
+
+.highcharts-state-hover path {
+    transition: stroke-width 50ms; /* quick in */
+}
+
+.highcharts-state-normal path {
+    transition: stroke-width 250ms; /* slow out */
+}
+
+/* Legend hover affects points and series */
+g.highcharts-series,
+.highcharts-point,
+.highcharts-markers,
+.highcharts-data-labels {
+    transition: opacity 250ms;
+}
+
+.highcharts-legend-series-active g.highcharts-series:not(.highcharts-series-hover),
+.highcharts-legend-point-active .highcharts-point:not(.highcharts-point-hover, .highcharts-point-select),
+.highcharts-legend-series-active .highcharts-markers:not(.highcharts-series-hover),
+.highcharts-legend-series-active .highcharts-data-labels:not(.highcharts-series-hover) {
+    opacity: 0.2;
+}
+
+/* Series options */
+
+/* Default colors */
+.highcharts-color-0 {
+    fill: var(--highcharts-color-0);
+    stroke: var(--highcharts-color-0);
+}
+
+.highcharts-color-1 {
+    fill: var(--highcharts-color-1);
+    stroke: var(--highcharts-color-1);
+}
+
+.highcharts-color-2 {
+    fill: var(--highcharts-color-2);
+    stroke: var(--highcharts-color-2);
+}
+
+.highcharts-color-3 {
+    fill: var(--highcharts-color-3);
+    stroke: var(--highcharts-color-3);
+}
+
+.highcharts-color-4 {
+    fill: var(--highcharts-color-4);
+    stroke: var(--highcharts-color-4);
+}
+
+.highcharts-color-5 {
+    fill: var(--highcharts-color-5);
+    stroke: var(--highcharts-color-5);
+}
+
+.highcharts-color-6 {
+    fill: var(--highcharts-color-6);
+    stroke: var(--highcharts-color-6);
+}
+
+.highcharts-color-7 {
+    fill: var(--highcharts-color-7);
+    stroke: var(--highcharts-color-7);
+}
+
+.highcharts-color-8 {
+    fill: var(--highcharts-color-8);
+    stroke: var(--highcharts-color-8);
+}
+
+.highcharts-color-9 {
+    fill: var(--highcharts-color-9);
+    stroke: var(--highcharts-color-9);
+}
+
+/* Various series-specific */
+.highcharts-area {
+    fill-opacity: 0.75;
+    stroke-width: 0;
+}
+
+.highcharts-markers {
+    stroke-width: 1px;
+    stroke: var(--highcharts-background-color);
+}
+
+.highcharts-a11y-markers-hidden .highcharts-point:not(.highcharts-point-hover, .highcharts-a11y-marker-visible),
+.highcharts-a11y-marker-hidden {
+    opacity: 0;
+}
+
+.highcharts-point {
+    stroke-width: 1px;
+}
+
+.highcharts-dense-data .highcharts-point {
+    stroke-width: 0;
+}
+
+.highcharts-data-label text,
+text.highcharts-data-label {
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.highcharts-data-label-box {
+    fill: none;
+    stroke-width: 0;
+}
+
+.highcharts-data-label text,
+text.highcharts-data-label {
+    fill: var(--highcharts-neutral-color-80);
+}
+
+.highcharts-data-label-connector {
+    fill: none;
+}
+
+.highcharts-data-label-hidden {
+    pointer-events: none;
+}
+
+.highcharts-halo {
+    fill-opacity: 0.25;
+    stroke-width: 0;
+}
+
+.highcharts-series-label text {
+    fill: inherit;
+    font-weight: bold;
+}
+
+.highcharts-series:not(.highcharts-pie-series) .highcharts-point-select,
+.highcharts-markers .highcharts-point-select {
+    fill: var(--highcharts-neutral-color-20);
+    stroke: var(--highcharts-neutral-color-100);
+}
+
+.highcharts-column-series path.highcharts-point,
+.highcharts-bar-series path.highcharts-point {
+    /* path to prevent stroke on 3D columns and bars */
+    stroke: var(--highcharts-background-color);
+}
+
+.highcharts-column-series .highcharts-point {
+    transition: fill-opacity 250ms;
+}
+
+.highcharts-column-series .highcharts-point-hover {
+    fill-opacity: 0.75;
+    transition: fill-opacity 50ms;
+}
+
+.highcharts-pie-series .highcharts-point {
+    stroke-linejoin: round;
+    stroke: var(--highcharts-background-color);
+}
+
+.highcharts-pie-series .highcharts-point-hover {
+    fill-opacity: 0.75;
+    transition: fill-opacity 50ms;
+}
+
+.highcharts-funnel-series .highcharts-point {
+    stroke-linejoin: round;
+    stroke: var(--highcharts-background-color);
+}
+
+.highcharts-funnel-series .highcharts-point-hover {
+    fill-opacity: 0.75;
+    transition: fill-opacity 50ms;
+}
+
+.highcharts-funnel-series .highcharts-point-select {
+    fill: inherit;
+    stroke: inherit;
+}
+
+.highcharts-pyramid-series .highcharts-point {
+    stroke-linejoin: round;
+    stroke: var(--highcharts-background-color);
+}
+
+.highcharts-pyramid-series .highcharts-point-hover {
+    fill-opacity: 0.75;
+    transition: fill-opacity 50ms;
+}
+
+.highcharts-pyramid-series .highcharts-point-select {
+    fill: inherit;
+    stroke: inherit;
+}
+
+.highcharts-solidgauge-series .highcharts-point {
+    stroke-width: 0;
+}
+
+.highcharts-treemap-series .highcharts-point {
+    stroke-width: 1px;
+    stroke: var(--highcharts-neutral-color-10);
+    transition: stroke 250ms, fill 250ms, fill-opacity 250ms;
+}
+
+.highcharts-treemap-series .highcharts-point-hover {
+    stroke: var(--highcharts-neutral-color-40);
+    transition: stroke 25ms, fill 25ms, fill-opacity 25ms;
+}
+
+.highcharts-treemap-series .highcharts-above-level {
+    display: none;
+}
+
+.highcharts-treemap-series .highcharts-internal-node {
+    fill: none;
+}
+
+.highcharts-treemap-series .highcharts-internal-node-interactive {
+    fill-opacity: 0.15;
+    cursor: pointer;
+}
+
+.highcharts-treemap-series .highcharts-internal-node-interactive:hover {
+    fill-opacity: 0.75;
+}
+
+.highcharts-vector-series .highcharts-point {
+    fill: none;
+    stroke-width: 2px;
+}
+
+.highcharts-windbarb-series .highcharts-point {
+    fill: none;
+    stroke-width: 2px;
+}
+
+.highcharts-lollipop-stem {
+    stroke: var(--highcharts-neutral-color-100);
+}
+
+.highcharts-focus-border {
+    fill: none;
+    stroke-width: 2px;
+}
+
+.highcharts-legend-item-hidden .highcharts-focus-border {
+    fill: none !important;
+}
+
+/* Legend */
+.highcharts-legend-box {
+    fill: none;
+    stroke-width: 0;
+}
+
+.highcharts-legend-item > text {
+    fill: var(--highcharts-neutral-color-80);
+    font-weight: bold;
+    font-size: 0.8em;
+    cursor: pointer;
+    stroke-width: 0;
+}
+
+.highcharts-legend-item:hover text {
+    fill: var(--highcharts-neutral-color-100);
+}
+
+.highcharts-legend-item-hidden * {
+    fill: var(--highcharts-neutral-color-60) !important;
+    stroke: var(--highcharts-neutral-color-60) !important;
+    transition: fill 250ms;
+    text-decoration: line-through;
+}
+
+.highcharts-legend-nav-active {
+    fill: var(--highcharts-highlight-color-100);
+    cursor: pointer;
+}
+
+.highcharts-legend-nav-inactive {
+    fill: var(--highcharts-neutral-color-20);
+}
+
+circle.highcharts-legend-nav-active,
+circle.highcharts-legend-nav-inactive { /* tracker */
+    fill: rgba(192, 192, 192, 0.0001);
+}
+
+.highcharts-legend-title-box {
+    fill: none;
+    stroke-width: 0;
+}
+
+/* Bubble legend */
+.highcharts-bubble-legend-symbol {
+    stroke-width: 2;
+    fill-opacity: 0.5;
+}
+
+.highcharts-bubble-legend-connectors {
+    stroke-width: 1;
+}
+
+.highcharts-bubble-legend-labels {
+    fill: var(--highcharts-neutral-color-80);
+    font-size: 0.7em;
+}
+
+/* Loading */
+.highcharts-loading {
+    position: absolute;
+    background-color: var(--highcharts-background-color);
+    opacity: 0.5;
+    text-align: center;
+    z-index: 10;
+    transition: opacity 250ms;
+}
+
+.highcharts-loading-hidden {
+    height: 0 !important;
+    opacity: 0;
+    overflow: hidden;
+    transition: opacity 250ms, height 250ms step-end;
+}
+
+.highcharts-loading-inner {
+    font-weight: bold;
+    position: relative;
+    top: 45%;
+}
+
+/* Plot bands and polar pane backgrounds */
+.highcharts-plot-band,
+.highcharts-pane {
+    fill: var(--highcharts-neutral-color-100);
+    fill-opacity: 0.05;
+}
+
+.highcharts-plot-line {
+    fill: none;
+    stroke: var(--highcharts-neutral-color-40);
+    stroke-width: 1px;
+}
+
+.highcharts-plot-line-label {
+    font-size: 0.8em;
+}
+
+/* Highcharts More and modules */
+.highcharts-boxplot-box {
+    fill: var(--highcharts-background-color);
+}
+
+.highcharts-boxplot-median {
+    stroke-width: 2px;
+}
+
+.highcharts-bubble-series .highcharts-point {
+    fill-opacity: 0.5;
+}
+
+.highcharts-errorbar-series .highcharts-point {
+    stroke: var(--highcharts-neutral-color-100);
+}
+
+.highcharts-gauge-series .highcharts-data-label-box {
+    stroke: var(--highcharts-neutral-color-20);
+    stroke-width: 1px;
+}
+
+.highcharts-gauge-series .highcharts-dial {
+    fill: var(--highcharts-neutral-color-100);
+    stroke-width: 0;
+}
+
+.highcharts-polygon-series .highcharts-graph {
+    fill: inherit;
+    stroke-width: 0;
+}
+
+.highcharts-waterfall-series .highcharts-graph {
+    stroke: var(--highcharts-neutral-color-80);
+    stroke-dasharray: 1, 3;
+}
+
+.highcharts-sankey-series .highcharts-point {
+    stroke-width: 0;
+}
+
+.highcharts-sankey-series .highcharts-link {
+    transition: fill 250ms, fill-opacity 250ms;
+    fill-opacity: 0.5;
+}
+
+.highcharts-sankey-series .highcharts-point-hover.highcharts-link {
+    transition: fill 50ms, fill-opacity 50ms;
+    fill-opacity: 1;
+}
+
+.highcharts-venn-series .highcharts-point {
+    fill-opacity: 0.75;
+    stroke: var(--highcharts-neutral-color-20);
+    transition: stroke 250ms, fill-opacity 250ms;
+}
+
+.highcharts-venn-series .highcharts-point-hover {
+    fill-opacity: 1;
+    stroke: var(--highcharts-neutral-color-20);
+}
+
+.highcharts-timeline-series .highcharts-graph {
+    stroke: var(--highcharts-neutral-color-20);
+}
+
+/* Highstock */
+.highcharts-navigator-mask-outside {
+    fill-opacity: 0;
+}
+
+.highcharts-navigator-mask-inside {
+    fill: var(--highcharts-highlight-color-60); /* navigator.maskFill option */
+    fill-opacity: 0.25;
+    cursor: ew-resize;
+}
+
+.highcharts-navigator-outline {
+    stroke: var(--highcharts-neutral-color-40);
+    fill: none;
+}
+
+.highcharts-navigator-handle {
+    stroke: var(--highcharts-neutral-color-40);
+    fill: var(--highcharts-neutral-color-5);
+    cursor: ew-resize;
+}
+
+.highcharts-navigator-series {
+    fill: var(--highcharts-highlight-color-80);
+    stroke: var(--highcharts-highlight-color-80);
+}
+
+.highcharts-navigator-series .highcharts-graph {
+    stroke-width: 1px;
+}
+
+.highcharts-navigator-series .highcharts-area {
+    fill-opacity: 0.05;
+}
+
+.highcharts-navigator-xaxis .highcharts-axis-line {
+    stroke-width: 0;
+}
+
+.highcharts-navigator-xaxis .highcharts-grid-line {
+    stroke-width: 1px;
+    stroke: var(--highcharts-neutral-color-10);
+}
+
+.highcharts-navigator-xaxis.highcharts-axis-labels {
+    fill: var(--highcharts-neutral-color-100);
+    font-size: 0.7em;
+    opacity: 0.6;
+}
+
+.highcharts-navigator-yaxis .highcharts-grid-line {
+    stroke-width: 0;
+}
+
+.highcharts-scrollbar-thumb {
+    fill: var(--highcharts-neutral-color-20);
+    stroke: var(--highcharts-neutral-color-20);
+    stroke-width: 0;
+}
+
+.highcharts-scrollbar-button {
+    fill: var(--highcharts-neutral-color-10);
+    stroke: var(--highcharts-neutral-color-20);
+    stroke-width: 1px;
+}
+
+.highcharts-scrollbar-arrow {
+    fill: var(--highcharts-neutral-color-60);
+}
+
+.highcharts-scrollbar-rifles {
+    stroke: none;
+    stroke-width: 1px;
+}
+
+.highcharts-scrollbar-track {
+    fill: rgba(255, 255, 255, 0.001);
+    stroke: var(--highcharts-neutral-color-20);
+    stroke-width: 1px;
+}
+
+.highcharts-button {
+    fill: var(--highcharts-neutral-color-3);
+    stroke: var(--highcharts-neutral-color-20);
+    cursor: default;
+    stroke-width: 1px;
+    transition: fill 250ms;
+}
+
+.highcharts-button text {
+    fill: var(--highcharts-neutral-color-80);
+    font-size: 0.8em;
+}
+
+.highcharts-button-hover {
+    transition: fill 0ms;
+    fill: var(--highcharts-neutral-color-10);
+    stroke: var(--highcharts-neutral-color-20);
+}
+
+.highcharts-button-hover text {
+    fill: var(--highcharts-neutral-color-80);
+}
+
+.highcharts-button-pressed {
+    font-weight: bold;
+    fill: var(--highcharts-highlight-color-10);
+    stroke: var(--highcharts-neutral-color-20);
+}
+
+.highcharts-button-pressed text {
+    fill: var(--highcharts-neutral-color-80);
+    font-weight: bold;
+}
+
+.highcharts-button-disabled text {
+    fill: var(--highcharts-neutral-color-80);
+}
+
+.highcharts-range-selector-buttons .highcharts-button {
+    stroke-width: 0;
+}
+
+.highcharts-range-label rect {
+    fill: none;
+}
+
+.highcharts-range-label text {
+    fill: var(--highcharts-neutral-color-60);
+}
+
+.highcharts-range-input rect {
+    fill: none;
+}
+
+.highcharts-range-input text {
+    fill: var(--highcharts-neutral-color-80);
+    font-size: 0.8em;
+}
+
+.highcharts-range-input {
+    stroke-width: 1px;
+    stroke: var(--highcharts-neutral-color-20);
+}
+
+input.highcharts-range-selector {
+    position: absolute;
+    border: 0;
+    width: 1px; /* Chrome needs a pixel to see it */
+    height: 1px;
+    padding: 0;
+    text-align: center;
+    left: -9em; /* #4798 */
+}
+
+.highcharts-crosshair-label text {
+    fill: var(--highcharts-background-color);
+    font-size: 1.7em;
+}
+
+.highcharts-crosshair-label .highcharts-label-box {
+    fill: inherit;
+}
+
+.highcharts-candlestick-series .highcharts-point {
+    stroke: var(--highcharts-neutral-color-100);
+    stroke-width: 1px;
+}
+
+.highcharts-candlestick-series .highcharts-point-up {
+    fill: var(--highcharts-background-color);
+}
+
+.highcharts-renko-series .highcharts-point-down,
+.highcharts-hollowcandlestick-series .highcharts-point-down {
+    fill: var(--highcharts-negative-color);
+    stroke: var(--highcharts-negative-color);
+}
+
+.highcharts-renko-series .highcharts-point-up,
+.highcharts-hollowcandlestick-series .highcharts-point-down-bearish-up {
+    fill: var(--highcharts-positive-color);
+    stroke: var(--highcharts-positive-color);
+}
+
+.highcharts-hollowcandlestick-series .highcharts-point-up {
+    fill: transparent;
+    stroke: var(--highcharts-positive-color);
+}
+
+.highcharts-ohlc-series .highcharts-point-hover {
+    stroke-width: 3px;
+}
+
+.highcharts-flags-series .highcharts-point .highcharts-label-box {
+    stroke: var(--highcharts-neutral-color-40);
+    fill: var(--highcharts-background-color);
+    transition: fill 250ms;
+}
+
+.highcharts-flags-series .highcharts-point-hover .highcharts-label-box {
+    stroke: var(--highcharts-neutral-color-100);
+    fill: var(--highcharts-highlight-color-20);
+}
+
+.highcharts-flags-series .highcharts-point text {
+    fill: var(--highcharts-neutral-color-100);
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+/* Highcharts Maps */
+.highcharts-map-series .highcharts-point {
+    transition: fill 500ms, fill-opacity 500ms, stroke-width 250ms;
+    stroke: var(--highcharts-neutral-color-20);
+    stroke-width: inherit;
+}
+
+.highcharts-map-series .highcharts-point-hover {
+    transition: fill 0ms, fill-opacity 0ms;
+    fill-opacity: 0.5;
+}
+
+.highcharts-mapline-series .highcharts-point {
+    fill: none;
+}
+
+.highcharts-heatmap-series .highcharts-point {
+    stroke-width: 0;
+}
+
+.highcharts-map-navigation {
+    font-size: 1.3em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.highcharts-map-navigation.highcharts-button {
+    fill: var(--highcharts-background-color);
+    stroke: var(--highcharts-neutral-color-10);
+}
+
+.highcharts-map-navigation.highcharts-button:hover {
+    fill: var(--highcharts-neutral-color-10);
+}
+
+.highcharts-map-navigation.highcharts-button .highcharts-button-symbol {
+    stroke-width: 2px;
+}
+
+.highcharts-mapview-inset-border {
+    stroke: var(--highcharts-neutral-color-20);
+    stroke-width: 1px;
+    fill: none;
+}
+
+.highcharts-coloraxis {
+    stroke-width: 0;
+}
+
+.highcharts-coloraxis-marker {
+    fill: var(--highcharts-neutral-color-40);
+}
+
+.highcharts-null-point {
+    fill: var(--highcharts-neutral-color-3);
+}
+
+/* 3d charts */
+.highcharts-3d-frame {
+    fill: transparent;
+}
+
+/* Exporting module */
+.highcharts-contextbutton {
+    /* Fill is needed to capture hover */
+    fill: var(--highcharts-background-color);
+    stroke: none;
+    stroke-linecap: round;
+}
+
+.highcharts-contextbutton:hover {
+    fill: var(--highcharts-neutral-color-10);
+    stroke: var(--highcharts-neutral-color-10);
+}
+
+.highcharts-button-symbol {
+    stroke: var(--highcharts-neutral-color-60);
+    stroke-width: 3px;
+}
+
+.highcharts-menu {
+    border: none;
+    background: var(--highcharts-background-color);
+    border-radius: 3px;
+    padding: 0.5em;
+    box-shadow: 3px 3px 10px #888888;
+}
+
+.highcharts-menu-item {
+    background: none;
+    border-radius: 3px;
+    color: var(--highcharts-neutral-color-80);
+    cursor: pointer;
+    font-size: 0.8em;
+    list-style-type: none;
+    padding: 0.5em;
+    transition: background 250ms, color 250ms;
+}
+
+.highcharts-menu-item:hover {
+    background: var(--highcharts-neutral-color-5);
+}
+
+/* Breadcrumbs */
+.highcharts-breadcrumbs-button {
+    fill: none;
+    stroke-width: 0;
+    cursor: pointer;
+}
+
+.highcharts-breadcrumbs-separator {
+    fill: var(--highcharts-neutral-color-60);
+}
+
+/* Drilldown module */
+.highcharts-drilldown-point {
+    cursor: pointer;
+}
+
+.highcharts-drilldown-data-label text,
+text.highcharts-drilldown-data-label,
+.highcharts-drilldown-axis-label {
+    cursor: pointer;
+    fill: var(--highcharts-highlight-color-100);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* No-data module */
+.highcharts-no-data text {
+    font-weight: bold;
+    font-size: 0.8em;
+    fill: var(--highcharts-neutral-color-60);
+}
+
+/* Drag-panes module */
+.highcharts-axis-resizer {
+    cursor: ns-resize;
+    stroke: var(--highcharts-neutral-color-100);
+    stroke-width: 2px;
+}
+
+/* Bullet type series */
+.highcharts-bullet-target {
+    stroke-width: 0;
+}
+
+/* Lineargauge type series */
+.highcharts-lineargauge-target {
+    stroke-width: 1px;
+    stroke: var(--highcharts-neutral-color-80);
+}
+
+.highcharts-lineargauge-target-line {
+    stroke-width: 1px;
+    stroke: var(--highcharts-neutral-color-80);
+}
+
+/* Advanced annotations module */
+.highcharts-fibonacci-background-0,
+.highcharts-pitchfork-inner-background,
+.highcharts-measure-background {
+    fill: var(--highcharts-annotation-color-0);
+}
+
+.highcharts-fibonacci-background-1 {
+    fill: var(--highcharts-annotation-color-1);
+}
+
+.highcharts-fibonacci-background-2 {
+    fill: var(--highcharts-annotation-color-2);
+}
+
+.highcharts-fibonacci-background-3,
+.highcharts-pitchfork-outer-background {
+    fill: var(--highcharts-annotation-color-3);
+}
+
+.highcharts-fibonacci-background-4 {
+    fill: var(--highcharts-annotation-color-4);
+}
+
+.highcharts-fibonacci-background-5 {
+    fill: var(--highcharts-annotation-color-5);
+}
+
+.highcharts-fibonacci-line {
+    stroke: var(--highcharts-neutral-color-40);
+}
+
+.highcharts-crooked-lines,
+.highcharts-tunnel-lines,
+.highcharts-infinity-lines,
+.highcharts-timecycles-lines,
+.highcharts-fibonacci-timezones-lines,
+.highcharts-pitchfork-lines,
+.highcharts-vertical-line,
+.highcharts-measure-crosshair-x,
+.highcharts-measure-crosshair-y {
+    stroke: var(--highcharts-neutral-color-100);
+    stroke-opacity: 0.75;
+    fill: none;
+}
+
+.highcharts-measure-crosshair-x,
+.highcharts-measure-crosshair-y {
+    stroke-dasharray: 1, 3;
+}
+
+.highcharts-tunnel-background {
+    fill: var(--highcharts-color-0);
+}
+
+.highcharts-annotation-shapes {
+    cursor: move;
+}
+
+.highcharts-basic-shape {
+    fill: var(--highcharts-neutral-color-100);
+    stroke: var(--highcharts-neutral-color-100);
+    opacity: 0.74;
+}
+
+/* Annotations module */
+
+.highcharts-annotation-label-box {
+    stroke-width: 1px;
+    stroke: var(--highcharts-neutral-color-100);
+    fill: var(--highcharts-neutral-color-100);
+    fill-opacity: 0.75;
+}
+
+.highcharts-annotation-label text {
+    fill: var(--highcharts-neutral-color-10);
+    font-size: 0.8em;
+}
+
+/* A11y module */
+.highcharts-a11y-proxy-element {
+    border-width: 0;
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+    opacity: 0.001;
+    z-index: 999;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    display: block;
+    position: absolute;
+}
+
+.highcharts-a11y-proxy-group li {
+    list-style: none;
+}
+
+.highcharts-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+    clip: rect(1px, 1px, 1px, 1px);
+    margin-top: -3px;
+    opacity: 0.01;
+}
+
+.highcharts-a11y-invisible {
+    visibility: hidden;
+}
+
+.highcharts-a11y-proxy-container,
+.highcharts-a11y-proxy-container-before,
+.highcharts-a11y-proxy-container-after {
+    position: absolute;
+    white-space: nowrap;
+}
+
+g.highcharts-series,
+.highcharts-markers,
+.highcharts-point {
+    outline: none;
+}
+
+/* Gantt */
+.highcharts-treegrid-node-collapsed,
+.highcharts-treegrid-node-expanded {
+    cursor: pointer;
+}
+
+.highcharts-point-connecting-path {
+    fill: none;
+}
+
+.highcharts-grid-axis .highcharts-tick {
+    stroke: var(--highcharts-neutral-color-20);
+    stroke-width: 1px;
+}
+
+.highcharts-grid-axis .highcharts-axis-line {
+    stroke: var(--highcharts-neutral-color-20);
+    stroke-width: 1px;
+}
+
 @charset "UTF-8";
 /***********************************************
     fcoo-colors.scss,
@@ -43009,744 +44316,6 @@ The var must have been created by create-table-variant first
 table-no-hover()
 Prevent any hover effect
 *****************************************************************/
-/************************************************************
-TABLE
-
-Adjustmernt to Bootstrap table
-************************************************************/
-/*****************************************************************
-Defines the default color-values for
-header                      : Table header
-selected                    : Selected row
-fixed-first-column          : First column when it is fixed
-fixed-first-column-selected : First column when it is fixed and selected
-
-*****************************************************************/
-:root {
-  --bs-table-color-header-default: #000;
-  --bs-table-bg-header-default: lightgreen;
-  --bs-table-border-color-header-default: #73be73;
-  --bs-table-striped-bg-header-default: #89e289;
-  --bs-table-striped-color-header-default: #000;
-  --bs-table-active-bg-header-default: #82d682;
-  --bs-table-active-color-header-default: #000;
-  --bs-table-hover-bg-header-default: #85dc85;
-  --bs-table-hover-color-header-default: #000;
-  --bs-table-color-selected-default: rgb(255, 255, 255);
-  --bs-table-bg-selected-default: rgb(30, 144, 255);
-  --bs-table-border-color-selected-default: #4ba6ff;
-  --bs-table-striped-bg-selected-default: #2996ff;
-  --bs-table-striped-color-selected-default: #000;
-  --bs-table-active-bg-selected-default: #359bff;
-  --bs-table-active-color-selected-default: #000;
-  --bs-table-hover-bg-selected-default: #2f98ff;
-  --bs-table-hover-color-selected-default: rgb(255, 255, 255);
-  --bs-table-color-fixed-first-column-default: #000;
-  --bs-table-bg-fixed-first-column-default: lightblue;
-  --bs-table-border-color-fixed-first-column-default: #8aadb8;
-  --bs-table-striped-bg-fixed-first-column-default: #a4cddb;
-  --bs-table-striped-color-fixed-first-column-default: #000;
-  --bs-table-active-bg-fixed-first-column-default: #9cc2cf;
-  --bs-table-active-color-fixed-first-column-default: #000;
-  --bs-table-hover-bg-fixed-first-column-default: #a0c8d5;
-  --bs-table-hover-color-fixed-first-column-default: #000;
-  --bs-table-color-fixed-first-column-selected-default: #fff;
-  --bs-table-bg-fixed-first-column-selected-default: blue;
-  --bs-table-border-color-fixed-first-column-selected-default: #3333ff;
-  --bs-table-striped-bg-fixed-first-column-selected-default: #0d0dff;
-  --bs-table-striped-color-fixed-first-column-selected-default: #fff;
-  --bs-table-active-bg-fixed-first-column-selected-default: #1a1aff;
-  --bs-table-active-color-fixed-first-column-selected-default: #fff;
-  --bs-table-hover-bg-fixed-first-column-selected-default: #1313ff;
-  --bs-table-hover-color-fixed-first-column-selected-default: #fff;
-}
-
-.table.jb-table {
-  /*******************************************************
-  For some (unknown) reason the height of the table needs
-  to be 1px to allow height=100% of elements inside td
-  ********************************************************/
-  height: 1px;
-  /*******************************************************
-  For some (unknown) reason the padding and font-size of
-  table cells are not set using var(...)
-  This is iomplemented here.
-  The selection of cells are copied from
-  bower_components\bootstrap\scss\_tables.scss
-  ********************************************************/
-  --bs-table-cell-font-size: 1rem;
-  --bs-table-cell-padding-x: 0.375rem;
-  --bs-table-cell-padding-y: 0.375rem;
-  --bs-table-cell-padding: 0.375rem;
-  word-break: normal;
-  margin-bottom: 0;
-  /*************************************
-  Header
-  *************************************/
-  /*************************************
-  Rows
-  table-sort-group-header is used for row that are the header of a group of rows with the same 'value' in the column that the table is sorted by
-  *************************************/
-  /*************************************
-  Fixed first column
-  Colors for shadow are hard copy from jquery-scroll-container
-  *************************************/
-  /*************************************
-  Hidden and minimized column - only first 20 columns
-  *************************************/
-  /*************************************
-  Truncation - TODO
-  *************************************/
-  /*
-      thead tr th,
-      tbody tr td {
-          &.text-truncate {
-              span {
-                  display         : inline-block;
-                  width           : 100%;
-                  overflow        : hidden;
-                  text-overflow   : ellipsis;
-                  white-space     : nowrap;
-              }
-          }
-      }
-  */
-}
-.table.jb-table.table-sm, .modal-dialog-sm .table.jb-table {
-  --bs-table-cell-font-size: 0.875rem;
-  --bs-table-cell-padding-x: 0.25rem;
-  --bs-table-cell-padding-y: 0.25rem;
-  --bs-table-cell-padding: 0.25rem;
-}
-.table.jb-table.table-xs, .modal-dialog-xs .table.jb-table {
-  --bs-table-cell-font-size: 0.75rem;
-  --bs-table-cell-padding-x: 0.125rem;
-  --bs-table-cell-padding-y: 0.125rem;
-  --bs-table-cell-padding: 0.125rem;
-}
-.table.jb-table > :not(caption) > * > * {
-  font-size: var(--bs-table-cell-font-size);
-  padding: var(--bs-table-cell-padding-y) var(--bs-table-cell-padding-x);
-}
-.table.jb-table.table-with-header, .scrollbar-vertical > .table.jb-table {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-.table.jb-table.table-no-padding {
-  --bs-table-cell-padding-y: 0;
-}
-.table.jb-table.table-full-width {
-  width: max-content;
-}
-.table.jb-table.table-not-full-width {
-  width: inherit !important;
-}
-.table.jb-table thead tr {
-  position: sticky;
-  top: 0px;
-  z-index: 100;
-  --bs-table-color: var(--bs-table-color-header, var(--bs-table-color-header-default));
-  --bs-table-bg: var(--bs-table-bg-header, var(--bs-table-bg-header-default));
-  --bs-table-border-color: var(--bs-table-border-color-header, var(--bs-table-border-color-header-default));
-  --bs-table-striped-bg: var(--bs-table-striped-bg-header, var(--bs-table-striped-bg-header-default));
-  --bs-table-striped-color: var(--bs-table-striped-color-header, var(--bs-table-striped-color-header-default));
-  --bs-table-active-bg: var(--bs-table-active-bg-header, var(--bs-table-active-bg-header-default));
-  --bs-table-active-color: var(--bs-table-active-color-header, var(--bs-table-active-color-header-default));
-  --bs-table-hover-bg: var(--bs-table-hover-bg-header, var(--bs-table-hover-bg-header-default));
-  --bs-table-hover-color: var(--bs-table-hover-color-header, var(--bs-table-hover-color-header-default));
-  color: var(--bs-table-color-header, var(--bs-table-color-header-default));
-  border-color: var(--bs-table-border-color-header, var(--bs-table-border-color-header-default));
-}
-.table.jb-table thead tr.scroll-top {
-  box-shadow: -4px 1px 6px 0px black;
-}
-.table.jb-table thead tr th {
-  cursor: default;
-}
-.table.jb-table thead tr th.clickable:hover {
-  cursor: pointer;
-  --bs-table-color: var(--bs-table-hover-color);
-  --bs-table-bg: var(--bs-table-hover-bg);
-}
-.table.jb-table thead tr th.sortable {
-  background-position: right center;
-  background-repeat: no-repeat;
-  background-size: 0.8em;
-  padding-right: 1em;
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhBwwRJC7Z4CQBAAACPklEQVRo3u3Zu07DMBQG4N/EiA0hwQCIoRtMPAKoKzBCC2nLG8ALMCAGXgAWZi4pDR2BNRKPwAQbAwKGIrEiEh2GMqBc7VNbpahnqpyo/1dHjexjAXb5TlSlXUAcOa1KxP0WwY//OhVu9zN5o9tcAhPwO743AgsQj++FwAD4TniGrZQLTdnQJ2gDMuOZBE1AbjyLoAXwnfAcmwU3Xcq6DkEDoBSvTVAGKMdrEhQBvvN1IaqqWIBaozU1ghJAN16HoADgxKsTCgHceFXCSP7lQIYeNx4Q1dALZA8zEMjXC1S48T/lz9TKIQtgJL6QkAkI5JtHGwbiAYiraTeLkAEwGZ9PSAWYjs8jpAAC+drEutl4AEB7ZitJSPkbvuxbiQfWX/YVZuB27OMZU1YAQGdibuWzYAbeS9bigan3UnwoAWg84s4a4K7xWAgAsCOuQcbDSVxjJzmc8R44nxOGHwR16s/Gf9SwhjWsYf2L6vurOAXgLYpDWuW3r7IE4ob23Pv4cNq24ZiWDIcDgKA1jGO5cAbO5p0HC/E/FS3EVwSJ9cDkEzrW8juTT/GhBGDlk05s5dNJfEWYuiKaPUDbSn579iA5+Bc3JjYImlsz04S8zWlmg6IcTrvwjeT72fF/u0FhhFAQX9gjKofSpRY3nVrSzY8fhDYdl2CwUckhGG7Vdgl9bVZrEey065UJmgcWI+q3ApVI1tHMvaWpFz94h1a5BNaxndYj6FYlkg3y4qPkceIH9eg2TujD4XWXYOL4/htN/xm86wMQxwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxNy0wNy0xMlQxNzozNjo0NiswMjowMGyLBscAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTctMDctMTJUMTc6MzY6NDYrMDI6MDAd1r57AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAABJRU5ErkJggg==");
-}
-.table.jb-table thead tr th.sortable.text-center {
-  padding-left: 0.5em;
-}
-.table.jb-table thead tr th.sortable.sorting-asc, .table.jb-table thead tr th.sortable.sorting-desc {
-  box-shadow: inset 0px calc(-1px - 2px) 0px 0px var(--jb-structure-border-color);
-}
-.table.jb-table thead tr th.sortable.sorting-asc {
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhBwwPOR4W7fbLAAACBklEQVRo3u2ZvU7CUBSAz7FldcEBiYuTJiQ+goZVXS1awCcwvoATgy+gDswCRSqrs+9gYqKLYTDRgRcgtLmOEuv9Oz23MZEzNbTc70vbe3vOuQjkqInv42ekjoIc+DwKyIOnKyAXnqqAfHiaAnLiKQrIi7dXQG68rQLy4+0U0AXeRgHd4M0V0BXeVAHd4c0U0CXeRGFFffrRh5yhGwHVfz6bQ+64KdUTkgAPXqeA7vFqBSwCr1LAYvByBSwKL1NA/plvtypk1oHaGziM7OjZhWjTpUB29L/3CIoOdPMJ4kral7GMZSzjP4Rkeexv4BovSExb74YC0Q5eigPgXrkFPoiL8Onnz7+VDddi18W9FoewCnvaO9Db8l7cPfF0u/2qyQfKE5g640/LE21Csj8TXVd80d2fGWRE1Q6MnfDH1Y5xYfIZiSPmd/C+EhoWJi4UZHhlccqnIMcrsuJ6UgkhZuHHcry2QfExgCAvfr1JbFCwKGjw2sKknvihGJHn/cgP1XijNl3szQfYoOBLzSAlfo7zK5jhjVu1tgqmeItmdewlfTg2vPjOb5nhrdr1xgoWeMsNCyMFK7xlfyBI/RYMlZcM7fCETavYS3pwIsW37fCkbTupAgFPatEEqd8WUWbiRRQ8ees29ua3GC7iS6cUfI7N60UFOh7ylB+xlzbEOQBeeSMqHuALEGzMJuIB3qEAAAAASUVORK5CYII=");
-}
-.table.jb-table thead tr th.sortable.sorting-desc {
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhBwwPNhKYw6YvAAAB9klEQVRo3u2ZP04CURCHZ2CJrQWFJBT0nsLWGkH+eQLxCtzBeAKFRdCS2G7CHaagoiFoAYmtYclaWCm7+2Zm3zOa7FQkkN/38R67y5tBUNe0uG9GNwB4W5w09toU1ON399j+eh35pSutAmbHZ1NAG/gsCqjBhw/Qinlj7PXkCmgNr1RAi3iVAgrxQ7g0fOjR60oU0DJerIDW8UIFZF94I2zyVyualDo8BXSBlyigGzxfAV3huQqF9LcDL/S1eABshn7gZViBwHsdQQOy1bTSOQtVAlbwRgVMxr/50QVYKXw6aScpoHt8ugL+Bj5NAWP3fgx1sF/PldahQsxluB44wQPU1wPGCrwcva+gDG5qc1w9/zCswLbmDA9Q3taMW9BbwNyZwLy34NyK+ziDyDo8whn02feBYRUtb0S06a4gr7zyyisv/l+yU/vPAiBkCriAJ0sU/twWuPz+cWtwuAJLp/zlf/gN3JVc4eOSEw4m1zsXeObBxI1CPD71cGpTIQlvOJ7bUkjGGxsUNhTS8MYeUXaFdDyjSZX1rkCoehraUiBjPqtRqVUgRjqzVatRIFY2u1ktVSBmsqBdL1Egdq5oYMFVIEGqcGTDUSBRpnhoZVIgYaJibJemQOI81eAySYEUacrRbZwCqbLUw+ufCqRMUgt8VyB1ziesOMqPm7tGQgAAAABJRU5ErkJggg==");
-}
-.table.jb-table tbody tr.table-sort-group-header {
-  --bs-table-hover-color: var(--bs-table-color);
-  --bs-table-hover-bg: var(--bs-table-bg);
-  --bs-table-active-color: var(--bs-table-color);
-  --bs-table-active-bg: var(--bs-table-bg);
-}
-.table.jb-table tbody tr.table-sort-group-header td *:last-child {
-  margin-right: 0.3em;
-}
-.table.jb-table.table-selectable tbody tr {
-  cursor: default;
-}
-.table.jb-table.table-selectable tbody tr.table-selected {
-  --bs-table-color: var(--bs-table-color-selected, var(--bs-table-color-selected-default));
-  --bs-table-bg: var(--bs-table-bg-selected, var(--bs-table-bg-selected-default));
-  --bs-table-border-color: var(--bs-table-border-color-selected, var(--bs-table-border-color-selected-default));
-  --bs-table-striped-bg: var(--bs-table-striped-bg-selected, var(--bs-table-striped-bg-selected-default));
-  --bs-table-striped-color: var(--bs-table-striped-color-selected, var(--bs-table-striped-color-selected-default));
-  --bs-table-active-bg: var(--bs-table-active-bg-selected, var(--bs-table-active-bg-selected-default));
-  --bs-table-active-color: var(--bs-table-active-color-selected, var(--bs-table-active-color-selected-default));
-  --bs-table-hover-bg: var(--bs-table-hover-bg-selected, var(--bs-table-hover-bg-selected-default));
-  --bs-table-hover-color: var(--bs-table-hover-color-selected, var(--bs-table-hover-color-selected-default));
-  color: var(--bs-table-color-selected, var(--bs-table-color-selected-default));
-  border-color: var(--bs-table-border-color-selected, var(--bs-table-border-color-selected-default));
-}
-.table.jb-table:not(.allow-zero-selected) tbody tr.table-selected {
-  --bs-table-hover-color: var(--bs-table-color);
-  --bs-table-hover-bg: var(--bs-table-bg);
-  --bs-table-active-color: var(--bs-table-color);
-  --bs-table-active-bg: var(--bs-table-bg);
-}
-.table.jb-table tbody tr.filter-out {
-  display: none;
-}
-.table.jb-table.table-first-column-fixed tr td:first-child {
-  --bs-table-color: var(--bs-table-color-fixed-first-column, var(--bs-table-color-fixed-first-column-default));
-  --bs-table-bg: var(--bs-table-bg-fixed-first-column, var(--bs-table-bg-fixed-first-column-default));
-  --bs-table-border-color: var(--bs-table-border-color-fixed-first-column, var(--bs-table-border-color-fixed-first-column-default));
-  --bs-table-striped-bg: var(--bs-table-striped-bg-fixed-first-column, var(--bs-table-striped-bg-fixed-first-column-default));
-  --bs-table-striped-color: var(--bs-table-striped-color-fixed-first-column, var(--bs-table-striped-color-fixed-first-column-default));
-  --bs-table-active-bg: var(--bs-table-active-bg-fixed-first-column, var(--bs-table-active-bg-fixed-first-column-default));
-  --bs-table-active-color: var(--bs-table-active-color-fixed-first-column, var(--bs-table-active-color-fixed-first-column-default));
-  --bs-table-hover-bg: var(--bs-table-hover-bg-fixed-first-column, var(--bs-table-hover-bg-fixed-first-column-default));
-  --bs-table-hover-color: var(--bs-table-hover-color-fixed-first-column, var(--bs-table-hover-color-fixed-first-column-default));
-  color: var(--bs-table-color-fixed-first-column, var(--bs-table-color-fixed-first-column-default));
-  border-color: var(--bs-table-border-color-fixed-first-column, var(--bs-table-border-color-fixed-first-column-default));
-}
-.table.jb-table.table-first-column-fixed.table-selectable tr.table-selected td:first-child {
-  --bs-table-color: var(--bs-table-color-fixed-first-column-selected, var(--bs-table-color-fixed-first-column-selected-default));
-  --bs-table-bg: var(--bs-table-bg-fixed-first-column-selected, var(--bs-table-bg-fixed-first-column-selected-default));
-  --bs-table-border-color: var(--bs-table-border-color-fixed-first-column-selected, var(--bs-table-border-color-fixed-first-column-selected-default));
-  --bs-table-striped-bg: var(--bs-table-striped-bg-fixed-first-column-selected, var(--bs-table-striped-bg-fixed-first-column-selected-default));
-  --bs-table-striped-color: var(--bs-table-striped-color-fixed-first-column-selected, var(--bs-table-striped-color-fixed-first-column-selected-default));
-  --bs-table-active-bg: var(--bs-table-active-bg-fixed-first-column-selected, var(--bs-table-active-bg-fixed-first-column-selected-default));
-  --bs-table-active-color: var(--bs-table-active-color-fixed-first-column-selected, var(--bs-table-active-color-fixed-first-column-selected-default));
-  --bs-table-hover-bg: var(--bs-table-hover-bg-fixed-first-column-selected, var(--bs-table-hover-bg-fixed-first-column-selected-default));
-  --bs-table-hover-color: var(--bs-table-hover-color-fixed-first-column-selected, var(--bs-table-hover-color-fixed-first-column-selected-default));
-  color: var(--bs-table-color-fixed-first-column-selected, var(--bs-table-color-fixed-first-column-selected-default));
-  border-color: var(--bs-table-border-color-fixed-first-column-selected, var(--bs-table-border-color-fixed-first-column-selected-default));
-}
-.table.jb-table.table-first-column-fixed td:first-child, .table.jb-table.table-first-column-fixed th:first-child {
-  position: sticky;
-  left: 0px;
-  z-index: 90;
-}
-.modal-body.no-scroll-at-start .table.jb-table.table-first-column-fixed td:first-child:not([colspan]), .modal-body.no-scroll-at-start .table.jb-table.table-first-column-fixed th:first-child:not([colspan]) {
-  transform-style: preserve-3d;
-}
-.modal-body.no-scroll-at-start .table.jb-table.table-first-column-fixed td:first-child:not([colspan])::before, .modal-body.no-scroll-at-start .table.jb-table.table-first-column-fixed th:first-child:not([colspan])::before {
-  content: "";
-  position: absolute;
-  inset: 0px;
-  transform: translate3d(6px, 0px, -1px);
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.4) calc(100% - 6px), rgba(0, 0, 0, 0) 100%);
-}
-.table.jb-table.hideColumnIndex0 tbody tr td:nth-child(1),
-.table.jb-table.hideColumnIndex0 thead tr th:nth-child(1) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex0 thead tr th:nth-child(1) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex0 tbody tr td:nth-child(1) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex1 tbody tr td:nth-child(2),
-.table.jb-table.hideColumnIndex1 thead tr th:nth-child(2) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex1 thead tr th:nth-child(2) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex1 tbody tr td:nth-child(2) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex2 tbody tr td:nth-child(3),
-.table.jb-table.hideColumnIndex2 thead tr th:nth-child(3) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex2 thead tr th:nth-child(3) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex2 tbody tr td:nth-child(3) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex3 tbody tr td:nth-child(4),
-.table.jb-table.hideColumnIndex3 thead tr th:nth-child(4) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex3 thead tr th:nth-child(4) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex3 tbody tr td:nth-child(4) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex4 tbody tr td:nth-child(5),
-.table.jb-table.hideColumnIndex4 thead tr th:nth-child(5) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex4 thead tr th:nth-child(5) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex4 tbody tr td:nth-child(5) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex5 tbody tr td:nth-child(6),
-.table.jb-table.hideColumnIndex5 thead tr th:nth-child(6) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex5 thead tr th:nth-child(6) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex5 tbody tr td:nth-child(6) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex6 tbody tr td:nth-child(7),
-.table.jb-table.hideColumnIndex6 thead tr th:nth-child(7) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex6 thead tr th:nth-child(7) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex6 tbody tr td:nth-child(7) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex7 tbody tr td:nth-child(8),
-.table.jb-table.hideColumnIndex7 thead tr th:nth-child(8) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex7 thead tr th:nth-child(8) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex7 tbody tr td:nth-child(8) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex8 tbody tr td:nth-child(9),
-.table.jb-table.hideColumnIndex8 thead tr th:nth-child(9) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex8 thead tr th:nth-child(9) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex8 tbody tr td:nth-child(9) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex9 tbody tr td:nth-child(10),
-.table.jb-table.hideColumnIndex9 thead tr th:nth-child(10) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex9 thead tr th:nth-child(10) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex9 tbody tr td:nth-child(10) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex10 tbody tr td:nth-child(11),
-.table.jb-table.hideColumnIndex10 thead tr th:nth-child(11) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex10 thead tr th:nth-child(11) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex10 tbody tr td:nth-child(11) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex11 tbody tr td:nth-child(12),
-.table.jb-table.hideColumnIndex11 thead tr th:nth-child(12) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex11 thead tr th:nth-child(12) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex11 tbody tr td:nth-child(12) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex12 tbody tr td:nth-child(13),
-.table.jb-table.hideColumnIndex12 thead tr th:nth-child(13) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex12 thead tr th:nth-child(13) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex12 tbody tr td:nth-child(13) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex13 tbody tr td:nth-child(14),
-.table.jb-table.hideColumnIndex13 thead tr th:nth-child(14) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex13 thead tr th:nth-child(14) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex13 tbody tr td:nth-child(14) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex14 tbody tr td:nth-child(15),
-.table.jb-table.hideColumnIndex14 thead tr th:nth-child(15) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex14 thead tr th:nth-child(15) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex14 tbody tr td:nth-child(15) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex15 tbody tr td:nth-child(16),
-.table.jb-table.hideColumnIndex15 thead tr th:nth-child(16) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex15 thead tr th:nth-child(16) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex15 tbody tr td:nth-child(16) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex16 tbody tr td:nth-child(17),
-.table.jb-table.hideColumnIndex16 thead tr th:nth-child(17) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex16 thead tr th:nth-child(17) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex16 tbody tr td:nth-child(17) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex17 tbody tr td:nth-child(18),
-.table.jb-table.hideColumnIndex17 thead tr th:nth-child(18) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex17 thead tr th:nth-child(18) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex17 tbody tr td:nth-child(18) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex18 tbody tr td:nth-child(19),
-.table.jb-table.hideColumnIndex18 thead tr th:nth-child(19) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex18 thead tr th:nth-child(19) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex18 tbody tr td:nth-child(19) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table.hideColumnIndex19 tbody tr td:nth-child(20),
-.table.jb-table.hideColumnIndex19 thead tr th:nth-child(20) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) {
-  width: 1.5em;
-  text-align: center !important;
-  padding: 0;
-}
-.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) * {
-  margin: 0;
-}
-.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) *.show-for-minimized {
-  display: initial !important;
-}
-.table.jb-table.minimizedColumnIndex19 thead tr th:nth-child(20) *:not(.show-for-minimized) {
-  display: none !important;
-}
-.table.jb-table.minimizedColumnIndex19 tbody tr td:nth-child(20) {
-  width: 1.5em;
-  padding: 0;
-  font-size: 0;
-  height: calc(1px + 2 * var(--bs-table-cell-padding-y) + var(--bs-body-line-height) * 1em);
-}
-.table.jb-table thead tr th .show-for-minimized {
-  display: none;
-}
-
 /**********************************************************
 	fcoo-colors-include.scss,
 
@@ -44953,25 +45522,7 @@ This is fixed by overwriting the last size with "inherit"
 	https://github.com/FCOO/jquery-bootstrap-highcharts
 	https://github.com/FCOO
 
-Adjust Highcharts style to match the sytle used in jquery-bootstrap
-In Highcharts the options styleMode controls how the different group of elements are styled
-
-If styleMode = true all elements are styled using css-class
-That requere that a lot of classes are defined to style eq. plot-area and lines
-
-If styleMode = false the elements are styled using some css-class and some style set in options
-Eq. chart title get class="highcharts-subtitle" AND style set directly from options.title.style.
-options.style.title has default value =  { "color": "#333333", "fontSize": "18px" }
-
-There are two ways force the use of class-style when styleMode = false:
-1) Set options.title.style = { "color": null, "fontSize": null }
-2) Adjust/remove all defalut styles
-3) Set all styles in css-classes as name: style !important; to overwrite style set directly on the element
-
-"1" is the "correct" way, but every chart needs to have options for alle the different default styles
-"2" would be the easies way but it was not possible to alter the default options
-"3" is using !important witch normally is not recommended, but with extra efford in solution (1) and
-the "impossible" i solution (2) the solution (3) is implemented
+Adjust Highcharts style to match the style used in jquery-bootstrap
 
 ************************************************/
 /************************************************************
@@ -45150,7 +45701,7 @@ Modal
 ************************************************/
 /***********************************************
 Button And Modal
-Opacity for semi-transparent and transparent content
+Opacity for semi-transparent and transparent content using color-mix
 ************************************************/
 /************************************************************
 MIXIN
@@ -45170,1119 +45721,238 @@ button-border-color-variant
 button-background-color-variant
 Adjust text-, border-, and background-color for a button
 ************************************************************/
+/************************************************************
+TABLE COLORS
+************************************************************/
+/*****************************************************************
+create-table-variant($postfix, $background, $default, $color)
+Adjusted copy of Bootstrap table-variant($state, $background) to
+create css-var to set colors in tables
+*****************************************************************/
+/*****************************************************************
+incl-table-variant($postfix)
+Include special version of Bootstrap table-var
+The var must have been created by create-table-variant first
+*****************************************************************/
+/*****************************************************************
+table-no-hover()
+Prevent any hover effect
+*****************************************************************/
 /***********************************************
-BOOTSTRAP -> HIGHCHART
-Set Highcharts variable to fit Bootstrap-variable
+Color
 ************************************************/
-/* Default Highcharts colors
-// Chart background, point stroke for markers and columns etc
-$background-color: #ffffff !default;
+.use-jquery-bootstrap-style {
+  /* @todo
+      --highcharts-color-0: #2caffe;
+      --highcharts-color-1: #544fc5;
+      --highcharts-color-2: #00e272;
+      --highcharts-color-3: #fe6a35;
+      --highcharts-color-4: #6b8abc;
+      --highcharts-color-5: #d568fb;
+      --highcharts-color-6: #2ee0ca;
+      --highcharts-color-7: #fa4b42;
+      --highcharts-color-8: #feb56a;
+      --highcharts-color-9: #91e8e1;
+  */
+}
 
-// Neutral colors, grayscale by default. The default colors are defined by mixing the
-// background-color with neutral, with a weight corresponding to the number in the name.
-$neutral-color-100: #000000 !default; // Strong text.
-$neutral-color-80: #333333 !default; // Main text and some strokes.
-$neutral-color-60: #666666 !default; // Axis labels, axis title, connector fallback.
-$neutral-color-40: #999999 !default; // Credits text, export menu stroke.
-$neutral-color-20: #cccccc !default; // Disabled texts, button strokes, crosshair etc.
-$neutral-color-10: #e6e6e6 !default; // Grid lines etc.
-$neutral-color-5: #f2f2f2 !default; // Minor grid lines etc.
-$neutral-color-3: #f7f7f7 !default; // Tooltip backgroud, button fills, map null points.
-
-// Colored, shades of blue by default
-$highlight-color-100: #003399 !default; // Drilldown clickable labels, color axis max color.
-$highlight-color-80: #335cad !default; // Selection marker, menu hover, button hover, chart border, navigator series.
-$highlight-color-60: #6685c2 !default; // Navigator mask fill.
-$highlight-color-20: #ccd6eb !default; // Ticks and axis line.
-$highlight-color-10: #e6ebf5 !default; // Pressed button, color axis min color.
-//*/
-/*
-Font-size - using default but with !important to force the class to control size
-Standard font-size from jquery-bootstrap
-    $jb-font-size-lg    : 1.25rem   20px
-    $jb-font-size       : 1rem      16px
-    $jb-font-size-sm    : .875rem   14px
-    $jb-font-size-xs    : .75rem    12px
-    $jb-font-size-xxs   : .6875rem  11px
-*/
 :root {
   --jbh-button-background-color: #f8f9fa;
   --jbh-button-border-color: #adb5bd;
   --jbh-button-color: #212529;
 }
 
-.highcharts-button-hover, g.highcharts-contextbutton:hover {
-  --jbh-button-background-color: #dee2e6;
-  --jbh-button-border-color: #b5bcc4;
-  --jbh-button-color: #373b3e;
+.use-jquery-bootstrap-style {
+  font-family: var(--bs-body-font-family) !important;
+  font-size: var(--bs-body-font-size) !important;
+  font-weight: var(--bs-body-font-weight) !important;
+  line-height: var(--bs-body-line-height) !important;
+  color: var(--bs-body-color) !important;
+  text-align: var(--bs-body-text-align) !important;
+  background-color: var(--bs-body-bg) !important;
+  -webkit-text-size-adjust: 100% !important;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  /***********************************************
+  Buttons
+  ************************************************/
+  /***********************************************
+  Context-menu / dropdown-menu
+  Set look like jquery-bootstrap menu
+  ************************************************/
 }
-
-.highcharts-button-pressed {
-  --jbh-button-background-color: rgb(30, 144, 255);
-  --jbh-button-border-color: #b5bcc4;
-  --jbh-button-color: white;
-}
-
-/***********************************************
-HIGHCHART
-************************************************/
-/*
-src/_highcharts_VERSION.scss is a local and adjusted copy of ../bower_components/highcharts/css/highcharts.scss
-See README.md for details
-*/
-/*********************************************************
-NOTE
-This is a copy of highcharts.scss version 10.2.1.
-Some of the styles have been removed to allow styling
-directly via the options of the charts.
-This are marked by /*JBH or //JBH
-
-See description in README.md
-**********************************************************/
-/**
- * @license Highcharts
- *
- * (c) 2009-2016 Torstein Honsi
- *
- * License: www.highcharts.com/license
- */
-.highcharts-container {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  text-align: left;
-  line-height: normal;
-  z-index: 0; /* #1072 */
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-family: var(--bs-font-sans-serif) !important;
-  font-size: 12px;
-  user-select: none;
-  touch-action: manipulation;
-  outline: none;
-}
-
-.highcharts-root {
-  display: block;
-}
-
-.highcharts-root text {
-  stroke-width: 0;
-}
-
-.highcharts-strong {
-  font-weight: bold;
-}
-
-.highcharts-emphasized {
-  font-style: italic;
-}
-
-.highcharts-anchor {
+.use-jquery-bootstrap-style .any-highcharts-buttons, .use-jquery-bootstrap-style select .highcharts-menu-item, .use-jquery-bootstrap-style select option, .use-jquery-bootstrap-style .highcharts-menu .highcharts-menu-item, .use-jquery-bootstrap-style .highcharts-menu option, .use-jquery-bootstrap-style .highcharts-button {
   cursor: pointer;
-}
-
-.highcharts-background {
-  fill: #ffffff;
-}
-
-.highcharts-plot-border, .highcharts-plot-background {
-  fill: none;
-}
-
-.highcharts-label-box {
-  fill: none;
-}
-
-.highcharts-button-box {
-  fill: inherit;
-}
-
-.highcharts-tracker-line {
-  stroke-linejoin: round;
-  stroke: rgba(192, 192, 192, 0.0001);
-  stroke-width: 22;
-  fill: none;
-}
-
-.highcharts-tracker-area {
-  fill: rgba(192, 192, 192, 0.0001);
-  stroke-width: 0;
-}
-
-/* Titles */
-.highcharts-title {
-  fill: #333333;
-  font-size: 1.5em !important;
-}
-
-.highcharts-subtitle {
-  fill: #666666;
-  font-size: 1em !important;
-}
-
-/* Axes */
-.highcharts-axis-line {
-  fill: none;
-  stroke: #ccd6eb;
-}
-
-.highcharts-yaxis .highcharts-axis-line {
-  stroke-width: 0;
-}
-
-.highcharts-axis-title {
-  fill: #666666;
-}
-
-.highcharts-axis-labels {
-  fill: #666666;
-  cursor: default;
-  font-size: 0.9166666667em !important;
-}
-
-.highcharts-grid-line {
-  fill: none;
-  stroke: #e6e6e6;
-}
-
-.highcharts-xaxis-grid .highcharts-grid-line {
-  stroke-width: 0px;
-}
-
-.highcharts-tick {
-  stroke: #ccd6eb;
-}
-
-.highcharts-yaxis .highcharts-tick {
-  stroke-width: 0;
-}
-
-.highcharts-minor-grid-line {
-  stroke: #f2f2f2;
-}
-
-.highcharts-crosshair-thin {
-  stroke-width: 1px;
-  stroke: #cccccc;
-}
-
-.highcharts-crosshair-category {
-  stroke: #ccd6eb;
-  stroke-opacity: 0.25;
-}
-
-/* Credits */
-.highcharts-credits {
-  cursor: pointer;
-  fill: #999999;
-  font-size: 0.7em;
-  transition: fill 250ms, font-size 250ms;
-}
-
-.highcharts-credits:hover {
-  fill: black;
-  font-size: 1em;
-}
-
-/* Tooltip */
-.highcharts-tooltip {
-  cursor: default;
-  pointer-events: none;
-  white-space: nowrap;
-  transition: stroke 150ms;
-}
-
-.highcharts-tooltip text {
-  fill: #333333;
-}
-
-.highcharts-tooltip .highcharts-header {
-  font-size: 0.85em;
-}
-
-.highcharts-tooltip-box {
-  stroke-width: 1px;
-  fill: #f7f7f7;
-  fill-opacity: 0.85;
-}
-
-.highcharts-tooltip-box .highcharts-label-box {
-  fill: #f7f7f7;
-  fill-opacity: 0.85;
-}
-
-div.highcharts-tooltip {
-  filter: none;
-}
-
-.highcharts-selection-marker {
-  fill: #335cad;
-  fill-opacity: 0.25;
-}
-
-.highcharts-empty-series {
-  stroke-width: 1px;
-  fill: none;
-  stroke: #cccccc;
-}
-
-.highcharts-point-inactive {
-  opacity: 0.2;
-  transition: opacity 50ms; /* quick in */
-}
-
-.highcharts-series-inactive {
-  opacity: 0.2;
-  transition: opacity 50ms; /* quick in */
-}
-
-.highcharts-state-hover path {
-  transition: stroke-width 50ms; /* quick in */
-}
-
-.highcharts-state-normal path {
-  transition: stroke-width 250ms; /* slow out */
-}
-
-/* Legend hover affects points and series */
-g.highcharts-series,
-.highcharts-point,
-.highcharts-markers,
-.highcharts-data-labels {
-  transition: opacity 250ms;
-}
-
-.highcharts-legend-series-active g.highcharts-series:not(.highcharts-series-hover),
-.highcharts-legend-point-active .highcharts-point:not(.highcharts-point-hover),
-.highcharts-legend-series-active .highcharts-markers:not(.highcharts-series-hover),
-.highcharts-legend-series-active .highcharts-data-labels:not(.highcharts-series-hover) {
-  opacity: 0.2;
-}
-
-/*********************************************************************************************/
-/* Series options */
-.highcharts-area {
-  fill-opacity: 0.75;
-  stroke-width: 0;
-}
-
-.highcharts-markers {
-  stroke-width: 1px;
-  stroke: #ffffff;
-}
-
-.highcharts-a11y-markers-hidden .highcharts-point:not(.highcharts-point-hover):not(.highcharts-a11y-marker-visible),
-.highcharts-a11y-marker-hidden {
-  opacity: 0;
-}
-
-.highcharts-point {
-  stroke-width: 1px;
-}
-
-.highcharts-dense-data .highcharts-point {
-  stroke-width: 0;
-}
-
-.highcharts-data-label {
-  font-size: 0.9em;
-  font-weight: bold;
-}
-
-.highcharts-data-label-box {
-  fill: none;
-  stroke-width: 0;
-}
-
-.highcharts-data-label text, text.highcharts-data-label {
-  fill: #333333;
-}
-
-.highcharts-data-label-connector {
-  fill: none;
-}
-
-.highcharts-data-label-hidden {
-  pointer-events: none;
-}
-
-.highcharts-halo {
-  fill-opacity: 0.25;
-  stroke-width: 0;
-}
-
-.highcharts-series:not(.highcharts-pie-series) .highcharts-point-select,
-.highcharts-markers .highcharts-point-select {
-  fill: #cccccc;
-  stroke: #000000;
-}
-
-.highcharts-column-series rect.highcharts-point {
-  stroke: #ffffff;
-}
-
-.highcharts-column-series .highcharts-point {
-  transition: fill-opacity 250ms;
-}
-
-.highcharts-column-series .highcharts-point-hover {
-  fill-opacity: 0.75;
-  transition: fill-opacity 50ms;
-}
-
-.highcharts-pie-series .highcharts-point {
-  stroke-linejoin: round;
-  stroke: #ffffff;
-}
-
-.highcharts-pie-series .highcharts-point-hover {
-  fill-opacity: 0.75;
-  transition: fill-opacity 50ms;
-}
-
-.highcharts-funnel-series .highcharts-point {
-  stroke-linejoin: round;
-  stroke: #ffffff;
-}
-
-.highcharts-funnel-series .highcharts-point-hover {
-  fill-opacity: 0.75;
-  transition: fill-opacity 50ms;
-}
-
-.highcharts-funnel-series .highcharts-point-select {
-  fill: inherit;
-  stroke: inherit;
-}
-
-.highcharts-pyramid-series .highcharts-point {
-  stroke-linejoin: round;
-  stroke: #ffffff;
-}
-
-.highcharts-pyramid-series .highcharts-point-hover {
-  fill-opacity: 0.75;
-  transition: fill-opacity 50ms;
-}
-
-.highcharts-pyramid-series .highcharts-point-select {
-  fill: inherit;
-  stroke: inherit;
-}
-
-.highcharts-solidgauge-series .highcharts-point {
-  stroke-width: 0;
-}
-
-.highcharts-treemap-series .highcharts-point {
-  stroke-width: 1px;
-  stroke: #e6e6e6;
-  transition: stroke 250ms, fill 250ms, fill-opacity 250ms;
-}
-
-.highcharts-treemap-series .highcharts-point-hover {
-  stroke: #999999;
-  transition: stroke 25ms, fill 25ms, fill-opacity 25ms;
-}
-
-.highcharts-treemap-series .highcharts-above-level {
-  display: none;
-}
-
-.highcharts-treemap-series .highcharts-internal-node {
-  fill: none;
-}
-
-.highcharts-treemap-series .highcharts-internal-node-interactive {
-  fill-opacity: 0.15;
-  cursor: pointer;
-}
-
-.highcharts-treemap-series .highcharts-internal-node-interactive:hover {
-  fill-opacity: 0.75;
-}
-
-.highcharts-vector-series .highcharts-point {
-  fill: none;
-  stroke-width: 2px;
-}
-
-.highcharts-windbarb-series .highcharts-point {
-  fill: none;
-  stroke-width: 2px;
-}
-
-.highcharts-lollipop-stem {
-  stroke: #000000;
-}
-
-.highcharts-focus-border {
-  fill: none;
-  stroke-width: 2px;
-}
-
-.highcharts-legend-item-hidden .highcharts-focus-border {
-  fill: none !important;
-}
-
-/*********************************************************************************************/
-/* Legend */
-.highcharts-legend-box {
-  fill: none;
-  stroke-width: 0;
-}
-
-.highcharts-legend-item > text {
-  fill: #333333;
-  font-weight: bold;
-  font-size: 1em !important;
-  cursor: pointer;
-  stroke-width: 0;
-}
-
-.highcharts-legend-item:hover text {
-  fill: #000000;
-}
-
-.highcharts-legend-item-hidden * {
-  fill: #cccccc !important;
-  stroke: #cccccc !important;
-  transition: fill 250ms;
-}
-
-.highcharts-legend-nav-active {
-  fill: #003399;
-  cursor: pointer;
-}
-
-.highcharts-legend-nav-inactive {
-  fill: #cccccc;
-}
-
-circle.highcharts-legend-nav-active, circle.highcharts-legend-nav-inactive { /* tracker */
-  fill: rgba(192, 192, 192, 0.0001);
-}
-
-.highcharts-legend-title-box {
-  fill: none;
-  stroke-width: 0;
-}
-
-/* Bubble legend */
-.highcharts-bubble-legend-symbol {
-  stroke-width: 2;
-  fill-opacity: 0.5;
-}
-
-.highcharts-bubble-legend-connectors {
-  stroke-width: 1;
-}
-
-.highcharts-bubble-legend-labels {
-  fill: #333333;
-}
-
-/* Loading */
-.highcharts-loading {
-  position: absolute;
-  background-color: #ffffff;
-  opacity: 0.5;
-  text-align: center;
-  z-index: 10;
-  transition: opacity 250ms;
-}
-
-.highcharts-loading-hidden {
-  height: 0 !important;
-  opacity: 0;
-  overflow: hidden;
-  transition: opacity 250ms, height 250ms step-end;
-}
-
-.highcharts-loading-inner {
-  font-weight: bold;
-  position: relative;
-  top: 45%;
-}
-
-/* Highcharts More and modules */
-.highcharts-boxplot-box {
-  fill: #ffffff;
-}
-
-.highcharts-boxplot-median {
-  stroke-width: 2px;
-}
-
-.highcharts-bubble-series .highcharts-point {
-  fill-opacity: 0.5;
-}
-
-.highcharts-errorbar-series .highcharts-point {
-  stroke: #000000;
-}
-
-.highcharts-gauge-series .highcharts-data-label-box {
-  stroke: #cccccc;
-  stroke-width: 1px;
-}
-
-.highcharts-gauge-series .highcharts-dial {
-  fill: #000000;
-  stroke-width: 0;
-}
-
-.highcharts-sankey-series .highcharts-point {
-  stroke-width: 0;
-}
-
-.highcharts-sankey-series .highcharts-link {
-  transition: fill 250ms, fill-opacity 250ms;
-  fill-opacity: 0.5;
-}
-
-.highcharts-sankey-series .highcharts-point-hover.highcharts-link {
-  transition: fill 50ms, fill-opacity 50ms;
-  fill-opacity: 1;
-}
-
-.highcharts-venn-series .highcharts-point {
-  fill-opacity: 0.75;
-  stroke: #cccccc;
-  transition: stroke 250ms, fill-opacity 250ms;
-}
-
-.highcharts-venn-series .highcharts-point-hover {
-  fill-opacity: 1;
-  stroke: #cccccc;
-}
-
-/* Highstock */
-.highcharts-navigator-mask-outside {
-  fill-opacity: 0;
-}
-
-.highcharts-navigator-mask-inside {
-  fill: #6685c2; /* navigator.maskFill option */
-  fill-opacity: 0.25;
-  cursor: ew-resize;
-}
-
-.highcharts-navigator-outline {
-  stroke: #cccccc;
-  fill: none;
-}
-
-.highcharts-navigator-handle {
-  stroke: #cccccc;
-  fill: #f2f2f2;
-  cursor: ew-resize;
-}
-
-.highcharts-navigator-series {
-  fill: #335cad;
-  stroke: #335cad;
-}
-
-.highcharts-navigator-series .highcharts-area {
-  fill-opacity: 0.05;
-}
-
-.highcharts-navigator-xaxis .highcharts-axis-line {
-  stroke-width: 0;
-}
-
-.highcharts-navigator-xaxis .highcharts-grid-line {
-  stroke-width: 1px;
-  stroke: #e6e6e6;
-}
-
-.highcharts-navigator-xaxis.highcharts-axis-labels {
-  fill: #999999;
-}
-
-.highcharts-navigator-yaxis .highcharts-grid-line {
-  stroke-width: 0;
-}
-
-.highcharts-scrollbar-thumb {
-  fill: #cccccc;
-  stroke: #cccccc;
-  stroke-width: 1px;
-}
-
-.highcharts-scrollbar-button {
-  fill: #e6e6e6;
-  stroke: #cccccc;
-  stroke-width: 1px;
-}
-
-.highcharts-scrollbar-arrow {
-  fill: #666666;
-}
-
-.highcharts-scrollbar-rifles {
-  stroke: #666666;
-  stroke-width: 1px;
-}
-
-.highcharts-scrollbar-track {
-  fill: #f2f2f2;
-  stroke: #f2f2f2;
-  stroke-width: 1px;
-}
-
-.highcharts-button, g.highcharts-contextbutton {
-  fill: var(--jbh-button-background-color) !important;
+  fill: var(--jbh-button-background-color);
+  background-color: var(--jbh-button-background-color);
+  background: var(--jbh-button-background-color) !important;
+  color: var(--jbh-button-color) !important;
   stroke: var(--jbh-button-border-color) !important;
-  cursor: default;
-  stroke-width: 1px;
-  transition: fill 250ms;
+  stroke-width: var(--bs-border-width) !important;
+  border: var(--bs-border-width) solid var(--jbh-button-border-color) !important;
+  line-height: var(--bs-body-line-height) !important;
+  padding: 0.125rem 0.125rem !important;
+  font-size: 0.75rem !important;
 }
-
-.highcharts-button text, g.highcharts-contextbutton text {
-  fill: var(--jbh-button-color) !important;
-}
-
-.highcharts-button-hover, g.highcharts-contextbutton:hover {
-  transition: fill 0ms;
-  fill: var(--jbh-button-background-color) !important;
-  stroke: var(--jbh-button-border-color) !important;
-}
-
-.highcharts-button-hover text, g.highcharts-contextbutton:hover text {
-  fill: var(--jbh-button-color) !important;
-}
-
-.highcharts-button-pressed {
-  font-weight: bold;
-  fill: var(--jbh-button-background-color) !important;
-  stroke: var(--jbh-button-border-color) !important;
-}
-
-.highcharts-button-pressed text {
-  fill: var(--jbh-button-color) !important;
-  font-weight: bold;
-}
-
-.highcharts-button-disabled text {
-  fill: var(--jbh-button-color) !important;
-}
-
-.highcharts-range-selector-buttons .highcharts-button, .highcharts-range-selector-buttons g.highcharts-contextbutton {
-  stroke-width: 1px !important;
-}
-
-.highcharts-range-label rect {
-  fill: none;
-}
-
-.highcharts-range-label text {
-  fill: #666666;
-}
-
-.highcharts-range-input rect {
-  fill: none;
-}
-
-.highcharts-range-input text {
-  fill: var(--bs-body-color) !important;
-}
-
-.highcharts-range-input {
-  stroke-width: 1px;
-  stroke: var(--jb-structure-border-color) !important;
-}
-
-input.highcharts-range-selector {
-  position: absolute;
-  border: 0;
-  width: 1px; /* Chrome needs a pixel to see it */
-  height: 1px;
-  padding: 0;
-  text-align: center;
-  left: -9em; /* #4798 */
-}
-
-.highcharts-crosshair-label text {
-  fill: #ffffff;
-  font-size: 1.1em;
-}
-
-.highcharts-crosshair-label .highcharts-label-box {
-  fill: inherit;
-}
-
-.highcharts-candlestick-series .highcharts-point {
-  stroke: #000000;
-  stroke-width: 1px;
-}
-
-.highcharts-candlestick-series .highcharts-point-up {
-  fill: #ffffff;
-}
-
-.highcharts-hollowcandlestick-series .highcharts-point-down {
-  fill: #f21313;
-  stroke: #f21313;
-}
-
-.highcharts-hollowcandlestick-series .highcharts-point-down-bearish-up {
-  fill: #06b535;
-  stroke: #06b535;
-}
-
-.highcharts-hollowcandlestick-series .highcharts-point-up {
-  fill: transparent;
-  stroke: #06b535;
-}
-
-.highcharts-ohlc-series .highcharts-point-hover {
-  stroke-width: 3px;
-}
-
-.highcharts-flags-series .highcharts-point .highcharts-label-box {
-  stroke: #999999;
-  fill: #ffffff;
-  transition: fill 250ms;
-}
-
-.highcharts-flags-series .highcharts-point-hover .highcharts-label-box {
-  stroke: #000000;
-  fill: #ccd6eb;
-}
-
-.highcharts-flags-series .highcharts-point text {
-  fill: #000000;
-  font-size: 0.9em;
-  font-weight: bold;
-}
-
-/* Highcharts Maps */
-.highcharts-map-series .highcharts-point {
-  transition: fill 500ms, fill-opacity 500ms, stroke-width 250ms;
-  stroke: #cccccc;
-  stroke-width: inherit;
-}
-
-.highcharts-map-series .highcharts-point-hover {
-  transition: fill 0ms, fill-opacity 0ms;
-  fill-opacity: 0.5;
-}
-
-.highcharts-mapline-series .highcharts-point {
-  fill: none;
-}
-
-.highcharts-heatmap-series .highcharts-point {
-  stroke-width: 0;
-}
-
-.highcharts-map-navigation {
-  font-size: 1.3em;
-  font-weight: bold;
-  text-align: center;
-}
-
-.highcharts-mapview-inset-border {
-  stroke: #cccccc;
-  stroke-width: 1px;
-  fill: none;
-}
-
-.highcharts-coloraxis {
-  stroke-width: 0;
-}
-
-.highcharts-coloraxis-marker {
-  fill: #999999;
-}
-
-.highcharts-null-point {
-  fill: #f7f7f7;
-}
-
-/* 3d charts */
-.highcharts-3d-frame {
-  fill: transparent;
-}
-
-/* Exporting module */
-.highcharts-contextbutton {
-  fill: var(--jbh-button-background-color) !important; /* needed to capture hover */
-  stroke: none;
-  stroke-linecap: round;
-}
-
-.highcharts-contextbutton:hover {
-  fill: #e6e6e6;
-  stroke: #e6e6e6;
-}
-
-.highcharts-button-symbol {
-  stroke: #666666;
-  stroke-width: 3px;
-}
-
-.highcharts-menu {
-  border: 1px solid #999999;
-  background: #ffffff;
-  padding: 5px 0;
-  box-shadow: 3px 3px 10px #888;
-}
-
-.highcharts-menu-item {
-  padding: 0.5em 1em;
-  background: none;
-  color: #333333;
-  cursor: pointer;
-  transition: background 250ms, color 250ms;
-}
-
-.highcharts-menu-item:hover {
-  background: #335cad;
-  color: #ffffff;
-}
-
-/* Breadcrumbs */
-.highcharts-breadcrumbs-button {
-  fill: none;
-  stroke-width: 0;
-  cursor: pointer;
-}
-
-.highcharts-breadcrumbs-separator {
-  fill: #666666;
-}
-
-/* Drilldown module */
-.highcharts-drilldown-point {
-  cursor: pointer;
-}
-
-.highcharts-drilldown-data-label text,
-text.highcharts-drilldown-data-label,
-.highcharts-drilldown-axis-label {
-  cursor: pointer;
-  fill: #003399;
-  font-weight: bold;
-  text-decoration: underline;
-}
-
-/* No-data module */
-.highcharts-no-data text {
-  font-weight: bold;
-  font-size: 12px;
-  fill: #666666;
-}
-
-/* Drag-panes module */
-.highcharts-axis-resizer {
-  cursor: ns-resize;
-  stroke: black;
-  stroke-width: 2px;
-}
-
-/* Bullet type series */
-.highcharts-bullet-target {
-  stroke-width: 0;
-}
-
-/* Lineargauge type series */
-.highcharts-lineargauge-target {
-  stroke-width: 1px;
-  stroke: #333333;
-}
-
-.highcharts-lineargauge-target-line {
-  stroke-width: 1px;
-  stroke: #333333;
-}
-
-/* Annotations module */
-.highcharts-annotation-label-box {
-  stroke-width: 1px;
-  stroke: #000000;
-  fill: #000000;
-  fill-opacity: 0.75;
-}
-
-.highcharts-annotation-label text {
-  fill: #e6e6e6;
-}
-
-/* A11y module */
-.highcharts-a11y-proxy-button {
-  border-width: 0;
-  background-color: transparent;
-  cursor: pointer;
-  outline: none;
-  opacity: 0.001;
-  z-index: 999;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  display: block;
-  position: absolute;
-}
-
-.highcharts-a11y-proxy-group li {
-  list-style: none;
-}
-
-.highcharts-visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  white-space: nowrap;
-  clip: rect(1px, 1px, 1px, 1px);
-  margin-top: -3px;
-  opacity: 0.01;
-}
-
-.highcharts-a11y-invisible {
-  visibility: hidden;
-}
-
-.highcharts-a11y-proxy-container,
-.highcharts-a11y-proxy-container-before,
-.highcharts-a11y-proxy-container-after {
-  position: absolute;
-  white-space: nowrap;
-}
-
-g.highcharts-series, .highcharts-markers, .highcharts-point {
-  outline: none;
-}
-
-/* Gantt */
-.highcharts-treegrid-node-collapsed, .highcharts-treegrid-node-expanded {
-  cursor: pointer;
-}
-
-.highcharts-point-connecting-path {
-  fill: none;
-}
-
-.highcharts-grid-axis .highcharts-tick {
-  stroke-width: 1px;
-}
-
-.highcharts-grid-axis .highcharts-axis-line {
-  stroke-width: 1px;
-}
-
-/***********************************************
-BOOTSTRAP -> HIGHCHART
-Adjust classes directly
-************************************************/
-svg.highcharts-root {
-  font-family: var(--bs-font-sans-serif) !important;
-}
-
-.highcharts-container {
+html.touchevents .use-jquery-bootstrap-style .any-highcharts-buttons, html.touchevents .use-jquery-bootstrap-style select .highcharts-menu-item, html.touchevents .use-jquery-bootstrap-style select option, html.touchevents .use-jquery-bootstrap-style .highcharts-menu .highcharts-menu-item, html.touchevents .use-jquery-bootstrap-style .highcharts-menu option, html.touchevents .use-jquery-bootstrap-style .highcharts-button {
+  padding: 0.25rem 0.25rem !important;
   font-size: 0.875rem !important;
 }
-
-html.no-mouse .highcharts-container {
-  font-size: 1rem !important;
-}
-
-.highcharts-title {
+.use-jquery-bootstrap-style .any-highcharts-buttons text, .use-jquery-bootstrap-style select .highcharts-menu-item text, .use-jquery-bootstrap-style select option text, .use-jquery-bootstrap-style .highcharts-menu .highcharts-menu-item text, .use-jquery-bootstrap-style .highcharts-menu option text, .use-jquery-bootstrap-style .highcharts-button text {
   fill: var(--jbh-button-color) !important;
+  font-weight: normal !important;
+  font-size: inherit !important;
+}
+.use-jquery-bootstrap-style .highcharts-button-hover, .use-jquery-bootstrap-style select .highcharts-menu-item:hover, .use-jquery-bootstrap-style select option:hover, .use-jquery-bootstrap-style .highcharts-menu .highcharts-menu-item:hover, .use-jquery-bootstrap-style .highcharts-menu option:hover {
+  --jbh-button-background-color: #dee2e6;
+  --jbh-button-border-color: rgb(181.2, 188.4, 195.6);
+  --jbh-button-color: rgb(55.2, 58.8, 62.4);
+}
+.use-jquery-bootstrap-style .highcharts-button-pressed, .use-jquery-bootstrap-style select .highcharts-menu-item:active, .use-jquery-bootstrap-style select option:active, .use-jquery-bootstrap-style .highcharts-menu .highcharts-menu-item:active, .use-jquery-bootstrap-style .highcharts-menu option:active {
+  /* As selected (blue):
+      --jbh-button-background-color: rgb(30, 144, 255);
+      --jbh-button-border-color    : rgb(181.2, 188.4, 195.6);
+      --jbh-button-color           : white;
+  */
+  --jbh-button-background-color: #ced4da;
+  --jbh-button-border-color: rgb(181.2, 188.4, 195.6);
+  --jbh-button-color: rgb(55.2, 58.8, 62.4);
+}
+.use-jquery-bootstrap-style .highcharts-button-disabled {
+  pointer-events: none;
+  opacity: 0.65;
+}
+.use-jquery-bootstrap-style select, .use-jquery-bootstrap-style .highcharts-menu {
+  padding: 0 !important;
+}
+.use-jquery-bootstrap-style select .highcharts-menu-item, .use-jquery-bootstrap-style select option, .use-jquery-bootstrap-style .highcharts-menu .highcharts-menu-item, .use-jquery-bootstrap-style .highcharts-menu option {
+  font-family: var(--bs-body-font-family);
+  line-height: var(--bs-body-line-height) !important;
+  text-decoration: none;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 0 !important;
+}
+.use-jquery-bootstrap-style select option:disabled, .use-jquery-bootstrap-style .highcharts-menu option:disabled {
+  --jbh-button-color: initial;
+}
+.use-jquery-bootstrap-style select hr, .use-jquery-bootstrap-style .highcharts-menu hr {
+  color: transparent;
+  margin: 0.25em;
 }
 
-.highcharts-subtitle {
-  font-size: 1em !important;
-  fill: var(--jbh-button-color) !important;
+/**********************************************************************
+***********************************************************************
+FONT-SIZE
+To adjust highcharts font-size to match jquery-bootstrap some of
+the css-classes in Highchart are adjusted to have font-size equal
+to the jquery-bootstrap sizes =
+eXtra Small (xs = 12px), Small (sm = 14px) Normal (= 16px) or Large (lg =20px)
+
+Note: Only buttons and menus get different size in touch-mode
+
+It is also possible to create a small-version of a chart setting the class jbh-small-chart
+to the container
+
+Below is a list of all the classes containing font-size inside .use-jquery-bootstrap-style
+Not all of the has been changed yet
+The original Highcharts properties are marked with //HC:
+
+/**********************************************************************
+**********************************************************************/
+:root {
+  --jbh-font-size-lg: 1.25rem;
+  --jbh-font-size: 1rem;
+  --jbh-font-size-sm: 0.875rem;
+  --jbh-font-size-xs: 0.75rem;
+  --jbh-font-size-xxs: 10px;
 }
 
-.highcharts-axis-title {
-  font-size: 1rem !important;
+.use-jquery-bootstrap-style-font-family-and-size, .use-jquery-bootstrap-style .highcharts-range-input, .use-jquery-bootstrap-style .highcharts-navigator-xaxis.highcharts-axis-labels, .use-jquery-bootstrap-style .highcharts-plot-line-label, .use-jquery-bootstrap-style .highcharts-legend-item, .use-jquery-bootstrap-style .highcharts-data-label text,
+.use-jquery-bootstrap-style text.highcharts-data-label, .use-jquery-bootstrap-style .highcharts-tooltip .highcharts-tooltip-header, .use-jquery-bootstrap-style .highcharts-tooltip, .use-jquery-bootstrap-style .highcharts-credits:hover, .use-jquery-bootstrap-style .highcharts-credits, .use-jquery-bootstrap-style .highcharts-axis-labels, .use-jquery-bootstrap-style .highcharts-axis-title, .use-jquery-bootstrap-style .highcharts-subtitle, .use-jquery-bootstrap-style .highcharts-title, .use-jquery-bootstrap-style .highcharts-label {
+  font-family: var(--bs-body-font-family);
 }
-
-.highcharts-axis-labels {
-  font-size: 0.9166666667em !important;
-}
-.highcharts-axis-labels text {
+.use-jquery-bootstrap-style-font-family-and-size > text, .use-jquery-bootstrap-style .highcharts-range-input > text, .use-jquery-bootstrap-style .highcharts-navigator-xaxis.highcharts-axis-labels > text, .use-jquery-bootstrap-style .highcharts-plot-line-label > text, .use-jquery-bootstrap-style .highcharts-legend-item > text, .use-jquery-bootstrap-style .highcharts-data-label text > text,
+.use-jquery-bootstrap-style text.highcharts-data-label > text, .use-jquery-bootstrap-style .highcharts-tooltip .highcharts-tooltip-header > text, .use-jquery-bootstrap-style .highcharts-tooltip > text, .use-jquery-bootstrap-style .highcharts-credits:hover > text, .use-jquery-bootstrap-style .highcharts-credits > text, .use-jquery-bootstrap-style .highcharts-axis-labels > text, .use-jquery-bootstrap-style .highcharts-axis-title > text, .use-jquery-bootstrap-style .highcharts-subtitle > text, .use-jquery-bootstrap-style .highcharts-title > text, .use-jquery-bootstrap-style .highcharts-label > text, .use-jquery-bootstrap-style-font-family-and-size > text *, .use-jquery-bootstrap-style .highcharts-range-input > text *, .use-jquery-bootstrap-style .highcharts-navigator-xaxis.highcharts-axis-labels > text *, .use-jquery-bootstrap-style .highcharts-plot-line-label > text *, .use-jquery-bootstrap-style .highcharts-legend-item > text *, .use-jquery-bootstrap-style .highcharts-data-label text > text *,
+.use-jquery-bootstrap-style text.highcharts-data-label > text *, .use-jquery-bootstrap-style .highcharts-tooltip .highcharts-tooltip-header > text *, .use-jquery-bootstrap-style .highcharts-tooltip > text *, .use-jquery-bootstrap-style .highcharts-credits:hover > text *, .use-jquery-bootstrap-style .highcharts-credits > text *, .use-jquery-bootstrap-style .highcharts-axis-labels > text *, .use-jquery-bootstrap-style .highcharts-axis-title > text *, .use-jquery-bootstrap-style .highcharts-subtitle > text *, .use-jquery-bootstrap-style .highcharts-title > text *, .use-jquery-bootstrap-style .highcharts-label > text * {
   font-size: inherit !important;
 }
 
-.highcharts-tooltip text:first-letter {
-  text-transform: capitalize;
+.use-jquery-bootstrap-style.jbh-small-chart {
+  --jbh-font-size-lg: 1rem;
+  --jbh-font-size: 0.875rem;
+  --jbh-font-size-sm: 0.75rem;
+  --jbh-font-size-xs: 10px;
 }
 
-.highcharts-button-hover text, g.highcharts-contextbutton:hover text,
-.highcharts-button-pressed text {
+.use-jquery-bootstrap-style {
+  font-family: var(--bs-body-font-family);
+  /* Titles */
+  /* Axes */
+  /* Credits */
+  /* Tooltip */
+  /* Series options */
+  /* Various series-specific */
+  /* Legend */
+  /* Bubble legend */
+  /* Plot bands and polar pane backgrounds */
+  /* Highcharts More and modules */
+  /* Highcharts Maps */
+  /* No-data module */
+  /* Advanced annotations module */
+  /* Annotations module */
+}
+.use-jquery-bootstrap-style .highcharts-label {
+  font-size: var(--jbh-font-size-xs) !important;
+}
+.use-jquery-bootstrap-style .highcharts-title {
+  font-size: var(--jbh-font-size-lg) !important;
   font-weight: normal !important;
 }
-
-.highcharts-menu hr {
-  width: 100%;
-  margin: 0.375rem 0;
-  padding: 0;
+.use-jquery-bootstrap-style .highcharts-subtitle {
+  font-size: var(--jbh-font-size-sm) !important;
 }
-
-.highcharts-range-input .highcharts-label-box {
-  stroke: inherit !important;
+.use-jquery-bootstrap-style .highcharts-axis-title {
+  font-size: var(--jbh-font-size-sm) !important;
 }
-
-.highcharts-contextbutton .highcharts-button-symbol {
-  stroke: #212529;
-  stroke-width: 2px;
+.use-jquery-bootstrap-style .highcharts-axis-labels {
+  font-size: var(--jbh-font-size-xs) !important;
 }
-
-select, option {
-  font-size: 0.875rem;
+.use-jquery-bootstrap-style .highcharts-credits {
+  font-size: var(--jbh-font-size-xxs) !important;
 }
-
-.highcharts-menu {
-  border-radius: 0.375rem !important;
-  border: var(--bs-border-width) solid var(--jb-container-border-color) !important;
-  padding: 1px !important;
+.use-jquery-bootstrap-style .highcharts-credits:hover {
+  font-size: var(--jbh-font-size-xxs) !important;
+  fill: black !important;
 }
-
-.highcharts-menu-item {
-  padding: 0.25rem 0.25rem !important;
-  border: 1px solid #adb5bd !important;
-  background: #f8f9fa !important;
-  color: #212529 !important;
-  transition: background 0ms, color 0ms !important;
+.use-jquery-bootstrap-style .highcharts-tooltip {
+  font-size: var(--jbh-font-size-xs) !important;
 }
-.highcharts-menu-item:first-child {
-  border-top-left-radius: calc(var(--bs-border-radius) - var(--bs-border-width));
-  border-top-right-radius: calc(var(--bs-border-radius) - var(--bs-border-width));
+.use-jquery-bootstrap-style .highcharts-tooltip .highcharts-tooltip-header {
+  font-size: var(--jbh-font-size-xs) !important;
 }
-.highcharts-menu-item:last-child {
-  border-bottom-right-radius: calc(var(--bs-border-radius) - var(--bs-border-width));
-  border-bottom-left-radius: calc(var(--bs-border-radius) - var(--bs-border-width));
+.use-jquery-bootstrap-style .highcharts-data-label text,
+.use-jquery-bootstrap-style text.highcharts-data-label {
+  font-size: var(--jbh-font-size-xs) !important;
+  font-weight: normal !important;
 }
-
-li.highcharts-menu-item:hover {
-  border: 1px solid #b5bcc4 !important;
-  color: #373b3e !important;
-  text-decoration: none !important;
-  background: #dee2e6 !important;
+.use-jquery-bootstrap-style .highcharts-legend-item {
+  font-size: var(--jbh-font-size-sm) !important;
 }
-
-.highcharts-scrollbar-thumb {
-  fill: rgb(205, 205, 205);
-  transition: fill 0.2s linear;
+.use-jquery-bootstrap-style .highcharts-legend-item > text {
+  font-weight: normal !important;
 }
-
-html.no-mouse .highcharts-scrollbar-thumb,
-.highcharts-scrollbar:hover .highcharts-scrollbar-thumb {
-  fill: rgb(166, 166, 166);
+.use-jquery-bootstrap-style .highcharts-plot-line-label {
+  font-size: var(--jbh-font-size-xs) !important;
 }
-
-.highcharts-tooltip-container {
-  z-index: 1081 !important;
+.use-jquery-bootstrap-style .highcharts-navigator-xaxis.highcharts-axis-labels {
+  font-size: var(--jbh-font-size-xxs) !important;
 }
-
-/*# sourceMappingURL=jquery-bootstrap-highcharts.css.map */
-
+.use-jquery-bootstrap-style .highcharts-range-input {
+  font-size: var(--jbh-font-size-xs) !important;
+}
+@charset "UTF-8";
 /***********************************************
 	fcoo-jquery-bootstrap-highcharts.scss,
 
@@ -46293,6 +45963,90 @@ html.no-mouse .highcharts-scrollbar-thumb,
 
 
 ************************************************/
+/**********************************************************
+	fcoo-colors-variables.scss,
+
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+**********************************************************/
+/**********************************************************
+The color scheme is from LinkedIn and shown in linkedin-palette-screen.pdf
+**********************************************************/
+/**********************************************************
+Color for time = tree colors for the past, now, and the future
+**********************************************************/
+/**********************************************************
+Application color
+Defaults is = DALO color in "Forsvarsministeriets koncernfælles Designmanual 2018"
+Can be changed by mixin application-base-color( new-color )
+in src/_fcoo-color-mixin.scss
+**********************************************************/
+/**********************************************************
+Environmental colors
+Defines a number of colors and $-variables for different
+parts of the environmental. Eq sky, cloud, sea etc.
+**********************************************************/
+/**********************************************************
+    fcoo-colors-mixin.scss
+
+	https://github.com/FCOO/fcoo-colors
+	https://github.com/FCOO
+
+**********************************************************/
+/**********************************************************
+Functions to get colors in different (relative) gradients
+**********************************************************/
+/**********************************************************
+marker-and-polygon-color
+create color-classes for bsMarker and bsPolyline
+**********************************************************/
+/**********************************************************
+Application color
+Defaults is = DALO color in "Forsvarsministeriets koncernfælles Designmanual 2018"
+Can be changed by mixin application-base-color( new-color )
+**********************************************************/
+/*****************************
+Colors for series - taken from fcoo-colors
+*****************************/
+:root {
+  /*
+  //Variables for the the nine colors
+  $fc-blue    : 0;
+  $fc-purple  : 1;
+  $fc-red     : 2;
+  $fc-orange  : 3;
+  $fc-cyan    : 4;
+  $fc-yellow  : 5;
+  $fc-pink    : 6;
+  $fc-green   : 7;
+  $fc-gray    : 8;
+
+
+  //$fc-default-gradient = standard gradient to be used
+  $fc-default-gradient: 4 !default;
+
+  @function fc-get-color($color, $gradient: $fc-default-gradient) {
+
+  */
+  --highcharts-color-0: #E6A700;
+  /*
+      --highcharts-color-0: #2caffe;
+      --highcharts-color-0: #2caffe;
+      --highcharts-color-1: #544fc5;
+      --highcharts-color-2: #00e272;
+      --highcharts-color-3: #fe6a35;
+      --highcharts-color-4: #6b8abc;
+      --highcharts-color-5: #d568fb;
+      --highcharts-color-6: #2ee0ca;
+      --highcharts-color-7: #fa4b42;
+      --highcharts-color-8: #feb56a;
+      --highcharts-color-9: #91e8e1;
+  */
+}
+
+/*****************************
+chart-inner-container
+*****************************/
 .chart-inner-container {
   width: 100%;
   height: 100%;
@@ -46300,6 +46054,9 @@ html.no-mouse .highcharts-scrollbar-thumb,
   margin: 0;
 }
 
+/*****************************
+Tooltips
+*****************************/
 .chart-tooltip-table {
   margin: auto;
 }

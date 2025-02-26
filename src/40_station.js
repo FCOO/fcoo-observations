@@ -602,6 +602,9 @@ Only one station pro Location within the same ObservationGroup
         Convert observation or forecast from GEOJSON-file
         *****************************************************/
         _resolveGeoJSON: function(geoJSON, forecast){
+
+//console.log('_resolveGeoJSON', forecast, this);
+
             var _this    = this,
                 dataList = forecast ? this.forecastDataList : this.observationDataList,
                 metaData = forecast ? this.forecastMetaData : this.observationMetaData,
@@ -612,9 +615,6 @@ Only one station pro Location within the same ObservationGroup
                 var properties  = feature.properties,
                     parameterId = properties.standard_name;
 
-
-//HER   if (properties.units == 'degree_C')
-//HER       properties.units = 'degC';
 
                 //If the Station do not have the parameter => do not update
                 if (!_this.parameters[parameterId])

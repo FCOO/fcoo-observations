@@ -71,7 +71,7 @@
                 tableOptions.columns.push({
                     id    : obsGroup.id,
                     header: {
-                        icon     : obsGroup.faIcon,
+                        //icon     : obsGroup.faIcon,
                         iconClass: obsGroup.faIconClass,
                         text     : obsGroup.tableHeader,
                     },
@@ -80,7 +80,8 @@
 
                     minimizable : true,
                     //minimized: true,
-                    //minimizedIcon: obsGroup.faIcon,
+                    title        : obsGroup.tableTitle,
+                    minimizedIcon: obsGroup.faIcon,
 vfFormat:'NIELS',
 
                 });

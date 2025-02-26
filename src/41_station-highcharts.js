@@ -36,8 +36,10 @@ Only one station pro Location within the same ObservationGroup
                     unit     : data.unit,
                     series   : [],
                     yAxis    : {
-                        minRange: obsGroupOptions.minRange,
-                        min     : data.scaleParameter.negative ? null : 0,
+                        fixedRange    : obsGroupOptions.fixedRange,
+                        semiFixedRange: obsGroupOptions.semiFixedRange,
+                        minRange      : obsGroupOptions.minRange,
+                        min           : data.scaleParameter.negative ? null : 0,
                     }
                 };
 

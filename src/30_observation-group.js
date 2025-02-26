@@ -67,6 +67,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
         this.header = {};
         this.shortHeader = {};
         this.tableHeader = {};
+        this.tableTitle = {};
         $.each(i18next.options.languages || i18next.languages, function(index, lang){
             let name      = this.name[lang]      || this.name['en'],
                 shortName = this.shortName[lang] || this.shortName['en'],
@@ -74,7 +75,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
             this.header[lang]      =          name      + ' '    + unitName;
             this.shortHeader[lang] =          shortName + ' '    + unitName;
-            this.tableHeader[lang] = '<br>' + shortName + '<br>' + unitName;
+            this.tableHeader[lang] = /*'<br>' +*/ shortName;// + '<br>' + unitName;
+            this.tableTitle[lang]  =          shortName;
 
         }.bind(this));
 
