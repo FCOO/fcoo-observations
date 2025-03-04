@@ -324,6 +324,12 @@ table.obs-statistics td {
   padding-bottom: 0.15rem;
   padding-top: 0.15rem;
 }
+table.obs-statistics td.value:nth-child(odd) {
+  background-color: #e9ecef;
+}
+table.obs-statistics td.value:nth-child(even) {
+  background-color: #ced4da;
+}
 table.obs-statistics td span.value {
   display: inline-block;
   text-align: center;
@@ -668,3 +674,5 @@ i.fa-font-size-1rem {
   --fa-line-width: 9px;
   --fa-line-color: #cd9c0f;
 }
+
+/*# sourceMappingURL=fcoo-observations.css.map */

@@ -8,7 +8,7 @@
 
 
     window.fcoo = window.fcoo || {};
-    var ns = window.fcoo = window.fcoo || {},
+    let ns = window.fcoo = window.fcoo || {},
         //nsParameter    = ns.parameter = ns.parameter || {},
         nsObservations = ns.observations = ns.observations || {}/*,
         nsHC           = ns.hc = ns.highcharts = ns.highcharts || {}*/;
@@ -26,8 +26,7 @@
         showCharts
         *****************************************************/
         showTables: function(/*mapId*/){
-            let //_this    = this,
-                dataList = [],  //[]{timestamp, NxGROUP_ID: {obs:STRING, for:STRING}}
+            let dataList = [],  //[]{timestamp, NxGROUP_ID: {obs:STRING, for:STRING}}
                 dataObj  = {};  //{timestamp}{NxGROUP_ID: {obs:STRING, for:STRING}}
 
             //Create dataObj
@@ -66,8 +65,7 @@
             };
 
             this.observationGroupList.forEach( obsGroup => {
-//console.log(obsGroup);
-                //if gruppe skal medtages (includeAll or selected in map/location MANGLER
+                //@todo if gruppe skal medtages (includeAll or selected in map/location MANGLER
                 tableOptions.columns.push({
                     id    : obsGroup.id,
                     header: {
@@ -94,7 +92,7 @@ this.modalTables =  bsTable.asModal({
                         flexWidth: true,
                         megaWidth: true,
                         //content  : timeSeries.createChart.bind(timeSeries),
-                        //onClose: function(){ _this.timeSeries = null; return true; },
+                        //onClose: function(){ this.timeSeries = null; return true; }.bind(this),
                         remove : true,
                         show   : true
                     });
@@ -109,10 +107,10 @@ this.modalTables =  bsTable.asModal({
                     megaWidth: true,
                     content  : timeSeries.createChart.bind(timeSeries),
                     _content  : function( $body ){
-                        _this.timeSeries.createChart($body);
-                    },
+                        this.timeSeries.createChart($body);
+                    }.bind(this),
 
-                    onClose: function(){ _this.timeSeries = null; return true; },
+                    onClose: function(){ this.timeSeries = null; return true; }.bind(this),
                     remove : true,
                     show   : true
                 });

@@ -8,7 +8,7 @@ Methods for creating Highcharts for a Location
 
 
     window.fcoo = window.fcoo || {};
-    var ns = window.fcoo = window.fcoo || {},
+    let ns = window.fcoo = window.fcoo || {},
         //nsParameter    = ns.parameter = ns.parameter || {},
         nsObservations = ns.observations = ns.observations || {},
         nsHC           = ns.hc = ns.highcharts = ns.highcharts || {};
@@ -29,22 +29,14 @@ Methods for creating Highcharts for a Location
         showCharts
         *****************************************************/
         showCharts: function(mapId){
-            let _this = this;
-
-            //this.timeSeries = this.timeSeries || nsHC.timeSeries(this._getChartsOptions(/*$container, */true, mapOrMapId);
             let timeSeries = this.timeSeries = nsHC.timeSeries( this._getChartsOptions(true, mapId) );
-
             this.modalCharts =
                 $.bsModal({
                     header   : this.getHeader(),
                     flexWidth: true,
                     megaWidth: true,
                     content  : timeSeries.createChart.bind(timeSeries),
-                    _content  : function( $body ){
-                        _this.timeSeries.createChart($body);
-                    },
-
-                    onClose: function(){ _this.timeSeries = null; return true; },
+                    onClose: function(){ this.timeSeries = null; return true; }.bind(this),
                     remove : true,
                     show   : true
                 });
@@ -53,20 +45,30 @@ Methods for creating Highcharts for a Location
 
         /*****************************************************
         updateCharts
+        To prevent multi update at the same time, the update
+        is "delayed" 30 sek
         *****************************************************/
         updateCharts: function(){
+            if (this.timeSeries){
+                if (this.chartTimeoutId)
+                    window.clearTimeout(this.chartTimeoutId);
+                this.chartTimeoutId = window.setTimeout( this._updateCharts.bind(this), 30*1000);
+            }
+        },
+
+        _updateCharts: function(){
+            this.chartTimeoutId = null;
             if (this.timeSeries){
                 let chartsOptions = this._getChartsOptions(true, 0);
                 this.timeSeries.setAllData(chartsOptions.series);
             }
         },
 
-
         /*****************************************************
         _getChartsOptions
         *****************************************************/
         _getChartsOptions: function(inModal, mapOrMapId){
-            var result = {
+            let result = {
                     location : this.name,
                     parameter: [],
                     unit     : [],
@@ -77,7 +79,7 @@ Methods for creating Highcharts for a Location
                 };
 
             this.stationList.forEach(station => {
-                var stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
+                let stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
                 ['parameter', 'unit', 'series', 'yAxis', 'z'].forEach( id => result[id].push( stationChartsOptions[id] ) );
            });
 

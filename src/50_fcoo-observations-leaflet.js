@@ -12,7 +12,7 @@
 (function ($, L, i18next, moment, window/*, document, undefined*/) {
 	"use strict";
 
-    var ns = window.fcoo = window.fcoo || {},
+    let ns = window.fcoo = window.fcoo || {},
         //nsParameter = ns.parameter = ns.parameter || {},
         nsObservations = ns.observations = ns.observations || {};
 
@@ -52,34 +52,32 @@
         onResolve
         **********************************************************/
         onResolve: function( _onResolve ){ return function(){
-            let _this = this;
             _onResolve.apply(this, arguments);
 
             //All data are loaded => initialize all maps and update the geoJSON-data and update any layer added before the data was ready
             this._initializeMaps();
             $.each(this.maps, function(id, options){
                 if (!options.dataAdded){
-                    options.geoJSONLayer.addData( _this._getGeoJSONData() );
+                    options.geoJSONLayer.addData( this._getGeoJSONData() );
                     options.dataAdded = true;
                 }
-            });
+            }.bind(this));
         }; }(ns.FCOOObservations.prototype.onResolve),
 
         /**********************************************************
         _initializeMaps(map)
         **********************************************************/
         _initializeMaps: function(map){
-            var _this = this,
-                maps = map ? [{map:map}] : this.maps;
+            let maps = map ? [{map:map}] : this.maps;
 
             $.each(maps, function(index, mapObj){
-                var mapId = nsObservations.getMapId(mapObj.map);
-                $.each(_this.observationGroups, function(groupId, observationGroup){
-                    var stateId = groupId+'_'+mapId,
-                        show = _this.state && _this.state[stateId];
+                let mapId = nsObservations.getMapId(mapObj.map);
+                $.each(this.observationGroups, function(groupId, observationGroup){
+                    let stateId = groupId+'_'+mapId,
+                        show = this.state && this.state[stateId];
                     observationGroup.toggle(mapObj.map, !!show);
-                });
-            });
+                }.bind(this));
+            }.bind(this));
         },
 
         /**********************************************************
@@ -104,7 +102,7 @@
         Save new state if ObservationGroup is not jet loaded/created
         **********************************************************/
         toggle: function(groupId, mapOrMapId, show){
-            var mapId = nsObservations.getMapId(mapOrMapId),
+            let mapId = nsObservations.getMapId(mapOrMapId),
                 stateId = groupId+'_'+mapId;
 
             this.state = this.state || {};
@@ -141,7 +139,7 @@
         geoJSON return a L.geoJSON layer
         **********************************************************/
         geoJSON: function(){
-            var thisOptionsGeoJSONOptions = this.options.geoJSONOptions;
+            let thisOptionsGeoJSONOptions = this.options.geoJSONOptions;
             this.geoJSONOptions =
                 this.geoJSONOptions ||
                 $.extend(true,
@@ -153,7 +151,7 @@
                     }
                 );
 
-            var result = L.geoJSON(null, this.geoJSONOptions);
+            let result = L.geoJSON(null, this.geoJSONOptions);
 
             result.fcooObservation = this;
             result.options.onEachFeature = $.proxy(this._geoJSON_onEachFeature, result);
@@ -168,7 +166,7 @@
 
         //_geoJSON_onEachFeature: called with this = geoJSONLayer
         _geoJSON_onEachFeature: function(feature, marker) {
-            var mapId = nsObservations.getMapId(this._map),
+            let mapId = nsObservations.getMapId(this._map),
                 location = this.fcooObservation.locations[marker.options.locationId];
 
             location.markers[mapId] = marker;
@@ -176,7 +174,7 @@
         },
 
         _geoJSON_onAdd: function(event){
-            var geoJSONLayer = event.target,
+            let geoJSONLayer = event.target,
                 map          = geoJSONLayer._map,
                 mapId        = nsObservations.getMapId(map);
 
@@ -195,9 +193,9 @@
 
         _geoJSON_onRemove: function(event){
             //Save selected groups (this.state) and call hide for all observationGroups to close popups and clean up.
-            var state = this.state;
+            let state = this.state;
             this.state = {};
-            var mapId = nsObservations.getMapId(event.target._map);
+            let mapId = nsObservations.getMapId(event.target._map);
             delete this.maps[mapId];
             $.each(this.observationGroups, function(id, observationGroup){
                 observationGroup.hide(mapId);
@@ -206,7 +204,6 @@
         },
 
         _getGeoJSONData: function(){
-            var _this = this;
             if (!this.ready)
                 return null;
 
@@ -215,14 +212,14 @@
 
 
                 //Create all locations and add them to the geoJSON-data if they are included in a observation-group
-                this.locationList.forEach( location => {
+                this.locationList.forEach( function(location){
                     if (location.observationGroupList.length)
-                        _this.geoJSONData.features.push({
+                        this.geoJSONData.features.push({
                             type      : "Feature",
                             geometry  : {type: "Point", coordinates: [location.latLng.lng, location.latLng.lat]},
                             properties: location
                         });
-                });
+                }.bind(this));
             }
             return this.geoJSONData;
         }
@@ -375,7 +372,7 @@
         isVisible(mapId) - return true if the location is shown on the map (mapId)
         *********************************************/
         isVisible: function(mapId){
-            var result = false;
+            let result = false;
             $.each(this.observationGroups, function(id, observationGroup){
                 if (observationGroup.isVisible(mapId))
                     result = true;
@@ -387,7 +384,7 @@
         isShownInModal() - return true if the location has any data (observation and/or forecast) shown in any modal (eg. popup)
         *********************************************/
         isShownInModal: function(){
-            var result = false;
+            let result = false;
 
             $.each(this.modalElements, function(mapId, obsGroups){
                 $.each(obsGroups, function(obsGroupId, elementGroups){
@@ -414,7 +411,7 @@
         createSVG
         *********************************************/
         createSVG: function(svgOptions){
-            var _this = svgOptions.marker.options._this,
+            let _this = svgOptions.marker.options._this,
                 dim   = svgOptions.width + 2; //svgOptions.width is inner-width
 
             svgOptions.draw.attr({'shape-rendering': "crispEdges"});
@@ -467,7 +464,7 @@
         createMarker
         *********************************************/
         createMarker: function(options){
-            var markerOptions = $.extend(true, {}, bsMarkerOptions, options || {});
+            let markerOptions = $.extend(true, {}, bsMarkerOptions, options || {});
             markerOptions.locationId = this.id;
             markerOptions._this = this;
             markerOptions.svg = this.createSVG;
@@ -486,17 +483,16 @@
         Update all $-elements in the list of $-elements
         *********************************************/
         _updateAny$elemetList: function(listId, valueFunc/*=function(station)*/, onlyGroupId){
-            var _this = this;
             $.each(this.observationGroupStations, function(observationGroupId, station){
                 if (!onlyGroupId || (onlyGroupId == observationGroupId))
-                    $.each(_this.modalElements, function(mapId, obsGroups){
-                        var elements = obsGroups[observationGroupId];
+                    $.each(this.modalElements, function(mapId, obsGroups){
+                        let elements = obsGroups[observationGroupId];
                         if (elements)
                             $.each(elements[listId] || [], function(index, $element){
                                 $element.html(valueFunc(station, index));
                             });
                     });
-            });
+            }.bind(this));
             return this;
         },
 
@@ -514,7 +510,7 @@
             this._updateAny$elemetList(
                 '$lastObservation',
                 function(station){
-                    var dataSet = station.getDataSet(true, false); //Last observation
+                    let dataSet = station.getDataSet(true, false); //Last observation
 
                     //If the timestamp is to old => return '?'
                     return station.datasetIsRealTime(dataSet) ? station.formatDataSet(dataSet, false) : '?';
@@ -572,7 +568,7 @@
             let scrollContent = this.observationGroupList.length > 2;
 
             marker.bindPopup({
-                width  : 250, //265,
+                width  : 258, //265,
 
                 fixable: true,
                 //scroll : 'horizontal',
@@ -637,7 +633,7 @@
                     _text   : {da:'Vis tabel', en:'Show Table'},
                     text   : {da:'Tabel', en:'Table'},
 
-                    //onClick: function(){ _this.showTables(mapId); },
+                    //onClick: function(){ this.showTables(mapId); }.bind(this),
                     onClick: this.showTables.bind(this, mapId),
                 } : undefined],
                 footer: {da:'Format: Min'+nsObservations.toChar+'Maks (Middel)', en:'Format: Min'+nsObservations.toChar+'Max (Mean)'},
@@ -667,7 +663,7 @@
         popupOpen
         *********************************************/
         popupOpen: function( popupEvent ){
-            var mapId = nsObservations.getMapId(popupEvent.target._map);
+            let mapId = nsObservations.getMapId(popupEvent.target._map);
 
             this.popups[mapId] = popupEvent.popup;
 
@@ -679,7 +675,7 @@
         popupClose
         *********************************************/
         popupClose: function( popupEventOrMapId ){
-            var mapId = getMapIdFromPopupEvent(popupEventOrMapId);
+            let mapId = getMapIdFromPopupEvent(popupEventOrMapId);
             delete this.modalElements[mapId];
             delete this.popups[mapId];
         },
@@ -690,7 +686,7 @@
         Minimize and pin popup
         *********************************************/
         popupMinimized: function( popupEventOrMapId ){
-            var mapId = getMapIdFromPopupEvent(popupEventOrMapId),
+            let mapId = getMapIdFromPopupEvent(popupEventOrMapId),
                 marker = this.markers[mapId];
 
             if (!marker) return this;
@@ -712,7 +708,7 @@
         _getModalElements
         *********************************************/
         _getModalElements: function(mapId){
-            var mapElements = this.modalElements[mapId] = this.modalElements[mapId] || {};
+            let mapElements = this.modalElements[mapId] = this.modalElements[mapId] || {};
             $.each(this.observationGroupStations, function(observationGroupId){
                 mapElements[observationGroupId] = mapElements[observationGroupId] || {
                     $lastObservation      : [],
@@ -728,13 +724,13 @@
         = list of parameter-name, last value
         *********************************************/
         createMinimizedPopupContent: function( $body, popup, map ){
-            var mapElements = this._getModalElements( nsObservations.getMapId(map) );
+            let mapElements = this._getModalElements( nsObservations.getMapId(map) );
 
             $.each(this.observationGroups, function(id, observationGroup){
-                var $lastObservation = mapElements[id].$lastObservation;
+                let $lastObservation = mapElements[id].$lastObservation;
 
                 //Content for minimized mode
-                var $div =
+                let $div =
                     $('<div/>')
                         .addClass('latest-observation text-center no-border-border-when-last-visible show-for-obs-group-'+observationGroup.options.index)
                         ._bsAddHtml({text: observationGroup.shortName, textClass:'obs-group-header show-for-multi-obs-group fa-no-margin d-block'})
@@ -756,8 +752,7 @@
         = table with previous measurments, list of last observation(s)  and table with forecast statistics
         *********************************************/
         createNormalPopupContent: function( $body, popup, map ){
-            var _this          = this,
-                mapElements    = this._getModalElements( nsObservations.getMapId(map) ),
+            let mapElements    = this._getModalElements( nsObservations.getMapId(map) ),
                 //tempClassName  = ['TEMP_CLASS_NAME_0', 'TEMP_CLASS_NAME_1', 'TEMP_CLASS_NAME_2'],
                 hasAnyForecast = false;
 
@@ -766,14 +761,15 @@
                 2: $table_lastObservation = Latest measurement(s)
                 3: $table_forecast        = Stat for forecasts
             */
-            var $table_prevObservation = $('<table/>').addClass('obs-statistics text-center'),
+            let $table_prevObservation = $('<table/>').addClass('obs-statistics text-center'),
                 $table_lastObservation = $('<table/>').addClass('last-observation text-center'),
                 $table_forecast        = $table_prevObservation.clone();
 
                 //Add header to previous observation and forecast
-                var $tr = $('<tr/>').appendTo($table_prevObservation);
+                let $tr = $('<tr/>').appendTo($table_prevObservation);
                 $.each(nsObservations.observationPeriods, function(index, hours){
                     $('<td></td>')
+                        .addClass('value')
                         .i18n({da:'Seneste '+hours+'t', en:'Prev. '+hours+'h'})
                         .appendTo($tr);
                 });
@@ -781,12 +777,13 @@
                 $tr = $('<tr/>').appendTo($table_forecast);
                 $.each(nsObservations.forecastPeriods, function(index, hours){
                     $('<td></td>')
+                        .addClass('value')
                         .i18n({da:'Næste '+hours+'t', en:'Next '+hours+'h'})
                         .appendTo($tr);
                 });
 
             $.each(this.observationGroupList, function(index, observationGroup){
-                var groupElements = mapElements[observationGroup.id];
+                let groupElements = mapElements[observationGroup.id];
 
                 //Add the group-name as a header but only visible when there is only one group visible
                 $body._bsAppendContent({
@@ -797,14 +794,14 @@
                 });
 
                 //Check if any stations have forecast
-                var hasForecast = _this.observationGroupStations[observationGroup.id].forecast;
+                let hasForecast = this.observationGroupStations[observationGroup.id].forecast;
                 if (hasForecast)
                     hasAnyForecast = true;
 
                 /******************************************
                 Last observation
                 *******************************************/
-                var $tr = $('<tr/>')
+                let $tr = $('<tr/>')
                             .addClass('show-for-obs-group-'+observationGroup.options.index)
                             .appendTo($table_lastObservation);
                 $('<td/>')
@@ -812,7 +809,7 @@
                     ._bsAddHtml({text: observationGroup.name})
                     .appendTo($tr);
 
-                var $td = $('<td/>')
+                let $td = $('<td/>')
                     .addClass('fw-bold')
                     .appendTo($tr);
 
@@ -834,18 +831,19 @@
 
 
                 function appendValueTd($tr, withSpinner){
-                    var $span =
+                    let $span =
                             $('<span/>')
                                 .addClass('value')
                                 .html(withSpinner ? '<i class="'+ns.icons.working+'"/>' : '&nbsp;');
                     $('<td/>')
+                        .addClass('value')
                         .append($span)
                         .appendTo($tr);
                     return $span;
                 }
 
                 //Create table with stat for previous observations and stat for forecast
-                var $tr_prevObservation = $('<tr/>')
+                let $tr_prevObservation = $('<tr/>')
                         .addClass('fw-bold no-border-border-when-last-visible show-for-obs-group-'+observationGroup.options.index)
                         .appendTo($table_prevObservation),
                     $tr_forecast = $tr_prevObservation.clone().appendTo($table_forecast),
@@ -861,7 +859,7 @@
                     $('<td colspan="'+nsObservations.forecastPeriods.length+'"/>')
                         ._bsAddHtml({text:{da:'Ingen prognoser', en:'No forecast'}})
                         .appendTo($tr_forecast);
-            });
+            }.bind(this));
 
             //Load observation
             this.loadObservation();

@@ -46,6 +46,9 @@ table.obs-statistics {
     td {
         width: 33%;
 
+        &.value:nth-child(odd)  { background-color: #{$gray-200}; }
+        &.value:nth-child(even) { background-color: #{$gray-400}; }
+
         padding-bottom: $input-padding-x / 2.5;
         padding-top   : $input-padding-x / 2.5;
 

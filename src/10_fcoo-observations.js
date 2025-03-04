@@ -12,7 +12,7 @@
 (function ($, i18next, moment, window/*, document, undefined*/) {
 	"use strict";
 
-    var ns = window.fcoo = window.fcoo || {},
+    let ns = window.fcoo = window.fcoo || {},
        //nsParameter = ns.parameter = ns.parameter || {},
         nsObservations = ns.observations = ns.observations || {};
 

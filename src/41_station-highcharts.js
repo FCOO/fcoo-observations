@@ -9,7 +9,7 @@ Only one station pro Location within the same ObservationGroup
     "use strict";
 
     window.fcoo = window.fcoo || {};
-    var ns = window.fcoo = window.fcoo || {},
+    let ns = window.fcoo = window.fcoo || {},
         //nsParameter    = ns.parameter = ns.parameter || {},
         nsObservations = ns.observations = ns.observations || {};
 

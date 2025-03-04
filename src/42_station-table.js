@@ -8,7 +8,7 @@ Load and display time-series in a table
     "use strict";
 
     window.fcoo = window.fcoo || {};
-    var ns = window.fcoo = window.fcoo || {},
+    let ns = window.fcoo = window.fcoo || {},
         //nsParameter    = ns.parameter = ns.parameter || {},
         nsObservations = ns.observations = ns.observations || {};
 
@@ -40,25 +40,24 @@ Load and display time-series in a table
         Return a {timestampValue}{GROUPID:{for:STRING, obs:STRING}}
         *****************************************************/
         getTableDataList: function(){
-            let _this = this,
-                groupId = this.observationGroup.id,
+            let groupId = this.observationGroup.id,
                 data = this.getDefaultObsAndForecast(),
                 result = {};
 
-            ['obsDataList', 'forecastDataListNoObs', 'forecastDataListWithObs'].forEach( (listName, index) => {
+            ['obsDataList', 'forecastDataListNoObs', 'forecastDataListWithObs'].forEach( function(listName, index){
                 let list = data[listName] || [],
                     isForecast = !!index;
                 if (!list) return;
-                list.forEach( singleData => {
+                list.forEach( function(singleData){
                     let timestampValue  = singleData[0],
                         timestampMoment = moment(timestampValue),
-                        dataSet = _this.getDataSet(timestampMoment, isForecast),
+                        dataSet = this.getDataSet(timestampMoment, isForecast),
                         row = result[timestampValue] = result[timestampValue] || {timestampValue: timestampValue};
 
                     row[groupId] = row[groupId] || {};
-                    row[groupId][isForecast ? 'for' : 'obs'] = _this.formatDataSet(dataSet, isForecast);
-                });
-            });
+                    row[groupId][isForecast ? 'for' : 'obs'] = this.formatDataSet(dataSet, isForecast);
+                }.bind(this));
+            }.bind(this));
             return result;
         },
 

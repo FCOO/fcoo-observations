@@ -9,12 +9,12 @@ Only one station pro Location within the same ObservationGroup
     "use strict";
 
     window.fcoo = window.fcoo || {};
-    var ns = window.fcoo = window.fcoo || {},
+    let ns = window.fcoo = window.fcoo || {},
         nsParameter    = ns.parameter = ns.parameter || {},
         nsObservations = ns.observations = ns.observations || {};
 
     function _Math(mathMethod, value1, value2){
-        var isNumbers = (isNaN(value1) ? 0 : 1) + (isNaN(value2) ? 0 : 1);
+        let isNumbers = (isNaN(value1) ? 0 : 1) + (isNaN(value2) ? 0 : 1);
         if (isNumbers == 2) return Math[mathMethod](value1, value2);
         if (isNumbers == 0) return undefined;
         return isNaN(value1) ? value2 : value1;
@@ -27,7 +27,6 @@ Only one station pro Location within the same ObservationGroup
     Represent a station with one or more parameters
     *****************************************************/
     nsObservations.Station = function(options, location, observationGroup){
-        var _this = this;
         this.id = options.id;
         this.options = options;
         this.location = location;
@@ -39,15 +38,15 @@ Only one station pro Location within the same ObservationGroup
         this.primaryParameter = null;
 
         function getAsList(opt){
-            return $.isArray(opt) ? opt : opt.split(' ');
+            return Array.isArray(opt) ? opt : opt.split(' ');
         }
 
         //Set this.parameter = []{id:STRING, parameter:PARAMETER, unit:UNIT}
-        var parameterList = getAsList(options.parameter),
+        let parameterList = getAsList(options.parameter),
             unitList      = options.unit ? getAsList(options.unit) : [];
 
-        function addParameter(index, parameterId){
-            var parameter = nsParameter.getParameter(parameterId),
+        let addParameter = function(index, parameterId){
+            let parameter = nsParameter.getParameter(parameterId),
                 unit = index < unitList.length ? nsParameter.getUnit(unitList[index]) : parameter.unit,
                 newParameter = {
                     id       : parameterId,
@@ -55,11 +54,11 @@ Only one station pro Location within the same ObservationGroup
                     unit     : unit
                 };
 
-            _this.primaryParameter = _this.primaryParameter || parameter;
+            this.primaryParameter = this.primaryParameter || parameter;
 
             //If it is a vector => add speed- direction-, eastward-, and northward-parameter
             if (parameter.type == 'vector'){
-                _this.vectorParameterList.push(parameter);
+                this.vectorParameterList.push(parameter);
                 if (parameter.speed_direction.length){
                     addParameter(index, parameter.speed_direction[0].id);
                     addParameter(99999, parameter.speed_direction[1].id);
@@ -70,9 +69,9 @@ Only one station pro Location within the same ObservationGroup
                 }
             }
 
-            _this.parameterList.push(newParameter);
-            _this.parameters[newParameter.parameter.id] = newParameter;
-        }
+            this.parameterList.push(newParameter);
+            this.parameters[newParameter.parameter.id] = newParameter;
+        }.bind(this);
 
         $.each(parameterList, addParameter);
 
@@ -92,23 +91,24 @@ Only one station pro Location within the same ObservationGroup
         this.forecastMetaData    = {};
 
         //Adjust options.observation and options.forecast to be {STANDARD_NAME: {subDir: STRING, fileName:STRING}}
-        function adjust(options, subDirId){
+        let adjust = function(options, subDirId){
             if (!options) return false;
-            var newOptions = options;
+            let newOptions = options;
             if (typeof options == 'string'){
                 newOptions = {};
-                $.each(_this.parameters, function(parameterId){
+                $.each(this.parameters, function(parameterId){
                     newOptions[parameterId] = options;
                 });
             }
 
             $.each(newOptions, function(parameterId, fileName){
-                fileName = fileName.replace('{id}', _this.id);
-                newOptions[parameterId] = {mainDir: true, subDir: _this.location.observations.options.subDir[subDirId], fileName: fileName};
-            });
+                fileName = fileName.replace('{id}', this.id);
+                newOptions[parameterId] = {mainDir: true, subDir: this.location.observations.options.subDir[subDirId], fileName: fileName};
+            }.bind(this));
 
             return newOptions;
-        }
+        }.bind(this);
+
         this.observation = adjust(options.observation, 'observations');
         this.forecast    = adjust(options.forecast,    'forecasts'   );
 
@@ -130,7 +130,7 @@ Only one station pro Location within the same ObservationGroup
         timestamp can be NUMBER or STRING
         *****************************************************/
         getDataList: function(parameter, forecast, minTimestampValue = 0, maxTimestampValue = Infinity, clip){
-            var isVector         = parameter.type == 'vector',
+            let isVector         = parameter.type == 'vector',
                 scaleParameter   = isVector ? parameter.speed_direction[0] : parameter,
                 scaleParameterId = scaleParameter.id,
                 dirParameterId   = isVector ? parameter.speed_direction[1].id : null,
@@ -142,13 +142,13 @@ Only one station pro Location within the same ObservationGroup
                 dataList = forecast ? this.forecastDataList : this.observationDataList; //[]{timestamp:STRING, NxPARAMETER_ID: FLOAT}
 
             $.each(dataList, function(index, dataSet){
-                var timestampValue = moment(dataSet.timestamp).valueOf(),
+                let timestampValue = moment(dataSet.timestamp).valueOf(),
                     value          = dataSet[scaleParameterId];
 
 
                 if ((timestampValue >= minTimestampValue) && (timestampValue <= maxTimestampValue )){
                     //timestampValue inside min-max-range
-                    var add = true;
+                    let add = true;
                     if (clip){
                         //Check if timestampValue is OUTSIDE clip[0] - clip[1]
                         add = (timestampValue <= clip[0]) || (timestampValue >= clip[1]);
@@ -173,8 +173,7 @@ Only one station pro Location within the same ObservationGroup
         creating charts or tables
         *****************************************************/
         getDefaultObsAndForecast: function(){
-            let //_this = this,
-                obsGroupOptions = this.observationGroup.options,
+            let obsGroupOptions = this.observationGroup.options,
                 parameter       = this.primaryParameter,
                 result = {
                     startTimestampValue: moment().valueOf() - moment.duration(obsGroupOptions.historyPeriod).valueOf(),
@@ -224,7 +223,7 @@ Only one station pro Location within the same ObservationGroup
             string => find dataSet with same timestamp
         *****************************************************/
         getDataSet: function(indexOrTimestampOrMoment, forecast){
-            var dataList = forecast ? this.forecastDataList : this.observationDataList,
+            let dataList = forecast ? this.forecastDataList : this.observationDataList,
                 result = null;
 
             if (!dataList.length)
@@ -262,7 +261,7 @@ Only one station pro Location within the same ObservationGroup
                 return '?';
 
             //Check if all parameters has a value in dataSet
-            var hasValueForAllParameters = true;
+            let hasValueForAllParameters = true;
             function checkIfValuesExists(parameterList){
                 $.each(parameterList, function(index, parameter){
                     if (dataSet[parameter.id] == undefined)
@@ -270,7 +269,7 @@ Only one station pro Location within the same ObservationGroup
                 });
             }
             $.each(this.parameters, function(parameterId, parameterOptions){
-                var parameter = parameterOptions.parameter;
+                let parameter = parameterOptions.parameter;
                 if (parameter.type == "vector"){
                     //Check if there are values for speed/direction/eastware/northware
                     checkIfValuesExists(parameter.speed_direction);
@@ -302,16 +301,15 @@ Only one station pro Location within the same ObservationGroup
         Every hour is weighed equally
         *****************************************************/
         getStat: function(fromHour, toHour, forecast){
-            var _this = this,
-                stat = {},
+            let stat = {},
                 statList = forecast ? this.forecastStatList : this.observationStatList;
 
             $.each(statList, function(hourValue, hourStat){
                 if ((hourValue >= fromHour) && (hourValue <= toHour)){
-                    $.each(_this.parameters, function(parameterId){
-                        var parameterHourStat = hourStat[parameterId];
+                    $.each(this.parameters, function(parameterId){
+                        let parameterHourStat = hourStat[parameterId];
                         if (parameterHourStat != undefined){
-                            var parameterStat = stat[parameterId] = stat[parameterId] || {
+                            let parameterStat = stat[parameterId] = stat[parameterId] || {
                                     hours: toHour-fromHour+1,
                                     count: 0,
                                     min  : undefined,
@@ -326,7 +324,7 @@ Only one station pro Location within the same ObservationGroup
                         }
                     });
                 }
-            });
+            }.bind(this));
             return stat;
         },
 
@@ -351,10 +349,10 @@ Only one station pro Location within the same ObservationGroup
         formatStat: function(stat, forecast){
 
             //Check that valid stat exists for alle parameters
-            var statOk = true;
+            let statOk = true;
             function checkIfStatsExists(parameterList){
                 $.each(parameterList, function(index, parameter){
-                    var parameterStat = stat[parameter.id];
+                    let parameterStat = stat[parameter.id];
                     if (
                           !parameterStat ||
                           (parameterStat.count < parameterStat.hours * (forecast ? nsObservations.forecast_minimumPercentValues : nsObservations.observation_minimumPercentValues)) ||
@@ -365,7 +363,7 @@ Only one station pro Location within the same ObservationGroup
                 });
             }
             $.each(this.parameters, function(parameterId, parameterOptions){
-                var parameter = parameterOptions.parameter;
+                let parameter = parameterOptions.parameter;
                 if (parameter.type == "vector"){
                     checkIfStatsExists(parameter.speed_direction);
                     checkIfStatsExists(parameter.eastward_northward);
@@ -405,7 +403,7 @@ Only one station pro Location within the same ObservationGroup
         getDisplayUnit - Return the Unit to display the parameter in
         *****************************************************/
         getDisplayUnit: function(parameter){
-            var parameterUnit = nsParameter.getParameter(parameter).unit,
+            let parameterUnit = nsParameter.getParameter(parameter).unit,
                 displayUnit   = nsParameter.getUnit(this.observationGroup.options.formatUnit || parameterUnit);
 
             //If displayUnit and parameterUnit are the same physical unit => use displayUnit else use parameter default unit
@@ -425,7 +423,7 @@ Only one station pro Location within the same ObservationGroup
         formatParameter: function(dataSet, parameter, forecast, noUnitStr){
             parameter = nsParameter.getParameter(parameter);
 
-            var value         = dataSet[parameter.id],
+            let value         = dataSet[parameter.id],
                 parameterUnit = parameter.unit,
                 metaData      = (forecast ? this.forecastMetaData : this.observationMetaData)[parameter.id],
                 valueUnit     = nsParameter.getUnit(metaData.unit || parameterUnit);
@@ -451,9 +449,8 @@ Only one station pro Location within the same ObservationGroup
         Return []{vectorParameterId, speedParameterId, directionParameterId, speedStr, speed, unitStr, speedAndUnitStr, directionStr, direction, directionArrow, defaultStr}
         *****************************************************/
         getVectorFormatParts: function(dataSet, forecast){
-            let _this = this,
-                result = [];
-            this.vectorParameterList.forEach(vectorParameter => {
+            let result = [];
+            this.vectorParameterList.forEach(function(vectorParameter){
                 let speedParameterId     = vectorParameter.speed_direction[0].id,
                     directionParameter   = vectorParameter.speed_direction[1],
                     directionParameterId = directionParameter.id,
@@ -463,14 +460,14 @@ Only one station pro Location within the same ObservationGroup
                         speedParameterId    : speedParameterId,
                         directionParameterId: directionParameterId,
 
-                        speedStr         : _this.formatParameter(dataSet, speedParameterId, forecast, true),
+                        speedStr         : this.formatParameter(dataSet, speedParameterId, forecast, true),
                         speed            : dataSet[speedParameterId],
-                        unitStr          : _this.getDisplayUnit(speedParameterId).translate('', '', true),
-                        speedAndUnitStr  : _this.formatParameter(dataSet, speedParameterId, forecast, false),
+                        unitStr          : this.getDisplayUnit(speedParameterId).translate('', '', true),
+                        speedAndUnitStr  : this.formatParameter(dataSet, speedParameterId, forecast, false),
 
                         directionStr     : directionParameter.asText( dataSet[directionParameterId] ),
                         direction        : direction,
-                        directionArrow   : '<i class="fa-direction-arrow ' + _this.observationGroup.options.faArrow + '" style="rotate:'+direction+'deg;"></i>',
+                        directionArrow   : '<i class="fa-direction-arrow ' + this.observationGroup.options.faArrow + '" style="rotate:'+direction+'deg;"></i>',
                         defaultStr       : ''
                     };
 
@@ -479,7 +476,7 @@ Only one station pro Location within the same ObservationGroup
 /* Speed + dir-arrow */
                 oneVectorResult.defaultStr = oneVectorResult.speedAndUnitStr + ' ' + oneVectorResult.directionArrow;
                 result.push(oneVectorResult);
-            });
+            }.bind(this));
             return result;
         },
 
@@ -494,7 +491,7 @@ Only one station pro Location within the same ObservationGroup
         formatterVectorWind
         *****************************************************/
         formatterVectorWind: function(dataSet, forecast){
-            var vectorPart = this.getVectorFormatParts(dataSet, forecast)[0];
+            let vectorPart = this.getVectorFormatParts(dataSet, forecast)[0];
 
             //TODO: Include wind-gust a la NNW 12 (14) m/s
 
@@ -526,7 +523,7 @@ Only one station pro Location within the same ObservationGroup
         formatStatParameter - Simple display stat for the first parameter
         *****************************************************/
         formatStatParameter: function(statId, stat, parameter, forecast, noUnitStr){
-            var parameterId = nsParameter.getParameter(parameter).id,
+            let parameterId = nsParameter.getParameter(parameter).id,
                 dataSet = {};
             dataSet[parameterId] = stat[parameterId][statId];
 
@@ -538,7 +535,7 @@ Only one station pro Location within the same ObservationGroup
         formatterStatDefault - Simple display stat for the first parameter
         *****************************************************/
         formatterStatDefault: function(stat, forecast){
-            var parameter = this.parameterList[0].parameter;
+            let parameter = this.parameterList[0].parameter;
             return this.formatStatMinMaxMean(
                 this.formatStatParameter('min',  stat, parameter, forecast, true),
                 this.formatStatParameter('max',  stat, parameter, forecast, true),
@@ -602,22 +599,18 @@ Only one station pro Location within the same ObservationGroup
         Convert observation or forecast from GEOJSON-file
         *****************************************************/
         _resolveGeoJSON: function(geoJSON, forecast){
-
-//console.log('_resolveGeoJSON', forecast, this);
-
-            var _this    = this,
-                dataList = forecast ? this.forecastDataList : this.observationDataList,
+            let dataList = forecast ? this.forecastDataList : this.observationDataList,
                 metaData = forecast ? this.forecastMetaData : this.observationMetaData,
                 features = geoJSON ? geoJSON.features : null;
 
             //Load new data
-            features.forEach((feature) => {
-                var properties  = feature.properties,
+            features.forEach(function(feature){
+                let properties  = feature.properties,
                     parameterId = properties.standard_name;
 
 
                 //If the Station do not have the parameter => do not update
-                if (!_this.parameters[parameterId])
+                if (!this.parameters[parameterId])
                     return;
 
                 //Update meta-data
@@ -630,7 +623,7 @@ Only one station pro Location within the same ObservationGroup
 
                 $.each(properties.value, function(valueIndex, value){
                     if ((typeof value == 'number') && (value != properties.missing_value)){
-                        var newDataSet = {timestamp: moment(properties.timestep[valueIndex]).utc().toISOString()},
+                        let newDataSet = {timestamp: moment(properties.timestep[valueIndex]).utc().toISOString()},
                             found      = false;
                         newDataSet[parameterId] = value;
 
@@ -647,7 +640,7 @@ Only one station pro Location within the same ObservationGroup
                             dataList.push(newDataSet);
                     }
                 });
-            });
+            }.bind(this));
 
             //Sort by timestamp
             dataList.sort(function(dataSet1, dataSet2){
@@ -658,7 +651,7 @@ Only one station pro Location within the same ObservationGroup
             //If the station contains vector-parameter => calc speed, direction, eastware and northware for all dataSet
             if (this.vectorParameterList)
                 this.vectorParameterList.forEach((vectorParameter) => {
-                    var speedId        = vectorParameter.speed_direction[0].id,
+                    let speedId        = vectorParameter.speed_direction[0].id,
                         directionId    = vectorParameter.speed_direction[1].id,
                         eastwardId     = vectorParameter.eastward_northward ? vectorParameter.eastward_northward[0].id : null,
                         northwardId    = vectorParameter.eastward_northward ? vectorParameter.eastward_northward[1].id : null;
@@ -670,7 +663,7 @@ Only one station pro Location within the same ObservationGroup
                     metaData[directionId] = metaData[directionId] || {unit: "degree"}; //Hard-coded to degree
 
                     $.each(dataList, function(index2, dataSet){
-                        var speedValue     = dataSet[speedId],
+                        let speedValue     = dataSet[speedId],
                             directionValue = dataSet[directionId],
                             eastwardValue  = eastwardId  ? dataSet[eastwardId]  : undefined,
                             northwardValue = northwardId ? dataSet[northwardId] : undefined;
@@ -683,7 +676,7 @@ Only one station pro Location within the same ObservationGroup
                         }
                         else
                             if ((speedValue !== undefined) && (directionValue !== undefined)){
-                                var directionRad = 2*Math.PI * directionValue / 360;
+                                let directionRad = 2*Math.PI * directionValue / 360;
                                 if (eastwardValue == undefined)
                                     dataSet[eastwardId]  = Math.sin(directionRad) * speedValue;
                                 if (northwardValue == undefined)
@@ -693,18 +686,18 @@ Only one station pro Location within the same ObservationGroup
                 });
 
             //Calculate hourly min, mean, and max in forecastStatList/observationStatList = [hour: no of hours since 1-1-1970]{parameterId: {min: FLOAT, mean: FLOAT, max: FLOAT}}
-            var nowHourValue = moment().valueOf()/(60*60*1000),
+            let nowHourValue = moment().valueOf()/(60*60*1000),
                 statList = this[forecast ? 'forecastStatList' : 'observationStatList'] = {};
 
             $.each(dataList, function(index3, dataSet){
-                var hourValue = Math.ceil((moment(dataSet.timestamp).valueOf()/(60*60*1000) - nowHourValue) ),
+                let hourValue = Math.ceil((moment(dataSet.timestamp).valueOf()/(60*60*1000) - nowHourValue) ),
                     hourStat = statList[hourValue] = statList[hourValue] || {};
                 hourStat.hour = hourValue;
 
-                $.each(_this.parameters, function(parameterId){
-                    var parameterValue = dataSet[parameterId];
+                $.each(this.parameters, function(parameterId){
+                    let parameterValue = dataSet[parameterId];
                     if (parameterValue !== undefined){
-                        var parameterStat = hourStat[parameterId] = hourStat[parameterId] || {count: 0, min: undefined, mean: 0, max: undefined};
+                        let parameterStat = hourStat[parameterId] = hourStat[parameterId] || {count: 0, min: undefined, mean: 0, max: undefined};
                         parameterStat.min = min(parameterStat.min, parameterValue);
                         parameterStat.max = max(parameterStat.max, parameterValue);
                         parameterStat.mean = (parameterStat.mean*parameterStat.count + parameterValue)/(parameterStat.count+1);
@@ -712,7 +705,7 @@ Only one station pro Location within the same ObservationGroup
                     }
                 });
 
-            });
+            }.bind(this));
         },
 
 

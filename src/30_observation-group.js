@@ -7,7 +7,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
 	"use strict";
 
 	window.fcoo = window.fcoo || {};
-    var ns = window.fcoo = window.fcoo || {},
+    let ns = window.fcoo = window.fcoo || {},
         nsParameter = ns.parameter = ns.parameter || {},
         nsObservations = ns.observations = ns.observations || {};
 
@@ -44,7 +44,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
         this.locationList = [];
         this.locations = {};
 
-        this.parameterList = $.isArray(options.parameterId) ? options.parameterId : options.parameterId.split(' ');
+        this.parameterList = Array.isArray(options.parameterId) ? options.parameterId : options.parameterId.split(' ');
         this.primaryParameter = nsParameter.getParameter(this.parameterList[0]);
 
 /*
@@ -62,7 +62,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
             };
 
         //Find header = name [unit] used by primary-parameter
-        var primaryUnit = nsParameter.getUnit(this.options.formatUnit || this.primaryParameter.unit);
+        let primaryUnit = nsParameter.getUnit(this.options.formatUnit || this.primaryParameter.unit);
 
         this.header = {};
         this.shortHeader = {};
@@ -144,11 +144,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
                     stationOptions = $.extend(true, {}, defaultStationOptions, locationOptions, stationOptions );
                     stationOptions.parameter = stationOptions.parameter || stationOptions.parameterList;
 
-//HER   if (stationOptions.parameter == "sea_water_velocity_at_sea_floor")
-//HER       stationOptions.parameter = "sea_water_velocity";
-//"parameter"  : "sea_water_velocity_at_sea_floor",
-//"parameter"  : "sea_water_velocity",
-
                     if (stationOptions.active === false)
                         return;
 
@@ -224,12 +219,15 @@ ObservationGroup = group of Locations with the same parameter(-group)
             //Load each geoJSON "file" into station
             $.each(stationGeoJSONs, function(findStationId, geoJSON){
                 obs.locationList.forEach( location => {
+                    let update = false;
                     location.stationList.forEach( station => {
                         if ((station.id == findStationId) && station.observationGroup && (station.observationGroup.id == this.id)){
                             station._resolveGeoJSON(geoJSON, false);
-                            location.updateObservation();
+                            update = true;
                         }
                     });
+                   if (update)
+                        location.updateObservation();
                 });
             }.bind(this));
         },
@@ -257,7 +255,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
         isVisible(mapOrMapId) - return true if this is visible on the Map mapId
         *********************************************/
         isVisible: function(mapOrMapId){
-            var mapOptions = this._getMapOptions(mapOrMapId),
+            let mapOptions = this._getMapOptions(mapOrMapId),
                 $container = mapOptions ? mapOptions.$container : null;
 
             return $container ? this._getMapOptions(mapOrMapId).$container.hasClass('obs-group-'+this.options.index) : false;
@@ -281,7 +279,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
         toogle(mapOrMapId, show) Show/Hide the locations in the group on the map
         *********************************************/
         toggle: function(mapOrMapId, show){
-            var className  = 'obs-group-'+this.options.index,
+            let className  = 'obs-group-'+this.options.index,
                 mapId      = typeof mapOrMapId == 'string' ? mapOrMapId : nsObservations.getMapId(mapOrMapId),
                 mapOptions = this._getMapOptions(mapOrMapId),
                 $container = mapOptions ? mapOptions.$container : null;
@@ -293,9 +291,9 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
                 //Toggle class multi-obs-group to mark multi groups visible on the map
                 //Toggle class last-visible-obs-group-N to mark last/maximum group visible on the map
-                var visibleGroups = 0,
+                let visibleGroups = 0,
                     maxVisibleGroupIndex = 0;
-                for (var i=0; i<10; i++){
+                for (var i=0; i<20; i++){
                     if ($container.hasClass('obs-group-'+i)){
                         visibleGroups++;
                         maxVisibleGroupIndex = i;
@@ -316,13 +314,11 @@ ObservationGroup = group of Locations with the same parameter(-group)
             });
 
             //Update this.observations.state
-            var stateId = this.id+'_'+mapId;
+            let stateId = this.id+'_'+mapId;
             this.observations.state = this.observations.state || {};
             this.observations.state[stateId] = !!show;
-
             return this;
         },
-
 
 
         /*********************************************
@@ -330,7 +326,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
         Open popup for all locations visible at the map
         *********************************************/
         openVisiblePopup: function(mapOrMapId){
-            var mapId = nsObservations.getMapId(mapOrMapId),
+            let mapId = nsObservations.getMapId(mapOrMapId),
                 mapBounds = this._getMapOptions(mapId).map.getBounds();
 
             if (!this.isVisible(mapId))
@@ -348,7 +344,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
         Close popup for all locations visible at the map
         *********************************************/
         closeVisiblePopup: function(mapOrMapId){
-            var mapId = nsObservations.getMapId(mapOrMapId),
+            let mapId = nsObservations.getMapId(mapOrMapId),
                 mapBounds = this._getMapOptions(mapId).map.getBounds();
 
             //Close all open location within the maps current bounds

@@ -8,7 +8,7 @@ Location = group of Stations with the same or different paramtre
 	"use strict";
 
 	window.fcoo = window.fcoo || {};
-    var ns = window.fcoo = window.fcoo || {},
+    let ns = window.fcoo = window.fcoo || {},
         //nsParameter = ns.parameter = ns.parameter || {},
         nsObservations = ns.observations = ns.observations || {};
 
@@ -68,23 +68,22 @@ Location = group of Stations with the same or different paramtre
         updateLastObservationFuncList, updateObservationFuncList, updateForecastFuncList
         *****************************************************/
         _getFuncList: function( listOrListName ){
-            let _this = this,
-                list = typeof listOrListName == 'string' ? nsObservations[listOrListName] : listOrListName,
+            let list = typeof listOrListName == 'string' ? nsObservations[listOrListName] : listOrListName,
                 result = [];
             list.forEach( (opt) => {
                 let func;
                 if (typeof opt == 'string')
-                    func = _this[opt].bind(_this);
+                    func = this[opt].bind(this);
                 else
                     if (typeof opt == 'function')
-                        func = opt.bind(_this);
+                        func = opt.bind(this);
                     else {
                         let method = opt.func,
-                            context = opt.context || _this;
+                            context = opt.context || this;
                         func = (typeof method == 'string' ? context[method] : method).bind(context);
                     }
                 result.push(func);
-            });
+            }, this);
             return result;
         },
 
@@ -176,7 +175,7 @@ Location = group of Stations with the same or different paramtre
         call all the update-methods from updateLastObservationFuncList
         *********************************************/
         updateLastObservation: function(){
-            return this._callFuncList('updateLastObservationFuncList');
+            return this._callFuncList('updateLastObservationFuncList', nsObservations.updateLastObservationFuncList);
         },
 
         /*********************************************
