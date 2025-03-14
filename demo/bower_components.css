@@ -17053,6 +17053,9 @@ Using Bootstrap Collapse to create accordion
   color: var(--bs-accordion-active-btn-hover-color, var(--bs-accordion-active-btn-color));
   background-color: var(--bs-accordion-active-btn-hover-bg, var(--bs-accordion-active-btn-bg));
 }
+.accordion .accordion-button.collapsed:focus {
+  box-shadow: none;
+}
 .accordion .accordion-button span,
 .accordion .accordion-footer span {
   overflow: hidden;
@@ -46026,6 +46029,14 @@ Tooltips
   display: inline-block;
   width: 100%;
   text-align: center;
+}
+
+.chart-tooltip-color-dot {
+  min-width: 1em;
+  font-size: 0.8em;
+  padding: 0;
+  padding-bottom: 0.4em;
+  padding-right: 0.2em;
 }
 
 .chart-tooltip-name {

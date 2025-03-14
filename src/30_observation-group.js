@@ -80,9 +80,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
         }.bind(this));
 
+
         this.init();
-
-
     };
 
 

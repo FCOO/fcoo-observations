@@ -19,6 +19,9 @@
 @import "../bower_components/sass-color-helpers/stylesheets/color-helpers";
 @import "../bower_components/leaflet-bootstrap-marker-mixin/dist/leaflet-bootstrap-marker-mixin";
 
+//FCOO-COLORS - variables with color-values
+@import "../bower_components/fcoo-colors/src/fcoo-colors-variables";
+
 //Create classes to give observations a yellow color. Colors are from ifm - colors for markers in different layers.js
 @include lbm-marker-and-icon-classes( observations, #EFB920 );
 

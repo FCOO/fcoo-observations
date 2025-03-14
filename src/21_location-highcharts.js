@@ -20,7 +20,6 @@ Methods for creating Highcharts for a Location
 
     Highcharts.USE_JB_STYLE = true;
 
-
     /****************************************************************************
     Extend Location with methods for creating, showing an updating charts with observations and forecasts
     ****************************************************************************/
@@ -78,6 +77,7 @@ Methods for creating Highcharts for a Location
                     zeroLine : true,
                 };
 
+
             this.stationList.forEach(station => {
                 let stationChartsOptions = station.getChartsOptions(mapOrMapId, inModal);
                 ['parameter', 'unit', 'series', 'yAxis', 'z'].forEach( id => result[id].push( stationChartsOptions[id] ) );
@@ -101,7 +101,6 @@ Methods for creating Highcharts for a Location
                         }
                     }
                 });
-
             return result;
         },
 

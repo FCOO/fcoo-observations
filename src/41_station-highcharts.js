@@ -39,9 +39,18 @@ Only one station pro Location within the same ObservationGroup
                         fixedRange    : obsGroupOptions.fixedRange,
                         semiFixedRange: obsGroupOptions.semiFixedRange,
                         minRange      : obsGroupOptions.minRange,
-                        min           : data.scaleParameter.negative ? null : 0,
+                        floor         : obsGroupOptions.floor,
+                        min           : null
                     }
                 };
+
+                //If no fixedRange and no semiFixedRange is set and scscale not negative => set min = 0
+                if (!obsGroupOptions.fixedRange && !obsGroupOptions.semiFixedRange && !data.scaleParameter.negative)
+                    result.yAxis.min = 0;
+
+                //If floor is set => remove startOnTick
+                if (obsGroupOptions.floor !== undefined)
+                    result.yAxis.startOnTick = false;
 
             //Style and data for observations
             result.series.push({

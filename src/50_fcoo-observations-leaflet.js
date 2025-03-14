@@ -761,9 +761,9 @@
                 2: $table_lastObservation = Latest measurement(s)
                 3: $table_forecast        = Stat for forecasts
             */
-            let $table_prevObservation = $('<table/>').addClass('obs-statistics text-center'),
+            let $table_prevObservation = $('<table/>').addClass('obs-statistics prev text-center'),
                 $table_lastObservation = $('<table/>').addClass('last-observation text-center'),
-                $table_forecast        = $table_prevObservation.clone();
+                $table_forecast        = $('<table/>').addClass('obs-statistics forecast text-center');
 
                 //Add header to previous observation and forecast
                 let $tr = $('<tr/>').appendTo($table_prevObservation);
@@ -810,7 +810,7 @@
                     .appendTo($tr);
 
                 let $td = $('<td/>')
-                    .addClass('fw-bold')
+                    .addClass('fw-bold _time-now-color _time-now-text-color')
                     .appendTo($tr);
 
                 groupElements.$lastObservation.push($td);
@@ -874,14 +874,21 @@
                 multiOpen: true,
                 allOpen  : true,
                 children : [{
-                    header : {icon:'far fa-right-from-line fa-flip-horizontal', text: {da:'Forrige målinger ', en:'Previous Measurements'}},
-                    content: $table_prevObservation
+                    header              : {icon:'far fa-right-from-line fa-flip-horizontal', text: {da:'Forrige målinger ', en:'Previous Measurements'}},
+                    className           : 'accordion-prev-observation',
+                    noHorizontalPadding : true,
+                    noVerticalPadding   : true,
+                    content             : $table_prevObservation
                 },{
-                    header : {icon:'fa-equals fa-rotate-90', text: {da:'Seneste måling', en:'Latest Measurement'}},
-                    content: $table_lastObservation
+                    header              : {icon:'fa-equals fa-rotate-90', text: {da:'Seneste måling', en:'Latest Measurement'}},
+                    className           : 'accordion-last-observation',
+                    noHorizontalPadding : true,
+                    content             : $table_lastObservation
                 },{
-                    header : {icon:'far fa-right-from-line', text: {da:'Prognoser', en:'Forecasts'}},
-                    content: hasAnyForecast ? $table_forecast : $('<span/>')._bsAddHtml({text:{da:'Ingen prognoser', en:'No forecast'}})
+                    header              : {icon:'far fa-right-from-line', text: {da:'Prognoser', en:'Forecasts'}},
+                    className           : 'accordion-forecast',
+                    noHorizontalPadding : true,
+                    content             : hasAnyForecast ? $table_forecast : $('<span/>')._bsAddHtml({text:{da:'Ingen prognoser', en:'No forecast'}})
                 }]
             });
 

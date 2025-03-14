@@ -120,6 +120,8 @@ Only one station pro Location within the same ObservationGroup
         this.formatter     = formatterMethod     && this[formatterMethod]     ? this[formatterMethod]     : this.formatterDefault;
         this.formatterStat = formatterStatMethod && this[formatterStatMethod] ? this[formatterStatMethod] : this.formatterStatDefault;
 
+
+
     };
 
 

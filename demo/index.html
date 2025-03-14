@@ -128,7 +128,15 @@
         window.fcoo.DEV_VERSION = true;
        
         //TEMP: No access to data-files on AWS. Read from old location instead 
-        window.fcoo.path.setPath({host: 'app.fcoo.dk'});
+        //window.fcoo.path.setPath({host: 'app.fcoo.dk'});
+
+        //TEMP: Static from bal.fcoo.dk and dynamic from app.fcoo.dk
+        window.fcoo.path.setPath({
+            host: {
+                dynamic : 'app.fcoo.dk',
+                static  : 'bal.fcoo.dk'
+            }                
+        });
 
 
         Promise.defaultErrorHandler = function( error ){
@@ -191,6 +199,7 @@
            
             var geoJSON0 = fcooObservation.geoJSON().addTo(maps[0]);
             fcooObservation.show('SEALEVEL', maps[0]);
+            fcooObservation.show('CURRENT_2M', maps[0]);
             fcooObservation.show('CURRENT_SEAFLOOR', maps[0]);
             fcooObservation.show('TEMPERATURE_1M', maps[0]);
             fcooObservation.show('TEMPERATURE_SEAFLOOR', maps[0]);
@@ -224,9 +233,9 @@
 
         window.fcoo.observations.getFCOOObservations(resolveFCOOObservations, false, {
             //forceGroupIds: 'SEALEVEL',
-            forceGroupIds: 'SEALEVEL CURRENT_2M CURRENT_SEAFLOOR TEMPERATURE_1M TEMPERATURE_SEAFLOOR SALINITY_1M SALINITY_SEAFLOOR',
+            //forceGroupIds: 'SEALEVEL CURRENT_2M CURRENT_SEAFLOOR TEMPERATURE_1M TEMPERATURE_SEAFLOOR SALINITY_1M SALINITY_SEAFLOOR',
             //forceGroupIds: 'TEMPERATURE_1M TEMPERATURE_SEAFLOOR',
-            //forceGroupIds: 'TEMPERATURE_SEAFLOOR',
+            //forceGroupIds: 'CURRENT_SEAFLOOR',
             //forceGroupIds: 'TEMPERATURE_1M',
             geoJSONOptions: {
                 pane: 'observations'
@@ -240,7 +249,7 @@
 
         fcoo.promiseList.options.finally = function(){
             fcoo.globalSetting.load(null, function(){
-                //i18next.changeLanguage('en');
+                i18next.changeLanguage('da');
             });
         };
 

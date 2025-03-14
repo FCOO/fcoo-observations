@@ -13,6 +13,7 @@ fa-direction-arrow = The fa-icon used to displat direction
     text-align: center;
 }
 
+
 /*
 table.last-observation = two coloums: group-name, last value
 table.obs-statistics: rows = [time-periods, obs-group headser, tree intervals, obs-group headser, tree intervals,...]
@@ -34,6 +35,11 @@ table.obs-statistics {
     table-layout: fixed;
     width       :100%;
 
+    --bg-color1 : #{$gray-100};
+    --bg-color2 : #{$gray-200};
+    --bg-color3 : #{$gray-300};
+    --text-color: black;
+
     //Time-intervals and tree value-intervals
     tr:nth-of-type(2n+1) {
         font-size : 0.6875rem; //Hard-coded: fontsize=11px
@@ -43,11 +49,15 @@ table.obs-statistics {
             border-bottom: none;
         }
     }
+
     td {
         width: 33%;
 
-        &.value:nth-child(odd)  { background-color: #{$gray-200}; }
-        &.value:nth-child(even) { background-color: #{$gray-400}; }
+        color: var(--text-color);
+        &.value:nth-child(3n-2)  { background-color: var(--bg-color1); }
+        &.value:nth-child(3n-1)  { background-color: var(--bg-color2); }
+        &.value:nth-child(3n-0)  { background-color: var(--bg-color3); }
+
 
         padding-bottom: $input-padding-x / 2.5;
         padding-top   : $input-padding-x / 2.5;
@@ -59,7 +69,59 @@ table.obs-statistics {
             font-size : $font-size-xxs; //11px
         }
     }
+
+    /* Possible to have different colors on table-header - Not usewd
+    &.prev {
+        --bg-color1 : #{shade-color($time-past-color-value, 0%)};
+        --bg-color2 : #{$time-past-color}; //#{shade-color($time-past-color-value, 7.5%)};
+        --bg-color3 : #{shade-color($time-past-color-value, 15%)};
+        --text-color: #{$time-past-text-color-value};
+    }
+
+    &._forecast {
+        --bg-color1 : #{shade-color($time-future-color-value, 0%)};
+        --bg-color2 : #{shade-color($time-future-color-value, 7.5%)};
+        --bg-color3 : #{shade-color($time-future-color-value, 15%)};
+        --text-color: #{$time-future-text-color-value};
+    }
+    */
 }
+
+//Add left and right borders to accordion body
+.accordion-prev-observation {
+    border    : 2px solid $time-past-color;
+    border-top: none;
+};
+
+.accordion-last-observation {
+    border    : 2px solid $time-now-color;
+    border-top: none;
+};
+
+.accordion-forecast  {
+    border    : 2px solid $time-future-color;
+    border-top: none;
+};
+
+
+/*
+
+//$time-past-color-value
+//$time-future-color-value
+.time-past-text-color   { color           : $time-past-text-color   }
+.time-past-color        { background-color: $time-past-color        }
+
+$time-now-color-value
+$time-now-text-color-value
+.time-now-text-color    { color           : $time-now-text-color    }
+.time-now-color         { background-color: $time-now-color         }
+
+$time-future-color-value
+$time-future-text-color-value
+.time-future-text-color { color           : $time-future-text-color }
+.time-future-color      { background-color: $time-future-color      }
+*/
+
 
 /*
 obs-group-marker-N used to display a marker on the map if observation group N is visible.
