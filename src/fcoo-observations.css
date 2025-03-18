@@ -296,16 +296,6 @@ parts of the environmental. Eq sky, cloud, sea etc.
 }
 
 /*
-//Hard coded color. TODO: Include all LinkedIn-colors as lbm-colors
-.fa-lbm-color-skyblue   { color: #00A0DC; }
-.fa-lbm-color-seagreen  { color: #3B7511; }
-*/
-/***********************************************
-
-fcoo-observations-mixin.scss
-
-************************************************/
-/*
 fa-direction-arrow = The fa-icon used to displat direction
 */
 .fa-direction-arrow {

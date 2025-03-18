@@ -193,7 +193,6 @@
         
         
         function resolveFCOOObservations( fcooObs) {
-            
            fcooObservation = fcooObs;
            console.log(fcooObs, maps);
            
@@ -231,7 +230,7 @@
         }
 
 
-        window.fcoo.observations.getFCOOObservations(resolveFCOOObservations, false, {
+        window.fcoo.observations.getFCOOObservations(resolveFCOOObservations, true, {
             //forceGroupIds: 'SEALEVEL',
             //forceGroupIds: 'SEALEVEL CURRENT_2M CURRENT_SEAFLOOR TEMPERATURE_1M TEMPERATURE_SEAFLOOR SALINITY_1M SALINITY_SEAFLOOR',
             //forceGroupIds: 'TEMPERATURE_1M TEMPERATURE_SEAFLOOR',

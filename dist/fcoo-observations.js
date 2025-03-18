@@ -53,7 +53,7 @@
     ****************************************************************/
     ns.FCOOObservations = function(options = {}){
         this.options = $.extend(true, {}, {
-			VERSION         : "5.0.0",
+			VERSION         : "5.0.1",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -120,21 +120,28 @@
         //When the object is created and obs-groups and locations are loaded: Call all pending resolve-function (if any)
         ns.promiseList.append({
             data   : 'none',
-            resolve: function(){ this.resolveList.forEach(resolve => resolve(this)); }.bind(this)
+            resolve: this._resolveList.bind(this, this.resolveList)
+
         });
 
         //Read setup for each observation-group
         ns.promiseList.append({
             data   : 'none',
             resolve: function(){
-                this.observationGroupList.forEach( obsGroup => obsGroup._promise_setup() );
 
+                this.observationGroupList.forEach( obsGroup => obsGroup._promise_setup() );
 
                 ns.promiseList.append({
                     data   : 'none',
                     resolve: function(){
                         this.ready = true;
+
                         this.onResolve();
+
+                        //When the object is fully loaded: Call all pending resolve-function (if any)
+                        this._resolveList( this.resolveFullList );
+                        this.fullLoaded = true;
+
                     }.bind(this)
                 });
             }.bind(this)
@@ -147,6 +154,12 @@
         },
         onResolve: function(){
             /* Empty here but can be extended in extentions of FCOOObservations */
+        },
+
+        //_resolveList = Call all function in list with this
+        _resolveList: function( list = [] ){
+            list.forEach( resolve => resolve(this), this);
+            return this;
         }
     };
 }(jQuery, this.i18next, this.moment, this, document));
