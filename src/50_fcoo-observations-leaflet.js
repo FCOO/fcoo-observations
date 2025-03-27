@@ -581,10 +581,11 @@
                 isMinimized: true,
                 minimized  : {
                     showTooltip: true,
-                    width    : 96,
+                    width    : 101, //96,
                     className: 'text-center',
 
                     //showHeaderOnClick: true,
+                    onResize      : this.onMimimizedResize,
                     content       : this.createMinimizedPopupContent,
                     contentContext: this,
                     dynamic       : true,
@@ -664,7 +665,6 @@
         *********************************************/
         popupOpen: function( popupEvent ){
             let mapId = nsObservations.getMapId(popupEvent.target._map);
-
             this.popups[mapId] = popupEvent.popup;
 
             if (this.openPopupAsNormal)
@@ -720,12 +720,45 @@
         },
 
         /*********************************************
+        onMimimizedResize
+        Called when the content of a minimized popup is changed
+        *********************************************/
+        onMimimizedResize: function( size, popup, $body, options, map ){
+            const isMultiObsGroup = $(map.getContainer()).hasClass('multi-obs-group');
+
+            let fontSize       = parseFloat($body.css('font-size'   )),
+                padding        = parseFloat($body.css('padding-left')),
+                innerTextWidth = 1.5*fontSize;
+
+            if (isMultiObsGroup){
+                let textList = []; //List of shortNames of displayed parameters
+                this.observationGroupList.forEach( observationGroup => {
+                    if (observationGroup.isVisible(map))
+                        textList.push( i18next.sentence(observationGroup.shortName) );
+                });
+                innerTextWidth = Math.ceil($.getTextWidth(textList, fontSize));
+            }
+            else {
+                //Only one group visible on the map => Only value is displayed in popup => Find the <span> with the last measurement and use its width
+                let visibleObsGroupIndex = -1;
+                this.observationGroupList.forEach( (observationGroup, index) => {
+                    if (observationGroup.isVisible(map))
+                        visibleObsGroupIndex = index;
+                });
+                const elem = $body.find('.latest-observation.show-for-obs-group-'+visibleObsGroupIndex+' .the-value');
+                if (elem)
+                    innerTextWidth = Math.max(innerTextWidth, $(elem).innerWidth());
+            }
+
+            popup.setWidth({minimized: 1 + padding + innerTextWidth + padding + 1} );
+        },
+
+        /*********************************************
         createMinimizedPopupContent
         = list of parameter-name, last value
         *********************************************/
         createMinimizedPopupContent: function( $body, popup, map ){
             let mapElements = this._getModalElements( nsObservations.getMapId(map) );
-
             $.each(this.observationGroups, function(id, observationGroup){
                 let $lastObservation = mapElements[id].$lastObservation;
 
@@ -733,8 +766,8 @@
                 let $div =
                     $('<div/>')
                         .addClass('latest-observation text-center no-border-border-when-last-visible show-for-obs-group-'+observationGroup.options.index)
-                        ._bsAddHtml({text: observationGroup.shortName, textClass:'obs-group-header show-for-multi-obs-group fa-no-margin d-block'})
-                        ._bsAddHtml({text: ' ', textStyle: 'bold', textClass:'d-block'}),
+                        ._bsAddHtml({text: observationGroup.shortName, textClass:'obs-group-header show-for-multi-obs-group fa-no-margin text-nowrap d-block'})
+                        ._bsAddHtml({text: ' ', textStyle: 'bold', textClass:'the-value _d-block text-nowrap'}),
                     $elem = $div.find('span:last-child');
 
                 $elem._bsAddHtml({icon: ns.icons.working}),

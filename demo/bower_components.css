@@ -15699,16 +15699,16 @@ div.modal-dialog .modal-content.no-modal-minimized > .modal-header .hide-for-mod
 div.modal-dialog .modal-content.no-modal-minimized > .modal-header .show-for-modal-minimized {
   display: none !important;
 }
-div.modal-dialog .modal-content.modal-minimized-always-max-height.modal-minimized > .show-for-modal-minimized {
+div.modal-dialog .modal-content.modal-minimized-always-max-height.modal-minimized > .show-for-modal-minimized:not(:empty) {
   display: flex !important;
 }
-div.modal-dialog .modal-content.modal-minimized-always-max-height.modal-minimized > .hide-for-modal-minimized {
+div.modal-dialog .modal-content.modal-minimized-always-max-height.modal-minimized > .hide-for-modal-minimized:not(:empty) {
   display: none !important;
 }
-div.modal-dialog .modal-content.modal-minimized-always-max-height.no-modal-minimized > .hide-for-modal-minimized {
+div.modal-dialog .modal-content.modal-minimized-always-max-height.no-modal-minimized > .hide-for-modal-minimized:not(:empty) {
   display: flex !important;
 }
-div.modal-dialog .modal-content.modal-minimized-always-max-height.no-modal-minimized > .show-for-modal-minimized {
+div.modal-dialog .modal-content.modal-minimized-always-max-height.no-modal-minimized > .show-for-modal-minimized:not(:empty) {
   display: none !important;
 }
 div.modal-dialog .modal-content.modal-normal .show-for-modal-normal {
@@ -15759,16 +15759,16 @@ div.modal-dialog .modal-content.no-modal-normal > .modal-header .hide-for-modal-
 div.modal-dialog .modal-content.no-modal-normal > .modal-header .show-for-modal-normal {
   display: none !important;
 }
-div.modal-dialog .modal-content.modal-normal-always-max-height.modal-normal > .show-for-modal-normal {
+div.modal-dialog .modal-content.modal-normal-always-max-height.modal-normal > .show-for-modal-normal:not(:empty) {
   display: flex !important;
 }
-div.modal-dialog .modal-content.modal-normal-always-max-height.modal-normal > .hide-for-modal-normal {
+div.modal-dialog .modal-content.modal-normal-always-max-height.modal-normal > .hide-for-modal-normal:not(:empty) {
   display: none !important;
 }
-div.modal-dialog .modal-content.modal-normal-always-max-height.no-modal-normal > .hide-for-modal-normal {
+div.modal-dialog .modal-content.modal-normal-always-max-height.no-modal-normal > .hide-for-modal-normal:not(:empty) {
   display: flex !important;
 }
-div.modal-dialog .modal-content.modal-normal-always-max-height.no-modal-normal > .show-for-modal-normal {
+div.modal-dialog .modal-content.modal-normal-always-max-height.no-modal-normal > .show-for-modal-normal:not(:empty) {
   display: none !important;
 }
 div.modal-dialog .modal-content.modal-extended .show-for-modal-extended {
@@ -15819,16 +15819,16 @@ div.modal-dialog .modal-content.no-modal-extended > .modal-header .hide-for-moda
 div.modal-dialog .modal-content.no-modal-extended > .modal-header .show-for-modal-extended {
   display: none !important;
 }
-div.modal-dialog .modal-content.modal-extended-always-max-height.modal-extended > .show-for-modal-extended {
+div.modal-dialog .modal-content.modal-extended-always-max-height.modal-extended > .show-for-modal-extended:not(:empty) {
   display: flex !important;
 }
-div.modal-dialog .modal-content.modal-extended-always-max-height.modal-extended > .hide-for-modal-extended {
+div.modal-dialog .modal-content.modal-extended-always-max-height.modal-extended > .hide-for-modal-extended:not(:empty) {
   display: none !important;
 }
-div.modal-dialog .modal-content.modal-extended-always-max-height.no-modal-extended > .hide-for-modal-extended {
+div.modal-dialog .modal-content.modal-extended-always-max-height.no-modal-extended > .hide-for-modal-extended:not(:empty) {
   display: flex !important;
 }
-div.modal-dialog .modal-content.modal-extended-always-max-height.no-modal-extended > .show-for-modal-extended {
+div.modal-dialog .modal-content.modal-extended-always-max-height.no-modal-extended > .show-for-modal-extended:not(:empty) {
   display: none !important;
 }
 div.modal-dialog .modal-content.modal-pinned .hide-for-modal-pinned {
@@ -15976,6 +15976,27 @@ Common styles to be used when a modal is being dragged
   --jb-header-bg: #0d6efd;
   border-radius: calc(0.5 * var(--bs-modal-border-radius));
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/****************************************************
+Spedcial classes for icons when full-screen mode is allowed at is set on/off
+****************************************************/
+div.modal-dialog .modal-content.modal-set-to-full-screen > .modal-header .hide-for-modal-set-to-full-screen {
+  display: none !important;
+}
+
+div.modal-header-icon-full-screen-on {
+  display: none;
+}
+.modal-dialog.modal-full-screen-at-normal .modal-content.modal-normal:not(.modal-set-to-full-screen) div.modal-header-icon-full-screen-on, .modal-dialog.modal-full-screen-at-extended .modal-content.modal-extended:not(.modal-set-to-full-screen) div.modal-header-icon-full-screen-on {
+  display: initial !important;
+}
+
+div.modal-header-icon-full-screen-off {
+  display: none;
+}
+.modal-dialog .modal-content.modal-set-to-full-screen div.modal-header-icon-full-screen-off {
+  display: initial !important;
 }
 
 /************************************************************
@@ -45507,6 +45528,25 @@ Special class for buttons in reset-list
 }
 
 /*****************************************************
+Info on Saved Settings
+*****************************************************/
+table.saved-setting {
+  margin-top: 0.5em !important;
+  margin: auto;
+}
+table.saved-setting tr:first-child td {
+  padding-bottom: 0.5em;
+}
+table.saved-setting td:first-child {
+  text-align: right;
+  padding-right: 0.5em;
+}
+table.saved-setting td:last-child {
+  text-align: left;
+  font-weight: bold;
+}
+
+/*****************************************************
 Special adjustments and bug fix
 *****************************************************/
 /* Both jquery-bootstrap and fcoo-fontawesome has
@@ -45744,21 +45784,6 @@ Prevent any hover effect
 /***********************************************
 Color
 ************************************************/
-.use-jquery-bootstrap-style {
-  /* @todo
-      --highcharts-color-0: #2caffe;
-      --highcharts-color-1: #544fc5;
-      --highcharts-color-2: #00e272;
-      --highcharts-color-3: #fe6a35;
-      --highcharts-color-4: #6b8abc;
-      --highcharts-color-5: #d568fb;
-      --highcharts-color-6: #2ee0ca;
-      --highcharts-color-7: #fa4b42;
-      --highcharts-color-8: #feb56a;
-      --highcharts-color-9: #91e8e1;
-  */
-}
-
 :root {
   --jbh-button-background-color: #f8f9fa;
   --jbh-button-border-color: #adb5bd;
@@ -45775,6 +45800,9 @@ Color
   background-color: var(--bs-body-bg) !important;
   -webkit-text-size-adjust: 100% !important;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  /***********************************************
+  Background
+  ************************************************/
   /***********************************************
   Buttons
   ************************************************/
@@ -48216,6 +48244,23 @@ button-border-color-variant
 button-background-color-variant
 Adjust text-, border-, and background-color for a button
 ************************************************************/
+/************************************************************
+TABLE COLORS
+************************************************************/
+/*****************************************************************
+create-table-variant($postfix, $background, $default, $color)
+Adjusted copy of Bootstrap table-variant($state, $background) to
+create css-var to set colors in tables
+*****************************************************************/
+/*****************************************************************
+incl-table-variant($postfix)
+Include special version of Bootstrap table-var
+The var must have been created by create-table-variant first
+*****************************************************************/
+/*****************************************************************
+table-no-hover()
+Prevent any hover effect
+*****************************************************************/
 /***********************************************
 leaflet-bootstrap-variables.scss
 ************************************************/
