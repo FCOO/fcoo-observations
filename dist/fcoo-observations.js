@@ -33,7 +33,6 @@
     ****************************************************************/
     nsObservations.fcooObservations = null;
 
-
     nsObservations.getFCOOObservations = function(resolve, whenFullLoaded, options){
         if (ns.fcooObservations && (!whenFullLoaded || ns.fcooObservations.fullLoaded)){
             resolve(ns.fcooObservations);
@@ -53,7 +52,7 @@
     ****************************************************************/
     ns.FCOOObservations = function(options = {}){
         this.options = $.extend(true, {}, {
-			VERSION         : "5.0.1",
+			VERSION         : "5.0.2",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -409,13 +408,14 @@ Methods for creating Highcharts for a Location
             let timeSeries = this.timeSeries = nsHC.timeSeries( this._getChartsOptions(true, mapId) );
             this.modalCharts =
                 $.bsModal({
-                    header   : this.getHeader(),
-                    flexWidth: true,
-                    megaWidth: true,
-                    content  : timeSeries.createChart.bind(timeSeries),
-                    onClose: function(){ this.timeSeries = null; return true; }.bind(this),
-                    remove : true,
-                    show   : true
+                    header          : this.getHeader(),
+                    flexWidth       : true,
+                    megaWidth       : true,
+                    allowFullScreen : true,
+                    content         : timeSeries.createChart.bind(timeSeries),
+                    onClose         : function(){ this.timeSeries = null; return true; }.bind(this),
+                    remove          : true,
+                    show            : true
                 });
         },
 
@@ -935,18 +935,13 @@ ObservationGroup = group of Locations with the same parameter(-group)
                 $container.modernizrToggle(className, !!show);
 
                 //Toggle class multi-obs-group to mark multi groups visible on the map
-                //Toggle class last-visible-obs-group-N to mark last/maximum group visible on the map
-                let visibleGroups = 0,
-                    maxVisibleGroupIndex = 0;
+                let visibleGroups = 0;
                 for (var i=0; i<20; i++){
                     if ($container.hasClass('obs-group-'+i)){
                         visibleGroups++;
-                        maxVisibleGroupIndex = i;
                     }
-                    $container.modernizrOff('last-visible-obs-group-'+i);
                 }
                 $container.modernizrToggle('multi-obs-group', visibleGroups > 1);
-                $container.modernizrOn('last-visible-obs-group-'+maxVisibleGroupIndex);
             }
 
             //Close all open popups with no visible observationGroup
@@ -2519,10 +2514,11 @@ Load and display time-series in a table
                 isMinimized: true,
                 minimized  : {
                     showTooltip: true,
-                    width    : 96,
-                    className: 'text-center',
+                    width    : 101, //96,
+                    className: 'text-center latest-observation-body',
 
                     //showHeaderOnClick: true,
+                    onResize      : this.onMimimizedResize,
                     content       : this.createMinimizedPopupContent,
                     contentContext: this,
                     dynamic       : true,
@@ -2602,7 +2598,6 @@ Load and display time-series in a table
         *********************************************/
         popupOpen: function( popupEvent ){
             let mapId = nsObservations.getMapId(popupEvent.target._map);
-
             this.popups[mapId] = popupEvent.popup;
 
             if (this.openPopupAsNormal)
@@ -2658,12 +2653,45 @@ Load and display time-series in a table
         },
 
         /*********************************************
+        onMimimizedResize
+        Called when the content of a minimized popup is changed
+        *********************************************/
+        onMimimizedResize: function( size, popup, $body, options, map ){
+            const isMultiObsGroup = $(map.getContainer()).hasClass('multi-obs-group');
+
+            let fontSize       = parseFloat($body.css('font-size'   )),
+                padding        = parseFloat($body.css('padding-left')),
+                innerTextWidth = 1.5*fontSize;
+
+            if (isMultiObsGroup){
+                let textList = []; //List of shortNames of displayed parameters
+                this.observationGroupList.forEach( observationGroup => {
+                    if (observationGroup.isVisible(map))
+                        textList.push( i18next.sentence(observationGroup.shortName) );
+                });
+                innerTextWidth = Math.ceil($.getTextWidth(textList, fontSize));
+            }
+            else {
+                //Only one group visible on the map => Only value is displayed in popup => Find the <span> with the last measurement and use its width
+                let visibleObsGroupIndex = -1;
+                this.observationGroupList.forEach( (observationGroup, index) => {
+                    if (observationGroup.isVisible(map))
+                        visibleObsGroupIndex = index;
+                });
+                const elem = $body.find('.latest-observation.show-for-obs-group-'+visibleObsGroupIndex+' .the-value');
+                if (elem)
+                    innerTextWidth = Math.max(innerTextWidth, $(elem).innerWidth());
+            }
+
+            popup.setWidth({minimized: 1 + padding + innerTextWidth + padding + 1} );
+        },
+
+        /*********************************************
         createMinimizedPopupContent
         = list of parameter-name, last value
         *********************************************/
         createMinimizedPopupContent: function( $body, popup, map ){
             let mapElements = this._getModalElements( nsObservations.getMapId(map) );
-
             $.each(this.observationGroups, function(id, observationGroup){
                 let $lastObservation = mapElements[id].$lastObservation;
 
@@ -2671,8 +2699,8 @@ Load and display time-series in a table
                 let $div =
                     $('<div/>')
                         .addClass('latest-observation text-center no-border-border-when-last-visible show-for-obs-group-'+observationGroup.options.index)
-                        ._bsAddHtml({text: observationGroup.shortName, textClass:'obs-group-header show-for-multi-obs-group fa-no-margin d-block'})
-                        ._bsAddHtml({text: ' ', textStyle: 'bold', textClass:'d-block'}),
+                        ._bsAddHtml({text: observationGroup.shortName, textClass:'obs-group-header show-for-multi-obs-group fa-no-margin text-nowrap d-block'})
+                        ._bsAddHtml({text: ' ', textStyle: 'bold', textClass:'the-value text-nowrap'}),
                     $elem = $div.find('span:last-child');
 
                 $elem._bsAddHtml({icon: ns.icons.working}),

@@ -446,8 +446,13 @@ class="obs-group-marker-1 obs-group-marker-3" will be visible if group 1 OR grou
 /*
 Inner box with latest observation in popup
 */
-.latest-observation:not(:last-child) {
+.latest-observation {
   border-bottom: 1px solid var(--jb-container-border-color);
+}
+
+.latest-observation-body {
+  padding-bottom: 0;
+  margin-bottom: -1px;
 }
 
 /*
@@ -457,80 +462,40 @@ show-for-obs-group-N is added to show an element when observation group no N is 
   display: none !important;
 }
 
-.last-visible-obs-group-0 .show-for-obs-group-0.no-border-border-when-last-visible {
-  border-bottom: none;
-}
-
 .no-obs-group-1 .show-for-obs-group-1 {
   display: none !important;
-}
-
-.last-visible-obs-group-1 .show-for-obs-group-1.no-border-border-when-last-visible {
-  border-bottom: none;
 }
 
 .no-obs-group-2 .show-for-obs-group-2 {
   display: none !important;
 }
 
-.last-visible-obs-group-2 .show-for-obs-group-2.no-border-border-when-last-visible {
-  border-bottom: none;
-}
-
 .no-obs-group-3 .show-for-obs-group-3 {
   display: none !important;
-}
-
-.last-visible-obs-group-3 .show-for-obs-group-3.no-border-border-when-last-visible {
-  border-bottom: none;
 }
 
 .no-obs-group-4 .show-for-obs-group-4 {
   display: none !important;
 }
 
-.last-visible-obs-group-4 .show-for-obs-group-4.no-border-border-when-last-visible {
-  border-bottom: none;
-}
-
 .no-obs-group-5 .show-for-obs-group-5 {
   display: none !important;
-}
-
-.last-visible-obs-group-5 .show-for-obs-group-5.no-border-border-when-last-visible {
-  border-bottom: none;
 }
 
 .no-obs-group-6 .show-for-obs-group-6 {
   display: none !important;
 }
 
-.last-visible-obs-group-6 .show-for-obs-group-6.no-border-border-when-last-visible {
-  border-bottom: none;
-}
-
 .no-obs-group-7 .show-for-obs-group-7 {
   display: none !important;
-}
-
-.last-visible-obs-group-7 .show-for-obs-group-7.no-border-border-when-last-visible {
-  border-bottom: none;
 }
 
 .no-obs-group-8 .show-for-obs-group-8 {
   display: none !important;
 }
 
-.last-visible-obs-group-8 .show-for-obs-group-8.no-border-border-when-last-visible {
-  border-bottom: none;
-}
-
 .no-obs-group-9 .show-for-obs-group-9 {
   display: none !important;
-}
-
-.last-visible-obs-group-9 .show-for-obs-group-9.no-border-border-when-last-visible {
-  border-bottom: none;
 }
 
 /*

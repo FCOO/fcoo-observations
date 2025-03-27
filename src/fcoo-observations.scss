@@ -162,10 +162,14 @@ class="obs-group-marker-1 obs-group-marker-3" will be visible if group 1 OR grou
 /*
 Inner box with latest observation in popup
 */
-.latest-observation:not(:last-child) {
+.latest-observation {
     border-bottom: 1px solid $modal-content-border-color;
 }
 
+.latest-observation-body {
+    padding-bottom: 0;
+    margin-bottom: -1px;
+}
 
 /*
 show-for-obs-group-N is added to show an element when observation group no N is visible
@@ -173,11 +177,6 @@ show-for-obs-group-N is added to show an element when observation group no N is 
 @for $index from 0 to 10 {
     .no-obs-group-#{$index} .show-for-obs-group-#{$index} {
         display: none !important;
-    }
-
-    //Special cast: In list with (last) observation or forecast the last visible group do not have bottom-border
-    .last-visible-obs-group-#{$index} .show-for-obs-group-#{$index}.no-border-border-when-last-visible {
-        border-bottom: none;
     }
 }
 

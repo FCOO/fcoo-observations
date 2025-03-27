@@ -289,18 +289,13 @@ ObservationGroup = group of Locations with the same parameter(-group)
                 $container.modernizrToggle(className, !!show);
 
                 //Toggle class multi-obs-group to mark multi groups visible on the map
-                //Toggle class last-visible-obs-group-N to mark last/maximum group visible on the map
-                let visibleGroups = 0,
-                    maxVisibleGroupIndex = 0;
+                let visibleGroups = 0;
                 for (var i=0; i<20; i++){
                     if ($container.hasClass('obs-group-'+i)){
                         visibleGroups++;
-                        maxVisibleGroupIndex = i;
                     }
-                    $container.modernizrOff('last-visible-obs-group-'+i);
                 }
                 $container.modernizrToggle('multi-obs-group', visibleGroups > 1);
-                $container.modernizrOn('last-visible-obs-group-'+maxVisibleGroupIndex);
             }
 
             //Close all open popups with no visible observationGroup

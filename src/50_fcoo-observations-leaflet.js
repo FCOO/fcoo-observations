@@ -582,7 +582,7 @@
                 minimized  : {
                     showTooltip: true,
                     width    : 101, //96,
-                    className: 'text-center',
+                    className: 'text-center latest-observation-body',
 
                     //showHeaderOnClick: true,
                     onResize      : this.onMimimizedResize,
@@ -767,7 +767,7 @@
                     $('<div/>')
                         .addClass('latest-observation text-center no-border-border-when-last-visible show-for-obs-group-'+observationGroup.options.index)
                         ._bsAddHtml({text: observationGroup.shortName, textClass:'obs-group-header show-for-multi-obs-group fa-no-margin text-nowrap d-block'})
-                        ._bsAddHtml({text: ' ', textStyle: 'bold', textClass:'the-value _d-block text-nowrap'}),
+                        ._bsAddHtml({text: ' ', textStyle: 'bold', textClass:'the-value text-nowrap'}),
                     $elem = $div.find('span:last-child');
 
                 $elem._bsAddHtml({icon: ns.icons.working}),
