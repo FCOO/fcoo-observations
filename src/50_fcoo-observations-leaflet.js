@@ -741,15 +741,15 @@
             else {
                 //Only one group visible on the map => Only value is displayed in popup => Find the <span> with the last measurement and use its width
                 let visibleObsGroupIndex = -1;
-                this.observationGroupList.forEach( (observationGroup, index) => {
+                this.observationGroupList.forEach( observationGroup => {
                     if (observationGroup.isVisible(map))
-                        visibleObsGroupIndex = index;
+                        visibleObsGroupIndex = observationGroup.options.index;
                 });
+
                 const elem = $body.find('.latest-observation.show-for-obs-group-'+visibleObsGroupIndex+' .the-value');
                 if (elem)
                     innerTextWidth = Math.max(innerTextWidth, $(elem).innerWidth());
             }
-
             popup.setWidth({minimized: 1 + padding + innerTextWidth + padding + 1} );
         },
 
