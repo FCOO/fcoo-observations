@@ -86,35 +86,15 @@ vfFormat:'NIELS',
             });
 
 let bsTable = $.bsTable( tableOptions );
-
 this.modalTables =  bsTable.asModal({
-                        header   : this.getHeader(),
-                        flexWidth: true,
-                        megaWidth: true,
-                        //content  : timeSeries.createChart.bind(timeSeries),
-                        //onClose: function(){ this.timeSeries = null; return true; }.bind(this),
-                        remove : true,
-                        show   : true
+                        header          : this.getHeader(),
+                        flexWidth       : true,
+                        megaWidth       : true,
+                        allowFullScreen : true,                            
+                        remove          : true,
+                        show            : true
                     });
 
-/*
-            let timeSeries = this.timeSeries = nsHC.timeSeries( this._getChartsOptions(true, mapId) );
-
-            this.modalCharts =
-                $.bsModal({
-                    header   : this.getHeader(),
-                    flexWidth: true,
-                    megaWidth: true,
-                    content  : timeSeries.createChart.bind(timeSeries),
-                    _content  : function( $body ){
-                        this.timeSeries.createChart($body);
-                    }.bind(this),
-
-                    onClose: function(){ this.timeSeries = null; return true; }.bind(this),
-                    remove : true,
-                    show   : true
-                });
-*/
         },
 
 

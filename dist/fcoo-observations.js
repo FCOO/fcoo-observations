@@ -52,7 +52,7 @@
     ****************************************************************/
     ns.FCOOObservations = function(options = {}){
         this.options = $.extend(true, {}, {
-			VERSION         : "5.0.3",
+			VERSION         : "5.0.4",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -588,35 +588,15 @@ vfFormat:'NIELS',
             });
 
 let bsTable = $.bsTable( tableOptions );
-
 this.modalTables =  bsTable.asModal({
-                        header   : this.getHeader(),
-                        flexWidth: true,
-                        megaWidth: true,
-                        //content  : timeSeries.createChart.bind(timeSeries),
-                        //onClose: function(){ this.timeSeries = null; return true; }.bind(this),
-                        remove : true,
-                        show   : true
+                        header          : this.getHeader(),
+                        flexWidth       : true,
+                        megaWidth       : true,
+                        allowFullScreen : true,                            
+                        remove          : true,
+                        show            : true
                     });
 
-/*
-            let timeSeries = this.timeSeries = nsHC.timeSeries( this._getChartsOptions(true, mapId) );
-
-            this.modalCharts =
-                $.bsModal({
-                    header   : this.getHeader(),
-                    flexWidth: true,
-                    megaWidth: true,
-                    content  : timeSeries.createChart.bind(timeSeries),
-                    _content  : function( $body ){
-                        this.timeSeries.createChart($body);
-                    }.bind(this),
-
-                    onClose: function(){ this.timeSeries = null; return true; }.bind(this),
-                    remove : true,
-                    show   : true
-                });
-*/
         },
 
 
@@ -2548,19 +2528,7 @@ Load and display time-series in a table
                     text    : {da:'Graf', en:'Chart'},
 
                     onClick : this.showCharts.bind(this, mapId),
-/*
-                    onClick : function(){
-                        $.bsModal({
-                            header: this.getHeader.bind(this),
-                            flexWidth: true,
-                            megaWidth: true,
-                            content: this.createCharts.bind(this, $body, true, mapId)
-                            remove: true,
-                            show: true
-                        });
-                        marker._popup.setSizeExtended();
-                    }.bind(this)
-*/
+
                 }, window.INCLUDETABLESINMODAL ? {
                     id     : 'table',
                     icon   : 'far fa-table',

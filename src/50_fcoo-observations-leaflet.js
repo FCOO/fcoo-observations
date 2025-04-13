@@ -615,19 +615,7 @@
                     text    : {da:'Graf', en:'Chart'},
 
                     onClick : this.showCharts.bind(this, mapId),
-/*
-                    onClick : function(){
-                        $.bsModal({
-                            header: this.getHeader.bind(this),
-                            flexWidth: true,
-                            megaWidth: true,
-                            content: this.createCharts.bind(this, $body, true, mapId)
-                            remove: true,
-                            show: true
-                        });
-                        marker._popup.setSizeExtended();
-                    }.bind(this)
-*/
+
                 }, window.INCLUDETABLESINMODAL ? {
                     id     : 'table',
                     icon   : 'far fa-table',
