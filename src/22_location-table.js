@@ -80,7 +80,7 @@
                     //minimized: true,
                     title        : obsGroup.tableTitle,
                     minimizedIcon: obsGroup.faIcon,
-vfFormat:'NIELS',
+                    vfFormat     : 'obs-table-cell',
 
                 });
             });
@@ -90,7 +90,7 @@ this.modalTables =  bsTable.asModal({
                         header          : this.getHeader(),
                         flexWidth       : true,
                         megaWidth       : true,
-                        allowFullScreen : true,                            
+                        allowFullScreen : true,
                         remove          : true,
                         show            : true
                     });

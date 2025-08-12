@@ -52,7 +52,7 @@
     ****************************************************************/
     ns.FCOOObservations = function(options = {}){
         this.options = $.extend(true, {}, {
-			VERSION         : "5.0.4",
+			VERSION         : "5.0.5",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -582,7 +582,7 @@ Methods for creating Highcharts for a Location
                     //minimized: true,
                     title        : obsGroup.tableTitle,
                     minimizedIcon: obsGroup.faIcon,
-vfFormat:'NIELS',
+                    vfFormat     : 'obs-table-cell',
 
                 });
             });
@@ -592,7 +592,7 @@ this.modalTables =  bsTable.asModal({
                         header          : this.getHeader(),
                         flexWidth       : true,
                         megaWidth       : true,
-                        allowFullScreen : true,                            
+                        allowFullScreen : true,
                         remove          : true,
                         show            : true
                     });
@@ -1849,7 +1849,7 @@ Load and display time-series in a table
 
 
     $.valueFormat.add({
-        id     : 'NIELS',
+        id     : 'obs-table-cell',
         format : function( value/*, options */){
             let result = '';
             if (value.obs){

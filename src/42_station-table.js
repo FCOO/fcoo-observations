@@ -15,7 +15,7 @@ Load and display time-series in a table
 
 
     $.valueFormat.add({
-        id     : 'NIELS',
+        id     : 'obs-table-cell',
         format : function( value/*, options */){
             let result = '';
             if (value.obs){
