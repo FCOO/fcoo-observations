@@ -174,8 +174,8 @@ Location = group of Stations with the same or different paramtre
         If any of the user is using this location =>
         call all the update-methods from updateLastObservationFuncList
         *********************************************/
-        updateLastObservation: function(){
-            return this._callFuncList('updateLastObservationFuncList', nsObservations.updateLastObservationFuncList);
+        updateLastObservation: function( onlyGroupId ){ //HER
+            return this._callFuncList('updateLastObservationFuncList', [onlyGroupId]);
         },
 
         /*********************************************

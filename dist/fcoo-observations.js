@@ -52,7 +52,7 @@
     ****************************************************************/
     ns.FCOOObservations = function(options = {}){
         this.options = $.extend(true, {}, {
-			VERSION         : "5.0.5",
+			VERSION         : "5.0.6",
             subDir          : {
                 observations: 'observations',
                 forecasts   : 'forecasts'
@@ -342,8 +342,8 @@ Location = group of Stations with the same or different paramtre
         If any of the user is using this location =>
         call all the update-methods from updateLastObservationFuncList
         *********************************************/
-        updateLastObservation: function(){
-            return this._callFuncList('updateLastObservationFuncList', nsObservations.updateLastObservationFuncList);
+        updateLastObservation: function( onlyGroupId ){ //HER
+            return this._callFuncList('updateLastObservationFuncList', [onlyGroupId]);
         },
 
         /*********************************************
@@ -852,7 +852,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
                         }
                     });
                    if (update)
-                        location.updateObservation();
+                        location.updateObservation( this.id );
                 });
             }.bind(this));
         },

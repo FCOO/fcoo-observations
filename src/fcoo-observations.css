@@ -198,6 +198,11 @@ Modal
 Button And Modal
 Opacity for semi-transparent and transparent content using color-mix
 ************************************************/
+/***********************************************
+$type-2-alert-color
+Conections between "type" and Bootstrap color-class-names
+Used in _noty.scss and _modal.scss
+************************************************/
 /************************************************************
 MIXIN
 ************************************************************/

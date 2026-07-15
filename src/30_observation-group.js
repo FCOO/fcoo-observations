@@ -226,7 +226,7 @@ ObservationGroup = group of Locations with the same parameter(-group)
                         }
                     });
                    if (update)
-                        location.updateObservation();
+                        location.updateObservation( this.id );
                 });
             }.bind(this));
         },
