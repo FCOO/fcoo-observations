@@ -57,8 +57,12 @@
                 observations: 'observations',
                 forecasts   : 'forecasts'
             },
-            groupFileName           : 'observations-groups.json',
-            locationFileName        : 'locations.json',
+            groupFileName       : 'observations-groups.json',
+            locationFileName    : 'locations.json',
+            inclInactiveStations   : false,   //If true inactive stations are also loaded/created
+            createUnusedStationList: false,   //If true a seperate list of stations not used is created
+
+
         }, options);
 
         //resolveList, resolveFullList = []FUNCTION(fcooObservations: FCOOObservations)
@@ -83,7 +87,12 @@
                 data.groupList.forEach( options => {
                     if (forceGroupIds  ? forceGroupIds.includes(options.id) : !options.inactive){
                         let standardNameList = (options.standard || '').split(' '),
-                            ogOpt = {index: this.observationGroupList.length};
+                            ogOpt = {
+                                index: this.observationGroupList.length,
+                                inclInactiveStations   : this.options.inclInactiveStations,
+                                createUnusedStationList: this.options.createUnusedStationList,
+
+                            };
 
                         standardNameList.forEach( standardName => {
                             if (standardName && standard[standardName])

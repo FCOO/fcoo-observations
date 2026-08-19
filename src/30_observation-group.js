@@ -30,7 +30,9 @@ ObservationGroup = group of Locations with the same parameter(-group)
                 maxDelay      : "PT1H",
                 maxGap        : 60,
                 historyPeriod : "PT30H",
-                faArrow       : 'fas fa-up-long'
+                faArrow       : 'fas fa-up-long',
+                inclInactiveStations   : false,
+                createUnusedStationList: false,
 
             }, options);
         this.id = options.id;
@@ -136,6 +138,8 @@ ObservationGroup = group of Locations with the same parameter(-group)
 
                 let stationOptionsToUse = null;
 
+                let stationOptionsList = [];
+
                 stationList.forEach( stationOptions => {
                     if (typeof stationOptions == 'string')
                         stationOptions = {id: stationOptions};
@@ -143,7 +147,9 @@ ObservationGroup = group of Locations with the same parameter(-group)
                     stationOptions = $.extend(true, {}, defaultStationOptions, locationOptions, stationOptions );
                     stationOptions.parameter = stationOptions.parameter || stationOptions.parameterList;
 
-                    if (stationOptions.active === false)
+                    stationOptionsList.push( stationOptions );
+
+                    if (!this.options.inclInactiveStations && (stationOptions.active === false))
                         return;
 
                     //Use first station or the one with prioritized = true
@@ -160,6 +166,17 @@ ObservationGroup = group of Locations with the same parameter(-group)
                     location.stationList.push(station);
                     location.observationGroupStations[this.id] = station;
                     location.observationGroupStationList.push(station);
+
+                    location.active = location.options.active = station.options.active;
+
+                    //If options.createUnusedStationList => create all inactive stations in seperate list
+                    if (this.options.createUnusedStationList && (stationOptionsList.length > 1)){
+                        location.unusedStationList = [];
+                        stationOptionsList.forEach( stationOptions => {
+                            if (stationOptions.id != stationOptionsToUse.id)
+                                location.unusedStationList.push( new nsObservations.Station(stationOptions, location, this) );
+                        }, this);
+                    }
 
                     //Connect Location and ObservationGroup
                     if (!this.locations[location.id]){
@@ -193,14 +210,6 @@ ObservationGroup = group of Locations with the same parameter(-group)
         },
 
 
-
-
-
-
-
-
-
-
         /*****************************************************
         _resolve_last_measurment
         Split geoJSON into a {features:[]} for each station
@@ -215,16 +224,20 @@ ObservationGroup = group of Locations with the same parameter(-group)
                 stationGeoJSON.features.push(feature);
             });
 
-            //Load each geoJSON "file" into station
+            //Load each geoJSON "file" into station. Check both stationList ans unusedStationList (if any)
             $.each(stationGeoJSONs, function(findStationId, geoJSON){
                 obs.locationList.forEach( location => {
                     let update = false;
-                    location.stationList.forEach( station => {
-                        if ((station.id == findStationId) && station.observationGroup && (station.observationGroup.id == this.id)){
-                            station._resolveGeoJSON(geoJSON, false);
-                            update = true;
-                        }
-                    });
+                    ['stationList', 'unusedStationList'].forEach( stationListName => {
+                        let stationList = location[stationListName] || [];
+                        stationList.forEach( station => {
+                            if ((station.id == findStationId) && station.observationGroup && (station.observationGroup.id == this.id)){
+                                station._resolveGeoJSON(geoJSON, false);
+                                update = true;
+                            }
+                        }, this);
+                    }, this);
+
                    if (update)
                         location.updateObservation( this.id );
                 });
