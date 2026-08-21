@@ -109,6 +109,12 @@ ObservationGroup = group of Locations with the same parameter(-group)
         *********************************************/
         _resolve_setup: function( options ){
             (options.locationList || options.list || []).forEach( locationOptions => {
+
+                //Abandon deleted locations
+                if (locationOptions.deleted === true)
+                    return;
+
+
                 //Check if the location is set to be inactive
                 let location = this.observations.locations[locationOptions.id];
 
